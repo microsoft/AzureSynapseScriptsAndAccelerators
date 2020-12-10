@@ -23,7 +23,7 @@ Description:        This query runs returns metadata regarding CCI health. The r
 SUMMARY OF CHANGES
 Date(yyyy-mm-dd)    Author              Comments
 ------------------- ------------------- ------------------------------------------------------------
-08-20-2020          Casey Karst			Added      
+08-20-2020          Casey Karst			Added       
 ***************************************************************************************************/
  SELECT
 
