@@ -1,0 +1,1 @@
+DBCC PDW_ShowSpaceUsed

@@ -1,0 +1,17 @@
+Active,ApsDatabaseName,SourceDirectory,TargetDirectory,DefaultSchema,ObjectType
+1,adventure_works,C:\APS2SQLDW\Output\1_CreateMPPScripts\adventure_works\Tables,C:\APS2SQLDW\Output\3_FixSqlCode\adventure_works\Tables,dbo,Table
+1,adventure_works,C:\APS2SQLDW\Output\1_CreateMPPScripts\adventure_works\Views,C:\APS2SQLDW\Output\3_FixSqlCode\adventure_works\Views,dbo,View
+1,adventure_works,C:\APS2SQLDW\Output\1_CreateMPPScripts\adventure_works\SPs,C:\APS2SQLDW\Output\3_FixSqlCode\adventure_works\SPs,dbo,SP
+1,adventure_works,C:\APS2SQLDW\Output\1_CreateMPPScripts\adventure_works\Indexes,C:\APS2SQLDW\Output\3_FixSqlCode\adventure_works\Indexes,dbo,Index
+1,adventure_works,C:\APS2SQLDW\Output\1_CreateMPPScripts\adventure_works\Statistics,C:\APS2SQLDW\Output\3_FixSqlCode\adventure_works\Statistics,dbo,Statistic
+1,adventure_works,C:\APS2SQLDW\Output\1_CreateMPPScripts\adventure_works\Functions,C:\APS2SQLDW\Output\3_FixSqlCode\adventure_works\Functions,dbo,Function
+1,adventure_works,C:\APS2SQLDW\Output\1_CreateMPPScripts\adventure_works\Roles,C:\APS2SQLDW\Output\3_FixSqlCode\adventure_works\Roles,dbo,Role
+1,adventure_works,C:\APS2SQLDW\Output\1_CreateMPPScripts\adventure_works\Users,C:\APS2SQLDW\Output\3_FixSqlCode\adventure_works\Users,dbo,User
+1,AdventureWorksDW2008,C:\APS2SQLDW\Output\1_CreateMPPScripts\AdventureWorksDW2008\Tables,C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\Tables,dbo,Table
+1,AdventureWorksDW2008,C:\APS2SQLDW\Output\1_CreateMPPScripts\AdventureWorksDW2008\Views,C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\Views,dbo,View
+1,AdventureWorksDW2008,C:\APS2SQLDW\Output\1_CreateMPPScripts\AdventureWorksDW2008\SPs,C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\SPs,dbo,SP
+1,AdventureWorksDW2008,C:\APS2SQLDW\Output\1_CreateMPPScripts\AdventureWorksDW2008\Indexes,C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\Indexes,dbo,Index
+1,AdventureWorksDW2008,C:\APS2SQLDW\Output\1_CreateMPPScripts\AdventureWorksDW2008\Statistics,C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\Statistics,dbo,Statistic
+1,AdventureWorksDW2008,C:\APS2SQLDW\Output\1_CreateMPPScripts\AdventureWorksDW2008\Functions,C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\Functions,dbo,Function
+1,AdventureWorksDW2008,C:\APS2SQLDW\Output\1_CreateMPPScripts\AdventureWorksDW2008\Roles,C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\Roles,dbo,Role
+1,AdventureWorksDW2008,C:\APS2SQLDW\Output\1_CreateMPPScripts\AdventureWorksDW2008\Users,C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\Users,dbo,User
