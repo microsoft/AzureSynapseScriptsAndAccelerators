@@ -1,0 +1,1 @@
+select * from sys.dm_pdw_nodes_os_sys_memory

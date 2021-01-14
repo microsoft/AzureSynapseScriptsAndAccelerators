@@ -1,0 +1,1 @@
+select count(distinct pdw_node_id) Nodes, count(distribution_id) Distributions from sys.pdw_distributions

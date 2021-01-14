@@ -1,0 +1,1 @@
+select db_name() as [Database], * from sys.database_scoped_credentials

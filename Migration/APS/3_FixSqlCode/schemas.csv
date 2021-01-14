@@ -1,0 +1,3 @@
+ApsDbName,ApsSchema,SQLDWSchema
+adventure_works,dbo,aw1
+AdventureWorksDW2008,dbo,aw2
