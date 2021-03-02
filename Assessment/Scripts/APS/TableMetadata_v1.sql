@@ -20,6 +20,6 @@ INNER JOIN sys.partitions p
 INNER JOIN sys.indexes i 
  ON  t.object_id = i.object_id
 WHERE (tdp.distribution_policy_desc<>'HASH' or  cdp.distribution_ordinal=1) AND
- i.index_ID<2
+ i.index_ID<2 and p.index_id<2
 GROUP BY s.name, t.name, tdp.distribution_policy_desc, cdp.distribution_ordinal, c.name, i.type_desc
 ORDER BY db_name(),S.name, t.name
