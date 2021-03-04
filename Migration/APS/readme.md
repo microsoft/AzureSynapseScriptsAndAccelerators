@@ -29,9 +29,9 @@ Each step of the process can be found by clicking the following the correspondin
 
 **1. [CreateMPPScripts](https://github.com/Microsoft/AzureDWScriptsandUtilities/tree/master/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/1_CreateMPPScripts "Step 1: Create MPP Scripts") (PowerShell)**: Create MPP T-SQL scripts from APS.
 
-**2. [CleanScripts](https://github.com/Microsoft/AzureDWScriptsandUtilities/tree/master/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/2_CleanScripts "Step 2: Clean Up MPP Scripts") (Python)**: Clean up output T-SQL scripts from Step 1.
+**2. NOT USED
 
-**3. [ChangeSchemas](https://github.com/Microsoft/AzureDWScriptsandUtilities/tree/master/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/3_ChangeSchemas "Step 3: Change Schemas of the APS Scripts") (Python)**: Make Schema changes to MPP DDL Scripts. 
+**3. [ConvertDDLs](https://github.com/Microsoft/AzureDWScriptsandUtilities/tree/master/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/3_ChangeSchemas "Step 3: Change Schemas of the APS Scripts") (Python)**: Make Schema changes to DDL Scripts and updated #TEMP tables syntax. 
 
 **4. [CreateAPSExportScriptSQLDWImportScripts](https://github.com/Microsoft/AzureDWScriptsandUtilities/tree/master/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/4_CreateAPSExportScriptSQLDWImportScript "Step 4: Create T-SQL Scripts to Export APS Data and Import Data Into Azure SQLDW ") (PowerShell)**: Create Data Export/Import Scripts.
 

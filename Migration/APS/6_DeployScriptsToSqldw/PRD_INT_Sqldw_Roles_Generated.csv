@@ -1,2 +1,0 @@
-"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
-"1","synapse-demo-amirskiy.sql.azuresynapse.net","Dixons","C:\APS2SQLDW\Output\3_FixSqlCode\PRD_INT\Roles","1","Role","dbo","","PDWDataReader","","DROP","","PDWDataReader.dsql"

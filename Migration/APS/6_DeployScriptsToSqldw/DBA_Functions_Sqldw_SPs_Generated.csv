@@ -1,7 +1,0 @@
-"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
-"1","synapse-demo-amirskiy.sql.azuresynapse.net","Dixons","C:\APS2SQLDW\Output\3_FixSqlCode\DBA_Functions\SPs","1","SP","dbo","dba","PPDWENVDIFFDBBACKUP","","DROP","","dbo_PPDWENVDIFFDBBACKUP.dsql"
-"1","synapse-demo-amirskiy.sql.azuresynapse.net","Dixons","C:\APS2SQLDW\Output\3_FixSqlCode\DBA_Functions\SPs","1","SP","dbo","dba","PPDWENVFULLDBBACKUP","","DROP","","dbo_PPDWENVFULLDBBACKUP.dsql"
-"1","synapse-demo-amirskiy.sql.azuresynapse.net","Dixons","C:\APS2SQLDW\Output\3_FixSqlCode\DBA_Functions\SPs","1","SP","dbo","dba","PPDWSYSFULLDBBACKUP","","DROP","","dbo_PPDWSYSFULLDBBACKUP.dsql"
-"1","synapse-demo-amirskiy.sql.azuresynapse.net","Dixons","C:\APS2SQLDW\Output\3_FixSqlCode\DBA_Functions\SPs","1","SP","dbo","dba","PPDWUSERDIFFDBBACKUP","","DROP","","dbo_PPDWUSERDIFFDBBACKUP.dsql"
-"1","synapse-demo-amirskiy.sql.azuresynapse.net","Dixons","C:\APS2SQLDW\Output\3_FixSqlCode\DBA_Functions\SPs","1","SP","dbo","dba","PPDWUSERFULLDBBACKUP","","DROP","","dbo_PPDWUSERFULLDBBACKUP.dsql"
-"1","synapse-demo-amirskiy.sql.azuresynapse.net","Dixons","C:\APS2SQLDW\Output\3_FixSqlCode\DBA_Functions\SPs","1","SP","dbo","dba","SE02PPDWENVFULLDBBACKUP","","DROP","","dbo_SE02PPDWENVFULLDBBACKUP.dsql"

@@ -1,2 +1,0 @@
-"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
-"1","synapse-demo-amirskiy.sql.azuresynapse.net","dwoty","C:\APS2SQLDW\Output\3_FixSqlCode\NorthernEurope_EDW_AutomatedTests\Functions","1","Function","dbo","EDW_Test","FnSplitString","","DROP","","dbo_FnSplitString.dsql"

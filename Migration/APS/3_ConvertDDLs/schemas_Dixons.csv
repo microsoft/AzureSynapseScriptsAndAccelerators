@@ -1,7 +1,0 @@
-ApsDbName,ApsSchema,SQLDWSchema
-Archive,dbo,archive
-DBA_Functions,dbo,dba
-PRD_DWH,dbo,dwh
-PRD_INT,dbo,int
-PRD_STG,dbo,stg
-RPT_DWH,dbo,rpt
