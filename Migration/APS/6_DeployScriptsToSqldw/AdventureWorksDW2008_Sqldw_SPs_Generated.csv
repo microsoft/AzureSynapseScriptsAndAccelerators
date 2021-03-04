@@ -1,0 +1,5 @@
+"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
+"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_ConvertDDLs\AdventureWorksDW2008\SPs","1","SP","dbo","aw2","InsertUpdateClientDim","","DROP","","dbo_InsertUpdateClientDim.dsql"
+"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_ConvertDDLs\AdventureWorksDW2008\SPs","1","SP","dbo","aw2","InsertUpdateClientFact","","DROP","","dbo_InsertUpdateClientFact.dsql"
+"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_ConvertDDLs\AdventureWorksDW2008\SPs","1","SP","dbo","aw2","usp_load_Rebaja_Promocional_Occam_V2","","DROP","","dbo_usp_load_Rebaja_Promocional_Occam_V2.dsql"
+"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_ConvertDDLs\AdventureWorksDW2008\SPs","1","SP","dbo","aw2","Get10TopAccounts","","DROP","","philipr_Get10TopAccounts.dsql"

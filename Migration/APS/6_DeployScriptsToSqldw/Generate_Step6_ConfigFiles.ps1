@@ -398,7 +398,7 @@ foreach ($dbName in $dbNames)
 			$parts = @{}
 			$parts.Clear() 
 
-			$query = Get-Content -path $f.FullName -First 1
+			$query = Get-Content -path $f.FullName -First 2
 			
 			if($query.ToUpper() -match "^CREATE TABLE")
 			{
