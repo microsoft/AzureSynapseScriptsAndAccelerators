@@ -126,24 +126,29 @@ Function GetObjectNames ($query, $type)
 {
     $parts = @{}
     $parts.Clear()
-    
-#Write-Host $query
-
-    #[regex]$regex = "^" + $type + " (?<objectname>[^\s]*)"
 
     if ($type -in ("CREATE STATISTICS", "CREATE NONCLUSTERED INDEX")) {
-        $pattern = "^" + $type + "[\s]+(?<objectname>[^\s]*)[\s]+ON[\s]+(?<parentobjectname>[^\s]*)[\s]+"
-    } else {
-        $pattern = "^" + $type + " (?<objectname>[^\s]*)"
+        $pattern = "^" + $type + "[\s]+(?<objectname>\[?[^\.\]]+\]?)[\s]+ON[\s]+(?<parentobjectname>\[?[^\.\]]+\]?\.\[?[^\.\]]+\]?)[\s]+"
+    } elseif ($type -in ("CREATE USER", "CREATE ROLE")) {
+        $pattern = "^" + $type + "[\s]+(?<objectname>\[?[^\.\]]+\]?)"
+    } else {    
+        # Either 2-part name or 3-part name
+        $pattern = "^" + $type + "[\s]+(?<objectname>\[?[^\.\]]+\]?\.\[?[^\.\]]+\]?|\[?[^\.\]]+\]?\.\[?[^\.\]]+\]?\.\[?[^\.\]]+\]?)([\s]+|[\s]*\r?$)"
     }
 
     $regexOptions = [Text.RegularExpressions.RegexOptions]'IgnoreCase, CultureInvariant, Multiline'
     $matches = [regex]::Matches($query, $pattern, $regexOptions)
 
-    #$matches = $regex.Matches($query)
+    if ($matches.Count -eq 0)
+    {
+        Write-Host $query -ForegroundColor Red
+        throw "Query did not match the pattern"
+    } 
+
     $objectName = $matches[0].Groups["objectname"].Value
     $parentObjectName = $matches[0].Groups["parentobjectname"].Value
     $objectNameParts = $objectName.Split(".")
+    
 
     if ($objectNameParts.Count -eq 3) {
         $databaseName = $objectNameParts[0].Replace("[","").Replace("]","")
@@ -194,7 +199,7 @@ Write-Output " ---------------------------------------------- "
 ################################################################################
 
 # Set up one APS export config file & sqldw import config file
-if ($OneConfigFileChoi -eq "YES")
+if ($OneConfigFile -eq "YES")
 {
 	$oneApsExportConfigFileFullPath = $GeneratedConfigFileFolder + $OneApsExportConfigFileName 
 	if (Test-Path $oneApsExportConfigFileFullPath)
@@ -385,49 +390,49 @@ foreach ($dbName in $dbNames)
 		{
 			$fileName = $f.Name.ToString()
 			# exclude IDXS_ and STATS_ 
-		 	if (($fileName -Match "IDXS_") -or ($fileName -Match "STATS_"))
-		 	{
-				 continue 
-			}			 
+		 	#if (($fileName -Match "IDXS_") -or ($fileName -Match "STATS_"))
+		 	#{
+			#	 continue 
+			#}			 
 			 
 			$parts = @{}
 			$parts.Clear() 
 
-			$query = Get-Content -path $f.FullName -Raw #-First 1
+			$query = Get-Content -path $f.FullName -First 2
 			
-			if($query.ToUpper() -match "CREATE TABLE")
+			if($query.ToUpper() -match "^CREATE TABLE")
 			{
 			    $parts = GetObjectNames $query "CREATE TABLE"
 			}
-			elseif ($query.ToUpper() -match "CREATE PROC")
+			elseif ($query.ToUpper() -match "^CREATE PROC")
 			{
 				$parts = GetObjectNames $query "CREATE PROC"
 			}
-			elseif ($query.ToUpper() -match "CREATE VIEW")
+			elseif ($query.ToUpper() -match "^CREATE VIEW")
 			{
 				$parts = GetObjectNames $query "CREATE VIEW"
 			}
-			elseif ($query.ToUpper() -match "CREATE NONCLUSTERED INDEX")
+			elseif ($query.ToUpper() -match "^CREATE NONCLUSTERED INDEX")
 			{
 				$parts = GetObjectNames $query "CREATE NONCLUSTERED INDEX"
 			}
-			elseif ($query.ToUpper() -match "CREATE FUNCTION")
+			elseif ($query.ToUpper() -match "^CREATE FUNCTION")
 			{
 				$parts = GetObjectNames $query "CREATE FUNCTION"
 			}
-			elseif ($query.ToUpper() -match "CREATE STATISTICS")
+			elseif ($query.ToUpper() -match "^CREATE STATISTICS")
 			{
 				$parts = GetObjectNames $query "CREATE STATISTICS"
 			}
-			elseif ($query.ToUpper() -match "CREATE EXTERNAL TABLE")
+			elseif ($query.ToUpper() -match "^CREATE EXTERNAL TABLE")
 			{
 				$parts = GetObjectNames $query "CREATE EXTERNAL TABLE"
 			}
-			elseif ($query.ToUpper() -match "CREATE USER")
+			elseif ($query.ToUpper() -match "^CREATE USER")
 			{
 				$parts = GetObjectNames $query "CREATE USER"
 			}
-			elseif ($query.ToUpper() -match "CREATE ROLE")
+			elseif ($query.ToUpper() -match "^CREATE ROLE")
 			{
 				$parts = GetObjectNames $query "CREATE ROLE"
 			}
@@ -437,7 +442,7 @@ foreach ($dbName in $dbNames)
   		SELECT * FROM ext_adw_dbo.ext_DimDate
 			Option(Label = 'Import_Table_adw_dbo.DimDate')
 			#>
-			elseif ($query.ToUpper() -match "INSERT INTO")
+			elseif ($query.ToUpper() -match "^INSERT INTO")
 			{
 				$parts = GetObjectNames $query "INSERT INTO"
 			}
@@ -505,7 +510,7 @@ foreach ($dbName in $dbNames)
 		if (($OneConfigFile -eq "NO") -and [IO.File]::Exists($outCsvFileName)) 
 		{
 			Write-Output "**************************************************************************************************************"
-			Write-Output ("   Completed writing to outCsvFileName: " + $outCsvFileName)
+			Write-Output ("   Completed writing to : " + $outCsvFileName)
 			Write-Output " "
 		}	 
 	} # end of each folder 

@@ -1,1 +1,1 @@
-select db_name() as [Database], * from sys.schemas
+select * from sys.schemas

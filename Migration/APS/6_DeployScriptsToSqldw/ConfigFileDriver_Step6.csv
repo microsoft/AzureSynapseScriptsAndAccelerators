@@ -11,8 +11,8 @@ SqldwServerName,sqldwsqlserver.database.windows.net,Your Azure SQLDW SQL Server 
 SqldwDatabaseName,sqldw,Your Azure SQLDW Database name
 ApsExportScriptsFolder,C:\APS2SQLDW\Output\4_CreateAPSExportScriptSQLDWImportScript\ExportAPS\,"Where the export scripts reside, and to be used for deployment."
 SqldwImportScriptsFolder,C:\APS2SQLDW\Output\4_CreateAPSExportScriptSQLDWImportScript\ImportSQLDW\,"Where the import scripts reside, and to be used for deployment."
-SqldwObjectScriptsFolder,C:\APS2SQLDW\Output\3_FixSqlCode\,"Where the Azure SQLDW meta data SQL files reside (Tables, Views, and Stored Procedures, each type is under its own subdirectory"
-SchemaFileFullPath,C:\APS2SQLDW\3_FixSqlCode\schemas.csv,Need this schema mapping file as well for information
+SqldwObjectScriptsFolder,C:\APS2SQLDW\Output\3_ConvertDDLs\,"Where the Azure SQLDW meta data SQL files reside (Tables, Views, and Stored Procedures, each type is under its own subdirectory"
+SchemaFileFullPath,C:\APS2SQLDW\3_ConvertDDLs\schemas.csv,Need this schema mapping file as well for information
 SqldwExternalTablesFolder,C:\APS2SQLDW\Output\5_CreateExternalTablesSQLDW\,Where the T-SQL Scripts reside for creating external tables inside Azure SQLDW
 CreateSchemaFlag,1,
 SchemaAuth,dbo,

@@ -158,7 +158,7 @@ Function GetListToProcessOver($Query, $ServerName, $Database, $Username, $Passwo
 
 		Display-ErrorMsg "Issue with Executing SQL :: $theErrorMessage " 
 
-		exit(0)
+		#exit(0)
 	}
 	
 	return $ds
@@ -190,7 +190,7 @@ function Get-FileName([string]$uFilename, [string]$PreAssessmentOutputPath) {
     Return [string]$exportFilename
     #= Join-Path -Path $PreAssessmentOutputPath -ChildPath New
 }
-Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port)
+Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port, $AddDatabaseName)
 {
 	$ResultAs="DataSet"	
 	
@@ -203,7 +203,13 @@ Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $Database, 
 		for ($i = 0; $i -lt $ds.Tables.Count; $i++) {
 			$rows = $ds.Tables[$i].Rows.Count
 			Display-LogMsg "Looping through Objects:$i - Items:$rows"
-			$ds.Tables[$i] | export-csv "$FileName" -notypeinformation -Append
+            $record = $ds.Tables[$i]
+            if ($AddDatabaseName -eq $true) {
+                #$record
+                $record | Add-Member -NotePropertyName Database -NotePropertyValue $Database
+            }
+
+			$record | export-csv "$FileName" -notypeinformation -Append -Encoding UTF8
 		}
 	}
 	else 
@@ -287,7 +293,7 @@ Function WriteShowSpaceUsedToCSV($FileName, $Query, $Variables, $ServerName, $DB
 			$rows | Add-Member -MemberType NoteProperty -Name "DISTRIBUTION_ID" -Value $distributionID  -force
 			$rows | Add-Member -MemberType NoteProperty -Name "ROW_KEY" -Value $rowKey -force
 		
-			$rows | Export-Csv -Path "$FileName" -Append -Delimiter "," -NoTypeInformation
+			$rows | Export-Csv -Path "$FileName" -Append -Delimiter "," -NoTypeInformation -Encoding UTF8
 		}
 		Display-LogMsg "Success for Query: DB: ($DBName) Query: $Query "
 	}
@@ -717,7 +723,8 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 											#Add Variable Statement
 										    #$Variables = "@DBName:$DBName"
 										    $Variables = "@DBName:$DBName|@SQLServerName:$ServerName"
-										    WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
+                                            $AddDatabaseName = ($RunFor.ToUpper() -eq "DB")
+										    WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port $AddDatabaseName
 										}
 									}
 									else 

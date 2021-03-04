@@ -1,4 +1,4 @@
 "Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
-"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\Users","1","User","dbo","","amirskiy","","DROP","","amirskiy.dsql"
-"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\Users","1","User","dbo","","nkletnoi","","DROP","","nkletnoi.dsql"
-"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\Users","1","User","dbo","","philipr","","DROP","","philipr.dsql"
+"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_ConvertDDLs\AdventureWorksDW2008\Users","1","User","dbo","","amirskiy","","DROP","","amirskiy.dsql"
+"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_ConvertDDLs\AdventureWorksDW2008\Users","1","User","dbo","","nkletnoi","","DROP","","nkletnoi.dsql"
+"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_ConvertDDLs\AdventureWorksDW2008\Users","1","User","dbo","","philipr","","DROP","","philipr.dsql"

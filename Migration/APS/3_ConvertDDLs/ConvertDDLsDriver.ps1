@@ -17,9 +17,16 @@
 #        3. Adjust #TEMP tables distribution (REPLICATE-->ROUND_ROBIN)
 #
 # =================================================================================================================================================
+#
+# WARNING:
+#       Adding missing schema names does not work properly for CTE aliases. Use flag to control the behavior of the script.
+# =================================================================================================================================================
 
 
 Import-Module $PSScriptRoot\FixSchemas.ps1 -Force
+
+
+$addMissingSchemas = $true
 
 
 $defaultConfigDir = "$PSScriptRoot"
@@ -70,7 +77,9 @@ ForEach ($configRow in $configCsvFile)
 
             $newContent = $content
             $newContent = FixTempTables -Query $newContent
-            $newContent = AddMissingSchemas -Query $newContent -defaultSchema $defaultSchema
+            if ($addMissingSchemas) {
+                $newContent = AddMissingSchemas -Query $newContent -defaultSchema $defaultSchema
+            }
             $newContent = ChangeSchemas -DatabaseName $databaseName -SchemaMappings $schemaCsvFile -query $newContent -defaultSchema $defaultSchema
 
             $targetFolder = [IO.Path]::GetDirectoryName($TargetFilePath)

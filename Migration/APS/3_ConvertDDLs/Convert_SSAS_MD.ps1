@@ -18,11 +18,11 @@
 param(
     [Parameter(Mandatory=$false, HelpMessage="Path to SSAS MD project folder.")]
     [string]
-    $ProjectFolder = "C:\Users\amirskiy\source\repos\AdventureWorksDW\SSAS_MD",
+    $ProjectFolder = "C:\Users\amirskiy\source\repos\dwoty\SSAS\NE-BI-CSQ\NE-BI-CSQ",
 
     [Parameter(Mandatory=$false, HelpMessage="Path to schema mapping file.")]
     [string] 
-    $schemasFilePath = "C:\APS2SQLDW\3_FixSqlCode\schemas.csv",
+    $schemasFilePath = "C:\APS2SQLDW\3_FixSqlCode\schemas_NLTG.csv",
 
     [Parameter(Mandatory=$false, HelpMessage="Default schema which will be used if schema name is omitted.")] 
     [string]
@@ -34,11 +34,11 @@ param(
 
     [Parameter(Mandatory=$false)] 
     [string]
-    $AzureSqlServerName = "sqldwsqlserver.database.windows.net",
+    $AzureSqlServerName = "asql-bi-dev-we-01.sql.azuresynapse.net",
     
     [Parameter(Mandatory=$false)] 
     [string]
-    $SynapseName = "sqldw",
+    $SynapseName = "dwoty",
 
     [Parameter(Mandatory=$false, HelpMessage="Save changes to SSAS MD source code.")] 
     [bool]
@@ -55,6 +55,7 @@ $schemaCsvFile = Import-Csv $schemasFilePath
 $dsFiles = Get-Item -Path $projectFolder\*.ds
 $dsvFiles = Get-Item -Path $projectFolder\*.dsv 
 $partitionFiles = Get-Item -Path $projectFolder\*.partitions
+$projectFiles = Get-Item -Path $projectFolder\*.dwproj
 
 
 $dataSources = @{}
@@ -80,8 +81,18 @@ foreach ($dsFile in $dsFiles)
     {
         $newConnectionString = "Provider=MSOLEDBSQL.1;Data Source=$AzureSqlServerName;Persist Security Info=True;Password=;User ID=$userId;Initial Catalog=$SynapseName"        
         $content.DataSource.ConnectionString = $newConnectionString
-
         $content.Save($dsFile)
+
+        foreach ($projectFile in $projectFiles)
+        {
+            $projectFileContent = [xml](Get-Content $projectFile)
+            $projectFileContent.Project.Configurations
+            if ($projectFileContent.Project.Configurations.Configuration.Options.ConnectionMappings.ConfigurationSetting.Id -eq $ID)
+            {
+                $projectFileContent.Project.Configurations.Configuration.Options.ConnectionMappings.ConfigurationSetting.Value.'#text' = $newConnectionString
+                $projectFileContent.Save($projectFile)
+            }
+        }
     }
 }
 
@@ -108,11 +119,11 @@ foreach ($dsvFile in $dsvFiles)
         $tableType = $table.TableType             #$node.Node.Attributes["msprop:TableType"].Value
         $queryDefinition = $table.QueryDefinition #$node.Node.Attributes["msprop:QueryDefinition"].Value
 
-        if (($tableType -eq "Table") -or ($tableType -eq "View" -and ![String]::IsNullOrEmpty($schemaName)))
+        if ($tableType -in ("Table", "View") -and [String]::IsNullOrEmpty($queryDefinition))
         {
             # This is Table / View
 
-            if ($tableType -eq "Table" -and [String]::IsNullOrEmpty($schemaName))
+            if ($tableType -in ("Table", "View") -and [String]::IsNullOrEmpty($schemaName))
             {
                 $schemaName = $defaultSchema
             }

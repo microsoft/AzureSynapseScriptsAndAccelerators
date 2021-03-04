@@ -1,1 +1,1 @@
-select db_name() as [Database], * from sys.database_role_members
+select * from sys.database_role_members

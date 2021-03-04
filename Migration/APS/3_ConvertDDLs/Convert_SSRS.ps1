@@ -18,11 +18,11 @@
 param(
     [Parameter(Mandatory=$false, HelpMessage="Path to SSRS project folder.")]
     [string]
-    $ProjectFolder = "C:\temp\SSRS",
+    $ProjectFolder = "C:\Users\amirskiy\source\repos\dwoty\SSRS\Sales reports\Sales reports",
 
     [Parameter(Mandatory=$false, HelpMessage="Path to schema mapping file.")]
     [string] 
-    $schemasFilePath = "C:\schemas.csv",
+    $schemasFilePath = "C:\APS2SQLDW - NLTG\3_FixSqlCode\schemas_NLTG.csv",
 
     [Parameter(Mandatory=$false, HelpMessage="Default schema which will be used if schema name is omitted.")] 
     [string]
@@ -34,11 +34,11 @@ param(
 
     [Parameter(Mandatory=$false)] 
     [string]
-    $AzureSqlServerName = "sqldwsqlserver.database.windows.net",
+    $AzureSqlServerName = "asql-bi-dev-we-01.sql.azuresynapse.net",
     
     [Parameter(Mandatory=$false)] 
     [string]
-    $SynapseName = "BLINK",
+    $SynapseName = "dwoty",
 
     [Parameter(Mandatory=$false, HelpMessage="Save changes to SSRS source code.")] 
     [bool]
@@ -94,8 +94,13 @@ foreach ($rsdFile in $rsdFiles)
     Write-Host "Processing shared dataset file - $rsdFile" -ForegroundColor Yellow
 
     $content = [xml](Get-Content $rsdFile)
+    $changed = $false
 
-    $currentDatabaseName = $datasources[$content.SharedDataSet.DataSet.Query.DataSourceReference]
+    $dataSourceName = $content.SharedDataSet.DataSet.Query.DataSourceReference
+    if ($datasources.Contains($dataSourceName) -eq $false) {
+        continue
+    }
+    $currentDatabaseName = $datasources[$dataSourceName]
     if ([string]::IsNullOrEmpty($currentDatabaseName)) {
         continue
     }
@@ -108,10 +113,12 @@ foreach ($rsdFile in $rsdFiles)
     {
         # This is Stored Procedure or Table or View
         $commandText = AddMissingSchemasSimple -query $commandText -defaultSchema $defaultSchema
+        $changed = $true
     }
     else
     {
         $commandText = AddMissingSchemas -query $commandText -defaultSchema $defaultSchema
+        $changed = $true
     }
     Write-Host "BEFORE:", $commandText -ForegroundColor Yellow
 
@@ -120,7 +127,7 @@ foreach ($rsdFile in $rsdFiles)
 
     $content.SharedDataSet.DataSet.Query.CommandText = $commandText
 
-    if ($SaveFiles)
+    if ($SaveFiles -and $changed)
     {
         $content.Save($rsdFile)
     }
@@ -139,7 +146,7 @@ foreach ($rdlFile in $rdlFiles)
     $content = [xml](Get-Content $rdlFile)
 
     $datasets = $content.Report.DataSets.DataSet
-   
+    $changed = $false
     
     foreach ($dataset in $datasets)
     {
@@ -152,6 +159,9 @@ foreach ($rdlFile in $rdlFiles)
         $commandText = $dataset.Query.CommandText
 
         $dataSourceName = $content.Report.DataSources.DataSource | where {$_.Name -eq $dataSourceName} | select -ExpandProperty Name
+        if ($datasources.Contains($dataSourceName) -eq $false) {
+            continue
+        }
         $currentDatabaseName = $datasources[$dataSourceName]
 
         # This is Stored Procedure or Table or View
@@ -160,10 +170,12 @@ foreach ($rdlFile in $rdlFiles)
         if ($commandType -in ("StoredProcedure", "TableDirect")) 
         {
             $commandText = AddMissingSchemasSimple -query $commandText -defaultSchema $defaultSchema
+            $changed = $true
         }
         else
         {
             $commandText = AddMissingSchemas -query $commandText -defaultSchema $defaultSchema
+            $changed = $true
         }
         Write-Host "BEFORE:", $commandText -ForegroundColor Yellow
 
@@ -173,7 +185,7 @@ foreach ($rdlFile in $rdlFiles)
         $dataset.Query.CommandText = $commandText
     }
 
-    if ($SaveFiles)
+    if ($SaveFiles -and $changed)
     {
         $content.Save($rdlFile)
     }
