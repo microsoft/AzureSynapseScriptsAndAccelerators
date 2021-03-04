@@ -167,9 +167,9 @@ $error.Clear()
 #############################################################
 
 
-$defaultScriptsToRunDriverFile = "C:\Temp\SqldwImportData.csv"
+$defaultScriptsToRunDriverFile = $PSScriptRoot+"\SqldwImportData.csv"
 
-$ScriptsToRunDriverFile = Read-Host -prompt "Enter the name of the ScriptToRun csv File or Press 'Enter' to accept default: [$defaultScriptsToRunDriverFile]"
+$ScriptsToRunDriverFile = Read-Host -prompt "Enter the name of the ScriptToRun csv File or Press 'Enter' to accept default [$defaultScriptsToRunDriverFile]"
 	if($ScriptsToRunDriverFile -eq "" -or $ScriptsToRunDriverFile -eq $null)
 	{$ScriptsToRunDriverFile = $defaultScriptsToRunDriverFile}
 
@@ -181,16 +181,16 @@ $ConnectToSQLDW = Read-Host -prompt "How do you want to connect to SQL(ADPass, A
 $ConnectToSQLDW = $ConnectToSQLDW.ToUpper()
 If($ConnectToSQLDW.ToUpper() -eq "SQLAUTH" -or $ConnectToSQLDW.ToUpper() -eq "ADPASS")
 {
-	$UserName = Read-Host -prompt "Enter the UserName if not using Integrated."
+	$UserName = Read-Host -prompt "Enter the UserName if not using Integrated"
 		if($UserName -eq "" -or $UserName -eq $null) {$UserName = "sqladmin"}
 	$Password = GetPassword
 		if($Password -eq "") {Write-Host "A password must be entered"
 							break}
 }
-$StatusLogPath = Read-Host -prompt "Enter the name of the Output File Directory."
-	if($StatusLogPath -eq "" -or $StatusLogPath -eq $null) {$StatusLogPath =  "C:\temp"}
-$StatusLog = Read-Host -prompt "Enter the name of the status file."
-	if($StatusLog -eq "" -or $StatusLog -eq $null) {$StatusLog = "CreateExtInsert_V1.csv"}
+$StatusLogPath = Read-Host -prompt "Enter the name of the Output File Directory or Press 'Enter' to accept default [$PSScriptRoot]"
+	if($StatusLogPath -eq "" -or $StatusLogPath -eq $null) {$StatusLogPath =  $PSScriptRoot}
+$StatusLog = Read-Host -prompt "Enter the name of the status file or Press 'Enter' to accept default"
+	if($StatusLog -eq "" -or $StatusLog -eq $null) {$StatusLog = (Get-Date -Format yyyyMMddTHHmmss) + ".log"}
 
 
 Import-Module "$PSScriptRoot\RunSQLScriptFile.ps1" -Force
@@ -297,7 +297,7 @@ ForEach ($S in $csvFile )
              $EndDate=(Get-Date)
              $Timespan = (New-TimeSpan -Start $StartDate -End $EndDate)
              $DurationSec = ($Timespan.seconds + ($Timespan.Minutes * 60) + ($Timespan.Hours * 60 * 60))
-             $ErrorMsg = "Error running Script for File: " + $FileName + "Error: " + $ReturnValues.Get_Item("Msg") + "Duration: " + $DurationSec + " seconds"
+             $ErrorMsg = "Error running Script for File: " + $FileName + " Error: " + $ReturnValues.Get_Item("Msg") + "Duration: " + $DurationSec + " seconds"
     		 Write-Host $ErrorMsg -ForegroundColor Red -BackgroundColor Black
 			 $Status = "Error: " + $ReturnValues.Get_Item("Msg")
 			 $Status = $Status.Replace("`r`n", "")
@@ -340,12 +340,6 @@ ForEach ($S in $csvFile )
 }
 
 $finishTime = Get-Date
-
-#$EndDate=(Get-Date)
-#$DurationMin = (New-TimeSpan -Start $StartDateBegin -End $EndDate).Min
-#Write-Host "Duration in Min: " + $DurationMin
-#$DurationHours = (New-TimeSpan -Start $StartDateBegin -End $EndDate).Hours
-#Write-Host "Duration in Hours: " + $DurationHours
 
 Write-Host "Program Start Time:   ", $startTime -ForegroundColor Green
 Write-Host "Program Finish Time:  ", $finishTime -ForegroundColor Green

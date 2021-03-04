@@ -51,7 +51,59 @@ $ScriptsDriverFile = Read-Host -prompt "Enter the name of the Export csv Driver 
 	{$ScriptsDriverFile = $defaultScriptsDriverFile}	
 
 
-Import-Module "$PSScriptRoot\CreateSQLDWExtTableStatements.ps1" -Force
+#Import-Module "$PSScriptRoot\CreateSQLDWExtTableStatements.ps1" -Force
+
+function ScriptCreateExternalTableScript(
+            $OutputFolderPath 
+            ,$FileName 
+            ,$InputFolderPath 
+            ,$InputFileName 
+            ,$SchemaName 
+            ,$ObjectName 
+            ,$DataSource 
+            ,$FileFormat 
+            ,$ExportLocation 
+            ,$FileLocation)
+{
+    if (!(Test-Path $OutputFolderPath))
+	{
+		New-Item "$OutputFolderPath" -ItemType Dir | Out-Null
+    }
+
+    $OutputFolderPathFullName = $OutputFolderPath + $FileName + '.dsql'
+    $InputFolderPathFileName = $InputFolderPath + $InputFileName 
+        
+    $SourceFile = Get-Content -Path $InputFolderPathFileName
+
+    $WithFound = $false
+
+    foreach($l in $SourceFile)
+    {
+        if($l -match 'CREATE TABLE' -and !$WithFound)
+        {
+
+            $CreateClause = "CREATE EXTERNAL TABLE [" + $SchemaName + "].[" + $ObjectName + "]"
+            if($l -match "[(]") 
+                {$CreateClause = $CreateClause + "("}
+            $CreateClause >> $OutputFolderPathFullName
+        }
+        elseif($l -match 'WITH \(' -and !$WithFound) 
+        {
+            $WithFound = $true
+            $ExternalWith = " WITH (  
+                LOCATION='" + $ExportLocation + "',  
+                DATA_SOURCE = " + $DataSource + ",  
+                FILE_FORMAT = " + $FileFormat + ")"
+
+            $ExternalWith >> $OutputFolderPathFullName
+        }
+        elseif(!$WithFound)
+        {
+            $l >> $OutputFolderPathFullName
+        }
+    }
+}
+
 
 
 $startTime = Get-Date

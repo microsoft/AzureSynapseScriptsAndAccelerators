@@ -1,2 +1,0 @@
-"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
-"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_FixSqlCode\AdventureWorksDW2008\Views","1","View","dbo","aw2","vwTop10Account","","DROP","","philipr_vwTop10Account.dsql"

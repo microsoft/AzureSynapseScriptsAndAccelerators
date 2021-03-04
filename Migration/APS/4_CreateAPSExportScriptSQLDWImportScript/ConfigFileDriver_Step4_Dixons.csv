@@ -1,0 +1,16 @@
+Name,Value,Instructions 
+OneConfigFile,Yes,"Yes/No. If ""Yes"", program will generate one combined config file for all databases. If ""No"", one individual file for each DB will be generated. "
+OneConfigFileName,One_ExpImptStmtDriver_Generated.csv,Specify file name for the one combined config file.  
+GeneratedConfigFileFolder,C:\APS2SQLDW\4_CreateAPSExportScriptSQLDWImportScript\,This is folder where to store the generated output Config File(s) that can be used in step 4 by the main PowerShell program. 
+ExtTableShemaPrefix,EXT_,"Prefix to internal schema name that can be used for external schema name for data migration purpose. If internal schema is named ABC, the new schema will become EXTM_ABC that will hold all external tables. "
+ExtTablePrefix,,"If you want to prefix each table. Empty is recommended if you have ""ExtTableShemaPrefix"" already defined (not empty)."
+InputObjectsFolder,C:\APS2SQLDW\Output\3_FixSqlCode\,This is where output of step 3 is stored
+SchemaMappingFileFullPath,C:\APS2SQLDW\3_FixSqlCode\schemas_Dixons.csv,This is the same schema mapping file that step 3 used. 
+ApsExportScriptsFolder,C:\APS2SQLDW\Output\4_CreateAPSExportScriptSQLDWImportScript\ExportAPS\,This is where APS Export T-SQL Scripts will reside.
+SqldwImportScriptsFolder,C:\APS2SQLDW\Output\4_CreateAPSExportScriptSQLDWImportScript\ImportSQLDW\,This is where SQLDW Import T-SQL Scripts will reside.
+SqldwCopyScriptsFolder,C:\APS2SQLDW\Output\4_CreateAPSExportScriptSQLDWImportScript\CopySQLDW\,This is where SQLDW COPY INTO T-SQL Scripts will reside.
+ExternalDataSourceName,AZURE_BLOB_STORAGE,"Name of the external data source. Default Value to start with. However, this can be updated for some individual tables once the config file is generated."
+FileFormat,DelimitedNoDateZIP,"Name of the external file format. Default Value to start with. However, this can be updated for some individual tables once the config file is generated."
+ExportLocation,/,"Example of the final location for one table inside the DB ""adventure_works"": ""/migration/testrun/adventure_works/testSchema_DimCustomer"" "
+StorageAccountName,apsmigrationstaging
+ContainerName,aps-polybase

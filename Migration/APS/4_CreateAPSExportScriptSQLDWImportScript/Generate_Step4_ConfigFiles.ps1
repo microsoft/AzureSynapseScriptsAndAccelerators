@@ -99,56 +99,69 @@ function Get-ApsSchema($dbName, $sqldwSchema, $hT)
 }
 
 
-
-Function getObjectNames ($line, $type)
+Function GetObjectNames ($query, $type)
 {
+    $parts = @{}
+    $parts.Clear()
+    
+#    if ($type -in ("CREATE STATISTICS", "CREATE NONCLUSTERED INDEX")) {
+#        $pattern = "^" + $type + "[\s]+(?<objectname>[\[]*[^\.]+[\]]*)[\s]+ON[\s]+(?<parentobjectname>[\[]*[^\.]+[\]]*\.[\[]*[^\.]+[\]]*)[\s]+"
+#    } elseif ($type -in ("CREATE USER", "CREATE ROLE")) {
+#        $pattern = "^" + $type + "[\s]+(?<objectname>[\[]*[^\.]+[\]]*)"
+#    } else {    
+#        $pattern = "^" + $type + "[\s]+(?<objectname>[\[]*[^\.]+[\]]*\.[\[]*[^\.]+[\]]*)"
+#    }
+    if ($type -in ("CREATE STATISTICS", "CREATE NONCLUSTERED INDEX")) {
+        $pattern = "^" + $type + "[\s]+(?<objectname>\[?[^\.\]]+\]?)[\s]+ON[\s]+(?<parentobjectname>\[?[^\.\]]+\]?\.\[?[^\.\]]+\]?)[\s]+"
+    } elseif ($type -in ("CREATE USER", "CREATE ROLE")) {
+        $pattern = "^" + $type + "[\s]+(?<objectname>\[?[^\.\]]+\]?)"
+    } else {    
+        # Either 2-part name or 3-part name
+        $pattern = "^" + $type + "[\s]+(?<objectname>\[?[^\.\]]+\]?\.\[?[^\.\]]+\]?|\[?[^\.\]]+\]?\.\[?[^\.\]]+\]?\.\[?[^\.\]]+\]?)([\s]+|[\s]*\r?$)"
+    }
 
-  $line = $line.Replace('[','')
-  $line = $line.Replace(']','')
-  $lineLen = $line.Length
-  
-  $dbNameStart = ($type + " ").Length # example: $type = $Create External Table db.schema.table 
-  $inputPart =  $line.Substring($dbNameStart, $lineLen-$dbNameStart) # the part without $type 
 
-  $stringParts = @() 
-  $partsCount = 0 # initialize 
-  
-  if ($inputPart -match " AS") 
-  {
-    $endingIndex = $inputPart.indexof(" ") # first space after meta data names 
-    $metaDataString =  $inputPart.Substring(0,$endingIndex)
-  
-    $stringParts = $metaDataString.split(".")
-    $partsCount = $stringParts.Count  
-  }
-  else {
-    $stringParts = $line.Substring($dbNameStart, $lineLen-$dbNameStart).split(".")
-    $partsCount = $stringParts.Count
-  }
-  
-  $parts = @{}
-  $parts.Clear()
+    $regexOptions = [Text.RegularExpressions.RegexOptions]'IgnoreCase, CultureInvariant, Multiline'
+    $matches = [regex]::Matches($query, $pattern, $regexOptions)
 
-  if ($partsCount -eq 1)
-  {
-    $parts.add("Object", $stringParts[0])  # object 
-  } 
-  elseif ($partsCount -eq 2)
-  {
-    $parts.add("Schema", $stringParts[0]) # schema
-    $parts.add("Object", $stringParts[1]) # object
-  }
-  elseif ($partsCount -eq 3)
-  {
-    $parts.add("Database", $stringParts[0]) # db 
-    $parts.add("Schema", $stringParts[1]) # schema
-    $parts.add("Object", $stringParts[2]) # object 
-  }
-  else {
-    Write-Output " Something is not right. Check this input line: " $line " and Type " $type 
-  }
-  return $parts 
+    if ($matches.Count -eq 0)
+    {
+        Write-Host $query -ForegroundColor Red
+        throw "Query did not match the patter"
+    } 
+
+    $objectName = $matches[0].Groups["objectname"].Value
+    $parentObjectName = $matches[0].Groups["parentobjectname"].Value
+    $objectNameParts = $objectName.Split(".")
+
+    if ($objectNameParts.Count -eq 3) {
+        $databaseName = $objectNameParts[0].Replace("[","").Replace("]","")
+        $schemaName = $objectNameParts[1].Replace("[","").Replace("]","")
+        $objectName = $objectNameParts[2].Replace("[","").Replace("]","")
+    }
+    elseif ($objectNameParts.Count -eq 2) {
+        $databaseName = ""
+        $schemaName = $objectNameParts[0].Replace("[","").Replace("]","")
+        $objectName = $objectNameParts[1].Replace("[","").Replace("]","")
+    }
+    elseif ($objectNameParts.Count -eq 1) {
+        $databaseName = ""
+        $schemaName = ""
+        $objectName = $objectNameParts[0].Replace("[","").Replace("]","")
+    }
+    else {
+        Write-Output " Something is not right. Check this input line: " $line " and Type " $type 
+    }
+
+    $parts.add("Database", $databaseName) # database
+    $parts.add("Schema", $schemaName) # schema
+    $parts.add("Object", $objectName) # object
+    $parts.add("ParentObject", $parentObjectName) # ParentObject
+
+    return $parts
 }
+
+
 
 #Write-Output "InputObjectsFolder: " $InputObjectsFolder
 # Get all the database names from directory names 
@@ -182,6 +195,10 @@ if ($OneConfigFile -eq "YES")
 		Remove-Item $combinedOutputFile -Force
 	}
 }
+
+
+$startTime = Get-Date
+
 
 $inFilePaths = @{} 
 $outFilePaths = @{} 
@@ -218,31 +235,57 @@ foreach ($dbName in $dbNames)
 		foreach ($f in Get-ChildItem -path $inFileFolder  -Filter *dsql)
 		{
             # exclude IDXS_ and STATS_ 
-		 	if (($f.Name.ToString() -Match "IDXS_") -or ($f.Name.ToString() -Match "STATS_"))
-		 	{
-				 continue 
-			}			 
+		 	#if (($f.Name.ToString() -Match "IDXS_") -or ($f.Name.ToString() -Match "STATS_"))
+		 	#{
+			#	 continue 
+			#}		
+
+            (Get-Date -Format HH:mm:ss.fff)+" - "+$f | Write-Host -ForegroundColor Yellow	 
 			 
 			$parts = @{}
 			$parts.Clear()
 
-			$firsLine = Get-Content -path $f.FullName -First 1
+			$firstLine = Get-Content -path $f.FullName -First 1
 			
-			if($firsLine -match "CREATE TABLE")
+			if($firstLine.ToUpper() -match "^CREATE TABLE")
 			{
-                $parts = getObjectNames $firsLine "CREATE TABLE"
+                $parts = getObjectNames $firstLine "CREATE TABLE"
 			}
-			elseif ($firsLine -match "CREATE PROC")
+			elseif ($firstLine.ToUpper() -match "^CREATE PROC")
 			{
-				$parts = getObjectNames $firsLine "CREATE PROC"
+				$parts = getObjectNames $firstLine "CREATE PROC"
 			}
-			elseif ($firsLine -match "CREATE VIEW")
+			elseif ($firstLine.ToUpper() -match "^CREATE VIEW")
 			{
-				$parts = getObjectNames $firsLine "CREATE VIEW"
+				$parts = getObjectNames $firstLine "CREATE VIEW"
+			}
+			elseif ($firstLine.ToUpper() -match "^CREATE NONCLUSTERED INDEX")
+			{
+				$parts = GetObjectNames $firstLine "CREATE NONCLUSTERED INDEX"
+			}
+			elseif ($firstLine.ToUpper() -match "^CREATE FUNCTION")
+			{
+				$parts = GetObjectNames $firstLine "CREATE FUNCTION"
+			}
+			elseif ($firstLine.ToUpper() -match "^CREATE STATISTICS")
+			{
+				$parts = GetObjectNames $firstLine "CREATE STATISTICS"
+			}
+			elseif ($firstLine.ToUpper() -match "^CREATE EXTERNAL TABLE")
+			{
+				$parts = GetObjectNames $firstLine "CREATE EXTERNAL TABLE"
+			}
+			elseif ($firstLine.ToUpper() -match "^CREATE USER")
+			{
+				$parts = GetObjectNames $firstLine "CREATE USER"
+			}
+			elseif ($firstLine.ToUpper() -match "^CREATE ROLE")
+			{
+				$parts = GetObjectNames $firstLine "CREATE ROLE"
 			}
 			else 
 			{
-				Write-Output "Unexpected first line here: " $firsLine " in file: " $f.FullName
+				Write-Output "Unexpected first line here: " $firstLine " in file: " $f.FullName
 			}		
 			 
 		 	$sqldwSchema = $parts.Schema
@@ -303,6 +346,12 @@ foreach ($dbName in $dbNames)
 if ( ($OneConfigFile -eq "YES") -and ([IO.File]::Exists($combinedOutputFile)) )
 {
 	Write-Output " ------------------------------------------------------------------------------------------------- "
-	Write-Output "          Completed writing to outCsvFileName: " $combinedOutputFile
+	Write-Output " Completed writing to : " $combinedOutputFile
 	Write-Output " ------------------------------------------------------------------------------------------------- "
 }	 	
+
+$finishTime = Get-Date
+
+Write-Host "Program Start Time:   ", $startTime -ForegroundColor Green
+Write-Host "Program Finish Time:  ", $finishTime -ForegroundColor Green
+Write-Host "Program Elapsed Time: ", ($finishTime-$startTime) -ForegroundColor Green

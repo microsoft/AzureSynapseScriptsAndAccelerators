@@ -1,0 +1,6 @@
+"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
+"1","synapse-demo-amirskiy.sql.azuresynapse.net","dwoty","C:\APS2SQLDW\Output\3_FixSqlCode\SSASLog\Views","1","View","dbo","SSASLog","v_f_query","","DROP","","dbo_v_f_query.dsql"
+"1","synapse-demo-amirskiy.sql.azuresynapse.net","dwoty","C:\APS2SQLDW\Output\3_FixSqlCode\SSASLog\Views","1","View","dbo","SSASLog","v_get_table_distribution","","DROP","","dbo_v_get_table_distribution.dsql"
+"1","synapse-demo-amirskiy.sql.azuresynapse.net","dwoty","C:\APS2SQLDW\Output\3_FixSqlCode\SSASLog\Views","1","View","dbo","SSASLog","v_l_cube","","DROP","","dbo_v_l_cube.dsql"
+"1","synapse-demo-amirskiy.sql.azuresynapse.net","dwoty","C:\APS2SQLDW\Output\3_FixSqlCode\SSASLog\Views","1","View","dbo","SSASLog","v_l_datetime","","DROP","","dbo_v_l_datetime.dsql"
+"1","synapse-demo-amirskiy.sql.azuresynapse.net","dwoty","C:\APS2SQLDW\Output\3_FixSqlCode\SSASLog\Views","1","View","dbo","SSASLog","v_l_user_ad_group_cube","","DROP","","dbo_v_l_user_ad_group_cube.dsql"

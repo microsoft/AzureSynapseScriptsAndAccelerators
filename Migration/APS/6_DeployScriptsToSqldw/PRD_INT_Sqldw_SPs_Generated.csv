@@ -1,0 +1,4 @@
+"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
+"1","synapse-demo-amirskiy.sql.azuresynapse.net","Dixons","C:\APS2SQLDW\Output\3_FixSqlCode\PRD_INT\SPs","1","SP","dbo","int","usp_AddStat","","DROP","","dbo_usp_AddStat.dsql"
+"1","synapse-demo-amirskiy.sql.azuresynapse.net","Dixons","C:\APS2SQLDW\Output\3_FixSqlCode\PRD_INT\SPs","1","SP","dbo","int","usp_RequestSurrogateKeys","","DROP","","dbo_usp_RequestSurrogateKeys.dsql"
+"1","synapse-demo-amirskiy.sql.azuresynapse.net","Dixons","C:\APS2SQLDW\Output\3_FixSqlCode\PRD_INT\SPs","1","SP","dbo","int","usp_SecureSurrogateKeys","","DROP","","dbo_usp_SecureSurrogateKeys.dsql"

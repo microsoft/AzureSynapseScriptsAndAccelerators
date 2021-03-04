@@ -1,0 +1,2 @@
+"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
+"1","synapse-demo-amirskiy.sql.azuresynapse.net","dwoty","C:\APS2SQLDW\Output\3_FixSqlCode\warehouse_production\Functions","1","Function","dbo","DW","fn_Occurences","","DROP","","dbo_fn_Occurences.dsql"
