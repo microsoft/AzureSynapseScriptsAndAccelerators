@@ -6,7 +6,7 @@
 			{"PreAssessmentDriverFile":"C:\\APS2SQLDW\\Assessment\\SQLScriptstoRun.csv",
 			"PreAssessmentOutputPath":"C:\\APS2SQLDW\\Assessment\\Results",
 			"PreAssessmentScriptPath":"C:\\APS2SQLDW\\Assessment\\Scripts",
-			"ServerName":"10.209.220.153",
+			"ServerName":"10.64.54.20",
 			"DBFilter":"%",
 			"SourceSystem":"APS",
 			"QueryTimeout":"600",
