@@ -1,5 +1,4 @@
 select
-	a.database ,
 	a.schema ,
 	'AGGREGATE' ""ObjectType"",
 	a.aggregate ,
@@ -8,6 +7,4 @@ select
 	a.fenced ,
 	a.version
 from
-	admin._v_aggregate as a
-where
-	database <> 'SYSTEM';
+	admin._v_aggregate as a;
