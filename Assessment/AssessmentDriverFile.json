@@ -3,16 +3,17 @@
 	"#Netezza-DatabaseAlt":"SYSTEM",
 	"General_Config":
 		[
-			{"PreAssessmentDriverFile":"C:\\APS2SQLDW\\Assessment\\SQLScriptstoRun.csv",
-			"PreAssessmentOutputPath":"C:\\APS2SQLDW\\Assessment\\Results",
-			"PreAssessmentScriptPath":"C:\\APS2SQLDW\\Assessment\\Scripts",
-			"ServerName":"10.64.54.20",
+			{"PreAssessmentDriverFile":"C:\\github\\assessment\\AzureSynapseScriptsAndAccelerators\\Assessment\\SQLScriptstoRun.csv",
+			"PreAssessmentOutputPath":"C:\\github\\assessment\\AzureSynapseScriptsAndAccelerators\\Assessment\\Results",
+			"PreAssessmentScriptPath":"C:\\github\\assessment\\AzureSynapseScriptsAndAccelerators\\Assessment\\Scripts",
+			"ServerName":"192.168.1.132",
 			"DBFilter":"%",
-			"SourceSystem":"APS",
+			"SourceSystem":"TERADATA",
 			"QueryTimeout":"600",
-			"ConnectionTimeout":"300"}
+			"ConnectionTimeout":"300",
+			"StoreOutputInSeperateFolders":"True"   
+		}
 		],
-	
 	"APS":
 		[
 			{"Database":"Master",
@@ -27,8 +28,8 @@
 		],
 	"TERADATA":
 		[
-			{"Database":"MASTER",
-			 "Port":"1"}
+			{"Database":"dbc",
+			 "Port":"1025"}
 		],
 	"Netezza":
 		[
@@ -44,7 +45,7 @@
 				"Query":"select system_software_version Version from _v_system_info"
 			},
 			{
-				"System":"Teradata",
+				"System":"TERADATA",
 				"Query":"SELECT  InfoData AS Version FROM    DBC.DBCInfoV WHERE   InfoKey = 'VERSION';"
 			},
 			{
@@ -65,10 +66,13 @@
 				"Query":"select DATNAME as Name from SYSTEM.._T_DATABASE Where DATNAME NOT IN ('MASTER_DB','SYSTEM')"
 			},
 			{
-				"System":"Teradata",
+				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
-				"Query":""
+				"Query":"    SELECT distinct TRIM(databasename) as name FROM dbc.tablesV WHERE databasename NOT IN ('console', 'DBC', 'dbcmngr', 'LockLogShredder', 'SQLJ', 'SysAdmin', 'SYSBAR', 'SYSJDBC', 'SYSLIB', 'SYSSPATIAL', 
+				'SystemFe', 'SYSUDTLIB', 'SYSUIF', 'Sys_Calendar', 'TDQCD', 'TDStats', 'tdwm', 'TD_SERVER_DB', 'TD_SYSFNLIB', 'TD_SYSGPL','TD_SYSXML',
+				'PDCRAdmin','PDCRCanary1M','PDCRINFO','PDCRSTG','PDCRCanary0M','PDCRCanary2M','PDCRCanary3M','PDCRADM','PDCRAccess','PDCRTPCD','PDCRCanary4M','PDCRDATA','TDMaps')
+				ORDER BY databasename;"
 			},
 			{
 				"System":"APS",
@@ -92,10 +96,15 @@
 				"Query":"select * from _v_table"
 			},
 			{
-				"System":"Teradata",
+				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
-				"Query":""
+				"Query":"SELECT TRIM(TABLENAME) as name, TRIM(databasename) as database_name ,TRIM(databasename) as schema_name   FROM dbc.tablesV WHERE tablekind IN ('T')
+				and database_name  ='@DBName'
+				AND databasename NOT IN ('console', 'DBC', 'dbcmngr', 'LockLogShredder', 'SQLJ', 'SysAdmin', 'SYSBAR', 'SYSJDBC', 'SYSLIB', 'SYSSPATIAL', 
+				'SystemFe', 'SYSUDTLIB', 'SYSUIF', 'Sys_Calendar', 'TDQCD', 'TDStats', 'tdwm', 'TD_SERVER_DB', 'TD_SYSFNLIB', 'TD_SYSGPL','TD_SYSXML',
+				'PDCRAdmin','PDCRCanary1M','PDCRINFO','PDCRSTG','PDCRCanary0M','PDCRCanary2M','PDCRCanary3M','PDCRADM','PDCRAccess','PDCRTPCD','PDCRCanary4M','PDCRDATA','TDMaps')
+				ORDER BY databasename, TABLENAME; "
 			},
 			{
 				"System":"APS",

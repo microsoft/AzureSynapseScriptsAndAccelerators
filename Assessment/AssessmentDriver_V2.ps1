@@ -62,6 +62,8 @@ Function GetPassword($securePassword)
 # This one has not been referenced 
 Function GetDBVersionStatement($SourceSystem, $csvVersionFileFullPath)
 {	
+	Display-LogMsg "GetDBVersionStatement: SourceSystem:$SourceSystem"
+	Display-LogMsg "GetDBVersionStatement: csvVersionFileFullPath:$csvVersionFileFullPath"
 
 	$csvVersionFile = Import-Csv $csvVersionFileFullPath
 
@@ -220,6 +222,8 @@ Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $Database, 
 	
 }
 
+
+
 Function WriteShowSpaceUsedToCSV($FileName, $Query, $Variables, $ServerName, $DBName, $SchemaNAme, $TableName, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port)
 {
 
@@ -320,6 +324,10 @@ Function WriteQueryToSchema($FileName, $Variables, $DBName, $FirstDBLoop, $Schem
 		Add-Content $FileName "$nzBinaryFolder/nz_ddl $DBName >> $SchemaExportFolder/$DBName.sql"
 	}
 }
+
+
+
+
 
 function ContinueProcess {
 		
@@ -431,11 +439,14 @@ Function GetDBEngineEdition($DBEditionQuery, $ServerName, $Port, $Database, $Use
 }
 Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Type)
 {
+	#Display-LogMsg "GetDBVersion:: $VersionQueries "
+	
 	foreach($v in $VersionQueries)
 	{
 		if(($v | Select-Object System).System -eq $SourceSystem)
 		{
 			$VersionQuery = ($v | Select-Object Query).Query
+			Display-LogMsg "GetDBVersion:: $VersionQuery "
 			Break
 		}
 	}
@@ -448,7 +459,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 	 
     $ResultAs="DataSet"
 	
-	#Display-LogMsg "VersionQuery:$VersionQuery"
+	Display-LogMsg "VersionQuery:$VersionQuery"
 
 	$ReturnValues = RunSQLStatement $ServerName $Database $VersionQuery $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $InputFile $ResultAs $Variables $SourceSystem $Port
 	
@@ -460,8 +471,11 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 		{
 			if($Type -eq "VersionNumber")
 			{
-				$testversion = $row["Version"]
-				$VersionValue =  $row["Version"] -match '(\d*\.\d*\.\d*\.\d*)'
+				# clean up the version number - remove strings to make simplier
+				$testversion = $row["Version"] -replace('[^.0-9]','')
+				$testversion = $testversion.trim()
+		
+				$VersionValue =  $testversion -match '(\d*\.\d*\.\d*\.\d*)'
 				$Version = $Matches[0]
 			}
 			else 
@@ -488,6 +502,9 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 			exit(0)
 		}
     }
+
+	Display-LogMsg "Version Number: ^$Version^"
+
 	#Need to break out of code here if $verion is not returned.
 	return $Version 
 }
@@ -521,7 +538,9 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 		$DBFilter = ($v | Select-Object DBFilter).DBFilter
 		$QueryTimeout = ($v | Select-Object QueryTimeout).QueryTimeout
 		$ConnectionTimeout = ($v | Select-Object ConnectionTimeout).ConnectionTimeout
+		$StoreInFolders = ($v | Select-Object StoreOutputInSeperateFolders).StoreOutputInSeperateFolders 
 	}
+
 
 	if ($SourceSystem -eq "APS" -or $SourceSystem -eq "AZUREDW")
 	{
@@ -551,14 +570,35 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 		}
 	}
 	
+	# Code to Handle Teradata
+	if ($SourceSystem -eq "TERADATA")
+	{
+		$TeradataConfig = ($BaseJSON | Select-Object Teradata).Teradata
+		foreach($v in $TeradataConfig)
+		{
+			$DB_Default = ($v | Select-Object Database).Database
+			$Port = ($v | Select-Object Port).Port
+			$nzBinaryFolder = ($v | Select-Object nzBinaryFolder).nzBinaryFolder 
+			$SchemaExportFolder = ($v | Select-Object SchemaExportFolder).SchemaExportFolder
+		}
+	}
+
+
 	#$DB_DefaultAlt = ($BaseJSON | Select-Object DatabaseAlt).DatabaseAlt
 
 	$VersionQueries = ($BaseJSON | Select-Object VersionQuery).VersionQuery 
 	$DBListQueries = ($BaseJSON | Select-Object DBListingQuery).DBListingQuery 
 	$TableListQueries = ($BaseJSON | Select-Object TableListingQuery).TableListingQuery 
 
-	#$StoreInFolders = ($BaseJSON | Select-Object StoreOutputInSeperateFolders).StoreOutputInSeperateFolders 
+
 	$FileCurrentTime = get-date -Format yyyyMMddHHmmss
+
+
+	Display-LogMsg "Loading from JSON config"
+	Display-LogMsg "SourceSystem:$SourceSystem"  
+	Display-LogMsg "VersionQueries:$VersionQueries"
+	Display-LogMsg "StoreInFolders:$StoreInFolders"
+	Display-LogMsg "DBListQueries:$DBListQueries"
 
 	#Settings for Export
 	 
@@ -600,7 +640,12 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 
 
 	$VersionRaw = GetDBVersion -VersionQueries $VersionQueries -ServerName $ServerName -Port $Port -Database $DB_Default -QueryTimeout $QueryTimeout -ConnectionTimeout $ConnectionTimeOut -UserName $UserName -Password $Password -ConnectionType  $ConnectionType -SourceSystem $SourceSystem -Type "VersionNumber"
-	$Version = [System.version]$VersionRaw
+	
+	Display-LogMsg  "Version is [$VersionRaw]"
+
+	$VersionRaw = $VersionRaw -replace('[^.0-9]','')
+	$Version = $VersionRaw # [System.version]$VersionRaw 
+
 	<# if ($Version -eq $null -or $Version -eq "" ) {		
 		
 		#Check the version with the alternate system database
@@ -616,7 +661,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 		} #>
 	#}
 	
-	Display-LogMsg  "Version is [$Version]"
+
 
 	$DBListQuery = GetListQuery -ListQueries $DBListQueries -Version $Version -SourceSystem $SourceSystem
 
@@ -663,15 +708,19 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 					$FileName = $fname
 				}
 
+				Display-LogMsg "Run for.. $RunFor"
+
 				If($RunFor.ToUpper() -eq "SERVER")
 				{
-					#Write-Output "Server" 
+					Display-LogMsg "Server Query: $SQLStatement " 
 					WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DB_Default $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
 				}
 				elseif($RunFor.ToUpper() -eq "TABLE" -or $RunFor.ToUpper() -eq "DB") 
 				{
 
 					$Query = $DBListQuery #[4].ToString() # This one works if the location in Json file does not change. 
+
+					Display-LogMsg "DB Query: $Query " 
 
 					$Databases = GetListToProcessOver $Query $ServerName $DB_Default $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port 
 
@@ -680,12 +729,16 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 					foreach($row in $Databases.Tables[0])
 					{
 						$DBName =  $row["Name"]
-							
+						
+						Display-LogMsg "Looping through Databases $DBName  " 
+
 						#if($DBFilter -ne '%')
 						#{
+						# Filter is designed so we only access a subset of databases
 							$splitFilter = $DBFilter.Split(",")
 							foreach($val in $splitFilter)
 							{
+								
 								if($DBName.toUpper() -eq $val.Trim().toUpper() -or $DBFilter -eq '%')
 								{
 									if(($DBToProcess -ne $DBName -and $DBToProcess.toUpper() -ne 'ALL') -and $DBFilter -ne '%')
@@ -710,6 +763,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 
 									if($RunFor.ToUpper() -ne "TABLE")
 									{
+										
 										if($CommandType -eq "SCRIPTDB" -AND $SourceSystem.ToUpper() -eq 'NETEZZA')
 										{
 											#Display-LogMsg "$DBName $CommandType $SourceSystem"
@@ -729,6 +783,9 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 									}
 									else 
 									{
+										
+										Display-LogMsg "Looping through tables"
+										$Variables = "@DBName:$DBName|@TableName"
 										$Query = $TableListQuery #[4].ToString() # This one works if the location in Json file does not change. 
 										#$Query = ($TableListQuery | Select-Object $Query).Query #Did not work. 
 								
@@ -737,15 +794,29 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 
 										foreach($row in $Tables.Tables[0])
 										{
+											
 											#Add Variable Statement
 											$TableName =  $row["Name"]
 											$SchemaName =  $row["SchemaName"]
 										
 											$Variables = "@DBName:$DBName|@TableName:$TableName|@SchemaName:$SchemaName"
 
+											Display-LogMsg "Looping through $Variables "
+											Display-LogMsg "Executing : $SQLStatement"
+											Display-LogMsg "Saving to : $FileName"
+
 											if($CommandType -eq "SQL")
 											{
 												WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
+											}
+											elseif($CommandType -eq "SCHEMA")
+											{
+												
+												$oFile =  "$PreAssessmentOutputPath\$FileCurrentTime\SCHEMA\" 
+												Create-Directory  $oFile
+												$oFile =  "$oFile\$DBName.$TableName.sql"
+												Display-LogMsg "Saving to : $oFile"
+												WriteQueryToCSV $oFile $SQLStatement $Variables $ServerName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port $false
 											}
 											elseif($CommandType -eq "DBCC")
 											{

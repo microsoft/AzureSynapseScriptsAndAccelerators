@@ -2,7 +2,6 @@
 # How ConnectionType is passed? Looks like it is not used. 
 #$ReturnValues = RunSQLStatement $ServerName $Database $Query $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $InputFile $ResultAs $Variables $SourceSystem $Port
 # used a lot 
-#
 function RunSQLStatement 
 { 
     [CmdletBinding()] 
@@ -110,8 +109,9 @@ function RunSQLStatement
 		}	
 		elseif ($SourceSystemType -eq "TERADATA") 
 		{
-			$ConnectionString = "Driver=Teradata;DBCName={0};Database={1};Uid={2};Pwd={3}" -f $ServerName,$Database,$Username,$Password #$ConnectionTimeout
+			#$ConnectionString = "Driver=Teradata;DBCName={0};Database={1};Uid={2};Pwd={3}" -f $ServerName,$Database,$Username,$Password #$ConnectionTimeout
 			#$ConnectionString = "Server={0};Database={1};Trusted_Connection=False;Connect Timeout={0};Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Integrated" -f $ServerName,$Database,$ConnectionTimeout
+			$ConnectionString = "dsn=td;"
 			$conn=new-object system.data.odbc.odbcconnection
 			$cmd = new-object System.Data.Odbc.OdbcCommand
 		}	
@@ -128,9 +128,13 @@ function RunSQLStatement
 		$cmd.CommandText = $Query
 		$cmd.CommandTimeout = $QueryTimeout 
 
+
+		Display-LogMsg "RunSQLStatement Query:$Query"
+
 		#$datareader = $cmd.ExecuteReader();
+		# Use odbcdataadpter for Netezza and Teradata
 		$ds=New-Object system.Data.DataSet 
-		if($SourceSystemType -eq "NETEZZA")
+		if($SourceSystemType -eq "NETEZZA" -or $SourceSystemType -eq "TERADATA")
 		{
 			$da=New-Object System.Data.Odbc.OdbcDataAdapter($cmd) 
 		}
