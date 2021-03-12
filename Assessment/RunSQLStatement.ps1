@@ -2,6 +2,7 @@
 # How ConnectionType is passed? Looks like it is not used. 
 #$ReturnValues = RunSQLStatement $ServerName $Database $Query $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $InputFile $ResultAs $Variables $SourceSystem $Port
 # used a lot 
+#
 function RunSQLStatement 
 { 
     [CmdletBinding()] 
