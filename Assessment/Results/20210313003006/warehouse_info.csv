@@ -1,0 +1,2 @@
+﻿"name","state","type","size","running","queued","is_default","is_current","auto_suspend","auto_resume","available","provisioning","quiescing","other","created_on","resumed_on","updated_on","owner","comment","resource_monitor","actives","pendings","failed","suspended","uuid"
+"COMPUTE_WH","STARTED","STANDARD","X-Small","0","0","Y","Y","600","true"," 100","0","0","0","04/03/2021 10:09:02","13/03/2021 00:24:57","13/03/2021 00:24:57","SYSADMIN","","null","1","0","0","0","10528004"

@@ -119,3 +119,35 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning_2,\Teradata\7. Table Partitioning 2.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,views_ddl,\Teradata\8. View DDL.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,procs_ddl,\Teradata\9. Procedure DDL.sql
+
+
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,dbinfo,\Snowflake\1. Database Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,stored_proc_info,\Snowflake\10. Stored Procedure Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,function_info,\Snowflake\11. Functions Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,stages_info,\Snowflake\12. Stages Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,load_hist_info,\Snowflake\13. Load History Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,file_formats,\Snowflake\14. File Formats Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,pipes_info,\Snowflake\15. Pipes Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,privs_info,\Snowflake\16. Privileges Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,roles_info,\Snowflake\17. Roles Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,enabled_roles_info,\Snowflake\18. Enabled Roles Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,ext_tables_info,\Snowflake\19. External Tables Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,schema_info,\Snowflake\2. Schema Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,table_priv_info,\Snowflake\20. Table Privileges Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,useage_priv_info,\Snowflake\21. Usage Privileges Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,query_history,\Snowflake\22. Query History.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,intergration_hist,\Snowflake\23. Integration Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,mv_info,\Snowflake\24. Materialized Views Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,replicated_db_info,\Snowflake\25. Replicated Databases Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,warehouse_info,\Snowflake\26. Warehouse Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,masking_info,\Snowflake\27. Masking Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,network_policy,\Snowflake\28. Network Policy Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,task_info,\Snowflake\29. Task Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,table_info,\Snowflake\3. Table Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,streams_info,\Snowflake\30. Streams Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,table_storage_info,\Snowflake\4. Table Storage Metrics.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,table_consts_info,\Snowflake\5. Table Constraints Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,ref_int_info,\Snowflake\6. Referential Integrity Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,view_info,\Snowflake\7. View Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,column_info,\Snowflake\8. Column Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,sequence_info,\Snowflake\9. Sequences Information.sql

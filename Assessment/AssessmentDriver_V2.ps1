@@ -107,8 +107,9 @@ Function GetListQuery ($ListQueries, $Version, $SourceSystem)
 		{
 			if($Version -ge [System.version]($v | Select-Object VersionFrom).VersionFrom -and $Version -le ($v | Select-Object VersionTo).VersionTo)
 			{
-				Display-LogMsg "Source System and Version: " $SourceSystem " Version: " $Version 
+				Display-LogMsg "Source System and Version:  $SourceSystem  Version:  $Version " 
 				$ListQuery = ($v | Select-Object Query).Query 
+				$ListQuery
 				break
 			}
 		}
@@ -471,10 +472,21 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 		{
 			if($Type -eq "VersionNumber")
 			{
-				# clean up the version number - remove strings to make simplier
-				$testversion = $row["Version"] -replace('[^.0-9]','')
+				$testversion = $row["Version"]
+				Display-LogMsg "Raw Version number: ^$testversion^" 
+				
+				# clean up the version number - remove strings to make simplier for teradata
+				$testversion = $testversion -replace('[^.0-9]','')
 				$testversion = $testversion.trim()
 		
+				If($SourceSystem -eq 'SNOWFLAKE') 
+				{
+					$VersionValue =  $testversion -match '(\d*\.\d*\.\d*)'
+				} 
+				else {
+					$VersionValue =  $testversion -match '(\d*\.\d*\.\d*\.\d*)'
+				}
+
 				$VersionValue =  $testversion -match '(\d*\.\d*\.\d*\.\d*)'
 				$Version = $Matches[0]
 			}
@@ -644,7 +656,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 	Display-LogMsg  "Version is [$VersionRaw]"
 
 	$VersionRaw = $VersionRaw -replace('[^.0-9]','')
-	$Version = $VersionRaw # [System.version]$VersionRaw 
+	[System.version]$Version = $VersionRaw # [System.version]$VersionRaw 
 
 	<# if ($Version -eq $null -or $Version -eq "" ) {		
 		
