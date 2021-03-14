@@ -44,6 +44,7 @@ function RunSQLStatement
 		if ($InputFile) 
 		{ 
 			$filePath = $(resolve-path $InputFile).path 
+			Display-LogMsg "Load SQL from file.  $filePath " 
 			$Query =  [System.IO.File]::ReadAllText("$filePath") 
 		} 
 
@@ -74,7 +75,12 @@ function RunSQLStatement
 		{
 
 			# 
-			If (($SourceSystemType -eq 'APS') -or ($SourceSystemType -eq 'SQLSERVER'))
+			If (($SourceSystemType -eq 'APS'))
+			{
+				$ServerName = $ServerName + "," + $Port # Added by Gail 
+			}
+
+			If (($SourceSystemType -eq 'SQLSERVER') -and $Port -ne "" )
 			{
 				$ServerName = $ServerName + "," + $Port # Added by Gail 
 			}
@@ -123,6 +129,8 @@ function RunSQLStatement
 			$conn=new-object system.data.odbc.odbcconnection
 			$cmd = new-object System.Data.Odbc.OdbcCommand
 		}		
+		
+		Display-LogMsg "ConnectionString: $ConnectionString "
 		#$conn=new-object System.Data.SqlClient.SQLConnection
 		$conn.ConnectionString=$ConnectionString 
 				

@@ -1,0 +1,4 @@
+﻿"ROUTINE_TYPE","OBJECT_NAME","LINES_OF_CODE"
+"VIEW","[dbo].[spt_values]","7"
+"SQL_STORED_PROCEDURE","[dbo].[sp_MSrepl_startup]","4"
+"SQL_STORED_PROCEDURE","[dbo].[sp_MScleanupmergepublisher]","3"

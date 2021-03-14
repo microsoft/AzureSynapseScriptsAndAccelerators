@@ -6,11 +6,11 @@
 			{"PreAssessmentDriverFile":"C:\\github\\assessmentLOCAL\\ASSAndA.mark.pryce-maher\\Assessment\\SQLScriptstoRun.csv",
 			"PreAssessmentOutputPath":"C:\\github\\assessmentLOCAL\\ASSAndA.mark.pryce-maher\\Assessment\\Results",
 			"PreAssessmentScriptPath":"C:\\github\\assessmentLOCAL\\ASSAndA.mark.pryce-maher\\Assessment\\Scripts",
-			"ServerName":"192.168.1.132",
+			"ServerName":"localhost\\SQL2019",
 			"DBFilter":"%",
-			"SourceSystem":"SNOWFLAKE",
-			"QueryTimeout":"600",
-			"ConnectionTimeout":"300",
+			"SourceSystem":"SQLSERVER",
+			"QueryTimeout":"6",
+			"ConnectionTimeout":"3",
 			"StoreOutputInSeperateFolders":"True"   
 		}
 		],
@@ -40,9 +40,19 @@
 		],
 	"SNOWFLAKE":
 		[
-			{"Database":"xxxx",
+			{"Database":"ORCL",
 			 "Port":"99999"}
 		],
+	"ORACLE":
+		[
+			{"Database":"hr",
+			 "Port":"1521"}
+		],
+	"SQLSERVER":
+			[
+				{"Database":"master",
+				 "Port":""}
+			],
 	"VersionQuery":
 		[
 			{
@@ -64,6 +74,10 @@
 			{
 				"System":"SNOWFLAKE",
 				"Query":"select CURRENT_VERSION() as version;"
+			},
+			{
+				"System":"SQLSERVER",
+				"Query":"SELECT SERVERPROPERTY('productversion') AS Version;"
 			}
 		],
 	"DBListingQuery":
@@ -100,6 +114,12 @@
 				"VersionFrom":"1.0.0",
 				"VersionTo": "12.0.0",
 				"Query":"select DATABASE_NAME from information_schema.databases;"
+			},
+			{
+				"System":"SQLSERVER",
+				"VersionFrom":"1.0.2000.8",
+				"VersionTo": "99.0.2000.8",
+				"Query":"select name from sys.databases where name not in ('master','tempdb','stagedb', 'msdb', 'model', 'ReportServer$%')"
 			}
 		],
 	"TableListingQuery":
@@ -137,6 +157,12 @@
 				"System":"SNOWFLAKE",
 				"VersionFrom":"0.0.0",
 				"VersionTo": "12.0.0",
+				"Query":"select t.name as name, s.name as SchemaName, t.is_external from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id order by t.name;"
+			},
+			{
+				"System":"SQLSERVER",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "99.0.2000.8",
 				"Query":"select t.name as name, s.name as SchemaName, t.is_external from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id order by t.name;"
 			}
 		]

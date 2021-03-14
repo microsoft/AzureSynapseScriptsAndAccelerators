@@ -109,7 +109,8 @@ Function GetListQuery ($ListQueries, $Version, $SourceSystem)
 			{
 				Display-LogMsg "Source System and Version:  $SourceSystem  Version:  $Version " 
 				$ListQuery = ($v | Select-Object Query).Query 
-				$ListQuery
+				
+				Display-LogMsg "ListQuery:$ListQuery"
 				break
 			}
 		}
@@ -596,6 +597,17 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 	}
 
 
+	# Code to Handle Teradata
+	if ($SourceSystem -eq "SQLSERVER")
+	{
+		$SqlServerConfig = ($BaseJSON | Select-Object Sqlserver).Sqlserver
+		foreach($v in $SqlServerConfig)
+		{
+			$DB_Default = ($v | Select-Object Database).Database
+			$Port = ($v | Select-Object Port).Port
+		}
+	}
+
 	#$DB_DefaultAlt = ($BaseJSON | Select-Object DatabaseAlt).DatabaseAlt
 
 	$VersionQueries = ($BaseJSON | Select-Object VersionQuery).VersionQuery 
@@ -604,14 +616,6 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 
 
 	$FileCurrentTime = get-date -Format yyyyMMddHHmmss
-
-
-	Display-LogMsg "Loading from JSON config"
-	Display-LogMsg "SourceSystem:$SourceSystem"  
-	Display-LogMsg "VersionQueries:$VersionQueries"
-	Display-LogMsg "StoreInFolders:$StoreInFolders"
-	Display-LogMsg "DBListQueries:$DBListQueries"
-
 	#Settings for Export
 	 
 	#$SchemaExportObjects = ($BaseJSON | Select-Object SchemaExportObjects).SchemaExportObjects 
@@ -650,6 +654,11 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 	$ScriptPath = Split-Path $MyInvocation.MyCommand.Path -Parent
 	. "$ScriptPath\RunSQLStatement.ps1"
 
+	Display-LogMsg "Loading from JSON config"
+	Display-LogMsg "SourceSystem:$SourceSystem"  
+	Display-LogMsg "VersionQueries:$VersionQueries"
+	Display-LogMsg "StoreInFolders:$StoreInFolders"
+	Display-LogMsg "DBListQueries:$DBListQueries"
 
 	$VersionRaw = GetDBVersion -VersionQueries $VersionQueries -ServerName $ServerName -Port $Port -Database $DB_Default -QueryTimeout $QueryTimeout -ConnectionTimeout $ConnectionTimeOut -UserName $UserName -Password $Password -ConnectionType  $ConnectionType -SourceSystem $SourceSystem -Type "VersionNumber"
 	

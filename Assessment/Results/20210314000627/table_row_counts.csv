@@ -1,0 +1,6 @@
+﻿"schema","name","COUNT"
+"dbo","MSreplication_options","3"
+"dbo","spt_monitor","1"
+"dbo","spt_fallback_db","0"
+"dbo","spt_fallback_dev","0"
+"dbo","spt_fallback_usg","0"

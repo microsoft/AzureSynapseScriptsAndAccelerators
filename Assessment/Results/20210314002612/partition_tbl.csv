@@ -1,0 +1,8 @@
+﻿"Database","name","name1","Partitions"
+"WideWorldImporters","Sales","CustomerTransactions","25"
+"WideWorldImporters","Purchasing","SupplierTransactions","25"
+"WideWorldImportersDW","Fact","Movement","49"
+"WideWorldImportersDW","Fact","Order","61"
+"WideWorldImportersDW","Fact","Purchase","31"
+"WideWorldImportersDW","Fact","Sale","55"
+"WideWorldImportersDW","Fact","Transaction","49"

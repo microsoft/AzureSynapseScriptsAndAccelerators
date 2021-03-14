@@ -1,0 +1,4 @@
+﻿"Database","name","name1","name2","type_desc","definition"
+"WideWorldImporters","Invoices","Sales","CK_Sales_Invoices_ReturnedDeliveryData_Must_Be_Valid_JSON","CHECK_CONSTRAINT","([ReturnedDeliveryData] IS NULL OR isjson([ReturnedDeliveryData])<>(0))"
+"WideWorldImporters","SpecialDeals","Sales","CK_Sales_SpecialDeals_Exactly_One_NOT_NULL_Pricing_Option_Is_Required","CHECK_CONSTRAINT","(((case when [DiscountAmount] IS NULL then (0) else (1) end+case when [DiscountPercentage] IS NULL then (0) else (1) end)+case when [UnitPrice] IS NULL then (0) else (1) end)=(1))"
+"WideWorldImporters","SpecialDeals","Sales","CK_Sales_SpecialDeals_Unit_Price_Deal_Requires_Special_StockItem","CHECK_CONSTRAINT","([StockItemID] IS NOT NULL AND [UnitPrice] IS NOT NULL OR [UnitPrice] IS NULL)"
