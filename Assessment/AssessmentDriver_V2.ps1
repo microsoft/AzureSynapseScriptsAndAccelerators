@@ -46,10 +46,18 @@
 
 function Display-ErrorMsg($ImportError, $ErrorMsg) {
     Write-Host $ImportError  -ForegroundColor Red
+	Write-Log-File ImportError
 }
 
+# Enchanded Logging 
 function Display-LogMsg($LogMsg) {
     if ($VerboseLogging -eq "True") { Write-Host  (Get-Date).ToString() $LogMsg -ForegroundColor Green }
+	Write-Log-File $LogMsg
+}
+
+Function Write-Log-File($logMsg)
+{
+	Add-Content -Path $LoggingDir -Value $LogMsg
 }
 
 Function GetPassword($securePassword)
@@ -522,14 +530,24 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 	return $Version 
 }
 
+	# Verbose logging : True for more detail, False for minimal logging
 	$VerboseLogging = "True"
 	$Version = ""
 
-	Display-LogMsg "Starting the assesement tool"		
 	# Set default JSON config file. This file will have all configurations needed. One file to have all info. 
 	# User can overrite the file full path when prompted. 
 	$ScriptPath = Split-Path $MyInvocation.MyCommand.Path -Parent
 	$PreAssessmentDriverFile_Config_Default = "$ScriptPath\AssessmentDriverFile.json"
+
+	$FileCurrentTime = get-date -Format yyyyMMddHHmmss
+
+	# Set and create logging directory
+	$LoggingDir = "$ScriptPath\logs\" 
+	Create-Directory $LoggingDir
+	$LoggingDir = $LoggingDir + "$FileCurrentTime.log"
+	
+
+	Display-LogMsg "Starting the assesement tool"		
 
 	$PreAssessmentDriverFile_Config = Read-Host -prompt "Enter the name of the PreAssessment JSON Config File. Default on Enter: [$PreAssessmentDriverFile_Config_Default]"
 	if($PreAssessmentDriverFile_Config -eq "" -or $PreAssessmentDriverFile_Config -eq $null)
@@ -614,8 +632,6 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 	$DBListQueries = ($BaseJSON | Select-Object DBListingQuery).DBListingQuery 
 	$TableListQueries = ($BaseJSON | Select-Object TableListingQuery).TableListingQuery 
 
-
-	$FileCurrentTime = get-date -Format yyyyMMddHHmmss
 	#Settings for Export
 	 
 	#$SchemaExportObjects = ($BaseJSON | Select-Object SchemaExportObjects).SchemaExportObjects 
@@ -688,10 +704,38 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 
 	$TableListQuery = GetListQuery -ListQueries $TableListQueries -Version $Version -SourceSystem $SourceSystem
 
+	#Working with relative path
+	if ($PreAssessmentDriverFile -contains ":") {
+			#Absolute path entered
+	}
+	else {
+		$PreAssessmentDriverFile = "$ScriptPath\$PreAssessmentDriverFile"
+	}
+
+	#Working with relative path
+	if ($PreAssessmentOutputPath -contains ":") {
+		#Absolute path entered
+	}
+	else {
+		$PreAssessmentOutputPath = "$ScriptPath\$PreAssessmentOutputPath"
+	}
+
+	#Working with relative path
+	if ($PreAssessmentScriptPath -contains ":") {
+		#Absolute path entered
+	}
+	else {
+		$PreAssessmentScriptPath = "$ScriptPath\$PreAssessmentScriptPath"
+	}
+
 	if (!(test-path $PreAssessmentOutputPath))
-		{
-			New-item "$PreAssessmentOutputPath\" -ItemType Dir | Out-Null
-		}
+	{
+		New-item "$PreAssessmentOutputPath\" -ItemType Dir | Out-Null
+	}
+		
+	Display-LogMsg "PreAssessmentScriptPath:$PreAssessmentScriptPath"
+	Display-LogMsg "PreAssessmentOutputPath:$PreAssessmentOutputPath"
+
 
 	Display-LogMsg " PreAssessmentDriverFile is: $PreAssessmentDriverFile" 
 	Display-LogMsg "   Processing ..." 

@@ -1,7 +1,0 @@
-﻿"Database","DbName","FileName","type_desc","CurrentSizeMB","FreeSpaceMB"
-"WideWorldImporters","WideWorldImporters","WWI_Primary","ROWS","1024.000000","1015.187500"
-"WideWorldImporters","WideWorldImporters","WWI_Log","LOG","100.000000","79.085938"
-"WideWorldImporters","WideWorldImporters","WWI_UserData","ROWS","2048.000000","1634.937500"
-"WideWorldImportersDW","WideWorldImportersDW","WWI_Primary","ROWS","2048.000000","2040.437500"
-"WideWorldImportersDW","WideWorldImportersDW","WWI_Log","LOG","100.000000","96.039063"
-"WideWorldImportersDW","WideWorldImportersDW","WWI_UserData","ROWS","2048.000000","1829.812500"

@@ -1,2 +1,0 @@
-﻿"cpu_count","socket_count","cores_per_socket","numa_node_count","hyperthread_ratio","physical_memory_kb","virtual_memory_kb","committed_kb","committed_target_kb","visible_target_kb","affinity_type_desc"
-"4","1","2","1","4","16696888","137438953344","513528","5350912","5350912","AUTO"

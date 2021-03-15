@@ -3,12 +3,12 @@
 	"#Netezza-DatabaseAlt":"SYSTEM",
 	"General_Config":
 		[
-			{"PreAssessmentDriverFile":"C:\\github\\assessmentLOCAL\\ASSAndA.mark.pryce-maher\\Assessment\\SQLScriptstoRun.csv",
-			"PreAssessmentOutputPath":"C:\\github\\assessmentLOCAL\\ASSAndA.mark.pryce-maher\\Assessment\\Results",
-			"PreAssessmentScriptPath":"C:\\github\\assessmentLOCAL\\ASSAndA.mark.pryce-maher\\Assessment\\Scripts",
-			"ServerName":"localhost\\SQL2019",
+			{"PreAssessmentDriverFile":"SQLScriptstoRun.csv",
+			"PreAssessmentOutputPath":"Results",
+			"PreAssessmentScriptPath":"Scripts",
+			"ServerName":"sausages.database.windows.net",
 			"DBFilter":"%",
-			"SourceSystem":"SQLSERVER",
+			"SourceSystem":"AZUREDW",
 			"QueryTimeout":"6",
 			"ConnectionTimeout":"3",
 			"StoreOutputInSeperateFolders":"True"   
@@ -69,7 +69,7 @@
 			},
 			{
 				"System":"AZUREDW",
-				"Query":"select @@version as Version"
+				"Query":"SELECT SERVERPROPERTY('productversion') AS Version;"
 			},
 			{
 				"System":"SNOWFLAKE",

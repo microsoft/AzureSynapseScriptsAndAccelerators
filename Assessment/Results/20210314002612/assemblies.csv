@@ -1,2 +1,0 @@
-﻿"name","principal_id","assembly_id","clr_name","permission_set","permission_set_desc","is_visible","create_date","modify_date","is_user_defined"
-"Microsoft.SqlServer.Types","4","1","microsoft.sqlserver.types, version=15.0.0.0, culture=neutral, publickeytoken=89845dcd8080cc91, processorarchitecture=msil","3","UNSAFE_ACCESS","True","24/09/2019 14:19:53","24/09/2019 14:19:53","False"

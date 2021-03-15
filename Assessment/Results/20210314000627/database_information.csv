@@ -1,2 +1,0 @@
-﻿"name","compatibility_level","collation_name","snapshot_isolation_state_desc","recovery_model_desc","is_broker_enabled","is_cdc_enabled","is_encrypted"
-"master","150","Latin1_General_CI_AS","ON","SIMPLE","False","False","False"
