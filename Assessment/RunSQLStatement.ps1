@@ -125,12 +125,12 @@ function RunSQLStatement
 		{
 			#$ConnectionString = "Driver=Teradata;DBCName={0};Database={1};Uid={2};Pwd={3}" -f $ServerName,$Database,$Username,$Password #$ConnectionTimeout
 			#$ConnectionString = "Server={0};Database={1};Trusted_Connection=False;Connect Timeout={0};Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Integrated" -f $ServerName,$Database,$ConnectionTimeout
-			$ConnectionString = "dsn=sf;UID=markpm;pwd=DriftersEndsnowflake1;"
+			$ConnectionString = "dsn=sf;UID={0};pwd={1};" -f $Username,$Password 
 			$conn=new-object system.data.odbc.odbcconnection
 			$cmd = new-object System.Data.Odbc.OdbcCommand
 		}		
 		
-		Display-LogMsg "ConnectionString: $ConnectionString "
+		#Display-LogMsg "ConnectionString: $ConnectionString "
 		#$conn=new-object System.Data.SqlClient.SQLConnection
 		$conn.ConnectionString=$ConnectionString 
 				
