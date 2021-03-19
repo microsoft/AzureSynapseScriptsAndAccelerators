@@ -484,7 +484,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 				$testversion = $row["Version"]
 				Display-LogMsg "Raw Version number: ^$testversion^" 
 				
-				# clean up the version number - remove strings to make simplier for teradata
+				# clean up the version number - remove strings to make simplier for Teradata
 				$testversion = $testversion -replace('[^.0-9]','')
 				$testversion = $testversion.trim()
 		
@@ -496,7 +496,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 					$VersionValue =  $testversion -match '(\d*\.\d*\.\d*\.\d*)'
 				}
 
-				$VersionValue =  $testversion -match '(\d*\.\d*\.\d*\.\d*)'
+				#$VersionValue =  $testversion -match '(\d*\.\d*\.\d*\.\d*)'
 				$Version = $Matches[0]
 			}
 			else 
