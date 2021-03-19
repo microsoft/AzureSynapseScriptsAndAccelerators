@@ -115,27 +115,31 @@ function RunSQLStatement
 		}	
 		elseif ($SourceSystemType -eq "TERADATA") 
 		{
+			#https://downloads.teradata.com/download/connectivity/odbc-driver/windows
 			#$ConnectionString = "Driver=Teradata;DBCName={0};Database={1};Uid={2};Pwd={3}" -f $ServerName,$Database,$Username,$Password #$ConnectionTimeout
 			#$ConnectionString = "Server={0};Database={1};Trusted_Connection=False;Connect Timeout={0};Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Integrated" -f $ServerName,$Database,$ConnectionTimeout
-			$ConnectionString = "dsn=td;"
+			$ConnectionString = "dsn=td;UID={0};pwd={1};" -f $Username,$Password 
 			$conn=new-object system.data.odbc.odbcconnection
 			$cmd = new-object System.Data.Odbc.OdbcCommand
 		}	
 		elseif ($SourceSystemType -eq "SNOWFLAKE") 
 		{
-			#$ConnectionString = "Driver=Teradata;DBCName={0};Database={1};Uid={2};Pwd={3}" -f $ServerName,$Database,$Username,$Password #$ConnectionTimeout
-			#$ConnectionString = "Server={0};Database={1};Trusted_Connection=False;Connect Timeout={0};Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Integrated" -f $ServerName,$Database,$ConnectionTimeout
+			#https://docs.snowflake.com/en/user-guide/odbc-download.html
 			$ConnectionString = "dsn=sf;UID={0};pwd={1};" -f $Username,$Password 
 			$conn=new-object system.data.odbc.odbcconnection
 			$cmd = new-object System.Data.Odbc.OdbcCommand
 		}		
-		
-		#Display-LogMsg "ConnectionString: $ConnectionString "
+		elseif ($SourceSystemType -eq "ORACLE") 
+		{
+			#https://www.oracle.com/database/technologies/odac-downloads.html
+		}
+		Display-LogMsg "ConnectionString: $ConnectionString "
 		#$conn=new-object System.Data.SqlClient.SQLConnection
 		$conn.ConnectionString=$ConnectionString 
 				
 		$conn.Open() 
 		$ConnOpen = 'YES'
+
 
 		#$cmd = new-object System.Data.Odbc.OdbcCommand
 		#$cmd=new-object system.Data.SqlClient.SqlCommand($Query,$conn) 

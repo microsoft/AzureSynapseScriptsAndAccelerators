@@ -6,9 +6,9 @@
 			{"PreAssessmentDriverFile":"SQLScriptstoRun.csv",
 			"PreAssessmentOutputPath":"Results",
 			"PreAssessmentScriptPath":"Scripts",
-			"ServerName":"sausages.database.windows.net",
+			"ServerName":"192.168.1.234", 
 			"DBFilter":"%",
-			"SourceSystem":"AZUREDW",
+			"SourceSystem":"TERADATA",
 			"QueryTimeout":"6",
 			"ConnectionTimeout":"3",
 			"StoreOutputInSeperateFolders":"True"   
@@ -50,8 +50,7 @@
 		],
 	"SQLSERVER":
 			[
-				{"Database":"master",
-				 "Port":""}
+				{"Database":"master"}
 			],
 	"VersionQuery":
 		[
