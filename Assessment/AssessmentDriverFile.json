@@ -3,16 +3,17 @@
 	"#Netezza-DatabaseAlt":"SYSTEM",
 	"General_Config":
 		[
-			{"PreAssessmentDriverFile":"C:\\APS2SQLDW\\Assessment\\SQLScriptstoRun.csv",
-			"PreAssessmentOutputPath":"C:\\APS2SQLDW\\Assessment\\Results",
-			"PreAssessmentScriptPath":"C:\\APS2SQLDW\\Assessment\\Scripts",
-			"ServerName":"10.64.54.20",
+			{"PreAssessmentDriverFile":"SQLScriptstoRun.csv",
+			"PreAssessmentOutputPath":"Results",
+			"PreAssessmentScriptPath":"Scripts",
+			"ServerName":"192.168.1.234", 
 			"DBFilter":"%",
-			"SourceSystem":"APS",
-			"QueryTimeout":"600",
-			"ConnectionTimeout":"300"}
+			"SourceSystem":"TERADATA",
+			"QueryTimeout":"6",
+			"ConnectionTimeout":"3",
+			"StoreOutputInSeperateFolders":"True"   
+		}
 		],
-	
 	"APS":
 		[
 			{"Database":"Master",
@@ -27,8 +28,8 @@
 		],
 	"TERADATA":
 		[
-			{"Database":"MASTER",
-			 "Port":"1"}
+			{"Database":"dbc",
+			 "Port":"1025"}
 		],
 	"Netezza":
 		[
@@ -37,6 +38,20 @@
 			"nzBinaryFolder":"/nz/support-IBM_Netezza-7.2.1-151023-1043/bin",
 			"SchemaExportFolder":"~/schema"}
 		],
+	"SNOWFLAKE":
+		[
+			{"Database":"ORCL",
+			 "Port":"99999"}
+		],
+	"ORACLE":
+		[
+			{"Database":"hr",
+			 "Port":"1521"}
+		],
+	"SQLSERVER":
+			[
+				{"Database":"master"}
+			],
 	"VersionQuery":
 		[
 			{
@@ -44,7 +59,7 @@
 				"Query":"select system_software_version Version from _v_system_info"
 			},
 			{
-				"System":"Teradata",
+				"System":"TERADATA",
 				"Query":"SELECT  InfoData AS Version FROM    DBC.DBCInfoV WHERE   InfoKey = 'VERSION';"
 			},
 			{
@@ -53,7 +68,15 @@
 			},
 			{
 				"System":"AZUREDW",
-				"Query":"select @@version as Version"
+				"Query":"SELECT SERVERPROPERTY('productversion') AS Version;"
+			},
+			{
+				"System":"SNOWFLAKE",
+				"Query":"select CURRENT_VERSION() as version;"
+			},
+			{
+				"System":"SQLSERVER",
+				"Query":"SELECT SERVERPROPERTY('productversion') AS Version;"
 			}
 		],
 	"DBListingQuery":
@@ -65,10 +88,13 @@
 				"Query":"select DATNAME as Name from SYSTEM.._T_DATABASE Where DATNAME NOT IN ('MASTER_DB','SYSTEM')"
 			},
 			{
-				"System":"Teradata",
+				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
-				"Query":""
+				"Query":"    SELECT distinct TRIM(databasename) as name FROM dbc.tablesV WHERE databasename NOT IN ('console', 'DBC', 'dbcmngr', 'LockLogShredder', 'SQLJ', 'SysAdmin', 'SYSBAR', 'SYSJDBC', 'SYSLIB', 'SYSSPATIAL', 
+				'SystemFe', 'SYSUDTLIB', 'SYSUIF', 'Sys_Calendar', 'TDQCD', 'TDStats', 'tdwm', 'TD_SERVER_DB', 'TD_SYSFNLIB', 'TD_SYSGPL','TD_SYSXML',
+				'PDCRAdmin','PDCRCanary1M','PDCRINFO','PDCRSTG','PDCRCanary0M','PDCRCanary2M','PDCRCanary3M','PDCRADM','PDCRAccess','PDCRTPCD','PDCRCanary4M','PDCRDATA','TDMaps')
+				ORDER BY databasename;"
 			},
 			{
 				"System":"APS",
@@ -81,6 +107,18 @@
 				"VersionFrom":"1.0.2000.8",
 				"VersionTo": "12.0.2000.8",
 				"Query":"select name from sys.databases where name not in ('master','tempdb','stagedb', 'msdb', 'model', 'ReportServer$%')"
+			},
+			{
+				"System":"SNOWFLAKE",
+				"VersionFrom":"1.0.0",
+				"VersionTo": "12.0.0",
+				"Query":"select DATABASE_NAME from information_schema.databases;"
+			},
+			{
+				"System":"SQLSERVER",
+				"VersionFrom":"1.0.2000.8",
+				"VersionTo": "99.0.2000.8",
+				"Query":"select name from sys.databases where name not in ('master','tempdb','stagedb', 'msdb', 'model', 'ReportServer$%')"
 			}
 		],
 	"TableListingQuery":
@@ -92,10 +130,15 @@
 				"Query":"select * from _v_table"
 			},
 			{
-				"System":"Teradata",
+				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
-				"Query":""
+				"Query":"SELECT TRIM(TABLENAME) as name, TRIM(databasename) as database_name ,TRIM(databasename) as schema_name   FROM dbc.tablesV WHERE tablekind IN ('T')
+				and database_name  ='@DBName'
+				AND databasename NOT IN ('console', 'DBC', 'dbcmngr', 'LockLogShredder', 'SQLJ', 'SysAdmin', 'SYSBAR', 'SYSJDBC', 'SYSLIB', 'SYSSPATIAL', 
+				'SystemFe', 'SYSUDTLIB', 'SYSUIF', 'Sys_Calendar', 'TDQCD', 'TDStats', 'tdwm', 'TD_SERVER_DB', 'TD_SYSFNLIB', 'TD_SYSGPL','TD_SYSXML',
+				'PDCRAdmin','PDCRCanary1M','PDCRINFO','PDCRSTG','PDCRCanary0M','PDCRCanary2M','PDCRCanary3M','PDCRADM','PDCRAccess','PDCRTPCD','PDCRCanary4M','PDCRDATA','TDMaps')
+				ORDER BY databasename, TABLENAME; "
 			},
 			{
 				"System":"APS",
@@ -107,6 +150,18 @@
 				"System":"AZUREDW",
 				"VersionFrom":"2.0.2000.8",
 				"VersionTo": "12.0.2000.8",
+				"Query":"select t.name as name, s.name as SchemaName, t.is_external from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id order by t.name;"
+			},
+			{
+				"System":"SNOWFLAKE",
+				"VersionFrom":"0.0.0",
+				"VersionTo": "12.0.0",
+				"Query":"select t.name as name, s.name as SchemaName, t.is_external from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id order by t.name;"
+			},
+			{
+				"System":"SQLSERVER",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "99.0.2000.8",
 				"Query":"select t.name as name, s.name as SchemaName, t.is_external from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id order by t.name;"
 			}
 		]

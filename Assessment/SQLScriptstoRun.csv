@@ -88,3 +88,99 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,AZUREDW,DB,ALL,SQL,1.0.0.0,99.0.0.0,DMS_PDW_Waits,\AzureDW\DMS_PDW_Waits_V1.sql
 1,AZUREDW,DB,ALL,SQL,1.0.0.0,99.0.0.0,DMS_PDW_Wait_Stats,\AzureDW\DMS_PDW_Wait_Stats_V1.sql
 1,AZUREDW,DB,ALL,SQL,1.0.0.0,99.0.0.0,dm_workload_management_workload_groups_stats,\AzureDW\dm_workload_management_workload_groups_stats_V1.sql
+
+
+1,Teradata,Table,ALL,SCHEMA,1.0.0.0,99.0.0.0,table_ddl,\Teradata\1. Table DDL.sql
+#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,prod_ext_ddl,\Teradata\10. Procedure Ext DDL.sql
+#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,macro_ddl,\Teradata\11. Macro DDL.sql
+#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,function_ddl,\Teradata\12. Function DDL.sql
+#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,function_ext_ddl,\Teradata\13. Function Ext DDL.sql
+#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,trigger_ddl,\Teradata\14. Trigger DDL.sql
+#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,users,\Teradata\15. Users.sql
+#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,roles,\Teradata\16. Roles.sql
+#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,role_members,\Teradata\17. Role Members.sql
+#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,authorisations,\Teradata\18. Authorizations.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,teradata_version,\Teradata\19. Teradata Version.sql
+1,Teradata,Table,ALL,SQL,1.0.0.0,99.0.0.0,rows_counts,\Teradata\2. Table Row Counts.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,total_size,\Teradata\20. Overall Teradata Size.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,database_sizes,\Teradata\21. Database Sizes.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,objects_counts,\Teradata\22. Object Counts.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,amps_per_node,\Teradata\24. AMPs per Node.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,materialised_views,\Teradata\25. Materialized Views.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,applications,\Teradata\26. Applications.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,expensive_queries,\Teradata\27. Expensive Queries.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,query_log,\Teradata\28. Query Log.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,detail_query_summary,\Teradata\29. Daily Query Summary.sql
+#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_size,\Teradata\3. Table Size.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,query_history,\Teradata\30. 7 Day Query Summary.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,columns,\Teradata\4. Column Detail.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_distributions,\Teradata\5. Table Distribution.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning_1,\Teradata\6. Table Partitioning 1.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning_2,\Teradata\7. Table Partitioning 2.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,views_ddl,\Teradata\8. View DDL.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,procs_ddl,\Teradata\9. Procedure DDL.sql
+
+
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,dbinfo,\Snowflake\1. Database Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,stored_proc_info,\Snowflake\10. Stored Procedure Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,function_info,\Snowflake\11. Functions Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,stages_info,\Snowflake\12. Stages Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,load_hist_info,\Snowflake\13. Load History Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,file_formats,\Snowflake\14. File Formats Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,pipes_info,\Snowflake\15. Pipes Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,privs_info,\Snowflake\16. Privileges Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,roles_info,\Snowflake\17. Roles Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,enabled_roles_info,\Snowflake\18. Enabled Roles Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,ext_tables_info,\Snowflake\19. External Tables Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,schema_info,\Snowflake\2. Schema Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,table_priv_info,\Snowflake\20. Table Privileges Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,useage_priv_info,\Snowflake\21. Usage Privileges Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,query_history,\Snowflake\22. Query History.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,intergration_hist,\Snowflake\23. Integration Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,mv_info,\Snowflake\24. Materialized Views Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,replicated_db_info,\Snowflake\25. Replicated Databases Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,warehouse_info,\Snowflake\26. Warehouse Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,masking_info,\Snowflake\27. Masking Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,network_policy,\Snowflake\28. Network Policy Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,task_info,\Snowflake\29. Task Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,table_info,\Snowflake\3. Table Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,streams_info,\Snowflake\30. Streams Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,table_storage_info,\Snowflake\4. Table Storage Metrics.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,table_consts_info,\Snowflake\5. Table Constraints Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,ref_int_info,\Snowflake\6. Referential Integrity Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,view_info,\Snowflake\7. View Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,column_info,\Snowflake\8. Column Information.sql
+1,SNOWFLAKE,Server,ALL,SQL,1.0.0,99.0.0,sequence_info,\Snowflake\9. Sequences Information.sql
+
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,object_counts,\SQL Server\1. Object Counts.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,assemblies,\SQL Server\10. Assemblies.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,inm_emory_obj,\SQL Server\11. In Memory Objects.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,partition_tbl,\SQL Server\12. Partitioned Tables.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,service_broker,\SQL Server\14. Service Broker Queues.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,encrypted_columns,\SQL Server\15. Encrypted Columns.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,masked_columns,\SQL Server\16. Masked Columns.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,stored_procs,\SQL Server\17. Stored Proc Row Counts.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,replication_status,\SQL Server\18. Replication Status.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,files_filegroups,\SQL Server\19. Files and Filegroups.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,space_used,\SQL Server\2. Spaced Used.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,external_data_stores,\SQL Server\20. External Data Stores.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,availability_groups,\SQL Server\21. Availability Groups.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,change_tracking,\SQL Server\22. Change Tracking.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,cehck_constraints,\SQL Server\23. Check Constraints.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,computed_columns,\SQL Server\24. Computed Columns.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,index_types,\SQL Server\25. Index Types.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,xml_indexes,\SQL Server\26. XML Indexes.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,config_setting,\SQL Server\27. Configuration Settings.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,host_setting,\SQL Server\28. Host Operating System.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,resources,\SQL Server\29. Available Resources.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,table_row_counts,\SQL Server\3. Table Row Counts.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,temporal_tables,\SQL Server\30. Temporal Tables.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,data_types,\SQL Server\4. Data Types.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,schemas,\SQL Server\5. Schemas.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,database_information,\SQL Server\6. Database Information.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,users,\SQL Server\7. Users.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,remote_logins,\SQL Server\8. Remote Logins.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,full_text_indexes,\SQL Server\9. Fulltext Indexes.sql
+0,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,assessment_scripts,\SQL Server\SQL Server Assessment Scripts.sql
+
+1,ORACLE,Server,ALL,SQL,1.0.0.0,99.0.0.0,resource_usage,\Oracle\1. Resource Usage.sql

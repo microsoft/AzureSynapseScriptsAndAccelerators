@@ -324,3 +324,4 @@ scp nz@IP_ADDRESS:~/schema.tar.gz schema.tar.gz
 
 **Step 9:**
 Decompress the file.  This can be done with windows for a ZIP file.
+
