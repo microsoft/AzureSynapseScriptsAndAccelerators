@@ -1,6 +1,6 @@
 -- Query for: 28. Query Log
 
-SELECT TOP 1000 l.queryid, AppId, ClientId, TotalIOCount, AMPCPUTime, 
+SELECT SAMPLE 1000 l.queryid, AppId, ClientId, TotalIOCount, AMPCPUTime, 
 	ParserCPUTime, NumResultRows, StatementType, 
 	userName, DefaultDatabase , s.SqlTextInfo
 FROM DBC.DBQLOGTBL l

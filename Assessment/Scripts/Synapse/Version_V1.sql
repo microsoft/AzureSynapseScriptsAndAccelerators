@@ -1,0 +1,1 @@
+Select @@version as 'Version'

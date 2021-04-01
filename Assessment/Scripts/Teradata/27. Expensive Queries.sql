@@ -1,6 +1,6 @@
 -- Query for: 27. Expensive Queries
 
-SELECT TOP 100 l.queryid, AppId, ClientId, TotalIOCount, AMPCPUTime, 
+SELECT Top 100 l.queryid, AppId, ClientId, TotalIOCount, AMPCPUTime, 
 	ParserCPUTime, NumResultRows, StatementType, 
 	userName, DefaultDatabase , s.SqlTextInfo
 FROM pdcrinfo.dbqlogtbl_hst l

@@ -40,7 +40,6 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,Netezza,DB,ALL,SQL,1.0.0.0,9.2.1.0,Function,\Netezza\Function_V1.sql
 1,Netezza,DB,ALL,SQL,1.0.0.0,9.2.1.0,TableMetadata,\Netezza\TableMetadata_V1.sql
 1,Netezza,Server,ALL,SQL,1.0.0.0,9.2.1.0,SystemInfo,\Netezza\SystemInfo_V1.sql
-
 1,Netezza,Server,ALL,SQL,1.0.0.0,9.2.1.0,_v_aggregate,\Netezza\_v_aggregate_V1.sql
 1,Netezza,Server,ALL,SQL,1.0.0.0,9.2.1.0,_v_database,\Netezza\_v_database_V1.sql
 1,Netezza,Server,ALL,SQL,1.0.0.0,9.2.1.0,_v_datatype,\Netezza\_v_datatype_V1.sql
@@ -66,13 +65,12 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,Netezza,Server,ALL,SQL,1.0.0.0,9.2.1.0,_v_table_organize_column,\Netezza\_v_table_organize_column_V1.sql
 1,Netezza,DB,ALL,SQL,1.0.0.0,9.2.1.0,_v_table,\Netezza\_v_table_V1.sql
 1,Netezza,DB,ALL,SQL,1.0.0.0,9.2.1.0,_v_view,\Netezza\_v_view_V1.sql
-
+1,Netezza,DB,ALL,SCRIPTDB,1.0.0.0,9.2.1.0,ScriptNetezza,"select OBJNAME,OWNER,OBJTYPE,SCHEMA,CURRENT_CATALOG from _v_objects"
 
 1,AZUREDW,DB,ALL,SQL,1.0.0.0,99.0.0.0,ObjectCount,\AzureDW\ObjectCount_V1.sql
 1,AZUREDW,DB,ALL,SQL,1.0.0.0,99.0.0.0,TableMetadata,\AzureDW\TableMetadata_V1.sql
 1,AZUREDW,DB,ALL,SQL,1.0.0.0,99.0.0.0,Version,\AzureDW\Version_V1.sql
 1,AZUREDW,Table,ALL,DBCC,1.0.0.0,99.0.0.0,ShowSpaceUsed,\AzureDW\PDW_ShowSpaceUsed_V1.sql
-1,Netezza,DB,ALL,SCRIPTDB,1.0.0.0,9.2.1.0,ScriptNetezza,"select OBJNAME,OWNER,OBJTYPE,SCHEMA,CURRENT_CATALOG from _v_objects"
 1,AZUREDW,DB,ALL,SQL,1.0.0.0,99.0.0.0,CCI_Index_Health,\AzureDW\CCI_Index_Health_V1.sql
 1,AZUREDW,DB,ALL,SQL,1.0.0.0,99.0.0.0,CCI_Index_Health_Summary,\AzureDW\CCI_Index_Health_Summary_V1.sql
 1,AZUREDW,DB,ALL,SQL,1.0.0.0,99.0.0.0,CCI_Index_Trim_Reason,\AzureDW\CCI_Index_Trim_Reason_V1.sql
@@ -91,15 +89,15 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 
 
 1,Teradata,Table,ALL,SCHEMA,1.0.0.0,99.0.0.0,table_ddl,\Teradata\1. Table DDL.sql
-#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,prod_ext_ddl,\Teradata\10. Procedure Ext DDL.sql
-#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,macro_ddl,\Teradata\11. Macro DDL.sql
-#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,function_ddl,\Teradata\12. Function DDL.sql
-#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,function_ext_ddl,\Teradata\13. Function Ext DDL.sql
-#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,trigger_ddl,\Teradata\14. Trigger DDL.sql
-#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,users,\Teradata\15. Users.sql
-#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,roles,\Teradata\16. Roles.sql
-#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,role_members,\Teradata\17. Role Members.sql
-#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,authorisations,\Teradata\18. Authorizations.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,prod_ext_ddl,\Teradata\10. Procedure Ext DDL.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,macro_ddl,\Teradata\11. Macro DDL.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,function_ddl,\Teradata\12. Function DDL.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,function_ext_ddl,\Teradata\13. Function Ext DDL.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,trigger_ddl,\Teradata\14. Trigger DDL.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,users,\Teradata\15. Users.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,roles,\Teradata\16. Roles.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,role_members,\Teradata\17. Role Members.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,authorisations,\Teradata\18. Authorizations.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,teradata_version,\Teradata\19. Teradata Version.sql
 1,Teradata,Table,ALL,SQL,1.0.0.0,99.0.0.0,rows_counts,\Teradata\2. Table Row Counts.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,total_size,\Teradata\20. Overall Teradata Size.sql
@@ -111,7 +109,7 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,expensive_queries,\Teradata\27. Expensive Queries.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,query_log,\Teradata\28. Query Log.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,detail_query_summary,\Teradata\29. Daily Query Summary.sql
-#1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_size,\Teradata\3. Table Size.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_size,\Teradata\3. Table Size.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,query_history,\Teradata\30. 7 Day Query Summary.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,columns,\Teradata\4. Column Detail.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_distributions,\Teradata\5. Table Distribution.sql
