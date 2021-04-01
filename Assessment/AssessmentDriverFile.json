@@ -3,54 +3,60 @@
 	"#Netezza-DatabaseAlt":"SYSTEM",
 	"General_Config":
 		[
-			{"PreAssessmentDriverFile":"SQLScriptstoRun.csv",
-			"PreAssessmentOutputPath":"Results",
+			{
+			"PreAssessmentDriverFile":"SQLScriptstoRun.csv",
 			"PreAssessmentScriptPath":"Scripts",
-			"ServerName":"192.168.1.234", 
-			"DBFilter":"%",
-			"SourceSystem":"TERADATA",
 			"QueryTimeout":"6",
 			"ConnectionTimeout":"3",
-			"StoreOutputInSeperateFolders":"True"   
-		}
+			"VerboseLogging":"False",
+			"ValidSourceSystems":"SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE"
+			}
 		],
 	"APS":
 		[
 			{"Database":"Master",
-			"Port":"17001"}
+			"Port":"17001",
+			"ConnectionMethod":"ADPass, AzureADInt, WinInt, SQLAuth"}
 		],
 
-	"AZUREDW":
+	"SYNAPSE":
 		[
 			{"DatabaseEngineEdition":"6",
-				"DatabaseEngineEditionQuery":"SELECT SERVERPROPERTY('EngineEdition') as EngineEdition"
+				"DatabaseEngineEditionQuery":"SELECT SERVERPROPERTY('EngineEdition') as EngineEdition",
+				"ConnectionMethod":"ADPass, AzureADInt, WinInt, SQLAuth"
 			}
 		],
 	"TERADATA":
 		[
 			{"Database":"dbc",
-			 "Port":"1025"}
+			 "Port":"1025",
+			 "ConnectionMethod":"SQLAuth"
+			}
 		],
 	"Netezza":
 		[
 			{"Database":"SYSTEM",
 			"Port":"5480",
 			"nzBinaryFolder":"/nz/support-IBM_Netezza-7.2.1-151023-1043/bin",
-			"SchemaExportFolder":"~/schema"}
+			"SchemaExportFolder":"~/schema",
+			"ConnectionMethod":"SQLAuth"}
 		],
 	"SNOWFLAKE":
 		[
 			{"Database":"ORCL",
-			 "Port":"99999"}
+			 "Port":"99999",
+			 "ConnectionMethod":"SQLAuth"}
 		],
 	"ORACLE":
 		[
 			{"Database":"hr",
-			 "Port":"1521"}
+			 "Port":"1521",
+			 "ConnectionMethod":"SQLAuth"}
 		],
 	"SQLSERVER":
 			[
-				{"Database":"master"}
+				{"Database":"master",
+					"ConnectionMethod":"ADPass, AzureADInt, WinInt, SQLAuth"}
 			],
 	"VersionQuery":
 		[
@@ -67,7 +73,7 @@
 				"Query":"select @@version as Version"
 			},
 			{
-				"System":"AZUREDW",
+				"System":"SYNAPSE",
 				"Query":"SELECT SERVERPROPERTY('productversion') AS Version;"
 			},
 			{
@@ -103,7 +109,7 @@
 				"Query":"select name from sys.databases where name not in ('master','tempdb','stagedb', 'msdb', 'model', 'ReportServer$%');"
 			},
 			{
-				"System":"AZUREDW",
+				"System":"SYNAPSE",
 				"VersionFrom":"1.0.2000.8",
 				"VersionTo": "12.0.2000.8",
 				"Query":"select name from sys.databases where name not in ('master','tempdb','stagedb', 'msdb', 'model', 'ReportServer$%')"
@@ -147,7 +153,7 @@
 				"Query":"Select t.name as name, s.name as SchemaName from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id and t.object_id not in (select object_id from sys.external_tables) order by t.name;"
 			},
 			{
-				"System":"AZUREDW",
+				"System":"SYNAPSE",
 				"VersionFrom":"2.0.2000.8",
 				"VersionTo": "12.0.2000.8",
 				"Query":"select t.name as name, s.name as SchemaName, t.is_external from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id order by t.name;"

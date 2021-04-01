@@ -1,0 +1,9 @@
+{
+    "PreAssessmentOutputPath":  "Results",
+    "ServerName":  "charisworkspace.sql.azuresynapse.net",
+    "DSNName":  "TD",
+    "DBFilter":  "%",
+    "SourceSystem":  "teradata",
+    "ConnectionType":  "SQLAUTH",
+    "StoreOutputInSeperateFolders":  "False"
+}

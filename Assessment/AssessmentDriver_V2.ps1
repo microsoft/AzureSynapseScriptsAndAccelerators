@@ -132,12 +132,13 @@ Function GetListQuery ($ListQueries, $Version, $SourceSystem)
 	return $ListQuery 
 }
 
-Function GetListToProcessOver($Query, $ServerName, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port)
+Function GetListToProcessOver($Query, $ServerName, $DSNName, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port)
 {
 	$ResultAs="DataSet"	
 	
 	$runSQLStementsParams = @{
 		ServerName = $ServerName;
+		DSNName = $DSNName;
 		Database=$Database;
 		Query=$Query;
 		Username=$Username;
@@ -202,11 +203,11 @@ function Get-FileName([string]$uFilename, [string]$PreAssessmentOutputPath) {
     Return [string]$exportFilename
     #= Join-Path -Path $PreAssessmentOutputPath -ChildPath New
 }
-Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port, $AddDatabaseName)
+Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $DSNName, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port, $AddDatabaseName)
 {
 	$ResultAs="DataSet"	
 	
-	$ReturnValues = RunSQLStatement $ServerName $Database $Query $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $InputFile $ResultAs $Variables $SourceSystem $Port
+	$ReturnValues = RunSQLStatement $ServerName $DSNName $Database $Query $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $InputFile $ResultAs $Variables $SourceSystem $Port
 	
 	if($ReturnValues.Get_Item("Status") -eq 'Success')
 	{
@@ -233,13 +234,12 @@ Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $Database, 
 }
 
 
-
 Function WriteShowSpaceUsedToCSV($FileName, $Query, $Variables, $ServerName, $DBName, $SchemaNAme, $TableName, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port)
 {
 
 	$ResultAs="DataSet"	
 
-	$ReturnValues = RunSQLStatement $ServerName $DBName $Query $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $InputFile $ResultAs $Variables $SourceSystem $Port
+	$ReturnValues = RunSQLStatement $ServerName $DSNName $DBName $Query $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $InputFile $ResultAs $Variables $SourceSystem $Port
 
 	$rows = New-Object PSObject 		 
 	$rows | Add-Member -MemberType NoteProperty -Name "DataBase" -Value $DBName -force
@@ -356,7 +356,7 @@ function ContinueProcess {
 			#Add Variable Statement
 		#$Variables = "@DBName:$DBName"
 		$Variables = "@DBName:$DBName|@SQLServerName:$ServerName"
-		WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
+		WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
 		}
 	}
 	else 
@@ -364,7 +364,7 @@ function ContinueProcess {
 		$Query = $TableListQuery #[4].ToString() # This one works if the location in Json file does not change. 
 		#$Query = ($TableListQuery | Select-Object $Query).Query #Did not work. 
 
-		$Tables = GetListToProcessOver $Query $ServerName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port 
+		$Tables = GetListToProcessOver $Query $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port 
 
 
 		foreach($row in $Tables.Tables[0])
@@ -377,7 +377,7 @@ function ContinueProcess {
 
 			if($CommandType -eq "SQL")
 			{
-				WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
+				WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
 			}
 			elseif($CommandType -eq "DBCC")
 			{
@@ -389,7 +389,7 @@ function ContinueProcess {
 
 					# Need to figure out how this will work later 
 					#$ExternalTable = $row["Is_external"]								
-					if ($SourceSystem -eq "AZUREDW")
+					if ($SourceSystem -eq "SYNAPSE")
 					{
 						$ExternalTable = $row["Is_external"]
 					}
@@ -408,13 +408,13 @@ function ContinueProcess {
 	}
 }
 
-Function GetDBEngineEdition($DBEditionQuery, $ServerName, $Port, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem)
+Function GetDBEngineEdition($DBEditionQuery, $ServerName, $DSNName, $Port, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem)
 {
 	$ResultAs="DataSet"
 	
 	#Display-LogMsg "VersionQuery:$VersionQuery"
 
-	$ReturnValues = RunSQLStatement $ServerName $Database $DBEditionQuery $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $InputFile $ResultAs $Variables $SourceSystem $Port
+	$ReturnValues = RunSQLStatement $ServerName $DSNName $Database  $DBEditionQuery $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $InputFile $ResultAs $Variables $SourceSystem $Port
 	
 	#Check for Error
 	if($ReturnValues.Get_Item("Status") -eq 'Success')
@@ -447,7 +447,7 @@ Function GetDBEngineEdition($DBEditionQuery, $ServerName, $Port, $Database, $Use
 	#Need to break out of code here if $verion is not returned.
 	return $EngineEdition 
 }
-Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Type)
+Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Type)
 {
 	#Display-LogMsg "GetDBVersion:: $VersionQueries "
 	
@@ -471,7 +471,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 	
 	Display-LogMsg "VersionQuery:$VersionQuery"
 
-	$ReturnValues = RunSQLStatement $ServerName $Database $VersionQuery $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $InputFile $ResultAs $Variables $SourceSystem $Port
+	$ReturnValues = RunSQLStatement $ServerName $DSNName $Database $VersionQuery $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $InputFile $ResultAs $Variables $SourceSystem $Port
 	
 	#Check for Error
 	if($ReturnValues.Get_Item("Status") -eq 'Success')
@@ -531,13 +531,15 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 }
 
 	# Verbose logging : True for more detail, False for minimal logging
-	$VerboseLogging = "True"
+
+	#$VerboseLogging = "True"
 	$Version = ""
 
 	# Set default JSON config file. This file will have all configurations needed. One file to have all info. 
 	# User can overrite the file full path when prompted. 
 	$ScriptPath = Split-Path $MyInvocation.MyCommand.Path -Parent
 	$PreAssessmentDriverFile_Config_Default = "$ScriptPath\AssessmentDriverFile.json"
+	
 
 	$FileCurrentTime = get-date -Format yyyyMMddHHmmss
 
@@ -545,47 +547,106 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 	$LoggingDir = "$ScriptPath\logs\" 
 	Create-Directory $LoggingDir
 	$LoggingDir = $LoggingDir + "$FileCurrentTime.log"
-	
 
 	Display-LogMsg "Starting the assesement tool"		
 
-	$PreAssessmentDriverFile_Config = Read-Host -prompt "Enter the name of the PreAssessment JSON Config File. Default on Enter: [$PreAssessmentDriverFile_Config_Default]"
-	if($PreAssessmentDriverFile_Config -eq "" -or $PreAssessmentDriverFile_Config -eq $null)
-		{
-				$PreAssessmentDriverFile_Config = $PreAssessmentDriverFile_Config_Default
-		}
+	$PreAssessmentConfigFile = "$ScriptPath\AssessmentConfigFile.json"
 
-	$BaseJSON = (Get-Content $PreAssessmentDriverFile_Config) -join "`n" | ConvertFrom-Json
+	#Base Config for Customer Info
+	$PreAssessmentConfigJSON = (Get-Content $PreAssessmentConfigFile) -join "`n" | ConvertFrom-Json
+	$SourceSystemDefault = $PreAssessmentConfigJSON.SourceSystem
+	$ConnectionTypeDefault = $PreAssessmentConfigJSON.ConnectionType
+	$ServerNameDefault = $PreAssessmentConfigJSON.ServerName
+	$DSNNameDefault = $PreAssessmentConfigJSON.DSNName
+	$DBFilter = $PreAssessmentConfigJSON.DBFilter
+	$PreAssessmentOutputPath = $PreAssessmentConfigJSON.PreAssessmentOutputPath
+
+	#Open the Default Config Json file
+	$BaseJSON = (Get-Content $PreAssessmentDriverFile_Config_Default) -join "`n" | ConvertFrom-Json
 
 	$GeneralConfig = ($BaseJSON | Select-Object General_Config).General_Config 
 
 	foreach($v in $GeneralConfig)
 	{
-		$SourceSystem = ($v | Select-Object SourceSystem).SourceSystem
 		$PreAssessmentDriverFile = ($v | Select-Object PreAssessmentDriverFile).PreAssessmentDriverFile
-		$PreAssessmentOutputPath = ($v | Select-Object PreAssessmentOutputPath).PreAssessmentOutputPath
 		$PreAssessmentScriptPath = ($v | Select-Object PreAssessmentScriptPath).PreAssessmentScriptPath
-		$ServerName = ($v | Select-Object ServerName).ServerName
-		$DBFilter = ($v | Select-Object DBFilter).DBFilter
+		$ValidSourceSystems = ($v | Select-Object ValidSourceSystems).ValidSourceSystems
 		$QueryTimeout = ($v | Select-Object QueryTimeout).QueryTimeout
 		$ConnectionTimeout = ($v | Select-Object ConnectionTimeout).ConnectionTimeout
-		$StoreInFolders = ($v | Select-Object StoreOutputInSeperateFolders).StoreOutputInSeperateFolders 
+		$VerboseLogging = ($v | Select-Object VerboseLogging).VerboseLogging
+	}
+	#($PreAssessmentConfigJSON | Select-Object SourceSystem).SourceSystem
+
+
+	$SourceSystem = Read-Host -prompt "Enter the name Source System Type to connect to($ValidSourceSystems). Default on Enter: [$SourceSystemDefault]"
+	If($ValidSourceSystems -notmatch "(\b$SourceSystem\b)" -and ($SourceSystem -ne "" -or $SourceSystem -ne $null))
+	{
+	    write-host "Source System Entered does not match one of the supported systems. $ValidSourceSystems"
+        exit (0)
+	}
+	if($SourceSystem -eq "" -or $null -eq $SourceSystem)
+	{
+			$SourceSystem = $SourceSystemDefault
+	}
+	elseif($SourceSystem -ne $SourceSystemDefault)
+	{
+		$PreAssessmentConfigJSON.SourceSystem = $SourceSystem
+		$NewJson = $PreAssessmentConfigJSON | ConvertTo-Json
+		Set-Content -Path $PreAssessmentConfigFile -Value $NewJson
+	}
+		
+
+	If($SourceSystem -eq 'TERADATA' -or $SourceSystem -eq 'SNOWFLAKE')
+	{
+		$DSNName = Read-Host -prompt "Enter the ODBC DSN Name to connect with(Note: Maybe Case Sens). Default on Enter: [$DSNNameDefault]"
+		if($DSNName -ceq "" -or $DSNName -ceq $null)
+		{
+				$DSNName = $DSNNameDefault
+		}
+		elseif($DSNName -cne $DSNNameDefault)
+		{
+			$PreAssessmentConfigJSON.DSNName = $DSNName
+			$NewJson = $PreAssessmentConfigJSON | ConvertTo-Json
+			Set-Content -Path $PreAssessmentConfigFile -Value $NewJson
+		}
+	}
+	else {
+		$ServerName = Read-Host -prompt "Enter the name/ip of the Server to connect to. Default on Enter: [$ServerNameDefault]"
+		if($ServerName -eq "" -or $ServerName -eq $null)
+		{
+				$ServerName = $ServerNameDefault
+		}
+		elseif($ServerName -ne $ServerNameDefault)
+		{
+			$PreAssessmentConfigJSON.ServerName = $ServerName
+			$NewJson = $PreAssessmentConfigJSON | ConvertTo-Json
+			Set-Content -Path $PreAssessmentConfigFile -Value $NewJson
+		}
 	}
 
+	#$PreAssessmentDriverFile_Config = $PreAssessmentDriverFile_Config_Default
+	#$PreAssessmentDriverFile_Config  = Read-Host -prompt "Enter the name of the PreAssessment JSON Config File. Default on Enter: [$PreAssessmentDriverFile_Config_Default]"
+	#if($PreAssessmentDriverFile_Config -eq "" -or $PreAssessmentDriverFile_Config -eq $null)
+	#	{
+	#			$PreAssessmentDriverFile_Config = $PreAssessmentDriverFile_Config_Default
+	#	}
 
-	if ($SourceSystem -eq "APS" -or $SourceSystem -eq "AZUREDW")
+
+	if ($SourceSystem -eq "APS" -or $SourceSystem -eq "SYNAPSE")
 	{
 		$APSConfig = ($BaseJSON | Select-Object APS).APS
 		foreach($v in $APSConfig)
 		{
 			$DB_Default = ($v | Select-Object Database).Database
 			$Port = ($v | Select-Object Port).Port
+			$ConnectionMethodSupported = ($v | Select-Object ConnectionMethod).ConnectionMethod
 		}
-		$APSConfig = ($BaseJSON | Select-Object AZUREDW).AZUREDW
+		$APSConfig = ($BaseJSON | Select-Object SYNAPSE).SYNAPSE
 		foreach($v in $APSConfig)
 		{
 			#$DBVersionText = ($v | Select-Object DatabaseVersionName).DatabaseVersionName
 			$DBEdition = ($v | Select-Object DatabaseEngineEdition).DatabaseEngineEdition
+			$ConnectionMethodSupported = ($v | Select-Object ConnectionMethod).ConnectionMethod
 		}
 	}
 
@@ -598,6 +659,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 			$Port = ($v | Select-Object Port).Port
 			$nzBinaryFolder = ($v | Select-Object nzBinaryFolder).nzBinaryFolder 
 			$SchemaExportFolder = ($v | Select-Object SchemaExportFolder).SchemaExportFolder
+			$ConnectionMethodSupported = ($v | Select-Object ConnectionMethod).ConnectionMethod
 		}
 	}
 	
@@ -611,6 +673,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 			$Port = ($v | Select-Object Port).Port
 			$nzBinaryFolder = ($v | Select-Object nzBinaryFolder).nzBinaryFolder 
 			$SchemaExportFolder = ($v | Select-Object SchemaExportFolder).SchemaExportFolder
+			$ConnectionMethodSupported = ($v | Select-Object ConnectionMethod).ConnectionMethod
 		}
 	}
 
@@ -623,6 +686,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 		{
 			$DB_Default = ($v | Select-Object Database).Database
 			$Port = ($v | Select-Object Port).Port
+			$ConnectionMethodSupported = ($v | Select-Object ConnectionMethod).ConnectionMethod
 		}
 	}
 
@@ -640,15 +704,29 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 	#$PrefixDatabaseNameToSchema = ($BaseJSON | Select-Object PrefixDatabaseNameToSchema).PrefixDatabaseNameToSchema 
 	#$CompressTool = ($BaseJSON | Select-Object CompressTool).CompressTool 
 	
-
-	$ConnectionType = Read-Host -prompt "How do you want to connect to the DB (ADPass, AzureADInt, WinInt, SQLAuth)?"
-	
-	#Adds default if nothing is entered
-	if ($null -eq $ConnectionType -or $ConnectionType -eq "") 
-	{  $ConnectionType = "SQLAUTH" }
-	else {
-		$ConnectionType = $ConnectionType.ToUpper() 
+	$ConnectionType = Read-Host -prompt "How do you want to connect to the DB ($ConnectionMethodSupported). Default on Enter: [$ConnectionTypeDefault]?"
+	If($ConnectionMethodSupported -notmatch "(\b$ConnectionType\b)" -and ($ConnectionType -ne "" -or $null -ne $ConnectionType))
+	{
+		Display-ErrorMsg "Connection Type does not match one of the allowed methods. $ConnectionMethodSupported"
+			exit (0)
 	}
+	if($ConnectionType -eq "" -or $ConnectionType -eq $null)
+	{
+			$ConnectionType = $ConnectionTypeDefault
+	}
+	elseif($ConnectionType -ne $ConnectionTypeDefault)
+	{
+		$PreAssessmentConfigJSON.ConnectionType = $ConnectionType
+		$NewJson = $PreAssessmentConfigJSON | ConvertTo-Json
+		Set-Content -Path $PreAssessmentConfigFile -Value $NewJson
+	}
+
+	#Adds default if nothing is entered
+	#if ($null -eq $ConnectionType -or $ConnectionType -eq "") 
+	#{  $ConnectionType = "SQLAUTH" }
+	#else {
+	#	$ConnectionType = $ConnectionType.ToUpper() 
+	#}
 
 	If($ConnectionType.ToUpper() -eq "SQLAUTH" -or $ConnectionType.ToUpper() -eq "ADPASS")
 	{
@@ -676,7 +754,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 	Display-LogMsg "StoreInFolders:$StoreInFolders"
 	Display-LogMsg "DBListQueries:$DBListQueries"
 
-	$VersionRaw = GetDBVersion -VersionQueries $VersionQueries -ServerName $ServerName -Port $Port -Database $DB_Default -QueryTimeout $QueryTimeout -ConnectionTimeout $ConnectionTimeOut -UserName $UserName -Password $Password -ConnectionType  $ConnectionType -SourceSystem $SourceSystem -Type "VersionNumber"
+	$VersionRaw = GetDBVersion -VersionQueries $VersionQueries -ServerName $ServerName -DSNName $DSNName -Port $Port -Database $DB_Default -QueryTimeout $QueryTimeout -ConnectionTimeout $ConnectionTimeOut -UserName $UserName -Password $Password -ConnectionType  $ConnectionType -SourceSystem $SourceSystem -Type "VersionNumber"
 	
 	Display-LogMsg  "Version is [$VersionRaw]"
 
@@ -709,7 +787,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 			#Absolute path entered
 	}
 	else {
-		$PreAssessmentDriverFile = "$ScriptPath\$PreAssessmentDriverFile"
+		$PreAssessmentDriverFile = "$ScriptPath\Scripts\$SourceSystem\$PreAssessmentDriverFile"
 	}
 
 	#Working with relative path
@@ -778,7 +856,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 				If($RunFor.ToUpper() -eq "SERVER")
 				{
 					Display-LogMsg "Server Query: $SQLStatement " 
-					WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DB_Default $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
+					WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DSNName $DB_Default $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
 				}
 				elseif($RunFor.ToUpper() -eq "TABLE" -or $RunFor.ToUpper() -eq "DB") 
 				{
@@ -787,7 +865,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 
 					Display-LogMsg "DB Query: $Query " 
 
-					$Databases = GetListToProcessOver $Query $ServerName $DB_Default $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port 
+					$Databases = GetListToProcessOver $Query $ServerName $DSNName $DB_Default $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port 
 
 					$FirstDBLoop = $True
 
@@ -811,7 +889,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 										continue
 									}
 
-									if($SourceSystem -eq 'AZUREDW')
+									if($SourceSystem -eq 'SYNAPSE')
 									{
 										$DBEditionQuery = ($v | Select-Object DatabaseEngineEditionQuery).DatabaseEngineEditionQuery
 										$DBEngineEdition = GetDBEngineEdition -DBEditionQuery $DBEditionQuery -ServerName $ServerName -Port $Port -Database $DBName -QueryTimeout $QueryTimeout -ConnectionTimeout $ConnectionTimeOut -UserName $UserName -Password $Password -ConnectionType  $ConnectionType -SourceSystem $SourceSystem
@@ -843,7 +921,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 										    #$Variables = "@DBName:$DBName"
 										    $Variables = "@DBName:$DBName|@SQLServerName:$ServerName"
                                             $AddDatabaseName = ($RunFor.ToUpper() -eq "DB")
-										    WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port $AddDatabaseName
+										    WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port $AddDatabaseName
 										}
 									}
 									else 
@@ -854,7 +932,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 										$Query = $TableListQuery #[4].ToString() # This one works if the location in Json file does not change. 
 										#$Query = ($TableListQuery | Select-Object $Query).Query #Did not work. 
 								
-										$Tables = GetListToProcessOver $Query $ServerName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port 
+										$Tables = GetListToProcessOver $Query $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port 
 
 
 										foreach($row in $Tables.Tables[0])
@@ -872,7 +950,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 
 											if($CommandType -eq "SQL")
 											{
-												WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
+												WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
 											}
 											elseif($CommandType -eq "SCHEMA")
 											{
@@ -881,7 +959,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 												Create-Directory  $oFile
 												$oFile =  "$oFile\$DBName.$TableName.sql"
 												Display-LogMsg "Saving to : $oFile"
-												WriteQueryToCSV $oFile $SQLStatement $Variables $ServerName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port $false
+												WriteQueryToCSV $oFile $SQLStatement $Variables $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port $false
 											}
 											elseif($CommandType -eq "DBCC")
 											{
@@ -893,7 +971,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $Port, $Database, $Username,
 
 													# Need to figure out how this will work later 
 													#$ExternalTable = $row["Is_external"]								
-													if ($SourceSystem -eq "AZUREDW")
+													if ($SourceSystem -eq "SYNAPSE")
 													{
 														$ExternalTable = $row["Is_external"]
 													}

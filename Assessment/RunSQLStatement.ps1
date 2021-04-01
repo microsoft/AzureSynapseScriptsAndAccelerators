@@ -6,35 +6,23 @@ function RunSQLStatement
 { 
     [CmdletBinding()] 
     param( 
-    [Parameter(Position=0, Mandatory=$true)] [string]$ServerName, #$ServerName
-    [Parameter(Position=1, Mandatory=$false)] [string]$Database, #$DatabaseName
-    [Parameter(Position=2, Mandatory=$false)] [string]$Query, #$Query
-    [Parameter(Position=3, Mandatory=$false)] [string]$Username, #$UserName
-    [Parameter(Position=4, Mandatory=$false)] [string]$Password, #$Password
-	[Parameter(Position=5, Mandatory=$false)] [string]$ConnectionType, #$UseIntegrated
-	[Parameter(Position=6, Mandatory=$false)] [Int32]$QueryTimeout=600, 
-    [Parameter(Position=7, Mandatory=$false)] [Int32]$ConnectionTimeout=30, 
-    [Parameter(Position=8, Mandatory=$false)] [string]$InputFile,#[ValidateScript({test-path $_})] , $FileName 
-    [Parameter(Position=9, Mandatory=$false)] [ValidateSet("DataSet", "DataTable", "DataRow")] [string]$ResultAs="DataSet",
-	[Parameter(Position=10, Mandatory=$false)] [string]$Variables='',
-	[Parameter(Position=11, Mandatory=$false)] [String]$SourceSystemType, #SQLServer, AzureDW, APS, Netezza
-	[Parameter(Position=12, Mandatory=$false)] [int32]$Port
+    [Parameter(Position=0, Mandatory=$false)] [string]$ServerName, #$ServerName
+	[Parameter(Position=1, Mandatory=$false)] [string]$DSNName, #$DSNName
+    [Parameter(Position=2, Mandatory=$false)] [string]$Database, #$DatabaseName
+    [Parameter(Position=3, Mandatory=$false)] [string]$Query, #$Query
+    [Parameter(Position=4, Mandatory=$false)] [string]$Username, #$UserName
+    [Parameter(Position=5, Mandatory=$false)] [string]$Password, #$Password
+	[Parameter(Position=6, Mandatory=$false)] [string]$ConnectionType, #$UseIntegrated
+	[Parameter(Position=7, Mandatory=$false)] [Int32]$QueryTimeout=600, 
+    [Parameter(Position=8, Mandatory=$false)] [Int32]$ConnectionTimeout=30, 
+    [Parameter(Position=9, Mandatory=$false)] [string]$InputFile,#[ValidateScript({test-path $_})] , $FileName 
+    [Parameter(Position=10, Mandatory=$false)] [ValidateSet("DataSet", "DataTable", "DataRow")] [string]$ResultAs="DataSet",
+	[Parameter(Position=11, Mandatory=$false)] [string]$Variables='',
+	[Parameter(Position=12, Mandatory=$false)] [String]$SourceSystemType, #SQLServer, SYNAPSE, APS, Netezza
+	[Parameter(Position=13, Mandatory=$false)] [int32]$Port
 	)   
-
-	# $ServerName = '192.168.52.128'#'localhost'
-    # $Database = 'System'#'master' #$DatabaseName
-    # $Query = 'select * from sYSTEM.ADMIN._T_DATABASE'#'select * from sys.objects' #$Query
-    # $Username = 'admin' #$UserName
-    # $Password = 'password' #$Password
-	# $ConnectionType = 'test'#$UseIntegrated
-	# $QueryTimeout = 600
-    # $ConnectionTimeout = 30
-    # $InputFile = '' 
-    # $ResultAs="DataSet"
-	# $Variables=''
-	# $SourceSystemType = 'NETEZZA' #SQLServer, AzureDW, APS, Netezza
-	# $Port = 5480
 	
+
 	
 	try{
 		$ReturnValues = @{}
@@ -71,7 +59,7 @@ function RunSQLStatement
 		}
 	
 		#Connect to the Server
-		if($SourceSystemType -eq 'SQLSERVER' -or $SourceSystemType -eq 'APS' -or $SourceSystemType -eq 'AZUREDW')
+		if($SourceSystemType -eq 'SQLSERVER' -or $SourceSystemType -eq 'APS' -or $SourceSystemType -eq 'SYNAPSE')
 		{
 
 			# 
@@ -118,14 +106,14 @@ function RunSQLStatement
 			#https://downloads.teradata.com/download/connectivity/odbc-driver/windows
 			#$ConnectionString = "Driver=Teradata;DBCName={0};Database={1};Uid={2};Pwd={3}" -f $ServerName,$Database,$Username,$Password #$ConnectionTimeout
 			#$ConnectionString = "Server={0};Database={1};Trusted_Connection=False;Connect Timeout={0};Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Integrated" -f $ServerName,$Database,$ConnectionTimeout
-			$ConnectionString = "dsn=td;UID={0};pwd={1};" -f $Username,$Password 
+			$ConnectionString = "dsn={0};UID={1};pwd={2};" -f $DSNName,$Username,$Password
 			$conn=new-object system.data.odbc.odbcconnection
 			$cmd = new-object System.Data.Odbc.OdbcCommand
 		}	
 		elseif ($SourceSystemType -eq "SNOWFLAKE") 
 		{
 			#https://docs.snowflake.com/en/user-guide/odbc-download.html
-			$ConnectionString = "dsn=sf;UID={0};pwd={1};" -f $Username,$Password 
+			$ConnectionString = "dsn={0};UID={1};pwd={2};" -f $DSNName,$Username,$Password 
 			$conn=new-object system.data.odbc.odbcconnection
 			$cmd = new-object System.Data.Odbc.OdbcCommand
 		}		
@@ -133,7 +121,7 @@ function RunSQLStatement
 		{
 			#https://www.oracle.com/database/technologies/odac-downloads.html
 		}
-		Display-LogMsg "ConnectionString: $ConnectionString "
+		#Display-LogMsg "ConnectionString: $ConnectionString "
 		#$conn=new-object System.Data.SqlClient.SQLConnection
 		$conn.ConnectionString=$ConnectionString 
 				
@@ -180,18 +168,9 @@ function RunSQLStatement
 		Write-Verbose "Capture SQL Error" 
 		if ($PSBoundParameters.Verbose) {Write-Verbose "SQL Error:  $Err"}  
 		
-
-		#switch ($ErrorActionPreference.tostring()) 
-		#{ 
-		#	{'SilentlyContinue','Ignore' -contains $_} {} 
-		#		'Stop' {     Throw $Err } 
-		#        'Continue' { Throw $Err} 
-		#        Default {    Throw $Err} 
-		#} 
 	} 
 	Catch # For other exception 
-	 {
-	#	Write-Verbose "Capture Other Error"   
+	 { 
 		
 		$Err = $_ 
 
@@ -201,19 +180,11 @@ function RunSQLStatement
 		$ReturnValues.add('Msg', $Err)
 		$ReturnValues.add('DataSet', $null)
 		
-	#	if ($PSBoundParameters.Verbose) {Write-Verbose "Other Error:  $Err"}  
-
-	#	switch ($ErrorActionPreference.tostring()) 
-	#	{'SilentlyContinue','Ignore' -contains $_} {} 
-	#				'Stop' {     Throw $Err} 
-	#				'Continue' { Throw $Err} 
-	#				Default {    Throw $Err} 
 	}  
 	Finally 
 	{ 
-		#Close the connection 
-		#if(-not $PSBoundParameters.ContainsKey('SQLConnection')) 
-		#	{ 
+		
+		
 			if($ConnOpen -eq 'YES') 
 			{	
 				$conn.Close()
@@ -226,13 +197,7 @@ function RunSQLStatement
 				
 			#}  
 	}
-    #switch ($As) 
-    #{ 
-    #    'DataSet'   { Write-Output ($ds) } 
-    #    'DataTable' { Write-Output ($ds.Tables) } 
-    #    'DataRow'   { Write-Output ($ds.Tables[0]) } 
-    #} 
-	#Write-Host $da
+   
 	if($ConnOpen -eq 'YES') 
 		{
 			$conn.Close()

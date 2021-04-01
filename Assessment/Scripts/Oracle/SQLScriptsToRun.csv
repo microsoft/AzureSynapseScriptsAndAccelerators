@@ -1,0 +1,2 @@
+Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,ScriptName
+1,ORACLE,Server,ALL,SQL,1.0.0.0,99.0.0.0,resource_usage,\Oracle\1. Resource Usage.sql
