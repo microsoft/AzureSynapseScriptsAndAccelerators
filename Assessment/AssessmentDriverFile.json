@@ -70,7 +70,7 @@
 			},
 			{
 				"System":"APS",
-				"Query":"select @@version as Version"
+				"Query":"select SERVERPROPERTY('productversion') as Version"
 			},
 			{
 				"System":"SYNAPSE",

@@ -1,0 +1,31 @@
+Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,ScriptName
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,object_counts,\SQLSERVER\1. Object Counts.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,assemblies,\SQLSERVER\10. Assemblies.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,inm_emory_obj,\SQLSERVER\11. In Memory Objects.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,partition_tbl,\SQLSERVER\12. Partitioned Tables.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,service_broker,\SQLSERVER\14. Service Broker Queues.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,encrypted_columns,\SQLSERVER\15. Encrypted Columns.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,masked_columns,\SQLSERVER\16. Masked Columns.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,stored_procs,\SQLSERVER\17. Stored Proc Row Counts.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,replication_status,\SQLSERVER\18. Replication Status.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,files_filegroups,\SQLSERVER\19. Files and Filegroups.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,space_used,\SQLSERVER\2. Spaced Used.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,external_data_stores,\SQLSERVER\20. External Data Stores.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,availability_groups,\SQLSERVER\21. Availability Groups.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,change_tracking,\SQLSERVER\22. Change Tracking.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,cehck_constraints,\SQLSERVER\23. Check Constraints.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,computed_columns,\SQLSERVER\24. Computed Columns.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,index_types,\SQLSERVER\25. Index Types.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,xml_indexes,\SQLSERVER\26. XML Indexes.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,config_setting,\SQLSERVER\27. Configuration Settings.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,host_setting,\SQLSERVER\28. Host Operating System.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,resources,\SQLSERVER\29. Available Resources.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,table_row_counts,\SQLSERVER\3. Table Row Counts.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,temporal_tables,\SQLSERVER\30. Temporal Tables.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,data_types,\SQLSERVER\4. Data Types.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,schemas,\SQLSERVER\5. Schemas.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,database_information,\SQLSERVER\6. Database Information.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,users,\SQLSERVER\7. Users.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,remote_logins,\SQLSERVER\8. Remote Logins.sql
+1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,full_text_indexes,\SQLSERVER\9. Fulltext Indexes.sql
+0,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,assessment_scripts,\SQLSERVER\SQLSERVER Assessment Scripts.sql
