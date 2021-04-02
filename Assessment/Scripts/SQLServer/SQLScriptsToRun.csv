@@ -1,5 +1,5 @@
 Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,ScriptName
-1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,object_counts,\SQLSERVER\1. Object Counts.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,object_counts,\SQLSERVER\Object_Counts_V1.sql
 1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,assemblies,\SQLSERVER\10. Assemblies.sql
 1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,inm_emory_obj,\SQLSERVER\11. In Memory Objects.sql
 1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,partition_tbl,\SQLSERVER\12. Partitioned Tables.sql
