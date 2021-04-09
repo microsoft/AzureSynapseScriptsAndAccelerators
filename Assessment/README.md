@@ -3,29 +3,28 @@
 
 [TOC]
 
-## Assessment Tool Summary**
-
 Assessment tool is used to gather information on the Source System DBs to better enable an
 accurate estimate for the migration.
 
-![Assessment Summary](..//Images/0a_Summary.jpg)
+## **Assessment Tool Dataflow**
+
+![Assessment Summary](..//Images/0A_Assessment_tool_dataflow.PNG)
+
+## **Assessment Tool Summary**
+
+| **Supported Source Systems**    | **Benefits**                  | **Tool details**  | **Capturing Information** |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |------------------------------------------------------------ |------------------------------------------------------------ |
+|<ul><li>APS</li><li>SYNAPSE</li><li>Teradata</li><li>SQLServer</li><li>SNOWFLAKE</li><li>SNOWFLAKE</li>NETEZZA</ul> |<li>Source System inventory to migrate​</li><li>Scoping the migration effort with consolidated reports​</li><li>Generation of Power BI report​</li><li>Ability to add additional inventory queries​</li><li>Supports data gathering at different levels(ex: Server, DB level and table level)​</li><li>Supports different authentication types (ex: ADPass, AzureADInt, WinInt, SQLAuth)</li> |<li>Easy to configure and run​</li><li>Built on PowerBI​</li><li>Supports multiple iterations to run​</li><li>**Inputs:** ​</li><li>Source System details​</li><li>Ex: server,DB,port,username & password​</li><li>**Steps to execute:** ​</li><li>**Step 1** – Assessment driver execution​</li><li>**Step 2** -  PowerBI report generation​</li><li>Outputs:​</li><li>CSV files with the source system inventory details</li>|<li>DB Version​</li><li>Object Count​</li><li>Object Metadata(Size, partitions count, distribution type, distribution column, etc.)​</li><li>Size of the System​</li><li>Users & schema information</li> |
 
 
+## **Assessment script details**
 
-### Benefits:
+| **Script Name**    | **Description**                  | **Dependency files**  | 
+| -------------------- | -------------------- | -------------------- |
+|<ul>AssessmentDriver_V2.ps1</ul>|<ul>Main driver program to run the source assessment SQL scripts</ul>|<ul><li>AssessmentConfigFile.json</li><li>AssessmentDriverFile.json</li><li>Scripts/<sourcesystem>/SQLScriptsToRun.csv</li><li>RunSQLStatement.ps1</li></ul>  |
+|<ul>AssessmentConfigFile.json></ul>|<ul>Current source system configuration details.These details can be provided during the execution as well</ul>||
+|<ul>AssessmentDriverFile.json</ul>|<ul>Config file that holds the general configuration details and queries needed per source system to capture version,DB & Table lists></ul>|
 
-- Inventory source system to migrate
-- Scope Migration effort
-
-
-
-### Features:
-
-| **Multi-Platform Support**                                   | **Information  Captured**                                    |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| <ul><li>APS</li><li>Netezza</li><li>Teradata</li></ul>       | <ul><li>DB Version</li><li>Object Count</li><li>Object Metadata (Size, Partitions counts, Distribution type, Distribution Column)</li><li>Size of System</li></ul> |
-| **Standard output format**                                   | **Configurable solution**                                    |
-| <ul><li>CSV</li><li>Time Stamped File Names</li><li>Teradata</li></ul> | <ul><li>Ability to add addition Queries</li><li>Data Gathered by:</li><ul><li><li>Server Level</li><li>Database Level</li><li>Table Level</li></ul></ul> |
 
 ## **How to Run the Assessment Program**
 
