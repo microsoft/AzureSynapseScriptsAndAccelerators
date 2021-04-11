@@ -1,0 +1,26 @@
+The APS or Synapse assessment scripts capture the following info:
+
+- Version of the system – @@version - Version_{Datetime}.csv
+- Count of all objects in all DB’s in the APS. – sys.objects - ObjectCount_{Datetime}.csv
+- List of all tables and their attributes (distribution type, # partitions, storage type and Distribution column) – various system tables – TableMetadata_{DateTime}.csv
+- Listing of the ShowSpaceUsed for all tables. – DBCC pdw_showspaceused – ShowSpaceUsed_{Datetime}.csv
+- Report the number of nodes and total number of distributions on the APS. - Distributions_{Datetime}.csv
+- List of Tables with table name, schema name, and database name in a CSV file that can be used to script out the "Create Table" Statements.  - TablesToScript_{Datetime}.csv
+- List of Views with view name, schema name, and database name in a CSV file that can be used to script out the "Create View" Statements.  - ViewsToScript_{Datetime}.csv
+- List of Stored Procedures with stored procedure name, schema name, and database name in a CSV file that can be used to script out the "Create Proc" Statements.  - SPsToScript_{Datetime}.csv
+- List of Functions with function name, schema name, and database name in a CSV file that can be used to script out the "Create Function" Statements.  - FunctionsToScript_{Datetime}.csv
+- List of Indexes with index name, schema name, table name, and database name in a CSV file that can be used to script out the "Create Index" Statements.  - IndexesToScript_{Datetime}.csv
+- List of Database Roles with role name, and database name in a CSV file that can be used to script out the "Create Role" Statements.  - RolesToScript_{Datetime}.csv
+- List of Statistics with stat name, schema name, table name, and database name in a CSV file that can be used to script out the "Create Statistic" Statements.  - StatisticsToScript_{Datetime}.csv
+- List of Stored Procedures where CREATE REMOTE TABLE statements are found.  - RemoteTableSPs_{Datetime}.csv
+- List of Schemas.  - sys_schemas_{Datetime}.csv
+- Sp_Configure output.  - sp_configure_{Datetime}.csv
+- List of Database Credentials.  - sys_database_credentials_{Datetime}.csv
+- List of Database Scoped Credentials.  - sys_database_scoped_credentials_{Datetime}.csv
+- List of Database Principals.  - sys_database_principals_{Datetime}.csv
+- List of Database Role Members.  - sys_database_role_members_{Datetime}.csv
+- List of Databases.  - sys_databases_{Datetime}.csv
+- OS system info.  - sys_dm_pdw_nodes_os_sys_info_{Datetime}.csv
+- OS system memory info.  - sys_dm_pdw_nodes_os_sys_memory_{Datetime}.csv
+- PDW nodes info.  - sys_dm_pdw_nodes_{Datetime}.csv
+- PDW system info.  - sys_dm_pdw_sys_info_{Datetime}.csv
