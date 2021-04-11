@@ -1,5 +1,5 @@
 
-# **Contents**
+# **Table of contents**
  - [Assessment Tool Summary](#assessment-tool-summary) 
  - [Assessment Tool Dataflow](#assessment-tool-dataflow)
  - [Assessment Tool scripts details](#assessment-tool-scripts-details)
@@ -15,7 +15,7 @@ Assessment tool is used to gather information on the Source System DBs to better
 
 | **Supported Source Systems**    | **Benefits**                  | **Tool details**  | **Capturing Information** |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |------------------------------------------------------------ |------------------------------------------------------------ |
-|<ul><li>APS</li><li>SYNAPSE</li><li>Teradata</li><li>SQLServer</li><li>SNOWFLAKE</li><li>SNOWFLAKE</li>NETEZZA</ul> |<li>Source System inventory to migrate​</li><li>Scoping the migration effort with consolidated reports​</li><li>Generation of Power BI report​</li><li>Ability to add additional inventory queries​</li><li>Supports data gathering at different levels(ex: Server, DB level and table level)​</li><li>Supports different authentication types (ex: ADPass, AzureADInt, WinInt, SQLAuth)</li> |<li>Easy to configure and run​</li><li>Built on PowerBI​</li><li>Supports multiple iterations to run​</li><li>**Inputs:** ​</li><li>Source System details​</li><li>Ex: DB server,port,username & password​</li><li>**Steps to execute:** ​</li><li>**Step 1** – Assessment driver execution​</li><li>**Step 2** -  PowerBI report generation​</li><li>Outputs:​</li><li>CSV files with the source system inventory details</li>|<li>DB Version​</li><li>Object Count​</li><li>Object Metadata(Size, partitions count, distribution type, distribution column, etc.)​</li><li>Size of the System​</li><li>Users & schema information</li> |
+|<ul><li>APS</li><li>SYNAPSE</li><li>Teradata</li><li>SQLServer</li><li>SNOWFLAKE</li><li>SNOWFLAKE</li>NETEZZA</ul> |<li>Source System inventory to migrate​</li><li>Scoping the migration effort with consolidated reports​</li><li>Generation of Power BI report​</li><li>Ability to add additional inventory queries​</li><li>Supports data gathering at different levels(ex: Server, DB level and table level)​</li><li>Supports different authentication types (ex: ADPass, AzureADInt, WinInt, SQLAuth)</li> |<li>Easy to configure and run​</li><li>Built on Powershell scripts​</li><li>Supports multiple iterations to run​</li><li>**Inputs:** ​</li><li>Source System details​</li><li>Ex: DB server,port,username & password​</li><li>**Steps to execute:** ​</li><li>**Step 1** – Assessment driver execution​</li><li>**Step 2** -  PowerBI report generation​</li><li>Outputs:​</li><li>CSV files with the source system inventory details</li>|<li>DB Version​</li><li>Object Count​</li><li>Object Metadata(Size, partitions count, distribution type, distribution column, etc.)​</li><li>Size of the System​</li><li>Users & schema information</li> |
 
 ## Assessment Tool Dataflow
 
@@ -136,7 +136,7 @@ Password:: **************
 ![Sample Executions](..//Images/0A_assessment_execution.PNG)
 
 ## PowerBI Report Generation
-Once assessment tool output data is available, you can use [Power BI template](https://dev.azure.com/AzureSynapseScriptsAndAccelerators/AMA%20and%20AAAP%20Program/_git/AzureSynapseScriptsAndAccelerators?path=%2FAssessment%2FAPS%20Assessment.pbit&version=GBmain&_a=contents) to generate an assessment report.
+Once assessment tool output data is available, you can use [Power BI template](APS Assessment.pbit) to generate an assessment report.
 Open Power BI template and specify the source folder where assessment output files reside(Example: C:\Migration_Assessment\SynapseScriptsAndAccelerators-main\Assessment\Results)
 
 **APS PowerBI template Input sample**
@@ -150,10 +150,18 @@ Open Power BI template and specify the source folder where assessment output fil
 
 ## Appendix
 
-- [Assessment Tool powerpoint](https://dev.azure.com/AzureSynapseScriptsAndAccelerators/AMA%20and%20AAAP%20Program/_git/AzureSynapseScriptsAndAccelerators?version=GBmain&_a=contents&path=%2FAssessment%2FAssessmentTool.pptx)
-- [APS or Synapse Assessment Capturing Information]
-- [Netezza Assessment Capturing Information]
-- [Additional PowerBI sample reports]
+- [Assessment Tool powerpoint](AssessmentTool.pptx)
+- [AssessmentFileDriver json configuration details](AssessmentDriver_config_details.md)
+- [APS or Synapse Assessment Capturing Information](APS_or_Synapse_CapturingInformation.md)
+- [Netezza Assessment Capturing Information](Netezza_CapturingInformation.md)
+- [Netezza Schema export details](https://dev.azure.com/AzureSynapseScriptsAndAccelerators/AMA%20and%20AAAP%20Program/_git/AzureSynapseScriptsAndAccelerators?path=%2FAssessment%2FNetezza%20Schema%20Extract.md&version=GBadadi)
+- Additional PowerBI sample reports
+  - APS Sample reports
+    - [Report1](0B_Sample_APS_powerBI_report.PNG)
+    - [Report1](0B_Sample_APS_powerBI_report1.PNG)
+  - Teradata Sample Reports
+    - [Report1](0B_Sample_Teradata_powerBI_report.PNG)
+    - [Report2](0B_Sample_Teradata_powerBI_report1.PNG)
 
 ## Contact Information
 Please send an email to AMA architects at <AMAArchitects@service.microsoft.com> for any issues regarding this tool.
