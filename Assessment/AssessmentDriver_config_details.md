@@ -14,12 +14,12 @@ The AssessmentFileDriver.json file is divide into several sections.
 **General Configuration:**
 The values in the General Configuration section will need to change based on the location of the config files and the source system being assessed.
 
-PreAssessmentDriverFile – Filename of the SQL csv config file.
-PreAssessmentScriptPath – Location of the SQL CSV config file.
-QueryTimeout – Length of time before the query should timeout if results have not been returned.
-ConnectionTimeout – Length of time to wait on a connection to the source system to be made before timing out.
-VerboseLogging - To enabled the additional logging.Be default is false
-ValidSourceSystems – SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE
+- PreAssessmentDriverFile : Filename of the SQL csv config file.
+- PreAssessmentScriptPath : Location of the SQL CSV config file.
+- QueryTimeout : Length of time before the query should timeout if results have not been returned.
+- ConnectionTimeout : Length of time to wait on a connection to the source system to be made before timing out.
+- VerboseLogging : To enabled the additional logging.Be default is false
+- ValidSourceSystems : SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE
 
 **APS Configuration:**
 The values in the APS Configuration section that may need to change if connecting to APS or Synapse.
