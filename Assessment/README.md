@@ -1,22 +1,19 @@
 
-# **Assessment and Scoping Tool (PowerShell):** Assess the Source System and Summarize Information for Scoping a Migration Effort
+# **Contents**
+ - [Assessment Tool Summary](#assessment-tool-summary) 
+ - [Assessment Tool Dataflow](#assessment-tool-dataflow) 
 
-[TOC]
 
-Assessment tool is used to gather information on the Source System DBs to better enable an
-accurate estimate for the migration.
-
-## **Assessment Tool Dataflow**
-
-![Assessment Summary](..//Images/0A_Assessment_tool_dataflow.PNG)
-
-## **Assessment Tool Summary**
+## Assessment Tool Summary
+Assessment tool is used to gather information on the Source System DBs to better enable an accurate estimate for the migration.
 
 | **Supported Source Systems**    | **Benefits**                  | **Tool details**  | **Capturing Information** |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |------------------------------------------------------------ |------------------------------------------------------------ |
 |<ul><li>APS</li><li>SYNAPSE</li><li>Teradata</li><li>SQLServer</li><li>SNOWFLAKE</li><li>SNOWFLAKE</li>NETEZZA</ul> |<li>Source System inventory to migrate​</li><li>Scoping the migration effort with consolidated reports​</li><li>Generation of Power BI report​</li><li>Ability to add additional inventory queries​</li><li>Supports data gathering at different levels(ex: Server, DB level and table level)​</li><li>Supports different authentication types (ex: ADPass, AzureADInt, WinInt, SQLAuth)</li> |<li>Easy to configure and run​</li><li>Built on PowerBI​</li><li>Supports multiple iterations to run​</li><li>**Inputs:** ​</li><li>Source System details​</li><li>Ex: server,DB,port,username & password​</li><li>**Steps to execute:** ​</li><li>**Step 1** – Assessment driver execution​</li><li>**Step 2** -  PowerBI report generation​</li><li>Outputs:​</li><li>CSV files with the source system inventory details</li>|<li>DB Version​</li><li>Object Count​</li><li>Object Metadata(Size, partitions count, distribution type, distribution column, etc.)​</li><li>Size of the System​</li><li>Users & schema information</li> |
 
+## Assessment Tool Dataflow
 
+![Assessment Summary](..//Images/0A_Assessment_tool_dataflow.PNG)
 ## **Assessment script details**
 
 | **Script Name**    | **Description**                  | **Dependency files**  | 
