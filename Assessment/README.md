@@ -1,7 +1,13 @@
 
 # **Contents**
  - [Assessment Tool Summary](#assessment-tool-summary) 
- - [Assessment Tool Dataflow](#assessment-tool-dataflow) 
+ - [Assessment Tool Dataflow](#assessment-tool-dataflow)
+ - [Assessment Tool scripts details](#assessment-tool-scripts-details)
+ - [Prepartion Tasks](#prepartion-tasks)
+ - [How to Run the Assessment Tool](#how-to-run-the-assessment-tool)
+ - [PowerBI Report Generation](#powerbi-report-generation)
+ - [Appendix](#appendix)
+ - [Contact Information](#contact-information)
 
 
 ## Assessment Tool Summary
@@ -9,12 +15,13 @@ Assessment tool is used to gather information on the Source System DBs to better
 
 | **Supported Source Systems**    | **Benefits**                  | **Tool details**  | **Capturing Information** |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |------------------------------------------------------------ |------------------------------------------------------------ |
-|<ul><li>APS</li><li>SYNAPSE</li><li>Teradata</li><li>SQLServer</li><li>SNOWFLAKE</li><li>SNOWFLAKE</li>NETEZZA</ul> |<li>Source System inventory to migrate​</li><li>Scoping the migration effort with consolidated reports​</li><li>Generation of Power BI report​</li><li>Ability to add additional inventory queries​</li><li>Supports data gathering at different levels(ex: Server, DB level and table level)​</li><li>Supports different authentication types (ex: ADPass, AzureADInt, WinInt, SQLAuth)</li> |<li>Easy to configure and run​</li><li>Built on PowerBI​</li><li>Supports multiple iterations to run​</li><li>**Inputs:** ​</li><li>Source System details​</li><li>Ex: server,DB,port,username & password​</li><li>**Steps to execute:** ​</li><li>**Step 1** – Assessment driver execution​</li><li>**Step 2** -  PowerBI report generation​</li><li>Outputs:​</li><li>CSV files with the source system inventory details</li>|<li>DB Version​</li><li>Object Count​</li><li>Object Metadata(Size, partitions count, distribution type, distribution column, etc.)​</li><li>Size of the System​</li><li>Users & schema information</li> |
+|<ul><li>APS</li><li>SYNAPSE</li><li>Teradata</li><li>SQLServer</li><li>SNOWFLAKE</li><li>SNOWFLAKE</li>NETEZZA</ul> |<li>Source System inventory to migrate​</li><li>Scoping the migration effort with consolidated reports​</li><li>Generation of Power BI report​</li><li>Ability to add additional inventory queries​</li><li>Supports data gathering at different levels(ex: Server, DB level and table level)​</li><li>Supports different authentication types (ex: ADPass, AzureADInt, WinInt, SQLAuth)</li> |<li>Easy to configure and run​</li><li>Built on PowerBI​</li><li>Supports multiple iterations to run​</li><li>**Inputs:** ​</li><li>Source System details​</li><li>Ex: DB server,port,username & password​</li><li>**Steps to execute:** ​</li><li>**Step 1** – Assessment driver execution​</li><li>**Step 2** -  PowerBI report generation​</li><li>Outputs:​</li><li>CSV files with the source system inventory details</li>|<li>DB Version​</li><li>Object Count​</li><li>Object Metadata(Size, partitions count, distribution type, distribution column, etc.)​</li><li>Size of the System​</li><li>Users & schema information</li> |
 
 ## Assessment Tool Dataflow
 
 ![Assessment Summary](..//Images/0A_Assessment_tool_dataflow.PNG)
-## **Assessment script details**
+
+## Assessment Tool scripts details
 
 | **Script Name**    | **Description**                  | **Dependency files**  | 
 | -------------------- | -------------------- | -------------------- |
@@ -24,7 +31,8 @@ Assessment tool is used to gather information on the Source System DBs to better
 |<ul>Scripts/<sourcesystem>/SQLScriptsToRun.csv</ul>|<ul>Holds the list of SQL scripts that needs to be executed on the source system</ul>|
 |<ul>RunSQLStatement.ps1 | <ul>Wrapper script to execute the SQL statements </ul> | Scripts/<sourcesystem>/SQLScriptsToRun.csv |
 
-## **Environment Setup**
+## Prepartion Tasks
+**1.Environment Setup**
 Powelshell may expect you to setup the execution policies.
 *[Please refer this URL for the execution policy details](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.1)*
 
@@ -34,9 +42,12 @@ Powelshell may expect you to setup the execution policies.
 
 ```
 
-## **Configuration Files Preparation**
+**2.Configuration Files Preparation**
 
-***1.Configuration/json file changes***
+- [json file changes](#json-file-changes)
+- [SQL CSV file changes](#sql-csv-file-changes)
+
+## json file changes
 
 Edit this  **AssessmentConfigFile.json** only if:
 
@@ -47,15 +58,15 @@ Edit this  **AssessmentConfigFile.json** only if:
 | --------------------------| ------------------------------------------------------------ | ----------------------------------------------------- |
 |PreAssessmentOutputPath    | To specify the output folder                       | Any valid folder name. **Ex:** Results                     |
 |ServerName                 | To specify the source DB server details.This can be provided during execution as well| testapsserver.centralus.cloudapp.azure.com,17001|
-|DSNName                    | Required field only for Teradata & Netezza. It is case sensitive.It requires DSN to be created locally on the local machine where the scripts are executed| **Ex:** TD |
-|DBFilter                   | Required to filter the DBs to be assessed. Recommendation is to run it for all DBs(%) unless there is any specific restrictions for any DBs | **Ex:** testdb1,testdb2 or % - default |
-|SourceSystem               | To specify the source system name from the supported sources.This can be provided during execution as well | **Ex:** APS |
-|ConnectionType             | To specify the authenticatype to connect to the source DB. This can be provided during execution as well | **Ex:** SQLAuth |
+|DSNName                    | Required field only for Teradata & Netezza. It is case sensitive.It requires DSN to be created locally on the local machine where the scripts are executed| TD |
+|DBFilter                   | Required to filter the DBs to be assessed. Recommendation is to run it for all DBs(%) unless there is any specific restrictions for any DBs |testdb1,testdb2 or % - default |
+|SourceSystem               | To specify the source system name from the supported sources.This can be provided during execution as well |  APS |
+|ConnectionType             | To specify the authenticatype to connect to the source DB. This can be provided during execution as well | SQLAuth |
 |StoreOutputInSeperateFolders|To specify how to store the results for multiple iterations of the assessment.By enabling this key creates separate folder for each execution |  True or False(default)|
 
-***2.SQL CSV file changes***
+## SQL CSV file changes
 
-Edit this **scripts/<sourcesystem>/SQLScriptstoRun.csv** File based on the information desired to be collected. 
+Edit this file **scripts/<sourcesystem>/SQLScriptstoRun.csv** (Example: APS [SQLScriptstoRun.csv](https://dev.azure.com/AzureSynapseScriptsAndAccelerators/AMA%20and%20AAAP%20Program/_git/AzureSynapseScriptsAndAccelerators?version=GBmain&_a=contents&path=%2FAssessment%2FScripts%2FAPS%2FSQLScriptsToRun.csv)) based on the information desired to be collected. 
 
 Note: This file only needs to be edited if:
 
@@ -77,7 +88,7 @@ Note: This file only needs to be edited if:
 | ExportFileName | Name to use to save the results of the query to.  A Timestamp will be appended to the end of the field value.  “ShowSpaceUsedTotal_{TimeStamp}” | ShowSpaceUsedTotal                                                |
 | ScriptName   | SQL statement to be run against the source system                |                                                       | \APS\ShowSpaceUsedTotal_V1.sql
 
-## **How to Run the Assessment Program**
+## How to Run the Assessment Tool
 
 The program processing logic and information flow is illustrated in the diagram below: 
 
@@ -85,10 +96,11 @@ The program processing logic and information flow is illustrated in the diagram 
 
 **Steps to execute the Assessment tool:**
 
-- Clone the repository to the local folder (ex: C:\Migration_Assessment).[Refer this documentation for Git commands](https://github.com/git-guides/git-clone)
+- Clone the repository to the local folder (ex: C:\Migration_Assessment).[Refer Git commands](https://github.com/git-guides/git-clone) or [Download from browser](https://www.wikihow.com/Download-a-GitHub-Folder)
 
-- Run the Assessment Tool by executing the below command on Powershell prompt:
+- Run the Assessment Tool by executing the **AssessmentDriver_V2.ps1** on Powershell prompt.
 
+**Example:**
 ```
 PS C:\Migration_Assessment\SynapseScriptsAndAccelerators-main\Assessment> .\AssessmentDriver_V2.ps1
 Mode                 LastWriteTime         Length Name
@@ -119,6 +131,29 @@ Password:: **************
     - "**Password**:” – Enter the password for the username entered above
 
 
-**Sample Assessment Tool executions**
+**Sample Assessment Tool execution screenshot**
 
 ![Sample Executions](..//Images/0A_assessment_execution.PNG)
+
+## PowerBI Report Generation
+Once assessment tool output data is available, you can use [Power BI template](https://dev.azure.com/AzureSynapseScriptsAndAccelerators/AMA%20and%20AAAP%20Program/_git/AzureSynapseScriptsAndAccelerators?path=%2FAssessment%2FAPS%20Assessment.pbit&version=GBmain&_a=contents) to generate an assessment report.
+Open Power BI template and specify the source folder where assessment output files reside(Example: C:\Migration_Assessment\SynapseScriptsAndAccelerators-main\Assessment\Results)
+
+**APS PowerBI template Input sample**
+
+![PowerBI Template Input sample](..//Images/0B_PowerBI_input.PNG)
+
+**APS PowerBI report sample**
+
+![APS PowerBI sample report](..//Images/0B_Sample_APS_powerBI_report.PNG)
+
+
+## Appendix
+
+- [Assessment Tool powerpoint](https://dev.azure.com/AzureSynapseScriptsAndAccelerators/AMA%20and%20AAAP%20Program/_git/AzureSynapseScriptsAndAccelerators?version=GBmain&_a=contents&path=%2FAssessment%2FAssessmentTool.pptx)
+- [APS or Synapse Assessment Capturing Information]
+- [Netezza Assessment Capturing Information]
+- [Additional PowerBI sample reports]
+
+## Contact Information
+Please send an email to AMA architects at <AMAArchitects@service.microsoft.com> for any issues regarding this tool.
