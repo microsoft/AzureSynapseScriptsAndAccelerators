@@ -157,11 +157,11 @@ Open Power BI template and specify the source folder where assessment output fil
 - [Netezza Schema export details](https://dev.azure.com/AzureSynapseScriptsAndAccelerators/AMA%20and%20AAAP%20Program/_git/AzureSynapseScriptsAndAccelerators?path=%2FAssessment%2FNetezza%20Schema%20Extract.md&version=GBadadi)
 - Additional PowerBI sample reports
   - APS Sample reports
-    - [Report1](0B_Sample_APS_powerBI_report.PNG)
-    - [Report1](0B_Sample_APS_powerBI_report1.PNG)
+    - [Report1](..//Images/0B_Sample_APS_powerBI_report.PNG)
+    - [Report1](..//Images/0B_Sample_APS_powerBI_report1.PNG)
   - Teradata Sample Reports
-    - [Report1](0B_Sample_Teradata_powerBI_report.PNG)
-    - [Report2](0B_Sample_Teradata_powerBI_report1.PNG)
+    - [Report1](..//Images/0B_Sample_Teradata_powerBI_report.PNG)
+    - [Report2](..//Images/0B_Sample_Teradata_powerBI_report1.PNG)
 
 ## Contact Information
 Please send an email to AMA architects at <AMAArchitects@service.microsoft.com> for any issues regarding this tool.
