@@ -170,5 +170,200 @@
 				"VersionTo": "99.0.2000.8",
 				"Query":"select t.name as name, s.name as SchemaName, t.is_external from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id order by t.name;"
 			}
+		],
+	"ViewListingQuery":
+		[
+			{
+				"System":"Netezza",
+				"VersionFrom":"5.0.0.0",
+				"VersionTo": "9.2.0.0",
+				"Query":""
+			},
+			{
+				"System":"TERADATA",
+				"VersionFrom":"0.0.0.0",
+				"VersionTo": "99.99.99.99",
+				"Query":""
+			},
+			{
+				"System":"APS",
+				"VersionFrom":"1.0.8727.0",
+				"VersionTo": "99.0.8727.0",
+				"Query":""
+			},
+			{
+				"System":"SYNAPSE",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "12.0.2000.8",
+				"Query":""
+			},
+			{
+				"System":"SNOWFLAKE",
+				"VersionFrom":"0.0.0",
+				"VersionTo": "12.0.0",
+				"Query":"select t.name as name, s.name as SchemaName, t.is_external from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id order by t.name;"
+			},
+			{
+				"System":"SQLSERVER",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "99.0.2000.8",
+				"Query":"select t.name as name, s.name as SchemaName, t.is_external from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id order by t.name;"
+			}
+		],
+	"ProcedureListingQuery":
+		[
+			{
+				"System":"Netezza",
+				"VersionFrom":"5.0.0.0",
+				"VersionTo": "9.2.0.0",
+				"Query":""
+			},
+			{
+				"System":"TERADATA",
+				"VersionFrom":"0.0.0.0",
+				"VersionTo": "99.99.99.99",
+				"Query":""
+			},
+			{
+				"System":"APS",
+				"VersionFrom":"1.0.8727.0",
+				"VersionTo": "99.0.8727.0",
+				"Query":""
+			},
+			{
+				"System":"SYNAPSE",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "12.0.2000.8",
+				"Query":""
+			},
+			{
+				"System":"SNOWFLAKE",
+				"VersionFrom":"0.0.0",
+				"VersionTo": "12.0.0",
+				"Query":""
+			},
+			{
+				"System":"SQLSERVER",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "99.0.2000.8",
+				"Query":""
+			}
+		],
+	"MacroListingQuery":
+		[
+			{
+				"System":"Netezza",
+				"VersionFrom":"5.0.0.0",
+				"VersionTo": "9.2.0.0",
+				"Query":""
+			},
+			{
+				"System":"TERADATA",
+				"VersionFrom":"0.0.0.0",
+				"VersionTo": "99.99.99.99",
+				"Query":""
+			},
+			{
+				"System":"APS",
+				"VersionFrom":"1.0.8727.0",
+				"VersionTo": "99.0.8727.0",
+				"Query":""
+			},
+			{
+				"System":"SYNAPSE",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "12.0.2000.8",
+				"Query":""
+			},
+			{
+				"System":"SNOWFLAKE",
+				"VersionFrom":"0.0.0",
+				"VersionTo": "12.0.0",
+				"Query":""
+			},
+			{
+				"System":"SQLSERVER",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "99.0.2000.8",
+				"Query":""
+			}
+		],
+	"FunctionListingQuery":
+		[
+			{
+				"System":"Netezza",
+				"VersionFrom":"5.0.0.0",
+				"VersionTo": "9.2.0.0",
+				"Query":""
+			},
+			{
+				"System":"TERADATA",
+				"VersionFrom":"0.0.0.0",
+				"VersionTo": "99.99.99.99",
+				"Query":""
+			},
+			{
+				"System":"APS",
+				"VersionFrom":"1.0.8727.0",
+				"VersionTo": "99.0.8727.0",
+				"Query":""
+			},
+			{
+				"System":"SYNAPSE",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "12.0.2000.8",
+				"Query":""
+			},
+			{
+				"System":"SNOWFLAKE",
+				"VersionFrom":"0.0.0",
+				"VersionTo": "12.0.0",
+				"Query":""
+			},
+			{
+				"System":"SQLSERVER",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "99.0.2000.8",
+				"Query":""
+			}
+		],
+	"TriggerListingQuery":
+		[
+			{
+				"System":"Netezza",
+				"VersionFrom":"5.0.0.0",
+				"VersionTo": "9.2.0.0",
+				"Query":""
+			},
+			{
+				"System":"TERADATA",
+				"VersionFrom":"0.0.0.0",
+				"VersionTo": "99.99.99.99",
+				"Query":""
+			},
+			{
+				"System":"APS",
+				"VersionFrom":"1.0.8727.0",
+				"VersionTo": "99.0.8727.0",
+				"Query":""
+			},
+			{
+				"System":"SYNAPSE",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "12.0.2000.8",
+				"Query":""
+			},
+			{
+				"System":"SNOWFLAKE",
+				"VersionFrom":"0.0.0",
+				"VersionTo": "12.0.0",
+				"Query":""
+			},
+			{
+				"System":"SQLSERVER",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "99.0.2000.8",
+				"Query":""
+			}
 		]
 }
