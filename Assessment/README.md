@@ -1,10 +1,10 @@
 
-# **Table of contents**
+# **Table Of Contents**
  - [Assessment Tool Summary](#assessment-tool-summary) 
  - [Assessment Tool Dataflow](#assessment-tool-dataflow)
  - [Assessment Tool scripts details](#assessment-tool-scripts-details)
  - [Prepartion Tasks](#prepartion-tasks)
- - [How to Run the Assessment Tool](#how-to-run-the-assessment-tool)
+ - [How to run the Assessment Tool](#how-to-run-the-assessment-tool)
  - [PowerBI Report Generation](#powerbi-report-generation)
  - [Appendix](#appendix)
  - [Contact Information](#contact-information)
@@ -15,7 +15,7 @@ Assessment tool is used to gather information on the Source System DBs to better
 
 | **Supported Source Systems**    | **Benefits**                  | **Tool details**  | **Capturing Information** |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |------------------------------------------------------------ |------------------------------------------------------------ |
-|<ul><li>APS</li><li>SYNAPSE</li><li>Teradata</li><li>SQLServer</li><li>SNOWFLAKE</li><li>SNOWFLAKE</li>NETEZZA</ul> |<li>Source System inventory to migrate​</li><li>Scoping the migration effort with consolidated reports​</li><li>Generation of Power BI report​</li><li>Ability to add additional inventory queries​</li><li>Supports data gathering at different levels(ex: Server, DB level and table level)​</li><li>Supports different authentication types (ex: ADPass, AzureADInt, WinInt, SQLAuth)</li> |<li>Easy to configure and run​</li><li>Built on Powershell scripts​</li><li>Supports multiple iterations to run​</li><li>**Inputs:** ​</li><li>Source System details​</li><li>Ex: DB server,port,username & password​</li><li>**Steps to execute:** ​</li><li>**Step 1** – Assessment driver execution​</li><li>**Step 2** -  PowerBI report generation​</li><li>Outputs:​</li><li>CSV files with the source system inventory details</li>|<li>DB Version​</li><li>Object Count​</li><li>Object Metadata(Size, partitions count, distribution type, distribution column, etc.)​</li><li>Size of the System​</li><li>Users & schema information</li> |
+|<ul><li>APS</li><li>SYNAPSE</li><li>Teradata</li><li>SQLServer</li><li>SNOWFLAKE</li><li>SNOWFLAKE</li>NETEZZA</ul> |<li>Source System inventory to migrate​</li><li>Scoping the migration effort with consolidated reports​</li><li>Generation of Power BI report​</li><li>Ability to add additional inventory queries​</li><li>Supports data gathering at different levels(ex: Server, DB level and table level)​</li><li>Supports different authentication types (ex: ADPass, AzureADInt, WinInt, SQLAuth)</li> |<li>Easy to configure and run​</li><li>Built on Powershell scripts​</li><li>Supports multiple iterations to run​</li><li>**Steps to execute:** ​</li><li>**Step 1** – Assessment driver execution​</li><li>**Step 2** -  PowerBI report generation​</li><li>**Input:** ​</li><li>Source System details​</li><li>Ex: DB server,port,username & password​</li><li>**Output:** ​</li><li>CSV files with the source system inventory details</li>|<li>DB Version​</li><li>Object Count​</li><li>Object Metadata(Size, partitions count, distribution type, distribution column, etc.)​</li><li>Size of the System​</li><li>Users & schema information</li> |
 
 ## Assessment Tool Dataflow
 
@@ -25,22 +25,38 @@ Assessment tool is used to gather information on the Source System DBs to better
 
 | **Script Name**    | **Description**                  | **Dependency files**  | 
 | -------------------- | -------------------- | -------------------- |
-|<ul>AssessmentDriver_V2.ps1</ul>|<ul>Main driver program to run the source assessment SQL scripts</ul>|<ul><li>AssessmentConfigFile.json</li><li>AssessmentDriverFile.json</li><li>Scripts/<sourcesystem>/SQLScriptsToRun.csv</li><li>RunSQLStatement.ps1</li></ul>  |
+|<ul>AssessmentDriver_V2.ps1</ul>|<ul>Main driver program to run the source assessment SQL scripts</ul>|<ul><li>AssessmentConfigFile.json</li><li>AssessmentDriverFile.json</li><li>Scripts/**sourcesystem**/SQLScriptsToRun.csv</li><li>RunSQLStatement.ps1</li></ul>  |
 |<ul>AssessmentConfigFile.json</ul>|<ul>Current source system configuration details.These details can be provided during the execution as well</ul>||
 |<ul>AssessmentDriverFile.json</ul>|<ul>Config file that holds the general configuration details and queries needed per source system to capture version,DB & Table lists</ul>|
 |<ul>Scripts/<sourcesystem>/SQLScriptsToRun.csv</ul>|<ul>Holds the list of SQL scripts that needs to be executed on the source system</ul>|
-|<ul>RunSQLStatement.ps1 | <ul>Wrapper script to execute the SQL statements </ul> | Scripts/<sourcesystem>/SQLScriptsToRun.csv |
+|<ul>RunSQLStatement.ps1 | <ul>Wrapper script to execute the SQL statements </ul> | Scripts/**sourcesystem**/SQLScriptsToRun.csv |
 
 ## Prepartion Tasks
 **1.Environment Setup**
-Powelshell may expect you to setup the execution policies.
+Powershell may expect you to setup the execution policies.
 *[Please refer this URL for the execution policy details](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.1)*
 
-**Example policy setup:** You can bypass the execution policy at the session level by running the below command on the powershell prompt
+**Example policy setup:**
+
+1. You can bypass the execution policy at the session level by running the below command on the powershell prompt
 ```
    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 ```
+2. If you are not allowed  to change the execution policy from a global domain policy then you can have the workaround by executing the below commands.
+```
+Unblock-File -Path .\AssessmentDriver_V2.ps1
+Unblock-File -Path .\RunSQLStatement.ps1
+```
+3. You can have work around by creating the temp files
+```
+- Rename AssessmentDriver_V2.ps1 as temp_ AssessmentDriver_V2.ps1
+- Create a new/blank file AssessmentDriver_V2.ps, then copy over  the content of temp_ AssessmentDriver_V2.ps1
+- Save AssessmentDriver_V2.ps 
+- Delete temp_ AssessmentDriver_V2.ps1
+- Repeat the same steps for RunSQLStatement.ps1 and then run .\AssessmentDriver_V2.ps1
+```
+
 
 **2.Configuration Files Preparation**
 
@@ -66,7 +82,7 @@ Edit this  **AssessmentConfigFile.json** only if:
 
 ## SQL CSV file changes
 
-Edit this file **scripts/<sourcesystem>/SQLScriptstoRun.csv** (Example: APS [SQLScriptstoRun.csv](https://dev.azure.com/AzureSynapseScriptsAndAccelerators/AMA%20and%20AAAP%20Program/_git/AzureSynapseScriptsAndAccelerators?version=GBmain&_a=contents&path=%2FAssessment%2FScripts%2FAPS%2FSQLScriptsToRun.csv)) based on the information desired to be collected. 
+Edit this file **scripts/<sourcesystem>/SQLScriptstoRun.csv** (Example: APS [SQLScriptstoRun.csv](Scripts/APS/SQLScriptsToRun.csv)) based on the information desired to be collected. 
 
 Note: This file only needs to be edited if:
 
@@ -88,7 +104,7 @@ Note: This file only needs to be edited if:
 | ExportFileName | Name to use to save the results of the query to.  A Timestamp will be appended to the end of the field value.  “ShowSpaceUsedTotal_{TimeStamp}” | ShowSpaceUsedTotal                                                |
 | ScriptName   | SQL statement to be run against the source system                |                                                       | \APS\ShowSpaceUsedTotal_V1.sql
 
-## How to Run the Assessment Tool
+## How to run the Assessment Tool
 
 The program processing logic and information flow is illustrated in the diagram below: 
 
@@ -97,6 +113,7 @@ The program processing logic and information flow is illustrated in the diagram 
 **Steps to execute the Assessment tool:**
 
 - Clone the repository to the local folder (ex: C:\Migration_Assessment).[Refer Git commands](https://github.com/git-guides/git-clone) or [Download from browser](https://www.wikihow.com/Download-a-GitHub-Folder)
+- [Prepartion Tasks](prepartion-tasks)
 
 - Run the Assessment Tool by executing the **AssessmentDriver_V2.ps1** on Powershell prompt.
 
@@ -136,7 +153,7 @@ Password:: **************
 ![Sample Executions](..//Images/0A_assessment_execution.PNG)
 
 ## PowerBI Report Generation
-Once assessment tool output data is available, you can use [Power BI template](APS Assessment.pbit) to generate an assessment report.
+Once assessment tool output data is available, you can use [PowerBItemplate](APS%20Assessment.pbit) to generate an assessment report.
 Open Power BI template and specify the source folder where assessment output files reside(Example: C:\Migration_Assessment\SynapseScriptsAndAccelerators-main\Assessment\Results)
 
 **APS PowerBI template Input sample**
@@ -151,17 +168,17 @@ Open Power BI template and specify the source folder where assessment output fil
 ## Appendix
 
 - [Assessment Tool powerpoint](AssessmentTool.pptx)
+- [PowerBI template](APS%20Assessment.pbit)
+- [Sample PowerBI Report](APS%20Assessment.pbix)
 - [AssessmentFileDriver json configuration details](AssessmentDriver_config_details.md)
 - [APS or Synapse Assessment Capturing Information](APS_or_Synapse_CapturingInformation.md)
 - [Netezza Assessment Capturing Information](Netezza_CapturingInformation.md)
-- [Netezza Schema export details](https://dev.azure.com/AzureSynapseScriptsAndAccelerators/AMA%20and%20AAAP%20Program/_git/AzureSynapseScriptsAndAccelerators?path=%2FAssessment%2FNetezza%20Schema%20Extract.md&version=GBadadi)
+- [Netezza Schema export details](Netezza%20Schema%20Extract.md)
 - Additional PowerBI sample reports
   - APS Sample reports
-    - [Report1](..//Images/0B_Sample_APS_powerBI_report.PNG)
+    - [Report](..//Images/0B_Sample_APS_powerBI_report.PNG)
     - [Report1](..//Images/0B_Sample_APS_powerBI_report1.PNG)
-  - Teradata Sample Reports
-    - [Report1](..//Images/0B_Sample_Teradata_powerBI_report.PNG)
-    - [Report2](..//Images/0B_Sample_Teradata_powerBI_report1.PNG)
+
 
 ## Contact Information
 Please send an email to AMA architects at <AMAArchitects@service.microsoft.com> for any issues regarding this tool.
