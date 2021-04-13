@@ -1,4 +1,13 @@
 Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,ScriptName
+1,Teradata,Table,ALL,SQL,1.0.0.0,99.0.0.0,rows_counts,\Teradata\1. Table DDL.sql
+1,Teradata,Table,ALL,SQL,1.0.0.0,99.0.0.0,rows_counts,\Teradata\2. Table Row Counts.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_size,\Teradata\3. Table Size.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,columns,\Teradata\4. Column Detail.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_distributions,\Teradata\5. Table Distribution.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning_1,\Teradata\6. Table Partitioning 1.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning_2,\Teradata\7. Table Partitioning 2.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,views_ddl,\Teradata\8. View DDL.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,procs_ddl,\Teradata\9. Procedure DDL.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,prod_ext_ddl,\Teradata\10. Procedure Ext DDL.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,macro_ddl,\Teradata\11. Macro DDL.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,function_ddl,\Teradata\12. Function DDL.sql
@@ -9,7 +18,6 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,role_members,\Teradata\17. Role Members.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,authorisations,\Teradata\18. Authorizations.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,teradata_version,\Teradata\19. Teradata Version.sql
-1,Teradata,Table,ALL,SQL,1.0.0.0,99.0.0.0,rows_counts,\Teradata\2. Table Row Counts.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,total_size,\Teradata\20. Overall Teradata Size.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,database_sizes,\Teradata\21. Database Sizes.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,objects_counts,\Teradata\22. Object Counts.sql
@@ -19,11 +27,4 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,expensive_queries,\Teradata\27. Expensive Queries.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,query_log,\Teradata\28. Query Log.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,detail_query_summary,\Teradata\29. Daily Query Summary.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_size,\Teradata\3. Table Size.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,query_history,\Teradata\30. 7 Day Query Summary.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,columns,\Teradata\4. Column Detail.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_distributions,\Teradata\5. Table Distribution.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning_1,\Teradata\6. Table Partitioning 1.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning_2,\Teradata\7. Table Partitioning 2.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,views_ddl,\Teradata\8. View DDL.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,procs_ddl,\Teradata\9. Procedure DDL.sql
