@@ -139,7 +139,7 @@
 				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
-				"Query":"SELECT TRIM(TABLENAME) as name, TRIM(databasename) as database_name ,TRIM(databasename) as schema_name   FROM dbc.tablesV WHERE tablekind IN ('T')
+				"Query":"SELECT TRIM(TABLENAME) as name, TRIM(databasename) as database_name ,TRIM(databasename) as SchemaName   FROM dbc.tablesV WHERE tablekind IN ('T')
 				and database_name  ='@DBName'
 				AND databasename NOT IN ('console', 'DBC', 'dbcmngr', 'LockLogShredder', 'SQLJ', 'SysAdmin', 'SYSBAR', 'SYSJDBC', 'SYSLIB', 'SYSSPATIAL', 
 				'SystemFe', 'SYSUDTLIB', 'SYSUIF', 'Sys_Calendar', 'TDQCD', 'TDStats', 'tdwm', 'TD_SERVER_DB', 'TD_SYSFNLIB', 'TD_SYSGPL','TD_SYSXML',
@@ -183,7 +183,7 @@
 				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
-				"Query":""
+				"Query":"SELECT TRIM(databasename) DBName, TRIM(TABLENAME) Name, TRIM(databasename) SchemaName	FROM dbc.tablesV WHERE tablekind IN ('V') and databasename = '@DBName'"
 			},
 			{
 				"System":"APS",
@@ -222,7 +222,7 @@
 				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
-				"Query":""
+				"Query":"SELECT TRIM(databasename) DBName, TRIM(TABLENAME) Name, TRIM(databasename) SchemaName	FROM dbc.tablesV WHERE tablekind IN ('P') and databasename = '@DBName'"
 			},
 			{
 				"System":"APS",
@@ -249,6 +249,45 @@
 				"Query":""
 			}
 		],
+	"ProcedureExtListingQuery":
+			[
+				{
+					"System":"Netezza",
+					"VersionFrom":"5.0.0.0",
+					"VersionTo": "9.2.0.0",
+					"Query":""
+				},
+				{
+					"System":"TERADATA",
+					"VersionFrom":"0.0.0.0",
+					"VersionTo": "99.99.99.99",
+					"Query":"SELECT TRIM(databasename) DBName, TRIM(TABLENAME) Name, TRIM(databasename) SchemaName	FROM dbc.tablesV WHERE tablekind IN ('E') and databasename = '@DBName'"
+				},
+				{
+					"System":"APS",
+					"VersionFrom":"1.0.8727.0",
+					"VersionTo": "99.0.8727.0",
+					"Query":""
+				},
+				{
+					"System":"SYNAPSE",
+					"VersionFrom":"2.0.2000.8",
+					"VersionTo": "12.0.2000.8",
+					"Query":""
+				},
+				{
+					"System":"SNOWFLAKE",
+					"VersionFrom":"0.0.0",
+					"VersionTo": "12.0.0",
+					"Query":""
+				},
+				{
+					"System":"SQLSERVER",
+					"VersionFrom":"2.0.2000.8",
+					"VersionTo": "99.0.2000.8",
+					"Query":""
+				}
+			],
 	"MacroListingQuery":
 		[
 			{
@@ -261,7 +300,7 @@
 				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
-				"Query":""
+				"Query":"SELECT TRIM(databasename) DBName, TRIM(TABLENAME) Name, TRIM(databasename) SchemaName	FROM dbc.tablesV WHERE tablekind IN ('M') and databasename = '@DBName'"
 			},
 			{
 				"System":"APS",
@@ -300,7 +339,46 @@
 				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
+				"Query":"SELECT TRIM(databasename) DBName, TRIM(TABLENAME) Name, TRIM(databasename) SchemaName	FROM dbc.tablesV WHERE tablekind IN ('A', 'B') and databasename = '@DBName'"
+			},
+			{
+				"System":"APS",
+				"VersionFrom":"1.0.8727.0",
+				"VersionTo": "99.0.8727.0",
 				"Query":""
+			},
+			{
+				"System":"SYNAPSE",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "12.0.2000.8",
+				"Query":""
+			},
+			{
+				"System":"SNOWFLAKE",
+				"VersionFrom":"0.0.0",
+				"VersionTo": "12.0.0",
+				"Query":""
+			},
+			{
+				"System":"SQLSERVER",
+				"VersionFrom":"2.0.2000.8",
+				"VersionTo": "99.0.2000.8",
+				"Query":""
+			}
+		],
+	"FunctionExtListingQuery":
+		[
+			{
+				"System":"Netezza",
+				"VersionFrom":"5.0.0.0",
+				"VersionTo": "9.2.0.0",
+				"Query":""
+			},
+			{
+				"System":"TERADATA",
+				"VersionFrom":"0.0.0.0",
+				"VersionTo": "99.99.99.99",
+				"Query":"SELECT TRIM(databasename) DBName, TRIM(TABLENAME) Name, TRIM(databasename) SchemaName	FROM dbc.tablesV WHERE tablekind IN ('F', 'R', 'S') and databasename = '@DBName'"
 			},
 			{
 				"System":"APS",
@@ -339,7 +417,7 @@
 				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
-				"Query":""
+				"Query":"SELECT TRIM(databasename) DBName, TRIM(TABLENAME) Name, TRIM(databasename) SchemaName	FROM dbc.tablesV WHERE tablekind IN ('G') and databasename = '@DBName'"
 			},
 			{
 				"System":"APS",

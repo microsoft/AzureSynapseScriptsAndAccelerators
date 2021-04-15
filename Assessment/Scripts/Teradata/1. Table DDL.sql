@@ -1,3 +1,3 @@
 -- Query for: 1. Table DDL
 
-show table @DBName.@TableName;
+show table @DBName.@ObjectName;
