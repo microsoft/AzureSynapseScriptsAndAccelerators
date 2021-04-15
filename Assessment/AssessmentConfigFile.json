@@ -3,7 +3,7 @@
     "ServerName":  "charisworkspace.sql.azuresynapse.net",
     "DSNName":  "TD",
     "DBFilter":  "%",
-    "SourceSystem":  "teradata",
+    "SourceSystem":  "Synapse",
     "ConnectionType":  "SQLAUTH",
     "StoreOutputInSeperateFolders":  "False"
 }

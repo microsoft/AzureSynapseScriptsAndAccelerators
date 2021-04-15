@@ -88,7 +88,8 @@ Function GetDBVersionStatement($SourceSystem, $csvVersionFileFullPath)
 	}
 }
 
-Function GetListQuery ($ListQueries, $Version, $SourceSystem)
+#Function GetListQuery ($ListQueries, $Version, $SourceSystem, $RunFor)
+Function GetListQuery ($BaseJSON, $Version, $SourceSystem, $RunFor)
 {
 	#Exit if $SourceSystem is not returned. 
 	if($SourceSystem -eq "" -or $SourceSystem -eq $null)
@@ -103,6 +104,30 @@ Function GetListQuery ($ListQueries, $Version, $SourceSystem)
 		exit (0)
 	}
 	#Exit if $ListQuery is not returned.
+	if($RunFor -eq 'DB')
+		{$ListQueries = ($BaseJSON | Select-Object DBListingQuery).DBListingQuery}
+	elseif($RunFor -eq 'TABLE') 
+		{$ListQueries = ($BaseJSON | Select-Object TableListingQuery).TableListingQuery}
+	elseif($RunFor -eq 'VIEW') 
+		{$ListQueries = ($BaseJSON | Select-Object ViewListingQuery).ViewListingQuery}
+	elseif($RunFor -eq 'PROCEDURE') 
+		{$ListQueries = ($BaseJSON | Select-Object ProcedureListingQuery).ProcedureListingQuery}
+	elseif($RunFor -eq 'EXPROCEDURE') 
+		{$ListQueries = ($BaseJSON | Select-Object ProcedureExtListingQuery).ProcedureExtListingQuery}
+	elseif($RunFor -eq 'MACRO') 
+		{$ListQueries = ($BaseJSON | Select-Object MacroListingQuery).MacroListingQuery}
+	elseif($RunFor -eq 'FUNCTION') 
+		{$ListQueries = ($BaseJSON | Select-Object FunctionListingQuery).FunctionListingQuery}
+	elseif($RunFor -eq 'EXFUNCTION') 
+		{$ListQueries = ($BaseJSON | Select-Object FunctionExtListingQuery).FunctionExtListingQuery}
+	elseif($RunFor -eq 'TRIGGER') 
+		{$ListQueries = ($BaseJSON | Select-Object TriggerListingQuery).TriggerListingQuery}
+	else
+	{
+		Display-ErrorMsg "RunFor Type is not valid. $RunFor  Please check your configuration."
+		exit (0)
+	}
+
 	if($ListQueries -eq "" -or $ListQueries -eq $null)
 	{
 		Display-ErrorMsg "No List Query was found for System. $SourceSystem  Please check your configuration."
@@ -234,7 +259,7 @@ Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $DSNName, $
 }
 
 
-Function WriteShowSpaceUsedToCSV($FileName, $Query, $Variables, $ServerName, $DBName, $SchemaNAme, $TableName, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port)
+Function WriteShowSpaceUsedToCSV($FileName, $Query, $Variables, $ServerName, $DBName, $SchemaNAme, $ObjectName, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port)
 {
 
 	$ResultAs="DataSet"	
@@ -244,7 +269,7 @@ Function WriteShowSpaceUsedToCSV($FileName, $Query, $Variables, $ServerName, $DB
 	$rows = New-Object PSObject 		 
 	$rows | Add-Member -MemberType NoteProperty -Name "DataBase" -Value $DBName -force
 	$rows | Add-Member -MemberType NoteProperty -Name "SchemaName" -Value $SchemaName -force
-	$rows | Add-Member -MemberType NoteProperty -Name "TableName" -Value $TableName -force
+	$rows | Add-Member -MemberType NoteProperty -Name "TableName" -Value $ObjectName -force
 
 	if($ReturnValues.Get_Item("Status") -eq 'Success')
 	{
@@ -277,7 +302,7 @@ Function WriteShowSpaceUsedToCSV($FileName, $Query, $Variables, $ServerName, $DB
 
 			$pdwNodeId = $Row.Item("PDW_NODE_ID")
 			$distributionID = $Row.Item("DISTRIBUTION_ID")
-			$rowKey = $DBName + '_' + $SchemaName + '_' + $TableName
+			$rowKey = $DBName + '_' + $SchemaName + '_' + $ObjectName
 	
 			$rows | Add-Member -MemberType NoteProperty -Name "Rows" -Value $numOfRowsInTable   -force
 
@@ -341,7 +366,7 @@ Function WriteQueryToSchema($FileName, $Variables, $DBName, $FirstDBLoop, $Schem
 
 function ContinueProcess {
 		
-	if($RunFor.ToUpper() -ne "TABLE")
+	if($RunFor.ToUpper() -eq "DB" -or $RunFor.ToUpper() -eq "SERVER")
 	{
 		if($CommandType -eq "SCRIPTDB" -AND $SourceSystem.ToUpper() -eq 'NETEZZA')
 		{
@@ -361,19 +386,20 @@ function ContinueProcess {
 	}
 	else 
 	{
-		$Query = $TableListQuery #[4].ToString() # This one works if the location in Json file does not change. 
-		#$Query = ($TableListQuery | Select-Object $Query).Query #Did not work. 
+		
+		$Query = $ObjectListQuery #[4].ToString() # This one works if the location in Json file does not change. 
+		#$Query = ($ObjectListQuery | Select-Object $Query).Query #Did not work. 
 
-		$Tables = GetListToProcessOver $Query $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port 
+		$Objects = GetListToProcessOver $Query $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port 
 
 
-		foreach($row in $Tables.Tables[0])
+		foreach($row in $Objects.Tables[0])
 		{
 			#Add Variable Statement
-			$TableName =  $row["Name"]
+			$ObjectName =  $row["Name"]
 			$SchemaName =  $row["SchemaName"]
 		
-			$Variables = "@DBName:$DBName|@TableName:$TableName|@SchemaName:$SchemaName"
+			$Variables = "@DBName:$DBName|@ObjectName:$ObjectName|@SchemaName:$SchemaName"
 
 			if($CommandType -eq "SQL")
 			{
@@ -385,7 +411,7 @@ function ContinueProcess {
 				if($SQLStatement.TOUpper() -eq 'PDW_SHOWSPACEUSED')
 				{
 
-					$SQLStatement2 = "DBCC PDW_SHOWSPACEUSED (""$SchemaName.$TableName"");"
+					$SQLStatement2 = "DBCC PDW_SHOWSPACEUSED (""$SchemaName.$ObjectName"");"
 
 					# Need to figure out how this will work later 
 					#$ExternalTable = $row["Is_external"]								
@@ -400,7 +426,7 @@ function ContinueProcess {
 
 					if($ExternalTable -eq $false)
 					{
-						WriteShowSpaceUsedToCSV $FileName $SQLStatement2 $Variables $ServerName $DBName $SchemaName $TableName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
+						WriteShowSpaceUsedToCSV $FileName $SQLStatement2 $Variables $ServerName $DBName $SchemaName $ObjectName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
 					}
 				}	
 			}
@@ -594,7 +620,20 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 		$NewJson = $PreAssessmentConfigJSON | ConvertTo-Json
 		Set-Content -Path $PreAssessmentConfigFile -Value $NewJson
 	}
-		
+	
+	$DatabaseFilter = Read-Host -prompt "Would you like to filter the Database to Inventory. % = All DBs or dbname,dbname delimited.  Default on Enter: [$DBFilter]"
+	If( $DatabaseFilter -ceq $null -or $DatabaseFilter -eq "")
+	{
+	    $DBFilter = $PreAssessmentConfigJSON.DBFilter
+	}
+	else 
+	{
+		$DBFilter = $DatabaseFilter
+		$PreAssessmentConfigJSON.DBFilter = $DatabaseFilter
+		$NewJson = $PreAssessmentConfigJSON | ConvertTo-Json
+		Set-Content -Path $PreAssessmentConfigFile -Value $NewJson
+	}
+	
 
 	If($SourceSystem -eq 'TERADATA' -or $SourceSystem -eq 'SNOWFLAKE')
 	{
@@ -694,7 +733,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 
 	$VersionQueries = ($BaseJSON | Select-Object VersionQuery).VersionQuery 
 	$DBListQueries = ($BaseJSON | Select-Object DBListingQuery).DBListingQuery 
-	$TableListQueries = ($BaseJSON | Select-Object TableListingQuery).TableListingQuery 
+	#Andy Isley$ObjectListQueries = ($BaseJSON | Select-Object TableListingQuery).TableListingQuery 
 
 	#Settings for Export
 	 
@@ -778,9 +817,10 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 	
 
 
-	$DBListQuery = GetListQuery -ListQueries $DBListQueries -Version $Version -SourceSystem $SourceSystem
+	$DBListQuery = GetListQuery -BaseJSON $BaseJSON -ListQueries $DBListQueries -Version $Version -SourceSystem $SourceSystem -RunFor 'DB'
 
-	$TableListQuery = GetListQuery -ListQueries $TableListQueries -Version $Version -SourceSystem $SourceSystem
+	#Table level
+	#Andy Isley $ObjectListQuery = GetListQuery -ListQueries $ObjectListQueries -Version $Version -SourceSystem $SourceSystem
 
 	#Working with relative path
 	if ($PreAssessmentDriverFile -contains ":") {
@@ -858,7 +898,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 					Display-LogMsg "Server Query: $SQLStatement " 
 					WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DSNName $DB_Default $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
 				}
-				elseif($RunFor.ToUpper() -eq "TABLE" -or $RunFor.ToUpper() -eq "DB") 
+				else #if($RunFor.ToUpper() -eq "TABLE" -or $RunFor.ToUpper() -eq "DB") #Andy Isley Adding other objects
 				{
 
 					$Query = $DBListQuery #[4].ToString() # This one works if the location in Json file does not change. 
@@ -904,7 +944,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 									}
 
 
-									if($RunFor.ToUpper() -ne "TABLE")
+									if($RunFor.ToUpper() -eq "DB" -or $RunFor.ToUpper() -eq "SERVER")
 									{
 										
 										if($CommandType -eq "SCRIPTDB" -AND $SourceSystem.ToUpper() -eq 'NETEZZA')
@@ -926,23 +966,25 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 									}
 									else 
 									{
-										
-										Display-LogMsg "Looping through tables"
-										$Variables = "@DBName:$DBName|@TableName"
-										$Query = $TableListQuery #[4].ToString() # This one works if the location in Json file does not change. 
-										#$Query = ($TableListQuery | Select-Object $Query).Query #Did not work. 
+
+										Display-LogMsg "Looping through objects"
+										$Variables = "@DBName:$DBName|@ObjectName"
+										#$Query = $ObjectListQuery #[4].ToString() # This one works if the location in Json file does not change. 
+										#$Query = ($ObjectListQuery | Select-Object $Query).Query #Did not work. 
 								
-										$Tables = GetListToProcessOver $Query $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port 
+										
+										#Andy Isley$ObjectListQueries = ($BaseJSON | Select-Object TableListingQuery).TableListingQuery 
+										$Query = GetListQuery -BaseJSON $BaseJSON -ListQueries $ObjectListQueries -Version $Version -SourceSystem $SourceSystem -RunFor $RunFor
+										$Object = GetListToProcessOver $Query $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port 
 
-
-										foreach($row in $Tables.Tables[0])
+										foreach($row in $Object.Tables[0])
 										{
 											
 											#Add Variable Statement
-											$TableName =  $row["Name"]
+											$ObjectName =  $row["Name"]
 											$SchemaName =  $row["SchemaName"]
 										
-											$Variables = "@DBName:$DBName|@TableName:$TableName|@SchemaName:$SchemaName"
+											$Variables = "@DBName:$DBName|@ObjectName:$ObjectName|@SchemaName:$SchemaName"
 
 											Display-LogMsg "Looping through $Variables "
 											Display-LogMsg "Executing : $SQLStatement"
@@ -955,9 +997,9 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 											elseif($CommandType -eq "SCHEMA")
 											{
 												
-												$oFile =  "$PreAssessmentOutputPath\$FileCurrentTime\SCHEMA\" 
+												$oFile =  "$PreAssessmentOutputPath\$FileCurrentTime\SCHEMA\$RunFor\" 
 												Create-Directory  $oFile
-												$oFile =  "$oFile\$DBName.$TableName.sql"
+												$oFile =  "$oFile\$DBName.$ObjectName.sql"
 												Display-LogMsg "Saving to : $oFile"
 												WriteQueryToCSV $oFile $SQLStatement $Variables $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port $false
 											}
@@ -967,7 +1009,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 												if($SQLStatement.TOUpper() -eq 'PDW_SHOWSPACEUSED')
 												{
 
-													$SQLStatement2 = "DBCC PDW_SHOWSPACEUSED (""$SchemaName.$TableName"");"
+													$SQLStatement2 = "DBCC PDW_SHOWSPACEUSED (""$SchemaName.$ObjectName"");"
 
 													# Need to figure out how this will work later 
 													#$ExternalTable = $row["Is_external"]								
@@ -982,7 +1024,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 
 													if($ExternalTable -eq $false)
 													{
-														WriteShowSpaceUsedToCSV $FileName $SQLStatement2 $Variables $ServerName $DBName $SchemaName $TableName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
+														WriteShowSpaceUsedToCSV $FileName $SQLStatement2 $Variables $ServerName $DBName $SchemaName $ObjectName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
 													}
 												}	
 											}

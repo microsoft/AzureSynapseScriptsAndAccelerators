@@ -1,18 +1,18 @@
 Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,ScriptName
-1,Teradata,Table,ALL,SQL,1.0.0.0,99.0.0.0,rows_counts,\Teradata\1. Table DDL.sql
+1,Teradata,Table,ALL,SCHEMA,1.0.0.0,99.0.0.0,rows_counts,\Teradata\1. Table DDL.sql
 1,Teradata,Table,ALL,SQL,1.0.0.0,99.0.0.0,rows_counts,\Teradata\2. Table Row Counts.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_size,\Teradata\3. Table Size.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,columns,\Teradata\4. Column Detail.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_distributions,\Teradata\5. Table Distribution.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning_1,\Teradata\6. Table Partitioning 1.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning_2,\Teradata\7. Table Partitioning 2.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,views_ddl,\Teradata\8. View DDL.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,procs_ddl,\Teradata\9. Procedure DDL.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,prod_ext_ddl,\Teradata\10. Procedure Ext DDL.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,macro_ddl,\Teradata\11. Macro DDL.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,function_ddl,\Teradata\12. Function DDL.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,function_ext_ddl,\Teradata\13. Function Ext DDL.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,trigger_ddl,\Teradata\14. Trigger DDL.sql
+1,Teradata,View,ALL,SCHEMA,1.0.0.0,99.0.0.0,views_ddl,\Teradata\8. View DDL.sql
+1,Teradata,Procedure,ALL,SCHEMA,1.0.0.0,99.0.0.0,procs_ddl,\Teradata\9. Procedure DDL.sql
+1,Teradata,ExProcedure,ALL,SCHEMA,1.0.0.0,99.0.0.0,prod_ext_ddl,\Teradata\10. Procedure Ext DDL.sql
+1,Teradata,Macro,ALL,SCHEMA,1.0.0.0,99.0.0.0,macro_ddl,\Teradata\11. Macro DDL.sql
+1,Teradata,Function,ALL,SCHEMA,1.0.0.0,99.0.0.0,function_ddl,\Teradata\12. Function DDL.sql
+1,Teradata,ExFunction,ALL,SCHEMA,1.0.0.0,99.0.0.0,function_ext_ddl,\Teradata\13. Function Ext DDL.sql
+1,Teradata,Trigger,ALL,SCHEMA,1.0.0.0,99.0.0.0,trigger_ddl,\Teradata\14. Trigger DDL.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,users,\Teradata\15. Users.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,roles,\Teradata\16. Roles.sql
 1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,role_members,\Teradata\17. Role Members.sql

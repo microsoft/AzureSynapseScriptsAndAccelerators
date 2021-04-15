@@ -1,6 +1,6 @@
 -- Query for: 2. Table Row Counts
 
-SELECT '@DBName.@TableName' AS TableName, CAST(COUNT(*) AS BIGINT) as RowsCount FROM @DBName.@TableName;
+SELECT '@DBName.@ObjectName' AS TableName, CAST(COUNT(*) AS BIGINT) as RowsCount FROM @DBName.@ObjectName;
 
 --SELECT 'SELECT ''' || TRIM(databasename) || '.' || TRIM(TABLENAME) ||''' AS TableName, CAST(COUNT(*) AS BIGINT) FROM ' || TRIM(databasename) || '.' || TRIM(TABLENAME) || ';' AS CountQeury
 --FROM dbc.tablesV WHERE tablekind IN ('T')
