@@ -1,1 +1,1 @@
-EXEC SP_SPACEUSED '@SchemaName.@TableName'
+EXEC SP_SPACEUSED '@SchemaName.@ObjectName'
