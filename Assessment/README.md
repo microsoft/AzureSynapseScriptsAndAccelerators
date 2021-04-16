@@ -2,7 +2,6 @@
 # **Table Of Contents**
  - [Assessment Tool Summary](#assessment-tool-summary) 
  - [Assessment Tool Dataflow](#assessment-tool-dataflow)
- - [Assessment Tool scripts details](#assessment-tool-scripts-details)
  - [Prepartion Tasks](#prepartion-tasks)
  - [How to run the Assessment Tool](#how-to-run-the-assessment-tool)
  - [PowerBI Report Generation](#powerbi-report-generation)
@@ -21,19 +20,14 @@ Assessment tool is used to gather information on the Source System DBs to better
 
 ![Assessment Summary](..//Images/0A_Assessment_tool_dataflow.PNG)
 
-## Assessment Tool scripts details
-
-| **Script Name**    | **Description**                  | **Dependency files**  | 
-| -------------------- | -------------------- | -------------------- |
-|<ul>AssessmentDriver_V2.ps1</ul>|<ul>Main driver program to run the source assessment SQL scripts</ul>|<ul><li>AssessmentConfigFile.json</li><li>AssessmentDriverFile.json</li><li>Scripts/**sourcesystem**/SQLScriptsToRun.csv</li><li>RunSQLStatement.ps1</li></ul>  |
-|<ul>AssessmentConfigFile.json</ul>|<ul>Current source system configuration details.These details can be provided during the execution as well</ul>||
-|<ul>AssessmentDriverFile.json</ul>|<ul>Config file that holds the general configuration details and queries needed per source system to capture version,DB & Table lists</ul>|
-|<ul>Scripts/<sourcesystem>/SQLScriptsToRun.csv</ul>|<ul>Holds the list of SQL scripts that needs to be executed on the source system</ul>|
-|<ul>RunSQLStatement.ps1 | <ul>Wrapper script to execute the SQL statements </ul> | Scripts/**sourcesystem**/SQLScriptsToRun.csv |
-
 ## Prepartion Tasks
-**1.Environment Setup**
-Powershell may expect you to setup the execution policies.
+
+**1.Download the repository to the local folder (ex: C:\Migration_Assessment)**
+
+Refer [Download from browser](https://www.wikihow.com/Download-a-GitHub-Folder)
+
+**2.Environment Setup**
+Powershell may expect you to setup the execution policies. You can follow one of the below options.
 *[Please refer this URL for the execution policy details](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.1)*
 
 **Example policy setup:**
@@ -43,11 +37,16 @@ Powershell may expect you to setup the execution policies.
    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 ```
+**or**
+
 2. If you are not allowed  to change the execution policy from a global domain policy then you can have the workaround by executing the below commands.
 ```
 Unblock-File -Path .\AssessmentDriver_V2.ps1
 Unblock-File -Path .\RunSQLStatement.ps1
 ```
+
+**or**
+
 3. You can have work around by creating the temp files
 ```
 - Rename AssessmentDriver_V2.ps1 as temp_ AssessmentDriver_V2.ps1
@@ -57,52 +56,9 @@ Unblock-File -Path .\RunSQLStatement.ps1
 - Repeat the same steps for RunSQLStatement.ps1 and then run .\AssessmentDriver_V2.ps1
 ```
 
+**3.Configuration & script details**
 
-**2.Configuration Files Preparation**
-
-- [json file changes](#json-file-changes)
-- [SQL CSV file changes](#sql-csv-file-changes)
-
-## json file changes
-
-Edit this  **AssessmentConfigFile.json** only if:
-
-- Databases needs to be filtered
-- To create separate results folders for each run
-
-| **Key**                      | **Purpose**                                                     | **Value   (Sample)**                                      |
-| --------------------------| ------------------------------------------------------------ | ----------------------------------------------------- |
-|PreAssessmentOutputPath    | To specify the output folder                       | Any valid folder name. **Ex:** Results                     |
-|ServerName                 | To specify the source DB server details.This can be provided during execution as well| testapsserver.centralus.cloudapp.azure.com,17001|
-|DSNName                    | Required field only for Teradata & Netezza. It is case sensitive.It requires DSN to be created locally on the local machine where the scripts are executed| TD |
-|DBFilter                   | Required to filter the DBs to be assessed. Recommendation is to run it for all DBs(%) unless there is any specific restrictions for any DBs |testdb1,testdb2 or % - default |
-|SourceSystem               | To specify the source system name from the supported sources.This can be provided during execution as well |  APS |
-|ConnectionType             | To specify the authenticatype to connect to the source DB. This can be provided during execution as well | SQLAuth |
-|StoreOutputInSeperateFolders|To specify how to store the results for multiple iterations of the assessment.By enabling this key creates separate folder for each execution |  True or False(default)|
-
-## SQL CSV file changes
-
-Edit this file **scripts/<sourcesystem>/SQLScriptstoRun.csv** (Example: APS [SQLScriptstoRun.csv](Scripts/APS/SQLScriptsToRun.csv)) based on the information desired to be collected. 
-
-Note: This file only needs to be edited if:
-
-- Need to not collect a specific results of a single query.
-- Need to Limit the results to a single DB.
-- Need to add a query to the result set.
-- Need to update a query to run on a specific version of the source system.
-
-
-| Parameter    | Purpose                                                      | Value   (Sample)                                      |
-| ------------ | ------------------------------------------------------------ | ----------------------------------------------------- |
-| Active       | 1 – Run line, 0 – Skip line                                  | 0 or 1                                                |
-| SourceSystem | Source system to connect to and run the Query against.       | <ul><li>Netezza</li><li>APS</li><li>AZUREDW</li></ul> |
-| RunFor       | <ul><li>DB = Run Query for each Database on the server</li><li>Server = Server level Query</li><li>Table = Run Query for each Table in each DB.</li></ul> | DB, Server, Table                                     |
-| DB           | Limit the DB to a single DB                                  | Database name                                         |
-| CommandType   | <ul>File name for the Command to run.</ul>          | SQL, DBCC, ScriptDB                                   |
-| VersionFrom  | Each line is validated against the version of the DB.  As DB versions change, the Query may need to be changed for the given version or may not be valid on some version.  This the starting version that the line/query can be run on. | Depend on the source system                           |
-| VersionTo    | This the Ending version that the line/query can be run on.   | Depend on the source system                           |
-| ExportFileName | Name to use to save the results of the query to.  A Timestamp will be appended to the end of the field value.  “ShowSpaceUsedTotal_{TimeStamp}” | ShowSpaceUsedTotal                                                |
-| ScriptName   | SQL statement to be run against the source system                |                                                       | \APS\ShowSpaceUsedTotal_V1.sql
+**Note :** Please don't change any configuration files unless it is required to be changed. Please refer the [Congiration & Scripts Information](Readme_References/Configuration_Scripts_details.md)
 
 ## How to run the Assessment Tool
 
@@ -112,18 +68,17 @@ The program processing logic and information flow is illustrated in the diagram 
 
 **Steps to execute the Assessment tool:**
 
-- Clone the repository to the local folder (ex: C:\Migration_Assessment).[Refer Git commands](https://github.com/git-guides/git-clone) or [Download from browser](https://www.wikihow.com/Download-a-GitHub-Folder)
-- [Prepartion Tasks](prepartion-tasks)
-
-- Run the Assessment Tool by executing the **AssessmentDriver_V2.ps1** on Powershell prompt.
+- Download the repository and navigate it to the  to the Assessment folder. Please refer [Prepartion Tasks](#prepartion-tasks) section.
+- Run the Assessment tool by executing the **AssessmentDriver_V2.ps1** on Powershell prompt.
 
 **Example:**
 ```
 PS C:\Migration_Assessment\SynapseScriptsAndAccelerators-main\Assessment> .\AssessmentDriver_V2.ps1
 Mode                 LastWriteTime         Length Name
 ----                 -------------         ------ ----
-d-----          4/9/2021   7:41 AM                logs
-Enter the name Source System Type to connect to(SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE). Default on Enter: [teradata]: APS
+d-----         4/16/2021  10:48 AM                logs
+Enter the name Source System Type to connect to(SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE). Default on Enter: [Synapse]: APS
+Would you like to filter the Database to Inventory. % = All DBs or dbname,dbname delimited.  Default on Enter: [%]:
 Enter the name/ip of the Server to connect to. Default on Enter: [charisworkspace.sql.azuresynapse.net]: apspod0.centralus.cloudapp.azure.com,17001
 How do you want to connect to the DB (ADPass, AzureADInt, WinInt, SQLAuth). Default on Enter: [SQLAUTH]?:
 SQLAUTH Method used. Please Enter the UserName: amaarch
@@ -133,6 +88,7 @@ Password:: **************
 ***This will prompt for the following Information: Default values get picked up from AssessmentConfigFile.json. Once the details are provided then it updates the configuration file***
 
 * **Source System Type:**  Provide the source database type from the supported systems.
+* **Database filter:** Provide the list of databases for the assessment summary(Recommendation is to go with default option% for all the databases)
 * **name/ip of the Server:** Source Database server to connect
 
 * **How do you want to connect to the DB (ADPass, AzureADInt, WinInt, SQLAuth)?** – When connecting to the source system, what method should be used to connect to the DB?
@@ -146,11 +102,6 @@ Password:: **************
   - If ADPASS or SQLAUTH is used to connect to the source DB.
     - “**(ADPass/SQLAuth Method used. Please Enter the UserName.**” – User name with permission run the scripts“
     - "**Password**:” – Enter the password for the username entered above
-
-
-**Sample Assessment Tool execution screenshot**
-
-![Sample Executions](..//Images/0A_assessment_execution.PNG)
 
 ## PowerBI Report Generation
 Once assessment tool output data is available, you can use [PowerBItemplate](APS%20Assessment.pbit) to generate an assessment report.
@@ -170,10 +121,10 @@ Open Power BI template and specify the source folder where assessment output fil
 - [Assessment Tool powerpoint](AssessmentTool.pptx)
 - [PowerBI template](APS%20Assessment.pbit)
 - [Sample PowerBI Report](APS%20Assessment.pbix)
-- [AssessmentFileDriver json configuration details](AssessmentDriver_config_details.md)
-- [APS or Synapse Assessment Capturing Information](APS_or_Synapse_CapturingInformation.md)
-- [Netezza Assessment Capturing Information](Netezza_CapturingInformation.md)
-- [Netezza Schema export details](Netezza%20Schema%20Extract.md)
+- [Sample APS Assessment tool execution screenshot](..//Images/0A_assessment_execution.PNG)
+- [APS or Synapse Assessment Capturing Information](Readme_References/APS_or_Synapse_CapturingInformation.md)
+- [Netezza Assessment Capturing Information](Readme_References/Netezza_CapturingInformation.md)
+- [Netezza Schema export details](Readme_References/Netezza%20Schema%20Extract.md)
 - Additional PowerBI sample reports
   - APS Sample reports
     - [Report](..//Images/0B_Sample_APS_powerBI_report.PNG)
