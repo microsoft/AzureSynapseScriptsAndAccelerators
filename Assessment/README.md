@@ -58,7 +58,7 @@ Unblock-File -Path .\RunSQLStatement.ps1
 
 **3.Configuration & script details**
 
-**Note :** Please don't change any configuration files unless it is required to be changed. Please refer the [Congiration & Scripts Information](Readme_References/Configuration_Scripts_details.md)
+**Note :** Please don't change any configuration files unless it is required to be changed. Please refer the [Configuration & Scripts Information](Readme_References/Configuration_Scripts_details.md)
 
 ## How to run the Assessment Tool
 
@@ -79,9 +79,9 @@ Mode                 LastWriteTime         Length Name
 d-----         4/16/2021  10:48 AM                logs
 Enter the name Source System Type to connect to(SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE). Default on Enter: [Synapse]: APS
 Would you like to filter the Database to Inventory. % = All DBs or dbname,dbname delimited.  Default on Enter: [%]:
-Enter the name/ip of the Server to connect to. Default on Enter: [charisworkspace.sql.azuresynapse.net]: apspod0.centralus.cloudapp.azure.com,17001
+Enter the name/ip of the Server to connect to. Default on Enter: [testserver.sql.azuresynapse.net]: testaps.centralus.cloudapp.azure.com,17001
 How do you want to connect to the DB (ADPass, AzureADInt, WinInt, SQLAuth). Default on Enter: [SQLAUTH]?:
-SQLAUTH Method used. Please Enter the UserName: amaarch
+SQLAUTH Method used. Please Enter the UserName: testuser
 Password:: **************
 
 ```
