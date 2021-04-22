@@ -86,7 +86,7 @@
 			},
 			{
 				"System":"ORACLE",
-				"Query":"SELECT VERSION FROM v$instance;"
+				"Query":"SELECT VERSION_FULL as VERSION FROM SYS.PRODUCT_COMPONENT_VERSION;"
 			}
 		],
 	"DBListingQuery":
