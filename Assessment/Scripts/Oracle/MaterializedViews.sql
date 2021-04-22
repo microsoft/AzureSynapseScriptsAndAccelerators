@@ -1,0 +1,1 @@
+select * from all_objects where OBJECT_TYPE='MATERIALIZED VIEW';

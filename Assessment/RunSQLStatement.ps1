@@ -120,6 +120,9 @@ function RunSQLStatement
 		elseif ($SourceSystemType -eq "ORACLE") 
 		{
 			#https://www.oracle.com/database/technologies/odac-downloads.html
+			$ConnectionString = "dsn={0};UID={1};pwd={2};" -f $DSNName,$Username,$Password 
+			$conn=new-object system.data.odbc.odbcconnection
+			$cmd = new-object System.Data.Odbc.OdbcCommand
 		}
 		#Display-LogMsg "ConnectionString: $ConnectionString "
 		#$conn=new-object System.Data.SqlClient.SQLConnection
@@ -141,7 +144,7 @@ function RunSQLStatement
 		#$datareader = $cmd.ExecuteReader();
 		# Use odbcdataadpter for Netezza and Teradata
 		$ds=New-Object system.Data.DataSet 
-		if($SourceSystemType -eq "NETEZZA" -or $SourceSystemType -eq "TERADATA" -or $SourceSystemType -eq "SNOWFLAKE")
+		if($SourceSystemType -eq "NETEZZA" -or $SourceSystemType -eq "TERADATA" -or $SourceSystemType -eq "SNOWFLAKE" -or $SourceSystemType -eq "ORACLE")
 		{
 			$da=New-Object System.Data.Odbc.OdbcDataAdapter($cmd) 
 		}

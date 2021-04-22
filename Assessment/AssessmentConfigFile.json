@@ -1,9 +1,9 @@
 {
     "PreAssessmentOutputPath":  "Results",
     "ServerName":  "charisworkspace.sql.azuresynapse.net",
-    "DSNName":  "TD",
+    "DSNName":  "AD_Oracle",
     "DBFilter":  "%",
-    "SourceSystem":  "Synapse",
+    "SourceSystem":  "ORACLE",
     "ConnectionType":  "SQLAUTH",
     "StoreOutputInSeperateFolders":  "False"
 }

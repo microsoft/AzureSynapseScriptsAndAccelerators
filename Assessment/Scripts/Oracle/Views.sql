@@ -1,0 +1,1 @@
+SELECT OWNER AS SCHEMA_NAME,VIEW_NAME from sys.all_views;

@@ -9,7 +9,7 @@
 			"QueryTimeout":"6",
 			"ConnectionTimeout":"3",
 			"VerboseLogging":"False",
-			"ValidSourceSystems":"SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE"
+			"ValidSourceSystems":"SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE, ORACLE"
 			}
 		],
 	"APS":
@@ -49,7 +49,7 @@
 		],
 	"ORACLE":
 		[
-			{"Database":"hr",
+			{"Database":"SYSTEM",
 			 "Port":"1521",
 			 "ConnectionMethod":"SQLAuth"}
 		],
@@ -83,6 +83,10 @@
 			{
 				"System":"SQLSERVER",
 				"Query":"SELECT SERVERPROPERTY('productversion') AS Version;"
+			},
+			{
+				"System":"ORACLE",
+				"Query":"SELECT VERSION FROM v$instance;"
 			}
 		],
 	"DBListingQuery":
@@ -92,6 +96,12 @@
 				"VersionFrom":"5.0.0.0",
 				"VersionTo": "9.2.0.0",
 				"Query":"select DATNAME as Name from SYSTEM.._T_DATABASE Where DATNAME NOT IN ('MASTER_DB','SYSTEM')"
+			},
+			{
+				"System":"Oracle",
+				"VersionFrom":"10.0.0.0",
+				"VersionTo": "19.0.0.0",
+				"Query":"select ora_database_name from dual;"
 			},
 			{
 				"System":"TERADATA",
@@ -134,6 +144,12 @@
 				"VersionFrom":"5.0.0.0",
 				"VersionTo": "9.2.0.0",
 				"Query":"select * from _v_table"
+			},
+			{
+				"System":"Oracle",
+				"VersionFrom":"10.0.0.0",
+				"VersionTo": "19.0.0.0",
+				"Query":"SELECT table_name FROM user_tables ORDER BY table_name;"
 			},
 			{
 				"System":"TERADATA",
@@ -180,6 +196,12 @@
 				"Query":""
 			},
 			{
+				"System":"Oracle",
+				"VersionFrom":"10.0.0.0",
+				"VersionTo": "19.0.0.0",
+				"Query":""
+			},
+			{
 				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
@@ -216,6 +238,12 @@
 				"System":"Netezza",
 				"VersionFrom":"5.0.0.0",
 				"VersionTo": "9.2.0.0",
+				"Query":""
+			},
+			{
+				"System":"Oracle",
+				"VersionFrom":"10.0.0.0",
+				"VersionTo": "19.0.0.0",
 				"Query":""
 			},
 			{
@@ -258,6 +286,12 @@
 					"Query":""
 				},
 				{
+					"System":"Oracle",
+					"VersionFrom":"10.0.0.0",
+					"VersionTo": "19.0.0.0",
+					"Query":""
+				},
+				{
 					"System":"TERADATA",
 					"VersionFrom":"0.0.0.0",
 					"VersionTo": "99.99.99.99",
@@ -294,6 +328,12 @@
 				"System":"Netezza",
 				"VersionFrom":"5.0.0.0",
 				"VersionTo": "9.2.0.0",
+				"Query":""
+			},
+			{
+				"System":"Oracle",
+				"VersionFrom":"10.0.0.0",
+				"VersionTo": "19.0.0.0",
 				"Query":""
 			},
 			{
@@ -336,6 +376,12 @@
 				"Query":""
 			},
 			{
+				"System":"Oracle",
+				"VersionFrom":"10.0.0.0",
+				"VersionTo": "19.0.0.0",
+				"Query":""
+			},
+			{
 				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
@@ -375,6 +421,12 @@
 				"Query":""
 			},
 			{
+				"System":"Oracle",
+				"VersionFrom":"10.0.0.0",
+				"VersionTo": "19.0.0.0",
+				"Query":""
+			},
+			{
 				"System":"TERADATA",
 				"VersionFrom":"0.0.0.0",
 				"VersionTo": "99.99.99.99",
@@ -411,6 +463,12 @@
 				"System":"Netezza",
 				"VersionFrom":"5.0.0.0",
 				"VersionTo": "9.2.0.0",
+				"Query":""
+			},
+			{
+				"System":"Oracle",
+				"VersionFrom":"10.0.0.0",
+				"VersionTo": "19.0.0.0",
 				"Query":""
 			},
 			{

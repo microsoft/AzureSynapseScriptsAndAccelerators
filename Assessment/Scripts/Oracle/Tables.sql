@@ -1,0 +1,1 @@
+SELECT owner As Schema_Name, table_name, num_rows, partitioned   FROM all_tables;
