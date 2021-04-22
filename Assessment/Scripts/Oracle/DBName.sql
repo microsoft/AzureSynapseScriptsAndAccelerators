@@ -1,0 +1,1 @@
+select GLOBAL_NAME as "DBName" from global_name;

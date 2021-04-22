@@ -1,0 +1,1 @@
+SELECT count(*) FROM dba_encrypted_columns;

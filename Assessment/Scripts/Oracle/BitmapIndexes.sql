@@ -1,0 +1,1 @@
+SELECT * FROM dba_indexes WHERE index_type IN ('BITMAP', 'FUNCTION-BASED BITMAP' );

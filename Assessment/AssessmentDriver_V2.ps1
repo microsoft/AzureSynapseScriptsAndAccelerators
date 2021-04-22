@@ -635,7 +635,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 	}
 	
 
-	If($SourceSystem -eq 'TERADATA' -or $SourceSystem -eq 'SNOWFLAKE')
+	If($SourceSystem -eq 'TERADATA' -or $SourceSystem -eq 'SNOWFLAKE' -or $SourceSystem -eq 'ORACLE')
 	{
 		$DSNName = Read-Host -prompt "Enter the ODBC DSN Name to connect with(Note: Maybe Case Sens). Default on Enter: [$DSNNameDefault]"
 		if($DSNName -ceq "" -or $DSNName -ceq $null)
@@ -717,11 +717,23 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 	}
 
 
-	# Code to Handle Teradata
+	# Code to Handle SQLServer
 	if ($SourceSystem -eq "SQLSERVER")
 	{
 		$SqlServerConfig = ($BaseJSON | Select-Object Sqlserver).Sqlserver
 		foreach($v in $SqlServerConfig)
+		{
+			$DB_Default = ($v | Select-Object Database).Database
+			$Port = ($v | Select-Object Port).Port
+			$ConnectionMethodSupported = ($v | Select-Object ConnectionMethod).ConnectionMethod
+		}
+	}
+
+	# Code to handle Oracle 
+	if ($SourceSystem -eq "ORACLE")
+	{
+		$OracleConfig = ($BaseJSON | Select-Object Oracle).Oracle
+		foreach($v in $OracleConfig)
 		{
 			$DB_Default = ($v | Select-Object Database).Database
 			$Port = ($v | Select-Object Port).Port
@@ -892,6 +904,8 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 				}
 
 				Display-LogMsg "Run for.. $RunFor"
+
+				Write-host "Running the Script $ScriptName ...."
 
 				If($RunFor.ToUpper() -eq "SERVER")
 				{

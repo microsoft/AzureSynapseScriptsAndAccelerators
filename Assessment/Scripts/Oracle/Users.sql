@@ -1,0 +1,1 @@
+select  USER_ID,USERNAME from  all_users;
