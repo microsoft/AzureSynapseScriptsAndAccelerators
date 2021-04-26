@@ -905,7 +905,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 
 				Display-LogMsg "Run for.. $RunFor"
 
-				Write-host "Running the Script $ScriptName ...."
+				Write-host "Executing the Script $ScriptName .... started at $(get-date -Format yyyy-MM-dd:HH:mm:ss)"
 
 				If($RunFor.ToUpper() -eq "SERVER")
 				{
@@ -1053,6 +1053,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 					}
 					
 				}
+				Write-host "Executing the Script $ScriptName .... Ended at $(get-date -Format yyyy-MM-dd:HH:mm:ss)"
 			}
 		}
 	}

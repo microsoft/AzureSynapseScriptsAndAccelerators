@@ -1,1 +1,1 @@
-SELECT count(*) FROM dba_encrypted_columns;
+SELECT * FROM dba_encrypted_columns;

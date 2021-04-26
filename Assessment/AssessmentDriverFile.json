@@ -6,8 +6,8 @@
 			{
 			"PreAssessmentDriverFile":"SQLScriptstoRun.csv",
 			"PreAssessmentScriptPath":"Scripts",
-			"QueryTimeout":"6",
-			"ConnectionTimeout":"3",
+			"QueryTimeout":"3600",
+			"ConnectionTimeout":"3600",
 			"VerboseLogging":"False",
 			"ValidSourceSystems":"SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE, ORACLE"
 			}
