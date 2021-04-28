@@ -1,1 +1,1 @@
-SELECT BANNER as ORACLE_VERSION FROM v$version;
+SELECT * FROM v$version;

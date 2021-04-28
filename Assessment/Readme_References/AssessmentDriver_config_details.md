@@ -19,7 +19,7 @@ The values in the General Configuration section will need to change based on the
 - QueryTimeout : Length of time before the query should timeout if results have not been returned.
 - ConnectionTimeout : Length of time to wait on a connection to the source system to be made before timing out.
 - VerboseLogging : To enabled the additional logging.Be default is false
-- ValidSourceSystems : SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE
+- ValidSourceSystems : SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE and Oracle/Exadata
 
 **APS Configuration:**
 The values in the APS Configuration section that may need to change if connecting to APS or Synapse.
@@ -51,6 +51,11 @@ The values in the APS Configuration section that may need to change if connectin
 - Database : Default database for Snowflake.
 - Port : Port to use to connect to the Snowflake
 - ConnectionMethod : Authentication method to connect to Snowflake
+
+**Oracle/Exadata Configuration:**
+- Database : Default database for Oracle.
+- Port : Port to use to connect to the Oracle.
+- ConnectionMethod : Authentication method to connect to Oracle.
 
 **Version Query Configuration:**
 

@@ -1,1 +1,1 @@
-select value as "Count(*)" from v$pgastat where name='maximum PGA allocated';
+select value as MemoryUsage from v$pgastat where name='maximum PGA allocated';
