@@ -3,6 +3,7 @@
     SELECT  o.type_desc AS ROUTINE_TYPE
        ,QUOTENAME(s.[name]) + '.' + QUOTENAME(o.[name]) AS [OBJECT_NAME]
        ,(LEN(m.definition) - LEN(REPLACE(m.definition, CHAR(10), ''))) AS LINES_OF_CODE
+	   ,(LEN(m.definition)) AS Count_of_Characters
 FROM    sys.sql_modules AS m
 INNER JOIN sys.objects AS o
         ON m.[object_id] = o.[OBJECT_ID]

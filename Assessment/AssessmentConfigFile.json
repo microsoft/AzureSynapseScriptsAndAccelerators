@@ -1,9 +1,9 @@
 {
     "PreAssessmentOutputPath":  "Results",
-    "ServerName":  "charisworkspace.sql.azuresynapse.net",
+    "ServerName":  "charis-sql.database.windows.net",
     "DSNName":  "AD_Oracle",
     "DBFilter":  "%",
-    "SourceSystem":  "ORACLE",
-    "ConnectionType":  "SQLAUTH",
+    "SourceSystem":  "SQLServer",
+    "ConnectionType":  "sqlauth",
     "StoreOutputInSeperateFolders":  "False"
 }

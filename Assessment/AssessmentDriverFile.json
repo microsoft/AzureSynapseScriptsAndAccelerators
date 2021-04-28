@@ -6,8 +6,8 @@
 			{
 			"PreAssessmentDriverFile":"SQLScriptstoRun.csv",
 			"PreAssessmentScriptPath":"Scripts",
-			"QueryTimeout":"3600",
-			"ConnectionTimeout":"3600",
+			"QueryTimeout":"0",
+			"ConnectionTimeout":"60",
 			"VerboseLogging":"False",
 			"ValidSourceSystems":"SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE, ORACLE"
 			}
@@ -134,7 +134,7 @@
 				"System":"SQLSERVER",
 				"VersionFrom":"1.0.2000.8",
 				"VersionTo": "99.0.2000.8",
-				"Query":"select name from sys.databases where name not in ('master','tempdb','stagedb', 'msdb', 'model', 'ReportServer$%')"
+				"Query":"select name from sys.databases where name not in ('master','tempdb','stagedb', 'msdb', 'model', 'ReportServer$%') and user_access_desc = 'multi_user' and state_desc='online'"
 			}
 		],
 	"TableListingQuery":

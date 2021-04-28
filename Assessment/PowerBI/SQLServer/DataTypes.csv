@@ -1,0 +1,37 @@
+DataType,Supported,NewDataType,Notes
+geometry|N|varbinary|
+geography|N|varbinary|
+hierarchyID,N,nvarchar(4000)|
+image|N|varbinary|
+text|N|varchar|
+ntext|N|nvarchar|
+sql_variant|N|NONE|Split column into several strongly typed columns.
+table|N|NONE|Convert to temporary tables or consider storing data to storage using CETAS.
+timestamp|N|NONE|Rework code to use datetime2 and the CURRENT_TIMESTAMP function. Only constants are supported as defaults, therefore current_timestamp cannot be defined as a default constraint. If you need to migrate row version values from a timestamp typed column, then use BINARY(8) or VARBINARY(8) for NOT NULL or NULL row version values.
+XML|N|Varchar(max)|Varchar(max) may be a poor choice as it could result in data loss if the value is > 2GB in length. Column should be removed and stored in ADLS.
+user-defined|N|NONE|Convert back to the native data type when possible.
+uniqueidentifier|Y|uniqueidentifier|
+date|Y|date|
+time|Y|time|
+datetime2|Y|datetime2|
+datetimeoffset|Y|datetimeoffset|
+tinyint|Y|tinyint|
+smallint|Y|smallint|
+int|Y|int|
+smalldatetime|Y|smalldatetime|
+real|Y|real|
+money|Y|money|
+datetime|Y|datetime|
+float|Y|float|
+bit|Y|bit|
+decimal|Y|decimal|
+numeric|Y|numeric|
+smallmoney|Y|smallmoney|
+bigint|Y|bigint|
+varbinary|Y|varbinary|
+varchar|Y|varchar|
+binary|Y|binary|
+char|Y|char|
+nvarchar|Y|nvarchar|
+nchar|Y|nchar|
+sysname|Y||

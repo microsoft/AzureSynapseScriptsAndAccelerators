@@ -1,6 +1,6 @@
 -- Query for: 22. Change Tracking
-
-    SELECT t.name
+SELECT t.name as table_Name
+	  , schema_Name(Schema_id) as schema_name
       ,[is_track_columns_updated_on]
       ,[min_valid_version]
       ,[begin_version]
