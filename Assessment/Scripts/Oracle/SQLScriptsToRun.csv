@@ -8,7 +8,7 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,ResourceUtilization,\Oracle\ResourceUtilization.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Version,\Oracle\Version.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,DBName,\Oracle\DBName.sql
-1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,DBSchema,\Oracle\DBSchema.sql
+1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,TablePartitions,\Oracle\TablePartitions.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,TotalDBSize,\Oracle\TotalDBSize.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,TotalUsedDBSize,\Oracle\TotalUsedDBSize.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Functions,\Oracle\Functions.sql
@@ -25,3 +25,5 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,DBMail,\Oracle\DBMail.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,MaterializedViews,\Oracle\MaterializedViews.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Triggers,\Oracle\Triggers.sql
+1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,ObjectCounts,\Oracle\ObjectCounts.sql
+1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,ColumnMetadata,\Oracle\ColumnMetadata.sql

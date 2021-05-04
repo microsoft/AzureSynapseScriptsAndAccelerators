@@ -1,0 +1,9 @@
+ select TABLE_OWNER as schema_name,TABLE_NAME,Partition_name,
+ sum(num_rows) RowCount,
+ Round(sum(avg_row_len*num_rows)/1024/1024,2) as "PartitionSize(MB)",
+ Round(sum(avg_row_len*num_rows)/1024/1024/1024,5) as "PartitionSize(GB)",
+ Round(sum(avg_row_len*num_rows)/1024/1024/1024/1024,8) as "PartitionSize(TB)" FROM DBA_TAB_PARTITIONS
+WHERE TABLE_OWNER NOT IN ('SYS', 'SYSTEM', 'ANONYMOUS', 'CTXSYS', 'DBSNMP', 'LBACSYS', 'MDSYS', 'OLAPSYS', 'ORDPLUGINS', 'ORDSYS', 'OUTLN', 'SCOTT', 'WKSYS', 'WMSYS', 'XDB', 
+'DVSYS', 'EXFSYS', 'MGMT_VIEW', 'ORDDATA', 'OWBSYS', 'ORDPLUGINS', 'SYSMAN', 'WKSYS', 'WKPROXY', 'AUDSYS', 'GSMADMIN_INTERNAL', 'DBSFWUSER', 'OJVMSYS', 'APPQOSSYS', 'REMOTE_SCHEDULER_AGENT', 'DVF', 'ORACLE_OCM', 'PUBLIC')
+group by TABLE_OWNER, TABLE_NAME, PARTITION_NAME
+ORDER BY TABLE_OWNER, TABLE_NAME, PARTITION_NAME;
