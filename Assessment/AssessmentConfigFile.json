@@ -3,7 +3,7 @@
     "ServerName":  "charis-sql.database.windows.net",
     "DSNName":  "AD_Oracle",
     "DBFilter":  "%",
-    "SourceSystem":  "SQLServer",
+    "SourceSystem":  "oracle",
     "ConnectionType":  "sqlauth",
     "StoreOutputInSeperateFolders":  "False"
 }

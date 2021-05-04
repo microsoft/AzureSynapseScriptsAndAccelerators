@@ -1,1 +1,1 @@
-SELECT * FROM dba_encrypted_columns;
+SELECT OWNER as schema_name,table_name,column_name,encryption_alg FROM dba_encrypted_columns;

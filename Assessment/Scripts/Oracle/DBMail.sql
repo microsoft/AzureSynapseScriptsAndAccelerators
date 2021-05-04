@@ -1,1 +1,1 @@
-SELECT COUNT(*) FROM ALL_SYNONYMS WHERE OWNER = 'PUBLIC' and table_name LIKE 'UTL_MAIL';
+SELECT  OWNER as schema_name,synonym_name,table_owner,table_name,db_link FROM ALL_SYNONYMS WHERE OWNER = 'PUBLIC' and table_name LIKE 'UTL_MAIL';
