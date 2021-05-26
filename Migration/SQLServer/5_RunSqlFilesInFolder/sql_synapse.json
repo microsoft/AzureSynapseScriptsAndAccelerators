@@ -1,0 +1,6 @@
+{
+	"ServerName":"yourSynapseWorkSpaceName.sql.azuresynapse.net",
+	"DatebaseName":"yourSynapeSqlPoolDatabaseName",
+	"IntegratedSecurity":"No",
+	"SqlFilesFolder":"C:\\migratemaster\\output\\4_GenerateCopyIntoScripts\\AdlsMiCsv"
+}

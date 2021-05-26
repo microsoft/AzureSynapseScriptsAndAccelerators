@@ -1,0 +1,6 @@
+{
+	"ServerName":".\\YourSqlSvrNameHere",
+	"IntegratedSecurity":"Yes",
+	"ThreePartsName":"Yes",
+	"OutputFolder":"C:\\migratemaster\\output\\1_TranslateMetaData"
+}

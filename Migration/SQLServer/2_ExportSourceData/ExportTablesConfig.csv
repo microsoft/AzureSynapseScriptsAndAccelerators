@@ -1,0 +1,7 @@
+﻿Active,DatabaseName,SchemaName,TableName,Encoding,UseQuery,Query,RowDelimiter,ColumnDelimiter,BatchSize,UseCharDataType,AutoCreateFileName
+1,AdventureWorksDW2017,dbo,DimAccount,UTF8,1,Select * from dbo.DimAccount,0x1E,0x1F,10000,1,0
+1,AdventureWorksDW2017,dbo,DimCustomer,UTF8,1,Select * from dbo.DimCustomer,0x1E,0x1F,10000,1,0
+1,AdventureWorksDW2017,dbo,DimDate,UTF8,1,Select * from dbo.DimDate,0x1E,0x1F,10000,1,0
+1,AdventureWorksDW2017,dbo,DimGeography,UTF8,1,Select * from dbo.DimGeography,0x1E,0x1F,10000,1,0
+1,AdventureWorksDW2017,dbo,DimReseller,UTF8,1,Select * from dbo.DimReseller,0x1E,0x1F,10000,1,0
+1,AdventureWorksDW2017,dbo,FactInternetSales,UTF8,1,Select * from dbo.FactInternetSales,0x1E,0x1F,10000,1,0
