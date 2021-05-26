@@ -1,0 +1,15 @@
+{
+	"AzCopyPath":"C:\\Z_Progs\\AzCopy10",
+	"AzureSubscriptionID":"xxxxxxxx-aaa8-bcd095-ssssss",
+	"AzureResourceGroup":"your_azure_resource_group",
+	"StorageAccountName":"your_storage_account_name",
+	"GenerateSASKey":"Yes",
+	"SASKey":"YourSASKeyHere_if_you_choose_to_Provide",
+	"KeyExpirationTimeInHours":"10",
+	"ContainerName":"migratemaster",
+	"FoldersToUpload":
+		[
+			"C:\\migratemaster\\output\\2_ExportSourceData\\Folder1",
+			"C:\\migratemaster\\output\\2_ExportSourceData\\Folder2"		
+	    ]
+}
