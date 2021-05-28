@@ -28,4 +28,5 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,host_setting,\SQLSERVER\28_Host_Operating_System_V1.sql
 1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,resources,\SQLSERVER\29_Available_Resources_V1.sql
 1,SQLSERVER,DB,ALL,SQL,1.0.0.0,99.0.0.0,temporal_tables,\SQLSERVER\30_Temporal_Tables_V1.sql
+1,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,version,\SQLSERVER\31_Version_V1.sql
 0,SQLSERVER,Server,ALL,SQL,1.0.0.0,99.0.0.0,assessment_scripts,\SQLSERVER\SQLSERVER Assessment Scripts.sql
