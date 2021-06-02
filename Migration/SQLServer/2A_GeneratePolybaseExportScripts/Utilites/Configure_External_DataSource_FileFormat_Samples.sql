@@ -13,14 +13,14 @@ CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'S0meStr0ngKey123';
 -- connect to a particular db
 -- Create a database scoped credential
 
--- Drop DATABASE SCOPED CREDENTIAL adls_cr
+-- Drop DATABASE SCOPED CREDENTIAL yourCredentialName
 CREATE DATABASE SCOPED CREDENTIAL yourCredentialName
 --Shared Access Signatures cannot be used with PolyBase in SQL Server, APS or Azure Synapse Analytics.
 WITH IDENTITY = 'Blob Storage',  
 SECRET = 'SampleSampleSampleSampleSampleSample5akd1wpWw==' -- storage account key 
 
 
-CREATE EXTERNAL DATA SOURCE blob_gailz_ds WITH (  
+CREATE EXTERNAL DATA SOURCE yourExternalDataSourceName WITH (  
     LOCATION ='wasbs://containername@blobaccountname.blob.core.windows.net',  -- replace with actual names
     CREDENTIAL = yourCredentialName, --This name must match the database scoped credential name 
 	TYPE = HADOOP
