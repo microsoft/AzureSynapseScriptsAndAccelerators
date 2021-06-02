@@ -11,11 +11,9 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,TablePartitions,\Oracle\TablePartitions.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,TotalDBSize,\Oracle\TotalDBSize.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,TotalUsedDBSize,\Oracle\TotalUsedDBSize.sql
-1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Functions,\Oracle\Functions.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Indexes,\Oracle\Indexes.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Packages,\Oracle\Packages.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Roles,\Oracle\Roles.sql
-1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,StoredProcedures,\Oracle\StoredProcedures.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Tables,\Oracle\Tables.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,11.9.0.0,Users,\Oracle\Users_v1.sql
 1,ORACLE,Server,ALL,SQL,12.0.0.0,19.0.0.0,Users,\Oracle\Users_v2.sql
@@ -30,3 +28,7 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,ORACLE,Server,ALL,SQL,10.0.0.0,11.9.0.0,ColumnMetadata,\Oracle\ColumnMetadata_v1.sql
 1,ORACLE,Server,ALL,SQL,12.0.0.0,19.0.0.0,ColumnMetadata,\Oracle\ColumnMetadata_v2.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,ObjectLineCounts,\Oracle\ObjectLineCount.sql
+1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,TablePKs,\Oracle\TablePKs.sql
+0,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Functions,\Oracle\Functions.sql
+0,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,StoredProcedures,\Oracle\StoredProcedures.sql
+

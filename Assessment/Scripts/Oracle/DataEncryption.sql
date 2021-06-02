@@ -1,1 +1,8 @@
-SELECT OWNER as schema_name,table_name,column_name,encryption_alg FROM dba_encrypted_columns;
+SELECT SYS_CONTEXT('USERENV','INSTANCE_NAME') AS INSTANCE_NAME, 
+	OWNER AS SCHEMA_NAME,
+	TABLE_NAME,
+	COLUMN_NAME,
+	ENCRYPTION_ALG,
+	SYS_CONTEXT('USERENV','INSTANCE_NAME') || OWNER AS ROWKEY
+FROM dba_encrypted_columns;
+
