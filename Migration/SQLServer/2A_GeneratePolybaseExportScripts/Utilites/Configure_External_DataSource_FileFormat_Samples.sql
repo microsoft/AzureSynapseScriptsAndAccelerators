@@ -17,7 +17,7 @@ CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'S0meStr0ngKey123';
 CREATE DATABASE SCOPED CREDENTIAL yourCredentialName
 --Shared Access Signatures cannot be used with PolyBase in SQL Server, APS or Azure Synapse Analytics.
 WITH IDENTITY = 'Blob Storage',  
-SECRET = 'SampleSampleSampleSampleSampleSample5akd1wpWw==' -- account SAS key 
+SECRET = 'SampleSampleSampleSampleSampleSample5akd1wpWw==' -- storage account key 
 
 
 CREATE EXTERNAL DATA SOURCE blob_gailz_ds WITH (  
