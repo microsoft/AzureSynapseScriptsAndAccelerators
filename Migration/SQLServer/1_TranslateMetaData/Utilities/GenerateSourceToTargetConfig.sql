@@ -28,7 +28,7 @@
 -- Capture the results and save it to SourceToTargetConfig.xslx 
 -- Then modify a few fields such as Table Distribution and adding Hash Keys. 
 
-use AdventureWorksDW2017
+--use AdventureWorksDW2017
 
 Select '1' as Active, 
 db_name()  as DatabaseName, 
@@ -49,12 +49,14 @@ on d.name = db_name()  and t.type_desc = 'USER_TABLE'
 and t.temporal_type_desc ='NON_TEMPORAL_TABLE' 
 and t.object_id not in (select object_id from sys.external_tables)
 -- if you want to specify tables:
-and t.name in (
-	'DimAccount',
-    'DimEmployee',
-    'DimReseller',
-    'DimCustomer',
-    'DimProduct',
-    'DimGeography',
-    'DimDate',
-    'FactInternetSales' ) 
+and t.name in 
+('DimAccount',
+'DimCustomer', 
+'DimDate', 
+'DimGeography',
+'DimReseller', 
+'FactInternetSales',
+'FactResellerSales',
+'FactProductInventory',
+'FactResellerSales'
+ ) 
