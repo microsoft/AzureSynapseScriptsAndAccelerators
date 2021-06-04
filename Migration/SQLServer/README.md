@@ -60,7 +60,9 @@ If using Polybase option, you will need to use Modules 1, 2A,  4, and 5. Module 
 
 ​		(3) Run T-SQL Scripts generated from 4_GenerateCopyIntoScripts. 
 
-![Polybase Option](images/Option-Polybase.jpg)
+![Polybase Option](images/Option-Polybase.JPG)
+
+
 
 ### **Complementary to Azure Synapse Pathway and Can Run ASP Output Code ** 
 
