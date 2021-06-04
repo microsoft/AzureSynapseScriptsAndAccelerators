@@ -1,6 +1,8 @@
 # **Module 3_LoadDataIntoAzureStorage**
 
-Use module **3_LoadDataIntoAzureStorage** to copy data from on-prem storage to Azure Storage. 
+Use module **3_LoadDataIntoAzureStorage** to copy data from on-prem storage to Azure Storage. The function is illustrated in the figure below:
+
+![Module M3_LoadDataIntoAzureStorage](..//images/M3_LoadDataIntoAzureStorage.JPG)
 
 You need to run **LoadDataIntoAzureStorage.ps1** which will prompt you for the names of one configuration file: **upload_config.json**.
 

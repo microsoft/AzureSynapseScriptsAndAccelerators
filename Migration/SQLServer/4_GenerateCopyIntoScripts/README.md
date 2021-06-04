@@ -1,6 +1,8 @@
 # **Module 4_GenerateCopyIntoScripts**
 
-Use module **4_GenerateCopyIntoScripts** to generate ‘Copy Into’ T-SQL Scripts. 
+Use module **4_GenerateCopyIntoScripts** to generate ‘Copy Into’ T-SQL Scripts. The function is illustrated in the figure below:
+
+![Module M4_GenerateCopyIntoScripts](..//images/M4_GenerateCopyIntoScripts.JPG)
 
 You will need to run PowerShell Script **GenerateCopyIntoScripts.ps1** which will prompt you for the names of two configuration files:
 
