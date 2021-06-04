@@ -1,6 +1,8 @@
 # **Module 2A_GeneratePolybaseExportScripts**
 
-Use module **2A_GeneratePolybaseExportScripts** to generate Polybase Export T-SQL Script for each table.
+Use module **2A_GeneratePolybaseExportScripts** to generate Polybase Export T-SQL Script for each table. The function is illustrated in the figure below:
+
+![Module 2A_GeneratePolybaseExportScripts](..//images/M2A_GeneratePolybaseExportScripts.JPG)
 
 You will need to configuration files: **export_tables_config.json** and **ExportTablesConfig.csv**. For your convenience we provided a sample configuration files to guide you to create one for your own Azure Synapse instance. 
 

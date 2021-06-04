@@ -1,6 +1,8 @@
 # **Module 2_ExportSourceData** (using BCP)
 
-Use Module **2_ExportSourceData** to export data using BCP for specified tables into delimited text files (.csv or .txt). 
+Use Module **2_ExportSourceData** to export data using BCP for specified tables into delimited text files (.csv or .txt).  The function is illustrated in the figure below:
+
+![Module 2_ExportSourceData](..//images/M2_ExportSourceData.JPG)
 
 You need to run **ExportSourceData.ps1** PowerShell script which will prompt you for the names of two configuration files:
 
