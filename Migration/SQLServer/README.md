@@ -4,8 +4,8 @@ This directory contains SQL server to Azure Synapse Migration Toolkit. It includ
 
 These two documents posted in this directory provide detailed information to help you to get started:
 
-- **SqlToSynapseMigrationOverview.pptx (.pdf)** - Overview of the SQL Server to Synapse Migration Scripts in Six Modules. It also provides step by step guide for exporting SQL Server data using BCP (Bulk Copy Program) or Polybase. Please note that Polybase is only available for SQL server 2016 or later versions.  
-- **SqlToSynapseMigration_User_Guide_V1.0.pdf** - Detailed User Guide that not only includes most of the information in the SqlToSynapseMigrationOverview.pptx (.pdf), but also has detailed reference materials for each PowerShell Script (Module). It describes each configuration file parameters with sample values.
+- [**SqlToSynapseMigrationOverview.pdf**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/SQLServer/SqlToSynapseMigrationOverview.pdf) - Overview of the SQL Server to Synapse Migration Scripts in Six Modules. It also provides step by step guide for exporting SQL Server data using BCP (Bulk Copy Program) or Polybase. Please note that Polybase is only available for SQL server 2016 or later versions.  
+- [**SqlToSynapseMigration_User_Guide.pdf**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/SQLServer/SqlToSynapseMigration_User_Guide.pdf) - Detailed User Guide that not only includes most of the information in the SqlToSynapseMigrationOverview.pdf, but also has detailed reference materials for each PowerShell Script (Module). It describes each configuration file parameters with sample values.
 
 In addition, within each module (subfolder in this directory), there is a README.md file to guide you through the usage and configuration files for the particular module. 
 
@@ -28,19 +28,41 @@ There are six modules that contain PowerShell Scripts and T-SQL Scripts designed
 
 The six modules are summarized as below:
 
-**1_TranslateMetaData**: Translate SQL objects (DDLs) from SQL Server format to target system Azure Synapse format. The output is stored as .sql files in your specified file folder. 
+**[1_TranslateMetaData](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/1_TranslateMetaData)**: Translate SQL objects (DDLs) from SQL Server format to target system Azure Synapse format. The output is stored as .sql files in your specified file folder. 
 
-**2_ExportSourceData**: Export SQL Server Tables into data files stored in delimited text format (.csv or .txt).  
+[**2_ExportSourceData**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/2A_GeneratePolybaseExportScripts): Export SQL Server Tables into data files stored in delimited text format (.csv or .txt).  
 
-**2A_GeneratePolybaseExportScripts**: Generate Polybase Export T-SQL Script for each table in the table list (configurable).  Polybase export set up examples are provided in subfolder “Utilities” inside this module. 
+**[2A_GeneratePolybaseExportScripts](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/2A_GeneratePolybaseExportScripts)**:  Generate Polybase Export T-SQL Script for each table in the table list (configurable).  Polybase export set up examples are provided in subfolder “Utilities” inside this module. 
 
-**3_LoadDataIntoAzureStorage**: Load exported data files into specified container in Azure Storage (Blob Storage or Azure Data Lake Store).
+[**3_LoadDataIntoAzureStorage**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/3_LoadDataIntoAzureStorage): Load exported data files into specified container in Azure Storage (Blob Storage or Azure Data Lake Store).
 
-**4_GenerateCopyIntoScripts**: Generate “COPY Into” T-SQL Scripts, once executed, will move data from Azure Storage into Azure Synapse SQL Pool tables.
+[**4_GenerateCopyIntoScripts**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/4_GenerateCopyIntoScripts): Generate “COPY Into” T-SQL Scripts, once executed, will move data from Azure Storage into Azure Synapse SQL Pool tables.
 
-**5_RunSqlFilesInFolder**: Run all T-SQL Scripts defined in .sql files stored in a specified file folder. The T-SQL Scripts can be DDL, DML, Data Movement Scripts (such as Copy Into scripts or Polybase Export Scripts), or any other scripts such as create/update statistics or indexes. In fact, this module is designed to run any SQL scripts in a folder. 
+[**5_RunSqlFilesInFolder**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/5_RunSqlFilesInFolder): Run all T-SQL Scripts defined in .sql files stored in a specified file folder. The T-SQL Scripts can be DDL, DML, Data Movement Scripts (such as Copy Into scripts or Polybase Export Scripts), or any other scripts such as create/update statistics or indexes. In fact, this module is designed to run any SQL scripts in a folder. 
 
-### **Why do we need These Scripts when we already have Azure Synapse Pathway**? 
+### Migration Option 1: Use BCP to Export SQL Server Data (Works with All Versions of SQL Server) 
+
+If using BCP option, you will need to use Modules 1, 2, 3, 4, and 5. The overall tasks and flows are illustrated in the figure below. **5_RunSqlFilesInFolder** is reused twice in the process: 
+
+​		(1) Run T-SQL Scripts generated from 1_TranslateMetadata, and 
+
+​		(2) Run T-SQL Scripts generated from 4_GenerateCopyIntoScripts. 
+
+![BCP Option](images/Option-BCP.JPG)
+
+### **Migration Option 2: Use Polybase to Export SQL Server Data - Works SQL Server** 2016 or Later Versions
+
+If using Polybase option, you will need to use Modules 1, 2A,  4, and 5. Module 3 is not needed as the Polybase method will load data directly to Azure Storage from SQL Server. The overall tasks and flows are illustrated in the figure below. **5_RunSqlFilesInFolder** is reused three times in the process: 
+
+​		(1) Run T-SQL Scripts generated from 1_TranslateMetadata, 
+
+​		(2) Run T-SQL Scripts generated from 2A_GeneratePolybaseExportScripts, and 
+
+​		(3) Run T-SQL Scripts generated from 4_GenerateCopyIntoScripts. 
+
+![Polybase Option](images/Option-Polybase.jpg)
+
+### **Complementary to Azure Synapse Pathway and Can Run ASP Output Code ** 
 
 These Scripts are complementary to Azure Synapse Pathway (ASP). ASP does not perform data migration today (as of June 2021). We designed and implemented 6 modules to complete the end-to-end tasks of tables migration and data migration (using BCP or Polybase Export). Please check the latest release of Azure Synapse Pathway for more advanced SQL Server code translation capabilities. 
 
