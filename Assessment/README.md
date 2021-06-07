@@ -56,7 +56,7 @@ Unblock-File -Path .\RunSQLStatement.ps1
 - Repeat the same steps for RunSQLStatement.ps1 and then run .\AssessmentDriver_V2.ps1
 ```
 
-**3.Configuration & script details**
+**3.Configuration & script details (this is an optional step)**
 
 **Note :** Please don't change any configuration files unless it is required to be changed. Please refer the [Configuration & Scripts Information](Readme_References/Configuration_Scripts_details.md)
 
@@ -104,8 +104,14 @@ Password:: **************
     - "**Password**:” – Enter the password for the username entered above
 
 ## PowerBI Report Generation
-Once assessment tool output data is available, you can use [PowerBItemplate](APS%20Assessment.pbit) to generate an assessment report.
-Open Power BI template and specify the source folder where assessment output files reside(Example: C:\Migration_Assessment\SynapseScriptsAndAccelerators-main\Assessment\Results)
+Once assessment tool output data is available, you can use the template located under the PowerBI folder to generate an assessment report. 
+At this time PowerBI dashboards are created for these source: APS, SQL Server, Oracle and Teradata (limited output).
+Open the respective Power BI template and specify the source folder where assessment output files reside (Example: C:\Migration_Assessment\SynapseScriptsAndAccelerators-main\Assessment\Results)
+
+**Please note, for missing or empty assessment files:** 
+
+If assessment outputs do not contain any data (e.g. triggers, partitions), disable the file(s) for loading. 
+Click on the "Transform Data" icon, locate the file/feed on the left pane (e.g. Triggers or Table Partitions), right click, and uncheck "Enable Load". Save and Refresh the PowerBI dashboard.
 
 **APS PowerBI template Input sample**
 
@@ -119,8 +125,7 @@ Open Power BI template and specify the source folder where assessment output fil
 ## Appendix
 
 - [Assessment Tool powerpoint](AssessmentTool.pptx)
-- [PowerBI template](APS%20Assessment.pbit)
-- [Sample PowerBI Report](APS%20Assessment.pbix)
+- [PowerBI template](./PowerBI/SQLServer/SQL%20Server%20Assessment.pbit)
 - [Sample APS Assessment tool execution screenshot](..//Images/0A_assessment_execution.PNG)
 - [APS or Synapse Assessment Capturing Information](Readme_References/APS_or_Synapse_CapturingInformation.md)
 - [Netezza Assessment Capturing Information](Readme_References/Netezza_CapturingInformation.md)
