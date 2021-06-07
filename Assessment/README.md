@@ -111,7 +111,7 @@ Open Power BI template and specify the source folder where assessment output fil
 **Please note, for missing or empty assessment files:** 
 
 If assessment outputs do not contain any data (e.g. triggers, partitions), disable the file(s) for loading. 
-Click on the "Transform Data" icon, locate the file/feed on the left pane (e.g. Triggers or Table Partitions), right click, and uncheck "Enable Load". Save and Refresh the PowerBI dashaboard.
+Click on the "Transform Data" icon, locate the file/feed on the left pane (e.g. Triggers or Table Partitions), right click, and uncheck "Enable Load". Save and Refresh the PowerBI dashboard.
 
 **APS PowerBI template Input sample**
 
