@@ -105,7 +105,7 @@ Password:: **************
 
 ## PowerBI Report Generation
 Once assessment tool output data is available, you can use the template located under the PowerBI folder to generate an assessment report. 
-At this time PowerBI dashboards are created for these source: APS, SQL Server and
+At this time PowerBI dashboards are created for these source: APS, SQL Server, Oracle and Teradata (limited output).
 Open Power BI template and specify the source folder where assessment output files reside(Example: C:\Migration_Assessment\SynapseScriptsAndAccelerators-main\Assessment\Results)
 
 **Please note, for missing or empty assessment files:** 
