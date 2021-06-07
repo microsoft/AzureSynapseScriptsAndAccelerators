@@ -1,7 +1,5 @@
-Declare @OutputDir varchar(max)= '##CreateMPPScriptsPath##' 
-
 Select '1' as Active, db_name() as DatabaseName, s.name as SchemaName,
-@OutputDir + '\' + db_name() + '\Statistics\'  as OutputFolderPath,
+'\' + db_name() + '\Statistics\'  as OutputFolderPath,
 s.name + '_' + o.name + '_' + stats.name as FileName,
 s.name + '.' + o.name + '.' + stats.name as 'ObjectName', 'STAT' as ObjectsToScript 
 from sys.objects o

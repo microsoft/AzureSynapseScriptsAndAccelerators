@@ -19,7 +19,7 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,ObjectCount,\APS\ObjectCount_V1.sql
 1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,TableMetadata,\APS\TableMetadata_V1.sql
 1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,TablesToScript,\APS\TablesToScript_V2.sql
-1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,ViewsToScript,\APS\ViewsToScript_V1.sql
+1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,ViewsToScript,\APS\ViewsToScript_V2.sql
 1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,SPsToScript,\APS\SPsToScript_V2.sql
 1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,RemoteTableSPs,\APS\RemoteTableSPs_V1.sql
 1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,FunctionsToScript,\APS\FunctionsToScript_V1.sql

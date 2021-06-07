@@ -1,7 +1,5 @@
-Declare @OutputDir varchar(max)= '##CreateMPPScriptsPath##' 
-
 Select '1' as Active, db_name()  as DatabaseName, s.name as SchemaName, 
-@OutputDir + '\' + db_name() + '\Tables\' as OutputFolderPath,
+'\' + db_name() + '\Tables\' as OutputFolderPath,
 s.name + '_'+ t.name as FileName, 
 s.name + '.'+ t.name as 'ObjectName', 'TABLE' as ObjectsToScript 
 from sys.tables t 
