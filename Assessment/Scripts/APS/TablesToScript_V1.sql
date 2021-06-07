@@ -1,9 +1,6 @@
-Declare @ServerName varchar(50)= '10.222.333.XXX'
-Declare @OutputDir varchar(50)= 'C:\APS2SQLDW\Output\1_CreateMPPScripts\' 
-
-Select '1' as Active, @ServerName as ServerName, 
+Select '1' as Active, 
 db_name()  as DatabaseName, s.name as SchemaName, 'DDL' as WorkMode,
-@OutputDir + db_name() + '\Tables\' as OutputFolderPath,
+'\' + db_name() + '\Tables\' as OutputFolderPath,
 s.name + '_'+ t.name as FileName, 'Full' as Mode, 
 s.name + '.'+ t.name as 'ObjectName', 'TABLE' as ObjectsToScript 
 from sys.tables t 

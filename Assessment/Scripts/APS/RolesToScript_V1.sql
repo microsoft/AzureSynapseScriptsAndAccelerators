@@ -1,7 +1,5 @@
-Declare @OutputDir varchar(max)= '##CreateMPPScriptsPath##' 
-
 select '1' as Active, db_name() as DatabaseName, '' SchemaName,
-@OutputDir + '\' + db_name() + '\Roles\'  as OutputFolderPath,
+'\' + db_name() + '\Roles\'  as OutputFolderPath,
 principals.name as FileName, 
 principals.name as 'ObjectName', 'ROLE' as ObjectsToScript 
 from sys.database_principals principals

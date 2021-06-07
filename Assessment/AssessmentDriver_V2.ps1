@@ -44,10 +44,12 @@
 # SCRIPT BODY
 # =================================================================================================================================================
 
+
 function Display-ErrorMsg($ImportError, $ErrorMsg) {
     Write-Host $ImportError  -ForegroundColor Red
 	Write-Log-File ImportError
 }
+
 
 # Enchanded Logging 
 function Display-LogMsg($LogMsg) {
@@ -55,10 +57,12 @@ function Display-LogMsg($LogMsg) {
 	Write-Log-File $LogMsg
 }
 
+
 Function Write-Log-File($logMsg)
 {
 	Add-Content -Path $LoggingDir -Value $LogMsg
 }
+
 
 Function GetPassword($securePassword)
 {
@@ -66,6 +70,7 @@ Function GetPassword($securePassword)
        $P = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePassword))
        return $P
 }
+
 
 # This one has not been referenced 
 Function GetDBVersionStatement($SourceSystem, $csvVersionFileFullPath)
@@ -87,6 +92,7 @@ Function GetDBVersionStatement($SourceSystem, $csvVersionFileFullPath)
 		Return $VersionSQLStatement
 	}
 }
+
 
 #Function GetListQuery ($ListQueries, $Version, $SourceSystem, $RunFor)
 Function GetListQuery ($BaseJSON, $Version, $SourceSystem, $RunFor)
@@ -157,6 +163,7 @@ Function GetListQuery ($BaseJSON, $Version, $SourceSystem, $RunFor)
 	return $ListQuery 
 }
 
+
 Function GetListToProcessOver($Query, $ServerName, $DSNName, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port)
 {
 	$ResultAs="DataSet"	
@@ -202,6 +209,7 @@ Function GetListToProcessOver($Query, $ServerName, $DSNName, $Database, $Usernam
 	return $ds
 }
 
+
 function Create-Directory([string]$dir)
 {
 	If (!(test-path $dir)) 
@@ -209,6 +217,7 @@ function Create-Directory([string]$dir)
 		New-Item -ItemType Directory -Force -Path $dir
 	}
 }
+
 
 function Get-FileName([string]$uFilename, [string]$PreAssessmentOutputPath) {
     # Store the files in different folders
@@ -228,6 +237,8 @@ function Get-FileName([string]$uFilename, [string]$PreAssessmentOutputPath) {
     Return [string]$exportFilename
     #= Join-Path -Path $PreAssessmentOutputPath -ChildPath New
 }
+
+
 Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $DSNName, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Port, $AddDatabaseName)
 {
 	$ResultAs="DataSet"	
@@ -254,8 +265,7 @@ Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $DSNName, $
 	{
 		$Errmsg =  "Error Executing SQL Statement: " + $ReturnValues.Get_Item("Msg")
 		Display-ErrorMsg -ImportError $Errmsg
-	}
-	
+	}	
 }
 
 
@@ -343,6 +353,7 @@ Function WriteShowSpaceUsedToCSV($FileName, $Query, $Variables, $ServerName, $DB
 	}
 }
 
+
 Function WriteQueryToSchema($FileName, $Variables, $DBName, $FirstDBLoop, $SchemaExportFolder)
 {
 	$FileName =  $FileName.Split('.')[0] + ".sh"
@@ -359,9 +370,6 @@ Function WriteQueryToSchema($FileName, $Variables, $DBName, $FirstDBLoop, $Schem
 		Add-Content $FileName "$nzBinaryFolder/nz_ddl $DBName >> $SchemaExportFolder/$DBName.sql"
 	}
 }
-
-
-
 
 
 function ContinueProcess {
@@ -434,6 +442,7 @@ function ContinueProcess {
 	}
 }
 
+
 Function GetDBEngineEdition($DBEditionQuery, $ServerName, $DSNName, $Port, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem)
 {
 	$ResultAs="DataSet"
@@ -473,6 +482,8 @@ Function GetDBEngineEdition($DBEditionQuery, $ServerName, $DSNName, $Port, $Data
 	#Need to break out of code here if $verion is not returned.
 	return $EngineEdition 
 }
+
+
 Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, $Username, $Password, $ConnectionType, $QueryTimeout, $ConnectionTimeout, $SourceSystem, $Type)
 {
 	#Display-LogMsg "GetDBVersion:: $VersionQueries "
@@ -556,10 +567,16 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 	return $Version 
 }
 
+
+    $culture = [System.Globalization.CultureInfo]::GetCultureInfo('en-US')
+    [System.Threading.Thread]::CurrentThread.CurrentUICulture = $culture
+    [System.Threading.Thread]::CurrentThread.CurrentCulture = $culture
+
+
 	# Verbose logging : True for more detail, False for minimal logging
 
 	#$VerboseLogging = "True"
-	$Version = ""
+	$Version = $null
 
 	# Set default JSON config file. This file will have all configurations needed. One file to have all info. 
 	# User can overrite the file full path when prompted. 

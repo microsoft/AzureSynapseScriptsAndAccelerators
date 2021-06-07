@@ -1,8 +1,8 @@
 # =================================================================================================================================================
 # Scriptname: ScriptMPPObjectsDriver.ps1
 # 
-# Created: August, 2018
-# Authors: Andy Isley and Gaiye "Gail" Zhou
+# Created: December, 2020
+# Authors: Andy Isley, Gaiye "Gail" Zhou, Andrey Mirskiy
 # Company: Microsoft 
 # 
 # =================================================================================================================================================
@@ -26,6 +26,7 @@ Function GetPassword($securePassword)
 ###############################################################################################
 # User Input Here
 ###############################################################################################
+
 
 
 #$defaultConfigFilePath = "C:\APS2SQLDW\1_CreateMPPScripts"
@@ -74,6 +75,9 @@ Import-Module "$PSScriptRoot\PDWScripter.ps1"
 
 $startTime = Get-Date
 
+$OutputBasePath = Split-Path -Path $PSScriptRoot -Parent
+$OutputBasePath += "\Output"
+
 try
 {
     $conn = New-Object System.Data.SqlClient.SqlConnection 	
@@ -95,7 +99,7 @@ try
 			    $ServerName = $ObjectToScript.ServerName 
 			    $DatabaseName = $ObjectToScript.DatabaseName
 			    $WorkMode = $ObjectToScript.WorkMode
-			    $OutputFolderPath = $ObjectToScript.OutputFolderPath
+			    $OutputFolderPath = $OutputBasePath + $ObjectToScript.OutputFolderPath
 			    $FileName = $ObjectToScript.FileName + ".dsql"
 			    $Mode= $ObjectToScript.Mode
 			    $ObjectName = $ObjectToScript.ObjectName

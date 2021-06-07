@@ -1,7 +1,5 @@
-Declare @OutputDir varchar(max)= '##CreateMPPScriptsPath##' 
-
 Select '1' as Active, db_name() as DatabaseName, s.name as SchemaName,
-@OutputDir + db_name() + '\Views\' as OutputFolderPath,
+'\' + db_name() + '\Views\' as OutputFolderPath,
 s.name + '_'+ v.name as FileName, 
 s.name + '.'+ v.name as 'ObjectName', 'VIEW' as ObjectsToScript 
 from sys.views v
