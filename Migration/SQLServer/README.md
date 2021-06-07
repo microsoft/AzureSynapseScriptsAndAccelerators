@@ -13,7 +13,7 @@ In addition, within each module (subfolder in this directory), there is a README
 
 The set of PowerShell Scripts performs below functions: 
 
-1. Translate SQL Server Table DDLs into Azure Synapse DDLs.
+1. Translate SQL Server Table DDLs into Azure Synapse DDLs. **We recommend Azure Synapse Pathway (ASP) for this capability as ASP is the official Code Translation tool which continues to deliver comprehensive capabilities. **Use this module as a fall back method or if you run into any issues for certain tables.
 2. **Execute Translated Table DDLs** in Azure Synapse (DDLs Migrated after this task).
 3. Export SQL Server Data Via BCP to local storage <u>(BCP Data Export Option, for all SQL Servers, data exported to local storage after this task)</u>.
 4. Generate Polybase Export T-SQL Scripts <u>(Polybase Data Export Option, for SQL Server 2016 or later)</u>.
@@ -28,7 +28,7 @@ There are six modules that contain PowerShell Scripts and T-SQL Scripts designed
 
 The six modules are summarized as below:
 
-**[1_TranslateMetaData](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/1_TranslateMetaData)**: Translate SQL objects (DDLs) from SQL Server format to target system Azure Synapse format. The output is stored as .sql files in your specified file folder. 
+**[1_TranslateTableDDLs](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/1_TranslateTableDDLs)**: Translate SQL objects (DDLs) from SQL Server format to target system Azure Synapse format. The output is stored as .sql files in your specified file folder. **We recommend Azure Synapse Pathway (ASP) for all code translation tasks. Use this module as a fall back method or if you run into any issues for certain tables.**
 
 [**2_ExportSourceData**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/2A_GeneratePolybaseExportScripts): Export SQL Server Tables into data files stored in delimited text format (.csv or .txt).  
 
@@ -70,5 +70,7 @@ These Scripts are complementary to Azure Synapse Pathway (ASP). ASP does not per
 
 <u>You can use scripts described in this document (Module 5_RunSqlFilesInFolder) to execute all translated code by ASP or other methods.</u> Please check the newest release of Azure Synapse Pathway so you can use the best available functions. [sql-docs/azure-synapse-pathway-overview.md at live · ](https://github.com/MicrosoftDocs/sql-docs/blob/live/docs/tools/synapse-pathway/azure-synapse-pathway-overview.md)[MicrosoftDocs](https://github.com/MicrosoftDocs/sql-docs/blob/live/docs/tools/synapse-pathway/azure-synapse-pathway-overview.md)[/](https://github.com/MicrosoftDocs/sql-docs/blob/live/docs/tools/synapse-pathway/azure-synapse-pathway-overview.md)[sql](https://github.com/MicrosoftDocs/sql-docs/blob/live/docs/tools/synapse-pathway/azure-synapse-pathway-overview.md)[-docs (github.com)](https://github.com/MicrosoftDocs/sql-docs/blob/live/docs/tools/synapse-pathway/azure-synapse-pathway-overview.md).
 
-In addition, Module 3, 4, 5 are reusable for other types of migrations, for example, Netezza or Teradata or Exadata or Oracle to Azure Synapse migrations. After the code is translated, and data is exported out of source systems, the rest of the tasks are the same. Therefore module 3-5 can be utilized for any of those migrations. 
+### Reusability of  Module 3, 4, and 5 (for Netezza/Teradata/Exadata/etc. to Azure Synapse Migration)
+
+Module 3, 4, 5 are reusable for other types of migrations, for example, Netezza or Teradata or Exadata or Oracle to Azure Synapse migrations. After the code is translated, and data is exported out of source systems, the rest of the tasks are the same. Therefore module 3-5 can be utilized for any of those migrations. 
 

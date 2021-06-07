@@ -1,12 +1,12 @@
-# **Module 1_TranslateMetaData** 
+# **Module 1_TranslateTableDDLs** 
 
-Use Module **1_TranslateMetaData** to Translate SQL Server Tables into Azure Synapse Tables and save them into target .sql files.  You don’t need to change GetTableMetaDataData.sql or TranslateTables.ps1. The function is illustrated in the figure below:
+Use Module **1_TranslateTableDDLs** to Translate SQL Server Tables into Azure Synapse Tables and save them into target .sql files.  You don’t need to change GetTableMetaDataData.sql or TranslateTables.ps1. The function is illustrated in the figure below:
 
 ![Module 1_TranslateMetadata](..//images/M1_TranslateMetaData.JPG)
 
 
 
-You need to run **TranslateMetaData.ps1** which will prompt you for the names of two configuration files:
+You need to run **TranslateTables.ps1** which will prompt you for the names of two configuration files:
 
 (1)  translate_config.json: This file specifies the SQL Server Name, Security setting, and Output files folder. 
 
