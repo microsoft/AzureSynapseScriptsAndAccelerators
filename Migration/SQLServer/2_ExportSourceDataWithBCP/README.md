@@ -1,6 +1,6 @@
-# **Module 2_ExportSourceData** (using BCP)
+# **Module 2_ExportSourceData**WithBCP
 
-Use Module **2_ExportSourceData** to export data using BCP for specified tables into delimited text files (.csv or .txt).  The function is illustrated in the figure below:
+Use Module **2_ExportSourceDataWithBCP** to export data using BCP for specified tables into delimited text files (.csv or .txt).  The function is illustrated in the figure below:
 
 ![Module 2_ExportSourceData](..//images/M2_ExportSourceData.JPG)
 
