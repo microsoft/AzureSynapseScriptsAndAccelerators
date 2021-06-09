@@ -146,9 +146,9 @@ The shell scripts will be iterating through all oracle scripts available, and it
 **Example:**
 
 ```
-azureuser@ozlinux:~/ama/Assessment$ ls /home/azureuser/ama/Assessment/Assessment/Results/Users_v*
-/home/azureuser/ama/Assessment/Assessment/Results/Users_v1_20210609162437.csv
-/home/azureuser/ama/Assessment/Assessment/Results/Users_v2_20210609162437.csv
+azureuser@ozlinux:~/ama/Assessment$ ls /home/azureuser/ama/Assessment/Results/Users_v*
+/home/azureuser/ama/Assessment/Results/Users_v1_20210609162437.csv
+/home/azureuser/ama/Assessment/Results/Users_v2_20210609162437.csv
 ```
 
 * If the **V2** file has contents, proceed to delete the V1 equivalence.
