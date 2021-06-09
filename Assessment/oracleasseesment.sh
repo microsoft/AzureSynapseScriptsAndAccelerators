@@ -51,7 +51,7 @@ fi
 
 if [ -z $4 ]
 then
-    Resultsfolder="$rootfolder/Assessment/Results"
+    Resultsfolder="$rootfolder/Results"
 fi
 
 if [ -z $1 ]
