@@ -2,7 +2,7 @@
 # **Table Of Contents**
  - [Assessment Tool Summary](#assessment-tool-summary) 
  - [Assessment Tool Dataflow](#assessment-tool-dataflow)
- - [Prepartion Tasks](#prepartion-tasks)
+ - [Preparation Tasks](#prepartion-tasks)
  - [How to run the Assessment Tool](#how-to-run-the-assessment-tool)
  - [PowerBI Report Generation](#powerbi-report-generation)
  - [Appendix](#appendix)
@@ -10,7 +10,11 @@
 
 
 ## Assessment Tool Summary
-Assessment tool is used to gather information on the Source System DBs to better enable an accurate estimate for the migration.
+Assessment tool is used to gather information on the Source System Databases better enable an accurate estimate for the migration.
+
+Windows and PowerShell are required to run the assessments (although it is might be possible that these scripts could run on Linux using PowerShell Core).
+
+**Oracle on Linux/Unix Support**: There is a **oraclessessment.sh** file on the Assessment folder, that can iterate through the Oracle Assessments scripts, if Windows and PowerShell are not available. You can jump to the [Preparation Tasks for Oracle on Linux/Unix](Preparation Tasks for Oracle on Linux/Unix) section.
 
 | **Supported Source Systems**    | **Benefits**                  | **Tool details**  | **Capturing Information** |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |------------------------------------------------------------ |------------------------------------------------------------ |
@@ -20,14 +24,14 @@ Assessment tool is used to gather information on the Source System DBs to better
 
 ![Assessment Summary](..//Images/0A_Assessment_tool_dataflow.PNG)
 
-## Prepartion Tasks
+## `Preparation Tasks`
 
 **1.Download the repository to the local folder (ex: C:\Migration_Assessment)**
 
 Refer [Download from browser](https://www.wikihow.com/Download-a-GitHub-Folder)
 
 **2.Environment Setup**
-Powershell may expect you to setup the execution policies. You can follow one of the below options.
+PowerShell may expect you to setup the execution policies. You can follow one of the below options.
 *[Please refer this URL for the execution policy details](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.1)*
 
 **Example policy setup:**
@@ -60,6 +64,8 @@ Unblock-File -Path .\RunSQLStatement.ps1
 
 **Note :** Please don't change any configuration files unless it is required to be changed. Please refer the [Configuration & Scripts Information](Readme_References/Configuration_Scripts_details.md)
 
+
+
 ## How to run the Assessment Tool
 
 The program processing logic and information flow is illustrated in the diagram below: 
@@ -72,6 +78,7 @@ The program processing logic and information flow is illustrated in the diagram 
 - Run the Assessment tool by executing the **AssessmentDriver_V2.ps1** on Powershell prompt.
 
 **Example:**
+
 ```
 PS C:\Migration_Assessment\SynapseScriptsAndAccelerators-main\Assessment> .\AssessmentDriver_V2.ps1
 Mode                 LastWriteTime         Length Name
@@ -100,10 +107,57 @@ Password:: **************
     * WinInt – Use Windows AD authentication to connect to the Source Server. – APS only
 
   - If ADPASS or SQLAUTH is used to connect to the source DB.
-    - “**(ADPass/SQLAuth Method used. Please Enter the UserName.**” – User name with permission run the scripts“
+    - “**ADPass/SQLAuth Method used. Please Enter the UserName.**” – User name with permission run the scripts“
     - "**Password**:” – Enter the password for the username entered above
 
+
+
+## Preparation Tasks for Oracle on Linux/Unix
+
+**1.Download the repository to the local folder (e.g.: $HOME/ama/)**
+
+Refer [Download from browser](https://www.wikihow.com/Download-a-GitHub-Folder)
+
+**2.Environment Setup**
+
+* Oracle Client must be installed on the local machine, and Oracle Driver must have been configured.
+* SQL*Plus is leveraged and must be installed.
+* tnsnames.ora must be configured
+* Execution permission must be set for **oracleasseesment.sh**
+
+**3.Execution**
+
+```
+   ./oracleassessment.sh user/password@instance [/deletecsv] [Scripts folder] [Results folder]
+```
+
+**Notes:**
+
+if */deletecsv* is not passed, all csv files existing in Results folder will be preserved
+
+Default Value for Scripts folder: *./Scripts/Oracle*
+
+Defaults Value for Scripts folder: *./Results*
+
+**4.Output files cleanup**
+
+The shell scripts will be iterating through all oracle scripts available, and it is possible that the user will end up with V1 and V2 files available in the output folder.
+
+**Example:**
+
+```
+azureuser@ozlinux:~/ama/Assessment$ ls /home/azureuser/ama/Assessment/Results/Users_v*
+/home/azureuser/ama/Assessment/Results/Users_v1_20210609162437.csv
+/home/azureuser/ama/Assessment/Results/Users_v2_20210609162437.csv
+```
+
+* If the **V2** file has contents, proceed to delete the V1 equivalence.
+* If the **V2** file has no contents, or contains an error message, proceed to delete the V2 file.
+
+
+
 ## PowerBI Report Generation
+
 Once assessment tool output data is available, you can use the template located under the PowerBI folder to generate an assessment report. 
 At this time PowerBI dashboards are created for these source: APS, SQL Server, Oracle and Teradata (limited output).
 Open the respective Power BI template and specify the source folder where assessment output files reside (Example: C:\Migration_Assessment\SynapseScriptsAndAccelerators-main\Assessment\Results)
@@ -111,7 +165,7 @@ Open the respective Power BI template and specify the source folder where assess
 **Please note, for missing or empty assessment files:** 
 
 If assessment outputs do not contain any data (e.g. triggers, partitions), disable the file(s) for loading. 
-Click on the "Transform Data" icon, locate the file/feed on the left pane (e.g. Triggers or Table Partitions), right click, and uncheck "Enable Load". Save and Refresh the PowerBI dashboard.
+Click on the "Transform Data" icon, locate the file/feed on the left pane (e.g.. Triggers or Table Partitions), right click, and uncheck "Enable Load". Save and Refresh the PowerBI dashboard.
 
 **APS PowerBI template Input sample**
 
