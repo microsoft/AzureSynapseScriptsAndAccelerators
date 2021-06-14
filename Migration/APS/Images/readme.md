@@ -1,0 +1,1 @@
+This folder contains the images used in the APS to Synapse migration README page
