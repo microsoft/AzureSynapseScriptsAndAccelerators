@@ -1,0 +1,3 @@
+select SYS_CONTEXT ('USERENV','DB_NAME') AS INSTANCE_NAME, 
+	GLOBAL_NAME as DBNAME
+from global_name;
