@@ -1,4 +1,4 @@
-SELECT sys_context('USERENV','INSTANCE_NAME') AS INSTANCE_NAME,
+SELECT SYS_CONTEXT ('USERENV','DB_NAME') AS INSTANCE_NAME,
 	to_char(ssn.sid, '9999') || ' - ' || nvl(ssn.username, 
 		nvl(bgp.name, 'background')) ||
 		nvl(lower(ssn.machine), ins.host_name) AS "SESSION",
