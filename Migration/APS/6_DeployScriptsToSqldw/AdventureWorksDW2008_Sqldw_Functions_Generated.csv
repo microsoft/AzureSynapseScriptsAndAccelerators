@@ -1,2 +1,0 @@
-"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
-"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_ConvertDDLs\AdventureWorksDW2008\Functions","1","Function","dbo","aw2","Func1","","DROP","","dbo_Func1.dsql"

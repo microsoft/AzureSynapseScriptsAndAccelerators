@@ -1,0 +1,21 @@
+Name,Value,
+OneConfigFile,No,"Yes/No. If "" Yes"", All DBs are combined. If ""No"", each DB will have its own files (one for each type)"
+GeneratedConfigFileFolder,C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse\,Where generated config files will reside
+OneApsExportConfigFileName,One_ApsExportConfigFile_Generated.csv,One file for this type for ALL DBs.
+OneSynapseObjectsConfigFileName,One_SynapseObjectsConfigFile_Generated.csv,One file for this type for ALL DBs.
+OneSynapseImportConfigFileName,One_SynapseImportConfigFile_Generated.csv,One file for this type for ALL DBs.
+OneSynapseExtTablesConfigFileName,One_SynapseExtTablesConfigFile_Generated.csv,One file for this type for ALL DBs.
+ActiveFlag,1,
+ApsServerName,"10.209.220.153,17001",Your APS server name and IP address
+SynapseServerName,synapseserver.database.windows.net,Your Azure Synapse Server name
+SynapseDatabaseName,synapse,Your Azure Synapse Database name
+ApsExportScriptsFolder,C:\AzureSynapseScriptsAndAccelerators\Migration\APS\Output\3_CreateAPSExportScriptSynapseImportScript\ExportAPS\,"Where the export scripts reside, and to be used for deployment."
+SynapseImportScriptsFolder,C:\AzureSynapseScriptsAndAccelerators\Migration\APS\Output\3_CreateAPSExportScriptSynapseImportScript\ImportSynapse\,"Where the import scripts reside, and to be used for deployment."
+SynapseObjectScriptsFolder,C:\AzureSynapseScriptsAndAccelerators\Migration\APS\Output\2_ConvertDDLScripts\,"Where the Azure Synapse meta data SQL files reside (Tables, Views, and Stored Procedures, each type is under its own subdirectory"
+SchemaFileFullPath,C:\AzureSynapseScriptsAndAccelerators\Migration\APS\2_ConvertDDLScripts\schemas.csv,Need this schema mapping file as well for information
+SynapseExternalTablesFolder,C:\AzureSynapseScriptsAndAccelerators\Migration\APS\Output\4_CreateExternalTablesSynapse\,Where the T-SQL Scripts reside for creating external tables inside Azure Synapse
+CreateSchemaFlag,1,
+SchemaAuth,dbo,
+DropTruncateIfExistsFlag,DROP,"Sample Values: ""DROP, TRUNCATE, NO"". See step 6 readme.md (GitHub) for more details. "
+OutputObjectsFolder,C:\AzureSynapseScriptsAndAccelerators\Migration\APS\Output\5_DeployScriptsToSynapse\,Where the output files will be created when executing step 6 main program (PowerShell)
+Variables,,"Sample: ""@Location|TestLoc {Location}|TestLoc @Var1|TestLoc;@Var2 |Datasource"". See step 6 readme.md (GitHub) for more details. "

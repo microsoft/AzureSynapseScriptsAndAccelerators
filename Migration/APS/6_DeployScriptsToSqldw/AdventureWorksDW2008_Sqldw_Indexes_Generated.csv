@@ -1,3 +1,0 @@
-"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
-"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_ConvertDDLs\AdventureWorksDW2008\Indexes","1","Index","dbo","","IX_FactFinance_HEAP","[aw2].[FactFinance_HEAP]","DROP","","dbo_FactFinance_HEAP_IX_FactFinance_HEAP.dsql"
-"1","sqldwsqlserver.database.windows.net","sqldw","C:\APS2SQLDW\Output\3_ConvertDDLs\AdventureWorksDW2008\Indexes","1","Index","dbo","","IX_FactFinance_HEAP2","[aw2].[FactFinance_HEAP]","DROP","","dbo_FactFinance_HEAP_IX_FactFinance_HEAP2.dsql"
