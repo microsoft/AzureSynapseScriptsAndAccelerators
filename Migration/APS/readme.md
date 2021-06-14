@@ -1,45 +1,57 @@
 
-# Process and Tools for APS Pre-Assessment, Migration Scoping, and APS to Azure SQLDW Code and Data Migration 
+# **Table Of Contents**
+ - [Overview](#overview) 
+ - [Migration Tool Processflow](#migration-tool-processflow)
+ - [What does the Migration Utilities do](#what-does-the-migration-utilities-do)
+ - [What are in the Migration Utilities](#what-are-in-the-migration-utilities)
+  - [Contact Information](#contact-information)
+
+## Overview
+
+This directory contains APS to Azure Synapse migration toolkit. It includes the processflow,powershell script modules and configuration required in each module.
+
+Below documents provide detailed information to help you get started.
+
+- [**APS2Synapse_Migration.pptx**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/APS/APS2Synapse_Migration.pptx) 
+- [**Migration/APS/APS_Migration_Considerations_Github.pptx**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/APS/Migration/APS/APS_Migration_Considerations_Github.pptx) 
+- [**APS-to-Azure-Synapse-Analytics-Migration-Guide-Draft-V1.2.docx**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/APS/APS-to-Azure-Synapse-Analytics-Migration-Guide-Draft-V1.2.docx) 
 
 
-## The APS Pre-Assessment and Migration Scoping Tools 
+## Migration Tool Processflow
 
-The Pre-Assessment Tool (PowerShell) is designed to gather APS object meta data (schema, object type, object count, space used by object, etc.), table meta data (table name, distribution type, distribution column, storage type, number of rows, row key, etc). The information gathered is stored in organized CSV output files. 
+![Tool Processflow](Images/ProcessFlow.PNG)
 
-The results of the Pre-Assessment Tool can then be summarized by the Scoping Tool (PowerShell). The results of the scoping tool is written into an Excel file. This excel file has pivot tables that provide succinct object meta data summarized and organized by databases. The summary information can be used to assist customers to estimate the migration effort. 
+## What does the Migration Utilities do
 
-The tools and documentation for the tools can be found by the link below: 
+The set of PowerShell Scripts performs below functions:
 
-**0. [Pre-AssessmentAndMigrationScoping](https://github.com/Microsoft/AzureDWScriptsandUtilities/tree/master/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/0_PreAssessment "Step 0: APS Pre-Assessment and Migration Scoping") (PowerShell)**: Gather APS meta data and analyze the results to aid scoping migration effort.
+- Generates object creation scripts from source APS environment
+- Translates APS object creation scripts to the Azure Synapse designs
+- Generates APS export scripts to create the APS external tables to write data to Azure blob storage.
+- Generates Synapse import scripts to load data from Azure blob storage to Synapse environment.
+- Generates Synapse external table scripts
+- Deploy/Execute the scripts to Synapse environment.
 
+## What are in the Migration Utilities
 
-## The Six-Step Migration Process
+There are 5 modules that contain Powershell scripts and T-SQL scripts designed to accomplish key tasks that relavant to APS to Azure Synapse migration.
 
-The next six sub-folder (directory) contains the scripts and documentation for the 6-step APS to Azure SQLDW data migration process. 
+Five modules are summarized below.
 
-The six-step migration process is illustrated in the diagram below. Step 1, 4, 5, and 6 are written in PowerShell while step 2 and 3 are written in Python. 
+- **1_CreateDDLScripts:** Generates the APS objects creation scripts.
+- **2_ConvertDDLScripts:** Translates/generates the Synapse objects creation scripts from the objects listed from the step 1
+- **3_CreateAPSExportScriptSynapseImportScript:** 
+    - Generates APS export or external table scripts to write data to Azure blob storage
+    - Generates copyinto scripts to load data to Azure Synapse tables 
+    - Generates import scripts to load data from Azure external tables to the Azure internal tables
+- **4_CreateExternalTablesSynapse:** Generates scripts to create Azure Synpase external tables
 
-![6-Step Migration Process](/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/Images/6-step-process.jpg)
+- **5_DeployScriptsToSynapse:** 
+    This module can be used to execute/deploy any scripts to the Synapse environment.
+    - To execute Synapse external tables
+    - To import data from Azure blob storage to Azure Synapse tables.
+    - To import data from Azure external tables to Azure Synapse internal tables.
 
+## Contact Information
 
-As illustrated in the above diagram, the output of the step 1 is used as input to the step 2. The output of the step 2 is used as input to Step 3. The output of the step 3 is used as input to Step 4, 5, and subsequently, step 6. In each of the steps 1-5, T-SQL Scripts are generated as output files based on designed processing logic. The Output T-SQL Scripts of the step 3, step 4, and step 5 are used as input to step 6, which is to deploy T-SQL DDLs into Azure SQLDW (Tables, Views, Stored Procedures, External Tables), and then run APS Export and SQLDW Import scripts, respectively. 
-
-The PowerShell or Python Scripts along with the documentations can be found in this repository. 
-Each step of the process can be found by clicking the following the corresponding sub-directory (with links below): 
-
-**1. [CreateMPPScripts](https://github.com/Microsoft/AzureDWScriptsandUtilities/tree/master/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/1_CreateMPPScripts "Step 1: Create MPP Scripts") (PowerShell)**: Create MPP T-SQL scripts from APS.
-
-**2. NOT USED
-
-**3. [ConvertDDLs](https://github.com/Microsoft/AzureDWScriptsandUtilities/tree/master/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/3_ChangeSchemas "Step 3: Change Schemas of the APS Scripts") (Python)**: Make Schema changes to DDL Scripts and updated #TEMP tables syntax. 
-
-**4. [CreateAPSExportScriptSQLDWImportScripts](https://github.com/Microsoft/AzureDWScriptsandUtilities/tree/master/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/4_CreateAPSExportScriptSQLDWImportScript "Step 4: Create T-SQL Scripts to Export APS Data and Import Data Into Azure SQLDW ") (PowerShell)**: Create Data Export/Import Scripts.
-
-**5. [CreateExternalTablesSQLDW](https://github.com/Microsoft/AzureDWScriptsandUtilities/tree/master/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/5_CreateExternalTablesSQLDW "Step 5: Generate T-SQL Scripts to Create Azure SQLDW External Tables") (PowerShell)**:  Create External Tables for SQLDW. 
-
-**6. [DeployScriptsToSQLDW](https://github.com/Microsoft/AzureDWScriptsandUtilities/tree/master/APS%20to%20SQL%20DW%20Migration%20-%20Schema%20and%20Data%20Migration%20with%20PolyBase/6_DeployScriptsToSqldw "Step 6: Deploy (Run) T-SQL Scripts Specified in Configuration File") (PowerShell)**: Run Scripts for Migration.
-
-* Export APS Data to Azure – Run T-SQL Scripts from output generated in step 4 above
-* Create Tables/Views/SPs – Run T-SQL Scripts from output generated in step 3 above (SP’s require manual changes first or afterwards)
-* Import Data into Azure SQLDW – Run T-SQL Scripts from output generated in step 4 & 5 above
-
+Please send an email to AMA architects at <AMAArchitects@service.microsoft.com> for any issues regarding this tool.
