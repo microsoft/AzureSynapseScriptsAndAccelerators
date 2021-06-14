@@ -1,8 +1,0 @@
-select sys_context('USERENV','INSTANCE_NAME') AS INSTANCE_NAME,
-	USER_NAME AS SCHEMA_NAME, 
-	PROXY_NAME, 
-	AUDIT_OPTION, 
-	SUCCESS, 
-	FAILURE,
-	sys_context('USERENV','INSTANCE_NAME') || USER_NAME AS ROWKEY
-from dba_stmt_audit_opts;
