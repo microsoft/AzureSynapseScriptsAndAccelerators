@@ -1,37 +1,34 @@
 
-# **5_DeployScripts (PowerShell):** Deploy Generated T-SQL Scripts for Exporting APS Data and Importing Data into Azure SQLDW 
-The Deployment script is designed to run any .sql file.  For the purpose of the migration, it can be used to deploy objects to APS or Azure SQLDW.  This tool can drop an existing object before running the .sql file.
+# **5_DeployScriptsToSynapse:** Deploy Generated T-SQL Scripts
+The deployment script is designed to run any .sql file.  For the purpose of the migration, it can be used to deploy objects to APS or Azure Synapse.  This tool can drop an existing object before running the .sql file.
 
 The program processing logic and information flow is illustrated in the diagram below: 
 
-![5_DeployScriptsToSynapse](../Images/5_DeployScriptsToSynapse.PNG)
+![5_DeployScriptsToSynapse](../Images/5_DeployScriptsToSynapse_v2.PNG)
 
-## **What the Program(s) Does** ##
+## **What the Script Does** ##
 
-This PowerShell program connects to a specified MPP system (APS or Azure SQLDW), runs the T-SQL Scripts specified in the configuration driver CSV file(s). The T-SQL Scripts are in the following three categories:
+This PowerShell script connects to a specified MPP system (APS or Azure Synapse), runs the T-SQL Scripts specified in the configuration driver CSV file(s). The T-SQL scripts are in the following three categories:
 
-1. Export APS Data into Azure Blob Storage by using T-SQL CTAS statements that create external tables reside in Azure SQLDW and insert data into the external tables from APS tables. 
-2. Create Table, View, Stored Procedures, and External Tables in Azure SQLDW.
-3. Import Data into Azure SQLDW from Azure Blob Storage 
+1. Export APS Data into Azure Blob Storage by using T-SQL CETAS statements that create external tables reside in Azure Synapse and insert data into the external tables from APS tables. 
+2. Create Table, View, Stored Procedures, and External Tables in Azure Synapse.
+3. Import Data into Azure Synapse from Azure Blob Storage 
 
-## How to Run the Program ##
+## How to Run the Script ##
 
-Below are the steps to run the PowerShell Program(s): 
+Below are the steps to run the PowerShell script: 
 
-
-**Step 5A:** Copy the Scripts from Source Repository and Place them on in a local directory.
+**Step 5A:** Copy the scripts from Source Repository and Place them on in a local directory.
 
 * Any directory structure will work.  As a suggestion this path can be used: C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse.
 * Place the two PowerShell scripts in the above directory (RunDSQLScriptDriver.ps1 and RunSQLScriptFile.ps1)
 * You can choose to put all your CSV configuration files under the above directory, or in a separate directory under it, such as: C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse\Config_Files
 
-
-
 **Step 5B:** Select one of the sample configuration files for the purpose of your deployment. All the three sample configuration files use the same format. Sample configuration files provided:
 
 * Export APS Data to Azure Blob Storage: ApsCreateExtTablesAndExportData.csv
-* Create Tables/Views/SPs in Azure SQLDW:  SqldwCreateTablesViewsAndSPs.csv
-* Import APS Data to Azure Blob Storage: SqldwImportData.csv 
+* Create Tables/Views/SPs in Azure Synapse:  SynapseCreateTablesViewsAndSPs.csv
+* Import APS Data to Azure Blob Storage: SynapseImportData.csv 
 
 
 Edit the one of the sample config files to fit the purpose of your deployment. Refer the below details for the configuration.
@@ -51,12 +48,9 @@ Edit the one of the sample config files to fit the purpose of your deployment. R
 | DropIfExists     | DROP – Drop object if already exists,  TRUNCATE - Truncate Table if exists, NO – Do not drop or Truncate if exist. | DROP                                                         |
 | FileName         | The name of the script file                                  | dbo_DimAccount.dsql                                          |
 
+There is also a Job-Aid PowerShell script called **Generate_Step5_ConfigFiles.ps1** which can help you to generate an initial configuration file for this step. This Generate_Step5_ConfigFiles.ps1 uses a driver configuration CSV file named **ConfigFileDriver.csv** which has instructions inside for each parameter to be set. 
 
-
-There is also a Job-Aid PowerShell program called "**Generate_Step5_ConfigFiles.ps1**" which can help you to generate an initial configuration file for this step. This Generate_Step5_ConfigFiles.ps1 uses a driver configuration SCV file named "ConfigFileDriver.csv" which has instructions inside for each parameter to be set. 
-
-
-**Step 5C:** Run the PowerShell script(RunDSQLScriptsDriver.ps1).  This script will prompt for the following information
+**Step 5C:** Run the PowerShell script **RunDSQLScriptsDriver.ps1**.  This script will prompt for the following information:
 
 - “Enter the name of the Script Config csv File.” – This will be the location\name of your configuration file.
 C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse: SynapseCreateTablesViewsAndSPs.csv or ApsCreateExtTablesAndExportData.csv or SynapseImportData.csv 
@@ -70,21 +64,20 @@ C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse: Sy
 - “Enter the name of the Output File Directory.” – Enter the location where the output log will be written
 - “Enter the name of the status file.” – Enter the name of the Status File
 
-
-
-
 **Step 5D:** Review the Status log for Success Failures. Review the status log file. The file name and location are the prompted values of the PowerShell program in step 5C. The default location is the location of the PowerShell scripts with the file name status.csv. 
 
-* Should a failure occur, the Status log will set the Active flag to 0 for all successful objects created  The Failures will remain Active = 1.  This will allow the status log to be used as the Script Config file and only the failed objects will be run
+* Should a failure occur, the Status log will set the Active flag to 0 for all successful objects created  The Failures will remain Active = 1.  This will allow the status log to be used as the Script Config file and only the failed objects will be run.
+
+  
 
 
-## **Job Aid** - Programmatically Generate Config Files
+### **Job Aid** - Programmatically Generate Config Files
 
-There is a job-aid PowerShell script named "Generate_Step5_ConfigFiles.ps1" to help you to produce configuration file(s) programmatically. It uses output produced by previous steps (for example: T-SQL script files from module 2, schema mapping file from module 2, Export & Import T-SQL scripts generated from module 3, and T-SQL files for creating external tables generated in module 4). 
+There is a job-aid PowerShell script named **Generate_Step5_ConfigFiles.ps1** to help you to produce configuration file(s) programmatically. It uses output produced by previous steps (for example: T-SQL script files from module 2, schema mapping file from module 2, Export & Import T-SQL scripts generated from module 3, and T-SQL files for creating external tables generated in module 4). 
 
-It uses parameters set inside the file named "ConfigFileDriver_Step5.csv". The CSV file contains fields as value-named pairs with instructions for each field. You can set the value for each named field based on your own setup and output files. 
+It uses parameters set inside the file named **ConfigFileDriver_Step5.csv**. The CSV file contains fields as value-named pairs with instructions for each field. You can set the value for each named field based on your own setup and output files. 
 
-After running the "Generate_Step5_ConfigFiles.ps1", you can then review and edit the programmatically generated configuration files based on your own needs and environment. The generated config file(s) can then be used as input to the step 6 main program (PowerShell: RunDSQLScriptsDriver.ps1).
+After running the **Generate_Step5_ConfigFiles.ps1**, you can then review and edit the programmatically generated configuration files based on your own needs and environment. The generated config file(s) can then be used as input to the step 5 main script **RunDSQLScriptsDriver.ps1**.
 
 
 
