@@ -1,13 +1,12 @@
 
 ##1_CreateDDLScripts (PowerShell): Creates object creation scripts from APS
 
-
-## **How to Run the Program** ##
-
 The program processing logic and information flow is illustrated in the diagram below: 
 
 
 ![Create DDL Scripts Programs](../Images/1_CreateDDLScripts_flow.PNG)
+
+## **How to Run the Program** ##
 
 o  **Step 1A**: Prepare Configuration CSV Files to run migration tools step 1, create DDL scripts 
 
