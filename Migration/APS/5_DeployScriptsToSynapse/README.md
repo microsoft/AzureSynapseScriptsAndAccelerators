@@ -14,6 +14,8 @@ This PowerShell script connects to a specified MPP system (APS or Azure Synapse)
 2. Create Table, View, Stored Procedures, and External Tables in Azure Synapse.
 3. Import Data into Azure Synapse from Azure Blob Storage 
 
+
+
 ## How to Run the Script ##
 
 Below are the steps to run the PowerShell script: 
@@ -30,8 +32,11 @@ Below are the steps to run the PowerShell script:
 * Create Tables/Views/SPs in Azure Synapse:  SynapseCreateTablesViewsAndSPs.csv
 * Import APS Data to Azure Blob Storage: SynapseImportData.csv 
 
-
 Edit the one of the sample config files to fit the purpose of your deployment. Refer the below details for the configuration.
+
+There is also a Job-Aid PowerShell script called **Generate_Step5_ConfigFiles.ps1** which can help you to generate an initial configuration file for this step. This Generate_Step5_ConfigFiles.ps1 uses a driver configuration CSV file named **ConfigFileDriver.csv** which has instructions inside for each parameter to be set. 
+
+Refer ***[Job Aid - Programmatically Generate Config Files](#Job Aid - Programmatically Generate Config Files)*** after the steps for more details.
 
 | **Parameter**    | **Purpose**                                                  | **Value  (Sample)**                                          |
 | ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -47,8 +52,6 @@ Edit the one of the sample config files to fit the purpose of your deployment. R
 | ParentObjectName | Name of the parent object. Valid  for statistics and indexes. | DimAccount                                                   |
 | DropIfExists     | DROP – Drop object if already exists,  TRUNCATE - Truncate Table if exists, NO – Do not drop or Truncate if exist. | DROP                                                         |
 | FileName         | The name of the script file                                  | dbo_DimAccount.dsql                                          |
-
-There is also a Job-Aid PowerShell script called **Generate_Step5_ConfigFiles.ps1** which can help you to generate an initial configuration file for this step. This Generate_Step5_ConfigFiles.ps1 uses a driver configuration CSV file named **ConfigFileDriver.csv** which has instructions inside for each parameter to be set. 
 
 **Step 5C:** Run the PowerShell script **RunDSQLScriptsDriver.ps1**.  This script will prompt for the following information:
 

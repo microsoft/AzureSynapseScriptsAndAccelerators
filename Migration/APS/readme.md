@@ -1,9 +1,9 @@
 
 # **Table Of Contents**
  - [Overview](#overview) 
- - [Migration Tool Processflow](#migration-tool-processflow)
- - [What does the Migration Utilities do](#what-does-the-migration-utilities-do)
- - [What are in the Migration Utilities](#what-are-in-the-migration-utilities)
+ - [Migration Tool Process Flow](#Migration Tools Process Flow)
+ - [What does the Migration Utilities do](#What do the Migration Tools do?)
+ - [What are in the Migration Utilities](#What is in the Migration Tools?)
   - [Contact Information](#contact-information)
 
 
@@ -48,9 +48,16 @@ Five modules are summarized below.
 
     **:** Generates the APS objects creation scripts.
 
+- [**1_CreateDDLScripts**](1_CreateDDLScripts/readme.md) - Generates the APS objects creation scripts (lower case)
+
+- [**1_CreateDDLScripts**](1_CreateDDLScripts/README.md) - Generates the APS objects creation scripts (upper case)
+
+- **1_CreateDDLScripts**: Generates the APS objects creation scripts.
+
 - **2_ConvertDDLScripts:** Translates/generates the Synapse objects creation scripts from the objects listed from the step 1
 
 - **3_CreateAPSExportScriptSynapseImportScript:** 
+    
     - Generates APS external table scripts to write data to Azure blob storage
     - Generates COPY INTO scripts to load data into Azure Synapse tables 
     - Generates import scripts to load data from Azure external tables into Azure Synapse tables.
@@ -62,8 +69,9 @@ Five modules are summarized below.
     
     - To create Synapse schema objects (tables, views, stored procedures, indexes, roles, users, statistics)
     - To create Synapse external tables
-    - To import data from Azure blob storage to Azure Synapse tables
-    - To import data from Azure external tables to Azure Synapse internal tables.
+    - To import data from Azure external tables into Azure Synapse user tables.
+    
+    
 
 ## Contact Information
 
