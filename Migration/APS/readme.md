@@ -44,19 +44,19 @@ There are 5 modules that contain PowerShell scripts and T-SQL scripts designed t
 
 Five modules are summarized below.
 
-- [**1_CreateDDLScripts**](1_CreateDDLScripts/readme.md) - Generates the APS objects creation scripts.
+- [**1_CreateDDLScripts**](1_CreateDDLScripts) - Generates the APS objects creation scripts.
 
-- [**2_ConvertDDLScripts:**](2_ConvertDDLScripts/readme.md) Translates/generates the Synapse objects creation scripts from the objects listed from the step 1
+- [**2_ConvertDDLScripts:**](2_ConvertDDLScripts) Translates/generates the Synapse objects creation scripts from the objects listed from the step 1
 
-- [**3_CreateAPSExportScriptSynapseImportScript:**](3_CreateAPSExportScriptSynapseImportScript/readme.md) 
+- [**3_CreateAPSExportScriptSynapseImportScript:**](3_CreateAPSExportScriptSynapseImportScript) 
     
     - Generates APS external table scripts to write data to Azure blob storage
     - Generates COPY INTO scripts to load data into Azure Synapse tables 
     - Generates import scripts to load data from Azure external tables into Azure Synapse tables.
     
-- [**4_CreateExternalTablesSynapse:**](4_CreateExternalTablesSynapse/readme.md) Generates scripts to create Azure Synapse external tables
+- [**4_CreateExternalTablesSynapse:**](4_CreateExternalTablesSynapse) Generates scripts to create Azure Synapse external tables
 
-- [**5_DeployScriptsToSynapse:**](5_DeployScriptsToSynapse/readme.md) 
+- [**5_DeployScriptsToSynapse:**](5_DeployScriptsToSynapse) 
     This module can be used to execute/deploy any scripts to the Synapse environment.
     
     - To create Synapse schema objects (tables, views, stored procedures, indexes, roles, users, statistics)
