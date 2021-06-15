@@ -5,6 +5,16 @@ The program processing logic and information flow is illustrated in the diagram 
 
 ![Convert DDL Scripts Programs](../Images/2_ConvertDDLScripts_v2.PNG)
 
+## **What the Script Does** ##
+
+The PowerShell script converts T-SQL scripts for APS schema objects to make it Azure Synapse compatible. This includes:
+
+- Add default schema name if schema name is missing in object references
+- Schema replacement based on schema mapping
+- Fixing #TEMP table options, incl. REPLICATE-->ROUND_ROBIN
+
+
+
 ## **How to Run the Script** ##
 
 Below are the steps to run the PowerShell script: 

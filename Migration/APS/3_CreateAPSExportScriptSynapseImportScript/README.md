@@ -6,6 +6,42 @@ The program processing logic and information flow is illustrated in the diagram 
 
 ![Create APS Export amd Synapse Import Scripts Programs](../Images/3_CreateAPSExportScriptSynapseImportScript_v2.PNG)
 
+## **What the Script Does** ##
+
+The PowerShell script generates T-SQL scripts to export APS data into Azure Blob Storage. It also generates T-SQL Scripts to import exported data from Azure Blob Storage into Azure Synapse. 
+
+The program generates the right structure, with the specified table, specified external data source name, the specified file format, and the specified location in Azure Blob Storage to store the data. All the specifications are set in the configuration driver CSV file. 
+
+Below are example of the T-SQL scripts for one single table.
+
+Sample generated T-SQL scripts to export APS table data into Azure Blob Storage:    
+
+```sql
+INTO adw_dbo.FactFinance
+SELECT * FROM ext_adw_dbo.ext_FactFinance
+OPTION (LABEL = 'Import_Table_adw_dbo.FactFinance')
+CREATE EXTERNAL TABLE AdventureWorksDW.ext_adw_dbo.ext_FactFinance
+WITH (
+	LOCATION='/prod/AdventureWorksDW/dbo_FactFinance',
+	DATA_SOURCE = AzureBlobDS,
+	FILE_FORMAT = DelimitedNoDateZIP
+)
+AS 
+SELECT * FROM AdventureWorksDW.dbo.FactFinance
+OPTION (LABEL= 'Export_Table_AdventureWorksDW.dbo.FactFinance')
+```
+
+Sample generated T-SQL scripts to import data into Azure Blob Storage:
+
+```sql
+INTO adw_dbo.FactFinance
+SELECT * FROM ext_adw_dbo.ext_FactFinance
+OPTION (LABEL = 'Import_Table_adw_dbo.FactFinance')
+```
+
+
+  
+
 ## **How to Run the Script** ##
 
 Below are the steps to run the PowerShell script: 
@@ -52,40 +88,4 @@ It uses parameters set inside the file named **ConfigFileDriver_Step3.csv**. The
 After running the **Generate_Step3_ConfigFiles.ps1**, you can then review and edit the programmatically generated configuration files based on your own needs and environment. The generated config file(s) can then be used as input to the step 3 main script **ScriptCreateExportImportStatementsDriver.ps1**.
 
 
-
-## **What the Script Does** ##
-
-The PowerShell script generates T-SQL scripts to export APS data into Azure Blob Storage. It also generates T-SQL Scripts to import exported data from Azure Blob Storage into Azure Synapse. 
-
-The program generates the right structure, with the specified table, specified external data source name, the specified file format, and the specified location in Azure Blob Storage to store the data. All the specifications are set in the configuration driver CSV file. 
-
-Below are example of the T-SQL scripts for one single table.
-
-Sample generated T-SQL scripts to export APS table data into Azure Blob Storage:    
-
-```sql
-INTO adw_dbo.FactFinance
-SELECT * FROM ext_adw_dbo.ext_FactFinance
-OPTION (LABEL = 'Import_Table_adw_dbo.FactFinance')
-CREATE EXTERNAL TABLE AdventureWorksDW.ext_adw_dbo.ext_FactFinance
-WITH (
-	LOCATION='/prod/AdventureWorksDW/dbo_FactFinance',
-	DATA_SOURCE = AzureBlobDS,
-	FILE_FORMAT = DelimitedNoDateZIP
-)
-AS 
-SELECT * FROM AdventureWorksDW.dbo.FactFinance
-OPTION (LABEL= 'Export_Table_AdventureWorksDW.dbo.FactFinance')
-```
-
-Sample generated T-SQL scripts to import data into Azure Blob Storage:
-
-```sql
-INTO adw_dbo.FactFinance
-SELECT * FROM ext_adw_dbo.ext_FactFinance
-OPTION (LABEL = 'Import_Table_adw_dbo.FactFinance')
-```
-
-
-​    
 ​    

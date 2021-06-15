@@ -14,9 +14,9 @@ This directory contains APS to Azure Synapse migration toolkit. It includes the 
 
 Below documents provide detailed information to help you get started.
 
-- [**APS2Synapse_Migration.pptx**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/APS/APS2Synapse_Migration.pptx) 
-- [**Migration/APS/APS_Migration_Considerations_Github.pptx**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/APS/Migration/APS/APS_Migration_Considerations_Github.pptx) 
-- [**APS-to-Azure-Synapse-Analytics-Migration-Guide-Draft-V1.2.docx**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/APS/APS-to-Azure-Synapse-Analytics-Migration-Guide-Draft-V1.2.docx) 
+- [**APS2Synapse_Migration.pptx**](APS2Synapse_Migration.pptx) 
+- [**Migration/APS/APS_Migration_Considerations_Github.pptx**](APS_Migration_Considerations_Github.pptx) 
+- [**APS-to-Azure-Synapse-Analytics-Migration-Guide.docx**](APS-to-Azure-Synapse-Analytics-Migration-Guide.docx) 
 
 
 
@@ -44,27 +44,19 @@ There are 5 modules that contain PowerShell scripts and T-SQL scripts designed t
 
 Five modules are summarized below.
 
-- [1_CreateDDLScripts]: /Migration/APS/1_CreateDDLScripts	"1_CreateDDLScripts"
+- [**1_CreateDDLScripts**](1_CreateDDLScripts/readme.md) - Generates the APS objects creation scripts.
 
-    **:** Generates the APS objects creation scripts.
+- [**2_ConvertDDLScripts:**](2_ConvertDDLScripts/readme.md) Translates/generates the Synapse objects creation scripts from the objects listed from the step 1
 
-- [**1_CreateDDLScripts**](1_CreateDDLScripts/readme.md) - Generates the APS objects creation scripts (lower case)
-
-- [**1_CreateDDLScripts**](1_CreateDDLScripts/README.md) - Generates the APS objects creation scripts (upper case)
-
-- **1_CreateDDLScripts**: Generates the APS objects creation scripts.
-
-- **2_ConvertDDLScripts:** Translates/generates the Synapse objects creation scripts from the objects listed from the step 1
-
-- **3_CreateAPSExportScriptSynapseImportScript:** 
+- [**3_CreateAPSExportScriptSynapseImportScript:**](3_CreateAPSExportScriptSynapseImportScript/readme.md) 
     
     - Generates APS external table scripts to write data to Azure blob storage
     - Generates COPY INTO scripts to load data into Azure Synapse tables 
     - Generates import scripts to load data from Azure external tables into Azure Synapse tables.
     
-- **4_CreateExternalTablesSynapse:** Generates scripts to create Azure Synapse external tables
+- [**4_CreateExternalTablesSynapse:**](4_CreateExternalTablesSynapse/readme.md) Generates scripts to create Azure Synapse external tables
 
-- **5_DeployScriptsToSynapse:** 
+- [**5_DeployScriptsToSynapse:**](5_DeployScriptsToSynapse/readme.md) 
     This module can be used to execute/deploy any scripts to the Synapse environment.
     
     - To create Synapse schema objects (tables, views, stored procedures, indexes, roles, users, statistics)

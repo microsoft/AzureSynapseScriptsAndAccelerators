@@ -5,6 +5,33 @@ The program processing logic and information flow is illustrated in the diagram 
 
 ![Generate T-SQL Scripts for Azure SQLDW External Table Creation DDLs](../Images/4_CreateExternalTablesSynapse_v2.PNG)
 
+## What the Script Does
+
+After the data has been exported from APS, the data now needs to be inserted into Synapse.  Before this can occur, the external table needs to be created in Azure Synapse.  This is completed by using the create table statements and converting the statement into an external table. This PowerShell script generates these CREATE EXTERNAL TABLE statements. 
+
+
+Sample generated T-SQL scripts for External Table creation in Azure Synapse:  
+
+```sql
+CREATE EXTERNAL TABLE [ext_adw_dbo].[ext_FactFinance]
+(
+	[FinanceKey]	int	NOT NULL 
+	,[DateKey]	int	NOT NULL 
+	,[OrganizationKey]	int	NOT NULL 
+	,[DepartmentGroupKey]	int	NOT NULL 
+	,[ScenarioKey]	int	NOT NULL 
+	,[AccountKey]	int	NOT NULL 
+	,[Amount]	float	(53)	NOT NULL 
+)
+WITH (  
+	LOCATION='/prod/adventure_works/dbo_FactFinance',  
+	DATA_SOURCE = AzureBlobDS,  
+	FILE_FORMAT = DelimitedNoDateZIP
+)
+```
+
+
+
 ## **How to Run the Script** ##
 
 Below are the steps to run the PowerShell script: 
@@ -75,31 +102,3 @@ There is a job-aid PowerShell script named **Generate_Step4_ConfigFiles.ps1** to
 It uses parameters set inside the file named **ConfigFileDriver_Step4.csv**. The CSV file contains fields as value-named pairs with instructions for each field. You can set the value for each named field based on your own setup and output files. 
 
 After running the **Generate_Step4_ConfigFiles.ps1**, you can then review and edit the programmatically generated configuration files based on your own needs and environment. The generated config file(s) can then be used as input to the step 4 main script (PowerShell: **ScriptCreateExternalTableDriver.ps1**).
-
-
-
-## What the Script Does
-
-After the data has been exported from APS, the data now needs to be inserted into Synapse.  Before this can occur, the external table needs to be created in Azure Synapse.  This is completed by using the create table statements and converting the statement into an external table. This PowerShell script generates these CREATE EXTERNAL TABLE statements. 
-
-
-Sample generated T-SQL scripts for External Table creation in Azure Synapse:  
-
-```sql
-CREATE EXTERNAL TABLE [ext_adw_dbo].[ext_FactFinance]
-(
-	[FinanceKey]	int	NOT NULL 
-	,[DateKey]	int	NOT NULL 
-	,[OrganizationKey]	int	NOT NULL 
-	,[DepartmentGroupKey]	int	NOT NULL 
-	,[ScenarioKey]	int	NOT NULL 
-	,[AccountKey]	int	NOT NULL 
-	,[Amount]	float	(53)	NOT NULL 
-)
-WITH (  
-	LOCATION='/prod/adventure_works/dbo_FactFinance',  
-	DATA_SOURCE = AzureBlobDS,  
-	FILE_FORMAT = DelimitedNoDateZIP
-)
-```
-

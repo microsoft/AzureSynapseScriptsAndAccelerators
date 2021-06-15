@@ -5,6 +5,21 @@ The script processing logic and information flow is illustrated in the diagram b
 
 ![Create DDL Scripts Programs](../Images/1_CreateDDLScripts_v2.PNG)
 
+## **What the Script Does** ##
+
+The PowerShell script generates T-SQL scripts for APS schema objects. This includes:
+
+- Tables
+- Views
+- Stored Procedures
+- Functions
+- Indexes
+- Roles
+- Users
+- Statistics (user defined) 
+
+
+
 ## **How to Run the Script** ##
 
 o  **Step 1A**: Prepare Configuration CSV Files to run migration tools step 1, create DDL scripts.
