@@ -44,7 +44,7 @@ There are 5 modules that contain PowerShell scripts and T-SQL scripts designed t
 
 Five modules are summarized below.
 
-- [1_CreateDDLScripts]: ../1_CreateDDLScripts
+- [1_CreateDDLScripts]: /Migration/APS/1_CreateDDLScripts	"1_CreateDDLScripts"
 
     **:** Generates the APS objects creation scripts.
 
