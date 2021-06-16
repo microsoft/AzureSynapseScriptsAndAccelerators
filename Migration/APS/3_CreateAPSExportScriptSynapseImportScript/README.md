@@ -51,7 +51,7 @@ Create the configuration driver CSV File based on the definition below. Sample C
 
 There is also a job-aid PowerShell script called **Generate_Step3_ConfigFiles.ps1** which can help you to generate an initial configuration file for this step. This Generate_Step3_ConfigFiles.ps1 uses a driver configuration CSV file named **ConfigFileDriver_Step3.csv** which has instructions inside for each parameter to be set. 
 
-Refer ***[Job Aid - Programmatically Generate Config Files](#Job Aid - Programmatically Generate Config Files)*** after the steps for more details.
+Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmatically-generate-config-files)*** after the steps for more details.
 
 | **Parameter**      | **Purpose**                                                  | **Value (Sample)**                                           |
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -79,7 +79,7 @@ Provide the prompted information: The path and name of the Configuration Driver 
 
 
 
-### **Job Aid** - Programmatically Generate Config Files
+## Job Aid: Programmatically Generate Config Files
 
 There is a job-aid PowerShell script named **Generate_Step3_ConfigFiles.ps1** to help you to produce configuration file(s) programmatically. It uses output produced by previous steps (for example: T-SQL script files from step 3, and schema mapping file from step 3). 
 
