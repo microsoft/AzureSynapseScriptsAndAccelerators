@@ -36,7 +36,7 @@ Edit the one of the sample config files to fit the purpose of your deployment. R
 
 There is also a Job-Aid PowerShell script called **Generate_Step5_ConfigFiles.ps1** which can help you to generate an initial configuration file for this step. This Generate_Step5_ConfigFiles.ps1 uses a driver configuration CSV file named **ConfigFileDriver.csv** which has instructions inside for each parameter to be set. 
 
-Refer ***[Job Aid - Programmatically Generate Config Files](#Job Aid - Programmatically Generate Config Files)*** after the steps for more details.
+Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmatically-generate-config-files)*** after the steps for more details.
 
 | **Parameter**    | **Purpose**                                                  | **Value  (Sample)**                                          |
 | ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -74,7 +74,7 @@ C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse: Sy
   
 
 
-### **Job Aid** - Programmatically Generate Config Files
+## Job Aid: Programmatically Generate Config Files
 
 There is a job-aid PowerShell script named **Generate_Step5_ConfigFiles.ps1** to help you to produce configuration file(s) programmatically. It uses output produced by previous steps (for example: T-SQL script files from module 2, schema mapping file from module 2, Export & Import T-SQL scripts generated from module 3, and T-SQL files for creating external tables generated in module 4). 
 
