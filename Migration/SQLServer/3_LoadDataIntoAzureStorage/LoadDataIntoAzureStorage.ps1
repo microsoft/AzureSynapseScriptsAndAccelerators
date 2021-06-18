@@ -283,7 +283,6 @@ try {
         -keyExpirationTimeInMins $keyExpirationTimeInMins `
         $containerSASURI)[-1]
 
-      Write-Output "SAS Key generated:$SASKey"
     }
     UploadFiles -AzCopyLocation $AzCopyFullPath `
     -localFolders $LocalFolders `
