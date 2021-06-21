@@ -1,5 +1,5 @@
 {
-	"ServerName":"..\\GailZSqlSvr2017",
+	"ServerName":".\\GailZSqlSvr2017",
 	"IntegratedSecurity":"Yes",
 	"ThreePartsName":"Yes",
 	"OutputFolder":"C:\\migratemaster\\output\\1_TranslateTableDDLs"
