@@ -31,9 +31,11 @@ Select '1' as Active,
 db_name()  as DatabaseName, 
 s.name as SchemaName, 
 t.name as TableName, 
-'Yes' as IdentityInsert, -- you  eed to reconfigure this after the file is generated 
+'ON' as IdentityInsert, -- 'On' or 'Off' you  eed to reconfigure this after the file is generated 
+'Yes' as TruncateTable, -- 'Yes' or 'No' you  eed to reconfigure this after the file is generated 
 'AsaDbName' as AsaDatabaseName, -- you need to replace this with actual Azure Synapse SQL Pool DB Name
 s.name + 'edw' as AsaSchema
+--'edw' as AsaSchema
 from sys.tables t 
 inner join sys.schemas s 
 on t.schema_id = s.schema_id 
@@ -42,4 +44,13 @@ on d.name = db_name()  and t.type_desc = 'USER_TABLE'
 and t.temporal_type_desc ='NON_TEMPORAL_TABLE' 
 and t.object_id not in (select object_id from sys.external_tables)
 and s.name in ('dbo') -- if you'd like to limit to specific schemas 
-and t.name in ('DimAccount','DimCustomer', 'DimDate', 'DimGeography','DimReseller', 'FactInternetSales') 
+and t.name in 
+('DimAccount',
+'DimCustomer', 
+'DimDate', 
+'DimGeography',
+'DimReseller', 
+'FactInternetSales',
+'FactProductInventory',
+'FactResellerSales'
+) 
