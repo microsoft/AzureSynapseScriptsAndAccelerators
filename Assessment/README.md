@@ -14,7 +14,7 @@ Assessment tool is used to gather information on the Source System Databases bet
 
 Windows and PowerShell are required to run the assessments (although it is might be possible that these scripts could run on Linux using PowerShell Core).
 
-**Oracle on Linux/Unix Support**: There is a **oraclessessment.sh** file on the Assessment folder, that can iterate through the Oracle Assessments scripts, if Windows and PowerShell are not available. You can jump to the [Preparation Tasks for Oracle on Linux/Unix](Preparation Tasks for Oracle on Linux/Unix) section.
+**Oracle on Linux/Unix Support**: There is a **oraclessessment.sh** file on the Assessment folder, that can iterate through the Oracle Assessments scripts, if Windows and PowerShell are not available. You can jump to the [Preparation Tasks for Oracle on Linux/Unix](#preparation-tasks-for-oracle-on-linux/unix) section.
 
 | **Supported Source Systems**    | **Benefits**                  | **Tool details**  | **Capturing Information** |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |------------------------------------------------------------ |------------------------------------------------------------ |
@@ -24,7 +24,7 @@ Windows and PowerShell are required to run the assessments (although it is might
 
 ![Assessment Summary](..//Images/0A_Assessment_tool_dataflow.PNG)
 
-## `Preparation Tasks`
+## Preparation Tasks
 
 **1.Download the repository to the local folder (ex: C:\Migration_Assessment)**
 
@@ -122,8 +122,11 @@ Refer [Download from browser](https://www.wikihow.com/Download-a-GitHub-Folder)
 
 * Oracle Client must be installed on the local machine, and Oracle Driver must have been configured.
 * SQL*Plus is leveraged and must be installed.
-* tnsnames.ora must be configured
-* Execution permission must be set for **oracleasseesment.sh**
+* tnsnames.ora must be configured.
+* Execution permission must be set for **oracleasseesment.sh** under the Assessment folder.
+```
+   chmod +x oracleassessment.sh
+```
 
 **3.Execution**
 

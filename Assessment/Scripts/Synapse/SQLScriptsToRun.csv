@@ -18,3 +18,10 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,Synapse,DB,ALL,SQL,1.0.0.0,99.0.0.0,DMS_PDW_Waits,\Synapse\DMS_PDW_Waits_V1.sql
 1,Synapse,DB,ALL,SQL,1.0.0.0,99.0.0.0,DMS_PDW_Wait_Stats,\Synapse\DMS_PDW_Wait_Stats_V1.sql
 1,Synapse,DB,ALL,SQL,1.0.0.0,99.0.0.0,dm_workload_management_workload_groups_stats,\Synapse\dm_workload_management_workload_groups_stats_V1.sql
+1,Synapse,DB,ALL,SQL,1.0.0.0,99.0.0.0,TablesToScript,\Synapse\TablesToScript_V2.sql
+1,Synapse,DB,ALL,SQL,1.0.0.0,99.0.0.0,ViewsToScript,\Synapse\ViewsToScript_V2.sql
+1,Synapse,DB,ALL,SQL,1.0.0.0,99.0.0.0,SPsToScript,\Synapse\SPsToScript_V2.sql
+1,Synapse,DB,ALL,SQL,1.0.0.0,99.0.0.0,IndexesToScript,\Synapse\IndexesToScript_V1.sql
+1,Synapse,DB,ALL,SQL,1.0.0.0,99.0.0.0,FunctionsToScript,\Synapse\FunctionsToScript_V1.sql
+1,Synapse,DB,ALL,SQL,1.0.0.0,99.0.0.0,StatisticsToScript,\Synapse\StatisticsToScript_V1.sql
+1,Synapse,DB,ALL,SQL,1.0.0.0,99.0.0.0,UsersToScript,\Synapse\UsersToScript_V1.sql
