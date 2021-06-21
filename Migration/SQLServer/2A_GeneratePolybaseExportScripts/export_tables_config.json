@@ -1,0 +1,9 @@
+{
+	"ServerName":".\\YourSQLServerName",
+	"IntegratedSecurity":"Yes",
+	"TableColumns":"Yes",
+	"RootFolder":"CsvNoCompression",
+	"DataSourceName":"YourExternalDataSourceName",
+	"FileFormatName":"YourExternalFileFormatName",
+	"SqlFilePath":"C:\\migratemaster\\output\\2A_GeneratePolybaseExportScripts\\CsvNoCompression"
+}
