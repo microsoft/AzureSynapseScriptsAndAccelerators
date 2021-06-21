@@ -31,8 +31,8 @@ Select '1' as Active,
 db_name()  as DatabaseName, 
 s.name as SchemaName, 
 t.name as TableName, 
-'ON' as IdentityInsert, -- 'On' or 'Off' you  eed to reconfigure this after the file is generated 
-'Yes' as TruncateTable, -- 'Yes' or 'No' you  eed to reconfigure this after the file is generated 
+'ON' as IdentityInsert, -- 'On' or 'Off'.  You will need to reconfigure this after the file is generated, based on the table. Set it to 'On' if it has an identiry column. 
+'Yes' as TruncateTable, -- 'Yes' or 'No'.   You  can reconfigure this after the file is generated 
 'AsaDbName' as AsaDatabaseName, -- you need to replace this with actual Azure Synapse SQL Pool DB Name
 s.name + 'edw' as AsaSchema
 --'edw' as AsaSchema
