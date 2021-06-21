@@ -258,7 +258,8 @@ Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $DSNName, $
                 $record | Add-Member -NotePropertyName Database -NotePropertyValue $Database
             }
 
-			$record | export-csv "$FileName" -notypeinformation -Append -Encoding UTF8
+			#$record | export-csv "$FileName" -notypeinformation -Append -Encoding UTF8
+			$record | export-csv "$FileName" -notypeinformation -Append -Encoding UTF8 -Force
 		}
 	}
 	else 
