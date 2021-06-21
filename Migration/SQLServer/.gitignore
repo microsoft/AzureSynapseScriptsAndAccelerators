@@ -1,0 +1,10 @@
+1_TranslateTableDDLs/translate_config.json
+1_TranslateTableDDLs/*.xlsx
+2_ExportSourceDataWithBCP/sql_bcp.json
+2_ExportSourceDataWithBCP/sql_bcp.csv
+2A_GeneratePolybaseExportScripts/export_tables_config.json
+2A_GeneratePolybaseExportScripts/*.csv
+3_LoadDataIntoAzureStorage/*.json
+4_GenerateCopyIntoScripts/*.json
+4_GenerateCopyIntoScripts/*.csv
+5_RunSqlFilesInFolder/*.json
