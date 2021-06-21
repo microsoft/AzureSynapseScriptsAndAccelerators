@@ -10,7 +10,7 @@ You need to run **TranslateTables.ps1** which will prompt you for the names of t
 
 (1)  translate_config.json: This file specifies the SQL Server Name, Security setting, and Output files folder. 
 
-(2)  SourceToTargetTablesConfig.xlsx. This file has a list of items that specify the SQL Server Database, Schema Name, Table Name, desired Synapse table Schema name, and table distribution. 
+(2)  SourceToTargetTablesConfig.xlsx. This file has a list of items that specify the SQL Server Database, Schema Name, Table Name, desired Synapse table Schema name, and table distribution. You can use/modify the **GenerateSourceToTargetConfig.sql** inside Utilities folder to generate a starter SourceToTargetTablesConfig.xlsx.
 
 The definition and sample values for each row in **translate_config.json** file is described in below table:
 
@@ -18,8 +18,8 @@ The definition and sample values for each row in **translate_config.json** file 
 | ------------------ | ------------------------------------------------------------ | -------------------------------------------------------- |
 | ServerName         | Fully qualified SQL Server Name                              | .\\YourSQLServerName  or YourFullyQualifiedSqlServerName |
 | IntegratedSecurity | YES or NO for IntegratedSecurity                             | YES or NO                                                |
-| ThreePartsName     | YES or NO for Three-Parts-Name  code generation (db.schema.table) | YES or NO                                                |
-| OutputFolder       | Full File Path where the  translated code will be stored.    | C:\\migratemaster\\output\\1_TranslateMetaData           |
+| ThreePartsName     | YES or NO for Three-Parts-Name  code generation (db.schema.table) | YES or NO, Recommend to use 'YES'.                       |
+| OutputFolder       | Full File Path where the  translated code will be stored.    | C:\\migratemaster\\output\\1_TranslateTableDDLs          |
 
 The definition and sample values for each column in “**SourceToTargetTablesConfig.xlsx**” is described in below table:
 
@@ -28,7 +28,7 @@ The definition and sample values for each column in “**SourceToTargetTablesCon
 | Active            | 1 – Run line,  0 – Skip line.                                | 0 or 1                                                       |
 | DatabaseName      | Database Name                                                | AdventureWorksDW2017                                         |
 | SchemaName        | SQL Server Schema Name                                       | dbo                                                          |
-| AsaDatabaseName   | Azure Synapse Database Name                                  | SynapseSQLPool (This field is not currently  used. It was planned for future use). |
+| AsaDatabaseName   | Azure Synapse Database Name                                  | SynapseSQLPool database name                                 |
 | AsaSchemaName     | The schema name to be used in Azure Synapse  SQL pool        | dbo_asa, edw                                                 |
 | ObjectName        | Table Name                                                   | DimEmployee                                                  |
 | ObjectType        | Type of the SQL Object (Table, View, Stored  Procedure)      | Table                                                        |
