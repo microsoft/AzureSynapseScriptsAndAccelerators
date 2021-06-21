@@ -12,13 +12,13 @@ The definition and sample values for each row of the **export_tables_config.json
 
 | Parameter Name     | Description                                                  | Values (Sample)                                              |
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ServerName         | Fully qualified SQL Server Name                              | .\\YourSQLServerName or  yourSynapseWorkSpaceName.sql.azuresynapse.net |
-| IntegratedSecurity | YES or NO for IntegratedSecurity                             | YES, NO. Use the value No if you  are executing Azure Synapse T-SQL Scripts from your desktop. |
+| ServerName         | Fully qualified SQL Server Name                              | .\\YourSQLServerName or  YourServerName.eastus2.cloudapp.azure.com |
+| IntegratedSecurity | YES or NO for IntegratedSecurity                             | YES, NO.                                                     |
 | TableColumns       | YES or NO for TableColumns (If  Yes, Columns will be created for each SQL Table in Create External Table  Script. | YES, NO.                                                     |
 | RootFolder         | Folder Under Container where the data will  be uploaded. If it is blank (white space), data will be loaded under  container | Folder1 or Blank (white space)                               |
 | DataSourceName     | The name of the external data source created  by setting up Polybase Export. Please refer to the subfolder Utilities for  examples of T-SQL scripts for setting up your | The value must match what you have defined  in “Create External Data Source). |
 | FileFormatName     | The name of the external file foramt created  by setting up Polybase Export. Please refer to the subfolder Utilities for  examples of T-SQL scripts for setting up your | The value must match what you have defined  in “Create External File Format”). |
-| SqlFilesFolder     | The Folder Name where all the output  T-SQL Scripts are stored. | C:\\migratemaster\\output\\4_GenerateCopyIntoScripts\\AdlsMiCsv |
+| SqlFilesFolder     | The Folder Name where all the output  T-SQL Scripts are stored. | C:\\migratemaster\\output\\2A_GeneratePolybaseExportScripts  |
 
 The definition and sample values for each row of the **ExportTablesConfig.csv** file s described in below table:
 
