@@ -1,7 +1,0 @@
-﻿Active,DatabaseName,SchemaName,TableName,IdentityInsert,TruncateTable,AsaDatabaseName,AsaSchema
-1,AdventureWorksDW2017,dbo,DimAccount,  ON,Yes,AsaDbName,edw
-1,AdventureWorksDW2017,dbo,DimCustomer, on,Yes,AsaDbName,edw
-1,AdventureWorksDW2017,dbo,DimDate,,No,AsaDbName,edw
-1,AdventureWorksDW2017,dbo,DimGeography,ON,Yes,AsaDbName,edw
-1,AdventureWorksDW2017,dbo,DimReseller,ON,Yes,AsaDbName,edw
-1,AdventureWorksDW2017,dbo,FactInternetSales,,NO,AsaDbName,edw

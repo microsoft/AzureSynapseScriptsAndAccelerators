@@ -1,9 +1,0 @@
-﻿Active,DatabaseName,SchemaName,TableName,ExternalSchemaName,DropExternalTable
-1,AdventureWorksDW2017,dbo,DimAccount,ext_dbo,Yes
-1,AdventureWorksDW2017,dbo,DimCustomer,ext_dbo,Yes
-1,AdventureWorksDW2017,dbo,DimDate,ext_dbo,Yes
-1,AdventureWorksDW2017,dbo,DimGeography,ext_dbo,Yes
-1,AdventureWorksDW2017,dbo,DimReseller,ext_dbo,Yes
-1,AdventureWorksDW2017,dbo,FactInternetSales,ext_dbo,Yes
-1,AdventureWorksDW2017,dbo,FactProductInventory,ext_dbo,Yes
-1,AdventureWorksDW2017,dbo,FactResellerSales,ext_dbo,Yes

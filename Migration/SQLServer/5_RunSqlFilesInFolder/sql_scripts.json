@@ -1,6 +1,0 @@
-{
-	"ServerName":".\\LocalSqlServerName_or_FullyQualifiedName",
-	"DatebaseName":"AdventureWorksDW2017",
-	"IntegratedSecurity":"Yes",
-	"SqlFilesFolder":"C:\\migratemaster\\modules\\5_RunSqlFilesInFolder\\Test_SQL_Scripts"
-}
