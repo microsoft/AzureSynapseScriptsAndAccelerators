@@ -258,7 +258,22 @@ Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $DSNName, $
                 $record | Add-Member -NotePropertyName Database -NotePropertyValue $Database
             }
 
-			$record | export-csv "$FileName" -notypeinformation -Append -Encoding UTF8
+            if ($rows -eq 0) {
+                $headerLine = ""
+
+                if ($AddDatabaseName -eq $true) {
+                    $headerLine += """Database"","
+                }
+
+                $columnNames = $ds.Tables[$i].Columns | Select -ExpandProperty "ColumnName"
+                $columnNamesLine = '"' + ($columnNames -join '","') + '"'
+                $headerLine += $columnNamesLine
+
+                $headerLine | Out-File -FilePath $FileName -Encoding utf8 -Append
+            }
+            else {
+                $record | Export-Csv "$FileName" -NoTypeInformation -Append -Encoding UTF8 -Delimiter ',' 
+            }
 		}
 	}
 	else 
