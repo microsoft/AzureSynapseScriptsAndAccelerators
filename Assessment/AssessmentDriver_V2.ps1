@@ -272,7 +272,7 @@ Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $DSNName, $
                 $headerLine | Out-File -FilePath $FileName -Encoding utf8 -Append
             }
             else {
-                $record | Export-Csv "$FileName" -NoTypeInformation -Append -Encoding UTF8 -Delimiter ',' 
+                $record | Export-Csv "$FileName" -NoTypeInformation -Append -Encoding UTF8 -Delimiter ',' -Force
             }
 		}
 	}
