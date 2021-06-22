@@ -3,7 +3,7 @@
 	"Credential":"(IDENTITY= 'Managed Identity')",
 	"AccountName":"StorageAccountName",
 	"Container":"ContainerName",
-	"RootFolder":"2_ExportSourceData",
+	"RootFolder":"FolderUnderTheContainer",
 	"FileType":"ORC",
 	"FileFormat":"MyFileFormatName",
 	"Compression":"",
