@@ -5,7 +5,7 @@ This directory contains SQL server to Azure Synapse Migration Toolkit. It includ
 These two documents posted in this directory provide detailed information to help you to get started:
 
 - [**SqlToSynapseMigrationOverview.pdf**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/SQLServer/SqlToSynapseMigrationOverview.pdf) - Overview of the SQL Server to Synapse Migration Scripts in Six Modules. It also provides step by step guide for exporting SQL Server data using BCP (Bulk Copy Program) or Polybase. Please note that Polybase is only available for SQL server 2016 or later versions.  
-- [**SqlToSynapseMigration_User_Guide.pdf**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/SQLServer/SqlToSynapseMigration_User_Guide.pdf) - Detailed User Guide that provides additional information such as step by step guide for exporting data using BCP or Polybase. 
+- [**SqlToSynapseMigration_User_Guide.pdf**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/SQLServer/SqlToSynapseMigration_User_Guide.pdf) - Detailed User Guide that provides additional information such as step by step guide for exporting data using BCP or Polybase, and importing data into Azure Synapse. 
 
 In addition, within each module (subfolder in this directory), there is a README.md file to guide you through the usage and configuration files for the particular module. 
 
