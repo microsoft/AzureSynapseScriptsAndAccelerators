@@ -2,7 +2,7 @@
 	"ServerName":".\\YourSQLServerName",
 	"ServerType":"SQL",
 	"IntegratedSecurity":"Yes",
-	"OutputFolder":"C:\\migratemaster\\output\\2_ExportSourceData",
+	"OutputFolder":"C:\\migratemaster\\output\\2_ExportSourceDataWithBCP",
 	"OutputFileExtension":".csv",
 	"BcpLocation":"C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\130\\Tools\\Binn"
 }
