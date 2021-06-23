@@ -14,7 +14,17 @@ Assessment tool is used to gather information on the Source System Databases bet
 
 Windows and PowerShell are required to run the assessments (although it is might be possible that these scripts could run on Linux using PowerShell Core).
 
-**Oracle on Linux/Unix Support**: There is a **oraclessessment.sh** file on the Assessment folder, that can iterate through the Oracle Assessments scripts, if Windows and PowerShell are not available. You can jump to the [Preparation Tasks for Oracle on Linux/Unix](#preparation-tasks-for-oracle-on-linux/unix) section.
+**Oracle and Netezza on Linux/Unix Support**: 
+
+There are new bash shell scripts avaialble to run on Linux/Unix environments
+
+- **oracleassessment.sh** - For Oracle environments
+- **netezzaassessment.sh** - For Netezza  environments
+
+Scripts will iterate through the Assessments scripts, if Windows and PowerShell are not available. You can jump to:
+
+- [Preparation Tasks for Oracle on Linux/Unix](#preparation-tasks-for-oracle-on-linux/unix) section.
+- [Preparation Tasks for Netezza on Linux/Unix](#preparation-tasks-for-netezza-on-linux/unix) section.
 
 | **Supported Source Systems**    | **Benefits**                  | **Tool details**  | **Capturing Information** |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |------------------------------------------------------------ |------------------------------------------------------------ |
@@ -114,9 +124,15 @@ Password:: **************
 
 ## Preparation Tasks for Oracle on Linux/Unix
 
-**1.Download the repository to the local folder (e.g.: $HOME/ama/)**
+**1.Download the repository to the local folder (e.g.: $HOME/)**
 
-Refer [Download from browser](https://www.wikihow.com/Download-a-GitHub-Folder)
+```
+# Example
+wget https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/archive/refs/heads/main.zip
+unzip main.zip
+cd ./AzureSynapseScriptsAndAccelerators-main/Assessment
+```
+
 
 **2.Environment Setup**
 
@@ -125,22 +141,22 @@ Refer [Download from browser](https://www.wikihow.com/Download-a-GitHub-Folder)
 * tnsnames.ora must be configured.
 * Execution permission must be set for **oracleasseesment.sh** under the Assessment folder.
 ```
-   chmod +x oracleassessment.sh
+chmod +x oracleassessment.sh
 ```
 
 **3.Execution**
 
 ```
-   ./oracleassessment.sh user/password@instance [/deletecsv] [Scripts folder] [Results folder]
+./oracleassessment.sh user/password@instance [/deletecsv] [Scripts folder] [Results folder]
 ```
 
 **Notes:**
 
 if */deletecsv* is not passed, all csv files existing in Results folder will be preserved
 
-Default Value for Scripts folder: *./Scripts/Oracle*
+Default Value for Scripts folder: *./AzureSynapseScriptsAndAccelerators-main/Assessment/Scripts/Oracle*
 
-Defaults Value for Scripts folder: *./Results*
+Defaults Value for Scripts folder: *./AzureSynapseScriptsAndAccelerators-main/Assessment/Results*
 
 **4.Output files cleanup**
 
@@ -149,14 +165,63 @@ The shell scripts will be iterating through all oracle scripts available, and it
 **Example:**
 
 ```
-azureuser@ozlinux:~/ama/Assessment$ ls /home/azureuser/ama/Assessment/Results/Users_v*
-/home/azureuser/ama/Assessment/Results/Users_v1_20210609162437.csv
-/home/azureuser/ama/Assessment/Results/Users_v2_20210609162437.csv
+azureuser@ozlinux:~/AzureSynapseScriptsAndAccelerators-main/Assessment$ ls /home/azureuser/AzureSynapseScriptsAndAccelerators-main/Assessment/Results/Users_v*
+/home/azureuser/AzureSynapseScriptsAndAccelerators-main/Assessment/Results/Users_v1_20210609162437.csv
+/home/azureuser/AzureSynapseScriptsAndAccelerators-main/Assessment/Results/Users_v2_20210609162437.csv
 ```
 
 * If the **V2** file has contents, proceed to delete the V1 equivalence.
 * If the **V2** file has no contents, or contains an error message, proceed to delete the V2 file.
 
+## Preparation Tasks for Netezza on Linux/Unix
+
+
+**1.Download the repository to the local folder (e.g.: $HOME/)**
+
+```
+# Example
+wget https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/archive/refs/heads/main.zip
+unzip main.zip
+cd ./AzureSynapseScriptsAndAccelerators-main/Assessment
+```
+
+**2.Environment Setup**
+
+* Netezza nzsql Client must be installed on the local machine, and Drivers must have been configured.
+* nzsql is leveraged and must be present.
+* Execution permission must be set for **netezzaasseesment.sh** under the Assessment folder.
+```
+chmod +x netezzaasseesment.sh
+```
+
+**3.Execution**
+
+```
+./netezzaassessment.sh host database username password [/deletecsv] [Scripts folder] [Results folder]
+```
+
+**Notes:**
+
+if */deletecsv* is not passed, all csv files existing in Results folder will be preserved
+
+Default Value for Scripts folder: *./AzureSynapseScriptsAndAccelerators-main/Assessment/Scripts/Netezza*
+
+Defaults Value for Scripts folder: *./AzureSynapseScriptsAndAccelerators-main/Assessment/Results*
+
+**4.Output files cleanup**
+
+The shell scripts will be iterating through all Netezza scripts available, and it is possible that the user will end up with V1 and V2 files available in the output folder.
+
+**Example:**
+
+```
+azureuser@ozlinux:~/AzureSynapseScriptsAndAccelerators-main/Assessment$ ls /home/azureuser/AzureSynapseScriptsAndAccelerators-main/Assessment/Results/_v_view*
+/home/azureuser/AzureSynapseScriptsAndAccelerators-main/Assessment/Results/_v_view_V1_20210616161118.csv
+/home/azureuser/AzureSynapseScriptsAndAccelerators-main/Assessment/Results/_v_view_V2_20210616161118.csv
+```
+
+* If the **V2** file has contents, proceed to delete the V1 equivalence.
+* If the **V2** file has no contents, or contains an error message, proceed to delete the V2 file.
 
 
 ## PowerBI Report Generation
