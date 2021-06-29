@@ -257,6 +257,8 @@ foreach ($f in Get-ChildItem -path $SqlScriptFilePath  -Filter *.sql) {
 
     $SqlScriptFileName = $f.FullName.ToString()	
 
+    $SqlFileNameOnly = Split-Path -Path $SqlScriptFileName -Leaf
+
     # Run the Script in $SqlScriptFilename 
     $StartTime = (Get-Date)
 
@@ -277,7 +279,7 @@ foreach ($f in Get-ChildItem -path $SqlScriptFilePath  -Filter *.sql) {
         $Status = 'Success'
         $Message = ' '
         Move-Item  $SqlScriptFileName  -Destination $ProcessedFilesPath -Force
-        Write-Host "      Processed File "+ $SqlScriptFileName + " is moved into " + $ProcessedFilesPath -ForegroundColor Magenta -BackgroundColor Black
+        Write-Host "      Processed File $SqlScriptFileName is moved into $ProcessedFilesPath " -ForegroundColor Magenta -BackgroundColor Black
     }
     elseif (($Status -eq 'SqlExeption') -or ($Status -eq 'Other')) {
         #$Message = "Error: " + $Message
@@ -316,7 +318,8 @@ foreach ($f in Get-ChildItem -path $SqlScriptFilePath  -Filter *.sql) {
     # Construct the line to be written into log file
     $row = New-Object PSObject
 
-    $row | Add-Member -MemberType NoteProperty -Name "SqlScriptFile" -Value $SqlScriptFileName -force
+    #$row | Add-Member -MemberType NoteProperty -Name "SqlScriptFile" -Value $SqlScriptFileName -force
+    $row | Add-Member -MemberType NoteProperty -Name "SqlScriptFile" -Value $SqlFileNameOnly -force
     $row | Add-Member -MemberType NoteProperty -Name "DurationText" -Value $runDurationText -force
     $row | Add-Member -MemberType NoteProperty -Name "DurationHours" -Value $runHours -force
     $row | Add-Member -MemberType NoteProperty -Name "DurationMinutes" -Value $runMinutes -force
