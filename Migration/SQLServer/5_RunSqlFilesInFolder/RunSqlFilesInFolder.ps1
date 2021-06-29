@@ -109,14 +109,13 @@ Function ExecuteSqlScriptFile {
         [Parameter(Position = 3, Mandatory = $false)] [Int32]$QueryTimeout = 300
     ) 
 
-    $myReturnValues = @{ }
-    $myReturnValues.add('Status', ' ')
-    $myReturnValues.add('Msg', ' ')
+    $myReturnValues = @{}
     $myReturnValues.Clear()
 
     try {
       
-        Invoke-Sqlcmd -ConnectionString $ConnectionString -InputFile $InputFile -ErrorAction 'Stop'
+        #Invoke-Sqlcmd -ConnectionString $ConnectionString -InputFile $InputFile -ErrorAction 'Stop'
+        Invoke-Sqlcmd -ConnectionString $ConnectionString -InputFile $InputFile -OutputSqlErrors $true -ErrorAction 'Stop'
 
         $myReturnValues.add('Status', 'Success')
         $myReturnValues.add('Msg', ' ')
@@ -126,11 +125,11 @@ Function ExecuteSqlScriptFile {
         $Err = $_ 
         if ([string]::IsNullOrEmpty($Err))
         {
-            $myReturnValues.add('Status', 'Error')
+            $myReturnValues.add('Status', 'SqlExeption')
             $myReturnValues.add('Msg', ' ')
         }
         else {
-            $myReturnValues.add('Status', 'Error')
+            $myReturnValues.add('Status', 'SqlExeption')
             $myReturnValues.add('Msg', $Err)
         } 
     } 
@@ -138,11 +137,11 @@ Function ExecuteSqlScriptFile {
         $Err = $_ 
         if ([string]::IsNullOrEmpty($Err))
         {
-            $myReturnValues.add('Status', 'Error')
+            $myReturnValues.add('Status', 'Other')
             $myReturnValues.add('Msg', ' ')
         }
         else {
-            $myReturnValues.add('Status', 'Error')
+            $myReturnValues.add('Status', 'Other')
             $myReturnValues.add('Msg', $Err)
         }
     } 
@@ -168,7 +167,8 @@ Set-Location -Path $ScriptPath
 
 
 #$defaultCfgFile = "sql_scripts.json"
-$defaultCfgFile = "sql_synapse.json"
+#$defaultCfgFile = "sql_synapse.json"
+$defaultCfgFile = "sql_scripts_gailz.json"
 
 $cfgFile = Read-Host -prompt "Enter the Config File Name or press 'Enter' to accept the default [$($defaultCfgFile)]"
 if([string]::IsNullOrEmpty($cfgFile)) {
@@ -243,55 +243,47 @@ if ($Integrated.toUpper() -eq 'NO') {
     $MyConnectionString = "Data Source=$server;Integrated Security=false;Initial Catalog=$database;User ID=$UserName;Password=$Password;Connect Timeout=$connectionTimeOut"
 }
 
-#$MySqlConnection = New-Object System.Data.SqlClient.SqlConnection($MyConnectionString)
-#$MySqlConnection.open()
-
 
 #===========================================
 # Processing SQL Files 
 #===========================================
 
-$headerRow = New-Object PSObject
-
-$headerRow | Add-Member -MemberType NoteProperty -Name "SqlScriptFile" -Value "SqlScriptFile" -force
-$headerRow | Add-Member -MemberType NoteProperty -Name "DurationText" -Value "DurationText" -force
-$headerRow | Add-Member -MemberType NoteProperty -Name "DurationHours" -Value "DurationHours" -force
-$headerRow | Add-Member -MemberType NoteProperty -Name "DurationMinutes" -Value "DurationMinutes" -force
-$headerRow | Add-Member -MemberType NoteProperty -Name "DurationSeconds" -Value "DurationSeconds"  -force
-$headerRow | Add-Member -MemberType NoteProperty -Name "DurationMilliseconds" -Value "DurationMilliseconds" -force
-$headerRow | Add-Member -MemberType NoteProperty -Name "Status" -Value "Status" -force
-$headerRow | Add-Member -MemberType NoteProperty -Name "Message" -Value  "Message" -force
-
-Export-Csv -InputObject $headerRow -Path $LogFileFullPath -NoTypeInformation -Append -Force 
-
 
 $myQueryTimeOut = 300
 foreach ($f in Get-ChildItem -path $SqlScriptFilePath  -Filter *.sql) {
-    #Write-Host "File Name: " $f.FullName.ToString()	
-    $ReturnValues = @{}
-    $ReturnValues.Clear()
+    #new hashtable and clears to be sure
+    $ThisReturnValues = @{}
+    $ThisReturnValues.Clear()
 
     $SqlScriptFileName = $f.FullName.ToString()	
+
+    $SqlFileNameOnly = Split-Path -Path $SqlScriptFileName -Leaf
 
     # Run the Script in $SqlScriptFilename 
     $StartTime = (Get-Date)
 
-    $ReturnValues = ExecuteSqlScriptFile -ConnectionString $MyConnectionString -InputFile $SqlScriptFileName -QueryTimeout $myQueryTimeOut 
+    $ThisReturnValues = ExecuteSqlScriptFile -ConnectionString $MyConnectionString -InputFile $SqlScriptFileName -QueryTimeout $myQueryTimeOut 
 
     $FinishTime = (Get-Date)
-    
 
-    $Status = $ReturnValues.Status.ToString()
-    $Message = $ReturnValues.Msg.ToString()
+    #Write-Output "ReturnedValues: " $ThisReturnValues
+
+    $Status = $ThisReturnValues.Status  
+    $Message = $ThisReturnValues.Msg
+   
    
     if ($Status -eq 'Success') {
         $DisplayMessage = "  Process Completed for File: " + $SqlScriptFileName + "  Duration: $runDurationText "
         Write-Host $DisplayMessage -ForegroundColor Green -BackgroundColor Black
         # Move the file into Processed Folder 
+        $Status = 'Success'
+        $Message = ' '
         Move-Item  $SqlScriptFileName  -Destination $ProcessedFilesPath -Force
+        Write-Host "      Processed File $SqlScriptFileName is moved into $ProcessedFilesPath " -ForegroundColor Magenta -BackgroundColor Black
     }
-    elseif ($Status -eq 'Error') {
-        $Message = "Error: " + $Message
+    elseif (($Status -eq 'SqlExeption') -or ($Status -eq 'Other')) {
+        #$Message = "Error: " + $Message
+        $Message = $Status + ': Error Message - ' + $Message
         $Message = $Message.Replace("`r`n", "")
         $Message = '"' + $Message.Replace("`n", "") + '"'
         $DisplayMessage = "  Error Processing File: " + $SqlScriptFileName + ". Error: " + $Message 
@@ -300,17 +292,18 @@ foreach ($f in Get-ChildItem -path $SqlScriptFilePath  -Filter *.sql) {
     else {
         if ([string]::IsNullOrEmpty($Message))
         {
+            $Status = 'Unknown'
             $Message = ' '
-            $Status = ' '
         }
         else 
-        {  
-            $Message = "Unknown Output: " + $Message
+        {   
+            $Status = 'Unknown'
+            $Message = "Unexpected Message: " + $Message
             $Message = $Message.Replace("`r`n", "")
             $Message = '"' + $Message.Replace("`n", "") + '"'
             $DisplayMessage = "  Error Processing File: " + $SqlScriptFileName + ". Error: " + $Message 
             Write-Host $DisplayMessage -ForegroundColor Red -BackgroundColor Black
-            $Status = 'Unknown'
+           
         }
     }
 
@@ -322,13 +315,11 @@ foreach ($f in Get-ChildItem -path $SqlScriptFilePath  -Filter *.sql) {
     $runMilliSeconds = $runDurationInfo.Milliseconds 
     $runDurationText = $runDurationInfo.DurationText
 
-    <#
-    $dataRow = $SqlScriptFileName, $runDurationText, $runHours, $runMinutes, $runSeconds, $runMilliSeconds, $Status, $Message
-    $dataRow -join ","  >> $LogFileFullPath
-    #>
+    # Construct the line to be written into log file
     $row = New-Object PSObject
 
-    $row | Add-Member -MemberType NoteProperty -Name "SqlScriptFile" -Value $SqlScriptFileName -force
+    #$row | Add-Member -MemberType NoteProperty -Name "SqlScriptFile" -Value $SqlScriptFileName -force
+    $row | Add-Member -MemberType NoteProperty -Name "SqlScriptFile" -Value $SqlFileNameOnly -force
     $row | Add-Member -MemberType NoteProperty -Name "DurationText" -Value $runDurationText -force
     $row | Add-Member -MemberType NoteProperty -Name "DurationHours" -Value $runHours -force
     $row | Add-Member -MemberType NoteProperty -Name "DurationMinutes" -Value $runMinutes -force
@@ -341,8 +332,6 @@ foreach ($f in Get-ChildItem -path $SqlScriptFilePath  -Filter *.sql) {
 
 }
 
-#$MySqlConnection.close()
-
 
 
 $ProgramFinishTime = (Get-Date)
@@ -351,7 +340,7 @@ $ProgramFinishTime = (Get-Date)
 $progDuration = GetDurations  -StartTime  $ProgramStartTime -FinishTime $ProgramFinishTime
 $progDurationText = $progDuration.DurationText
 
-Write-Host "  The work is done.Total time generating these SQL Files: $progDurationText " -ForegroundColor Magenta -BackgroundColor Black
+Write-Host "  Total time generating these SQL Files: $progDurationText " -ForegroundColor Magenta -BackgroundColor Black
 
 Write-Host "  Processed Files are moved into: $ProcessedFilesPath" -ForegroundColor Magenta -BackgroundColor Black
 
