@@ -363,7 +363,7 @@ ForEach ($csvItem in $csvTablesCfgFile) {
   }
 
 # Clean up temp files 
-# CleanUp -FolderName $TempFilesFolder
+CleanUp -FolderName $TempFilesFolder
 
 $ProgramFinishTime = (Get-Date)#
 

@@ -14,33 +14,59 @@
 --#                                       USE AT YOUR OWN RISK.                                                          #
 --#                                                                                                                      #
 --#======================================================================================================================#
---Use AdventureWorksDW2017
+
+-- Updated on July 23, 2021, added code to exclude external tables 
+
 WITH Column_List
-AS (SELECT ROW_NUMBER() OVER(ORDER BY c.ORDINAL_POSITION) AS FieldID,
-			COLUMN_NAME FieldName,
-			COLUMN_DEFAULT ColumnDefaultValue,
-			dobj.name AS ColumnDefaultName,
-			CASE WHEN c.IS_NULLABLE = 'YES' THEN 1 ELSE 0 END IsNullable,
-			DATA_TYPE DataType,
-			CAST(CHARACTER_MAXIMUM_LENGTH AS INT) MaxLength,
-			CAST(NUMERIC_PRECISION AS INT) NumericPrecision,
-			CAST(NUMERIC_SCALE AS INT) NumericScale,
-			DOMAIN_NAME DomainName,
-			CASE WHEN ic.object_id IS NULL THEN 0 ELSE 1 END AS IdentityColumn,
-			CAST(ISNULL(ic.seed_value,0) AS INT) AS IdentitySeed,
-			CAST(ISNULL(ic.increment_value,0) AS INT) AS IdentityIncrement,
-			CASE WHEN st.collation_name IS NOT NULL THEN 1 ELSE 0 END AS IsCharColumn,
-			CASE WHEN DATA_TYPE IN ('XML', 'text', 'ntext', 'image', 'hierarchyid', 'sql_variant', 'GEOGRAPHY', 'geometry','timestamp', 'VARBINARY') THEN 1 ELSE 0 END AS IsExclude
+AS (
+SELECT 
+		ROW_NUMBER() OVER(ORDER BY c.ORDINAL_POSITION) AS FieldID,
+		COLUMN_NAME FieldName,
+		COLUMN_DEFAULT ColumnDefaultValue,
+		dobj.name AS ColumnDefaultName,
+		CASE WHEN c.IS_NULLABLE = 'YES' THEN 1 ELSE 0 END IsNullable,
+		DATA_TYPE DataType,
+		CAST(CHARACTER_MAXIMUM_LENGTH AS INT) MaxLength,
+		CAST(NUMERIC_PRECISION AS INT) NumericPrecision,
+		CAST(NUMERIC_SCALE AS INT) NumericScale,
+		DOMAIN_NAME DomainName,
+		CASE WHEN ic.object_id IS NULL THEN 0 ELSE 1 END AS IdentityColumn,
+		CAST(ISNULL(ic.seed_value,0) AS INT) AS IdentitySeed,
+		CAST(ISNULL(ic.increment_value,0) AS INT) AS IdentityIncrement,
+		CASE WHEN st.collation_name IS NOT NULL THEN 1 ELSE 0 END AS IsCharColumn,
+		case 
+			when data_type in ('geometry',
+							   'geography',
+							   'hierarchyid',
+							   'image',
+							   'text',
+							   'ntext',
+							   'sql_variant',
+							   'table',
+							   'timestamp',
+							   'xml') 
+			then 1
+			else 
+				case 
+					when character_maximum_length = '-1'--unsupported blob datatype uses (max)
+						then 1
+						else 0
+				end
+		end as IsExclude	
 	FROM INFORMATION_SCHEMA.COLUMNS c
-	JOIN sys.objects s ON c.TABLE_NAME = s.name
-	JOIN sys.columns sc ON  s.object_id = sc.object_id AND c.COLUMN_NAME = sc.Name
-	LEFT JOIN sys.identity_columns ic ON c.TABLE_NAME = OBJECT_NAME(ic.object_id) AND c.COLUMN_NAME = ic.Name
-	JOIN sys.types st ON COALESCE(c.DOMAIN_NAME,c.DATA_TYPE) = st.name
-	LEFT OUTER JOIN sys.objects dobj ON dobj.object_id = sc.default_object_id AND dobj.type = 'D'
-    WHERE c.TABLE_NAME = '$(TABLENAME)'
-    --WHERE c.TABLE_NAME = 'DimAccount'
+		JOIN sys.objects s ON c.TABLE_NAME = s.name
+		JOIN sys.tables t ON s.object_id = t.object_id AND s.schema_id = t.schema_id 
+		JOIN sys.schemas sch ON s.schema_id = sch.schema_id AND c.TABLE_SCHEMA = sch.name
+		JOIN sys.columns sc ON  s.object_id = sc.object_id AND c.COLUMN_NAME = sc.Name
+		LEFT JOIN sys.identity_columns ic ON c.TABLE_NAME = OBJECT_NAME(ic.object_id) AND c.COLUMN_NAME = ic.Name
+		JOIN sys.types st ON COALESCE(c.DOMAIN_NAME,c.DATA_TYPE) = st.name
+		LEFT OUTER JOIN sys.objects dobj ON dobj.object_id = sc.default_object_id AND dobj.type = 'D'
+	WHERE c.TABLE_NAME = '$(TABLENAME)' 
+    --WHERE c.TABLE_NAME = 'DimAccount' -- test one table 
 	AND s.type = 'U'
-	 )
+	AND t.is_external = 0
+
+)
 --SELECT CHAR(10) + CASE WHEN IsExclude = 1 THEN '--' ELSE '' END +  /* this line was replaced by below line. Change made by Gail 2020-10-02 
 SELECT CHAR(10) + 
 CASE WHEN FieldID = (SELECT MIN(FieldID) FROM Column_List) THEN '' ELSE ',' END +
