@@ -223,17 +223,19 @@ Function CreateExportTablesScripts(
         "       LOCATION = " + "'" + $Location + "'"  + ",">> $SqlFileFullPath
         "       DATA_SOURCE = " + $DataSourceName +  "," >> $SqlFileFullPath
         "       FILE_FORMAT = " + $FileFormatName >> $SqlFileFullPath
-        ");" >> $SqlFileFullPath
-        "GO" >> $SqlFileFullPath
-        " " >> $SqlFileFullPath
+        ")" >> $SqlFileFullPath
         
         if ($TableColumns.toUpper() -ne "YES")
         {
             "AS " >> $SqlFileFullPath
             "SELECT * FROM " + $DatabaseName + "." + $SchemaName + "." + $TableName >> $SqlFileFullPath
+            "GO" >> $SqlFileFullPath
+            " " >> $SqlFileFullPath
         }
         else {
 
+            "GO" >> $SqlFileFullPath
+            " " >> $SqlFileFullPath
             "INSERT INTO " + "["+$DatabaseName +"].["+$ExternalSchemaName +"].["+ $TableName +"]">> $SqlFileFullPath
             "  SELECT * FROM " + "["+$DatabaseName + "].["+$SchemaName+"].["+$TableName+"]" >> $SqlFileFullPath
             "GO " >> $SqlFileFullPath
