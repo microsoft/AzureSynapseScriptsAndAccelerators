@@ -183,10 +183,27 @@ Function CreateCopyIntoScripts(
                 "  COMPRESSION  = " + "'" + $Compression + "'" +"," >> $SqlFileFullPath
             }
             "  CREDENTIAL = " + $Credential +"," >> $SqlFileFullPath
-            "  FIELDQUOTE = " + "'" + $FieldQuote + "'" +"," >> $SqlFileFullPath
-            "  FIELDTERMINATOR = " + "'" + $FieldTerminator + "'" +"," >> $SqlFileFullPath
-            "  ROWTERMINATOR = " + "'" + $RowTerminator + "'" +"," >> $SqlFileFullPath
-            "  ENCODING = " + "'" + $Encoding + "'" +"," >> $SqlFileFullPath
+
+            if ( !([string]::IsNullOrWhiteSpace($FieldQuote)) )
+            {
+                "  FIELDQUOTE = " + "'" + $FieldQuote + "'" +"," >> $SqlFileFullPath
+            }
+
+            if ( !([string]::IsNullOrWhiteSpace($FieldTerminator)) )
+            {
+                "  FIELDTERMINATOR = " + "'" + $FieldTerminator + "'" +"," >> $SqlFileFullPath
+            }
+
+            if ( !([string]::IsNullOrWhiteSpace($RowTerminator)) )
+            {
+                "  ROWTERMINATOR = " + "'" + $RowTerminator + "'" +"," >> $SqlFileFullPath
+            }
+
+            if ( !([string]::IsNullOrWhiteSpace($Encoding)) )
+            {
+                "  ENCODING = " + "'" + $Encoding + "'" +"," >> $SqlFileFullPath
+            }
+
             if ( !([string]::IsNullOrWhiteSpace($MaxErrors)) )
             {
                 "  MAXERRORS  = " + "'" + $MaxErrors + "'" +"," >> $SqlFileFullPath
