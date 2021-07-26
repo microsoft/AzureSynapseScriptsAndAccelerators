@@ -224,12 +224,22 @@ Function CreateExportTablesScripts(
         "       DATA_SOURCE = " + $DataSourceName +  "," >> $SqlFileFullPath
         "       FILE_FORMAT = " + $FileFormatName >> $SqlFileFullPath
         ");" >> $SqlFileFullPath
+        "GO" >> $SqlFileFullPath
+        " " >> $SqlFileFullPath
+        
         if ($TableColumns.toUpper() -ne "YES")
         {
             "AS " >> $SqlFileFullPath
             "SELECT * FROM " + $DatabaseName + "." + $SchemaName + "." + $TableName >> $SqlFileFullPath
         }
-        # "OPTION (LABEL = " + "'" + "Export_" + $DatabaseName + "_" + $SchemaName + "_" + $TableName + "'"+ ")" >> $SqlFileFullPath  # This line caused execution error in SQL Server 
+        else {
+
+            "INSERT INTO " + "["+$DatabaseName +"].["+$ExternalSchemaName +"].["+ $TableName +"]">> $SqlFileFullPath
+            "  SELECT * FROM " + "["+$DatabaseName + "].["+$SchemaName+"].["+$TableName+"]" >> $SqlFileFullPath
+            "GO " >> $SqlFileFullPath
+        }
+
+        # "OPTION (LABEL = " + "'" + "Export_" + $DatabaseName + "_" + $SchemaName + "_" + $TableName + "'"+ ")" >> $SqlFileFullPath  # This line caused execution error in SQL Server 2016
 
         return "1"
     }
