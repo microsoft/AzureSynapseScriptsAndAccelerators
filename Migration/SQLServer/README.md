@@ -1,4 +1,4 @@
-# **Overview** 
+# **SQL Server to Azure Synapse Migration Process & Scripts** 
 
 This directory contains SQL server to Azure Synapse Migration Toolkit. It includes the Process, PowerShell Scripts Modules, and some useful Utilities within each module.
 
