@@ -4,7 +4,7 @@
 	"AzureResourceGroup":"your_azure_resource_group",
 	"StorageAccountName":"your_storage_account_name",
 	"GenerateSASKey":"No",
-	"SASKey":"https://storagenamehere.blob.core.windows.net/containernamehere?sp=racwdlm&etcetcetc",
+	"SASKey":"?sv=2020-08-04-restof-yourSASToken-etcetcetc",
 	"KeyExpirationTimeInHours":"10",
 	"ContainerName":"yourAdlsContainerName",
 	"FoldersToUpload":
