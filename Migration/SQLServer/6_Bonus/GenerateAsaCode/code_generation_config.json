@@ -1,0 +1,19 @@
+{
+	"CreateHeapTableFlag":"1",
+	"CreateDesiredTableFlag":"1",
+	"BackupAndRenameTableFlag":"1",
+	"DropAndRenameTableFlag":"1",
+	"CreateSisterTableFlag":"1",
+	"GenerateInsertIntoFromHeapFlag":"1",
+	"GenerateInsertIntoFromStagingFlag":"1",
+	"GenerateInsertIntoSisterFlag":"1",
+	"DropTableUtilityFlagExampleValuesOnly":"_B|_Backup",
+	"DropTableUtilityFlag":"_B|_Backup",
+	"CreateTableStatsFlag":"1",
+	"DropTableStatsFlag":"1",
+	"UpdateTableStatsFullScanFlag":"1",
+	"UpdateTableStatsCustomScanFlag":"1",
+	"RebuildTableIndexFlag":"1",
+	"ReorganizeTableIndexFlag":"1",
+	"DropTablesFlag":"1"
+}

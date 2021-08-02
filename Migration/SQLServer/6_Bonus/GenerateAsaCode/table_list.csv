@@ -1,0 +1,24 @@
+Active,DatabaseName,SchemaName,StagingSchemaName,TableName,CurrentDistributionType,DistColumn,StorageType,NumRows,DesiredDistributionType,DistributionKeysIfHash,StatsColumns,StatsScanRate
+1,SqlPoolDatabaseName,edw,Staging,DimAccount,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimCurrency,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimCustomer,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimDate,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimDepartmentGroup,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimGeography,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimOrganization,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimProductCategory,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimProductSubcategory,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimPromotion,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimReseller,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimSalesReason,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,DimScenario,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,REPLICATE,, ,100
+1,SqlPoolDatabaseName,edw,Staging,FactCallCenter,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,HASH,DateKey,DateKey,50
+1,SqlPoolDatabaseName,edw,Staging,FactCurrencyRate,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,HASH,CurrencyKey,CurrencyKey,50
+1,SqlPoolDatabaseName,edw,Staging,FactFinance,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,HASH,AccountKey,AccountKey,50
+1,SqlPoolDatabaseName,edw,Staging,FactInternetSales,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,HASH,OrderDateKey,OrderDateKey,50
+1,SqlPoolDatabaseName,edw,Staging,FactInternetSalesReason,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,HASH,SalesOrderNumber,SalesOrderNumber,50
+1,SqlPoolDatabaseName,edw,Staging,FactProductInventory,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,HASH,ProductKey,ProductKey,50
+1,SqlPoolDatabaseName,edw,Staging,FactResellerSales,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,HASH,ResellerKey,ResellerKey,50
+1,SqlPoolDatabaseName,edw,Staging,FactSalesQuota,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,HASH,EmployeeKey,EmployeeKey,50
+1,SqlPoolDatabaseName,edw,Staging,FactSurveyResponse,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,HASH,CustomerKey,CustomerKey,50
+1,SqlPoolDatabaseName,edw,Staging,ProspectiveBuyer,ROUND_ROBIN, ,CLUSTERED COLUMNSTORE,,Round_Robin,, ,100
