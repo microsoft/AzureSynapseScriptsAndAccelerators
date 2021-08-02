@@ -284,12 +284,12 @@ try {
         $containerSASURI)[-1]
 
     }
+    $SASFullURI = "https://"+ $StorageAccountName + ".blob.core.windows.net" + "/" + $ContainerName + $SASKey
     UploadFiles -AzCopyLocation $AzCopyFullPath `
     -localFolders $LocalFolders `
     -storageAccountName $StorageAccountName `
     -storageContainerName $StorageContainerName `
-    -containerSASURI $SASKey
-
+    -containerSASURI $SASFullURI
 }
 catch [Exception] {
     Write-Warning $_.Exception.Message
