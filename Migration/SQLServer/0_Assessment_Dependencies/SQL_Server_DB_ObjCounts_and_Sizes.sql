@@ -88,9 +88,9 @@ Select ' + QUOTENAME(name,'''') + ',
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type = ''SN''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type = ''SO''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type_desc = ''SERVICE_QUEUE''),
-    (select (sum(convert(numeric,size))*8)/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS''),
+    (select (sum(convert(numeric,size))*8.0)/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS''),
     (select (sum(convert(numeric,size))*8.0)/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS''),
-    (select (sum(convert(numeric,size))*8.8)/1024.0/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS'')
+    (select (sum(convert(numeric,size))*8.0)/1024.0/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS'')
     '
 FROM sys.databases 
 where name not in ('master','tempdb','msdb','model') and state = 0 
