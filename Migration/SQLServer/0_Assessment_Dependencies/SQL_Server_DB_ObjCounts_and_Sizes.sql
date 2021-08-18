@@ -32,39 +32,43 @@
 -- (2) # of Tables in this database (1)
 -- (3) # of Tables Tracked by CDC (1)
 -- (4) # of External Tables in this database (1)
--- (5) # of Stored Procedrues 
--- (6) # of Views
--- (7) # of Triggers 
--- (8) # of Primary Key Constraints 
--- (9) # of Foreighn Key Constraints
--- (10) # of Scalar Functions 
--- (11) # of Table Value Functions 
--- (12) # of Identity Columns in Tables, Views, and Stored Procedures 
--- (13) # of Synonym Object
--- (14) # of Sequence Object
--- (15) # of Service Queue 
--- (16) SizeMB - Size of the DB in MB
--- (17) SizeGB - Size of the DB in GB
--- (18) SizeTB - Size of the DB in TB 
+-- (5) # of Columns in this database (1) 
+-- (6) # of Identity Columns in Tables, Views, and Stored Procedures 
+-- (7) # of XML Columns in Tables, Views, and Stored Procedures 
+-- (8) # of Stored Procedrues 
+-- (9) # of Views
+-- (10) # of Triggers 
+-- (11) # of Primary Key Constraints 
+-- (12) # of Foreighn Key Constraints
+-- (13) # of Scalar Functions 
+-- (14) # of Table Value Functions 
+-- (15) # of Synonym Object
+-- (16) # of Sequence Object
+-- (17) # of Service Queue 
+-- (18) SizeMB - Size of the DB in MB
+-- (19) SizeGB - Size of the DB in GB
+-- (10) SizeTB - Size of the DB in TB 
 
 If Object_ID('Tempdb..#SQL_Assessment_Info_Temp_DB','U') IS NOT NULL Drop Table #SQL_Assessment_Info_Temp_DB
 
 CREATE TABLE #SQL_Assessment_Info_Temp_DB (
   [DbName] sysname, 
   [Tables] int, 
-  [TablesTrkdByCDC] int,
-  [ExtTables] int,
-  [Procedures] int, 
+  [TblsTrkdByCDC] int,
+  [ExtTbls] int,
+  [Columns] int, 
+  [IdentityColms] int,
+  [XmlColms] int,
+  [Procs] int, 
   [Views] int, 
   [Triggers] int,
   [PKeyConstraints] int,
   [FKeyConstraints] int,
   [ScalarFcns] int,
   [TblValueFcns] int,
-  [IdentityColumns] int,
   [Synonyms] int,
-  [Sequence] int,
-  [ServieQ] int,
+  [Sequences] int,
+  [ServieQs] int,
   [SizeMB] decimal (8,2),
   [SizeGB] decimal (8,2),
   [SizeTB] decimal (8,2)
@@ -77,6 +81,9 @@ Select ' + QUOTENAME(name,'''') + ',
     (select count(*) from ' + QUOTENAME(Name) + '.sys.tables),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.tables' + ' where is_tracked_by_cdc = ''1''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.tables' + ' where is_external = ''1''),
+    (select count(*) from ' + QUOTENAME(Name) + '.sys.columns),
+    (select count(*) from ' + QUOTENAME(Name) + '.sys.columns' + ' where is_identity = ''1''),
+    (select count(*) from ' + QUOTENAME(Name) + '.sys.columns' + ' where is_xml_document = ''1''),
 	(select count(*) from ' + QUOTENAME(Name) + '.sys.procedures),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.views),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.triggers),
@@ -84,13 +91,12 @@ Select ' + QUOTENAME(name,'''') + ',
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type = ''F''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type_desc = ''SQL_SCALAR_FUNCTION''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type_desc = ''SQL_TABLE_VALUED_FUNCTION''),
-    (select count(*) from ' + QUOTENAME(Name) + '.sys.columns' + ' where is_identity = ''1''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type = ''SN''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type = ''SO''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type_desc = ''SERVICE_QUEUE''),
-    (select (sum(convert(numeric,size))*8.0)/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS''),
+    (select (sum(convert(numeric,size))*8)/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS''),
     (select (sum(convert(numeric,size))*8.0)/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS''),
-    (select (sum(convert(numeric,size))*8.0)/1024.0/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS'')
+    (select (sum(convert(numeric,size))*8.8)/1024.0/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS'')
     '
 FROM sys.databases 
 where name not in ('master','tempdb','msdb','model') and state = 0 
