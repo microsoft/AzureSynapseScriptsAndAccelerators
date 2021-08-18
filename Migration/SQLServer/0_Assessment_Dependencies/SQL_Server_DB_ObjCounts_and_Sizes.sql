@@ -45,9 +45,10 @@
 -- (15) # of Synonym Object
 -- (16) # of Sequence Object
 -- (17) # of Service Queue 
--- (18) SizeMB - Size of the DB in MB
--- (19) SizeGB - Size of the DB in GB
--- (10) SizeTB - Size of the DB in TB 
+-- (18) DBSizeGB - Size of the DB in GB
+-- (19) OthersGB - Size of Log, FILESTREA, FULLTEXT in GB
+-- (20) DBSizeTB - Size of the DB in TB
+-- (21) OthersTB - Size of Log, FILESTREA, FULLTEXT in TB
 
 If Object_ID('Tempdb..#SQL_Assessment_Info_Temp_DB','U') IS NOT NULL Drop Table #SQL_Assessment_Info_Temp_DB
 
@@ -69,9 +70,10 @@ CREATE TABLE #SQL_Assessment_Info_Temp_DB (
   [Synonyms] int,
   [Sequences] int,
   [ServieQs] int,
-  [SizeMB] decimal (8,2),
-  [SizeGB] decimal (8,2),
-  [SizeTB] decimal (8,2)
+  [DBSizeGB] decimal (8,2),
+  [OthersGB] decimal (8,2),
+  [DBSizeTB] decimal (8,2),
+  [OthersTB] decimal (8,2)
   ); 
 
 DECLARE @SqlStmt NVARCHAR(MAX)
@@ -94,9 +96,10 @@ Select ' + QUOTENAME(name,'''') + ',
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type = ''SN''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type = ''SO''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type_desc = ''SERVICE_QUEUE''),
-    (select (sum(convert(numeric,size))*8)/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS''),
     (select (sum(convert(numeric,size))*8.0)/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS''),
-    (select (sum(convert(numeric,size))*8.8)/1024.0/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS'')
+     (select (sum(convert(numeric,size))*8.0)/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc <> ''ROWS''),
+    (select (sum(convert(numeric,size))*8.8)/1024.0/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS''),
+     (select (sum(convert(numeric,size))*8.8)/1024.0/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc <> ''ROWS'')
     '
 FROM sys.databases 
 where name not in ('master','tempdb','msdb','model') and state = 0 
