@@ -1,6 +1,8 @@
--- Query for: 30. 7 Day Query Summary
+-- Query 7 Day Query Summary
 
-select      "Database",
+select      
+			"AppID",
+			"Database",
             "Hour",
             avg("Select") as "Select Avg",
             avg("Insert") as "Insert Avg",
@@ -17,7 +19,9 @@ select      "Database",
             max("Merge") as "Merge Max",
             max("MLoad") as "MLoad Max"
 from        (
-            select      DefaultDatabase    as "Database",
+            select
+						AppID,
+						DefaultDatabase    as "Database",
                         extract (day from StartTime) as "Day",
                         extract (hour from StartTime) as "Hour",
                         sum(case when StatementType = 'Select' then 1 else 0 end) as "Select",
@@ -31,9 +35,6 @@ from        (
             where       StartTime >= CURRENT_TIMESTAMP - INTERVAL '7' DAY -- '2020-11-01 00:00:00' -- CHANGE CHANGE AS REQUIRED
                         and StartTime < CURRENT_TIMESTAMP --'2020-11-08 00:00:00' -- CHANGE CHANGE AS REQUIRED
                         
-            group by    "Database","Day","Hour"
+            group by    AppID, "Database","Day","Hour"
             ) d
-group by    "Database","Hour"
-order by    "Database","Hour";
-    
-
+group by    "AppID","Database","Hour";
