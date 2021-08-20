@@ -1,4 +1,4 @@
--- Query for: 22. Object Counts
+-- Query for: Object Counts
 
 SELECT DatabaseName,
 		CASE TableKind

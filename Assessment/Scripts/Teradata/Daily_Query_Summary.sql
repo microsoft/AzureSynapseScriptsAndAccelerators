@@ -19,5 +19,4 @@ select      AppId, DefaultDatabase    as "Database",
                         
             group by    AppId, "Database","Year","Month","Day","Hour"
             order by    AppId, "Database","Year","Month","Day","Hour"; 
-    
 

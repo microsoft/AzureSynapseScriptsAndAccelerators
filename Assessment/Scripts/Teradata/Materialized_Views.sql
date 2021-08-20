@@ -1,4 +1,4 @@
--- Query for: 25. Materialized Views
+-- Query for: Materialized Views
 
 SELECT *
 FROM DBC.Indices
