@@ -29,6 +29,15 @@
 # Set-ExecutionPolicy Unrestricted -Scope CurrentUser 
 # Unblock-File -Path C:\migratemaster\modules\1_TranslateMetaData\TranslateMetaData.ps1
 
+Function ShowDebugMsg()
+{
+    param( 
+        [Parameter(Position = 1, Mandatory = $true)] [String]$ScriptName, 
+        [Parameter(Position = 2, Mandatory = $true)] [String]$ScriptLine, 
+        [Parameter(Position = 3, Mandatory = $false)] [String]$Value
+    ) 
+    Write-Host "Need to debug script: $ScriptName line number $ScriptLine. Check Value: $Value " -ForegroundColor Red
+}
 
 Function GetDurations() {
     [CmdletBinding()] 
@@ -88,8 +97,14 @@ function CleanUp {
         [string]$TempWorkPath = ""
     )
         
+    if (test-path $TempWorkPath)
+    {
+
         Remove-Item -path $TempWorkPath -Recurse -Force
         Write-Host "  $TempWorkPath was successfully deleted." -ForegroundColor Magenta
+
+    }
+
 }
 
 function Get-ConfigData{
@@ -190,14 +205,20 @@ function Get-MetaData {
         [string] $OutputFileName = ''
     )
         
-    if ($Active -eq 1){
+    if ($Active -eq "1"){
         $tablename = $source_table
         $sqlVariable = "TABLENAME=$tablename"
         $sqlMetaDataFileName = "GetTableMetaData.sql"
         $sqlMetaDataFilePath = $MetaDataFilePath
         $sqlMetaDataFileFullPath = join-path $sqlMetaDataFilePath $sqlMetaDataFileName
-         
-        New-Item -ItemType Directory -Force -Path $outFolderName | Out-Null   
+        
+       # Why creating this folder since it was passed in? 
+
+       if (!(Test-Path $outFolderName)) {
+            New-Item -ItemType Directory -Force -Path $outFolderName | Out-Null   
+        }
+
+       #New-Item -ItemType Directory -Force -Path $outFolderName | Out-Null   
 
         if ($ThreePartsName.ToUpper() -eq "NO")
         {
@@ -223,23 +244,40 @@ function Get-MetaData {
 
         $tempFileFullPath = join-path $TempWorkFullPath $tempFileName
 
-    if ($UseIntegratedSecurity -eq 1){
-        (Invoke-Sqlcmd -InputFile $sqlMetaDataFileFullPath `
-                -ServerInstance $source_datasource -database $source_database -Variable $sqlVariable -OutputAs DataTables -ErrorAction Stop) | 
+        
+<#
+    # Below code will stop processing once error occurs because of the setting of "-ErrorAction Stop"
+        if ($UseIntegratedSecurity -eq 1){
+            (Invoke-Sqlcmd -InputFile $sqlMetaDataFileFullPath `
+                    -ServerInstance $source_datasource -database $source_database -Variable $sqlVariable -OutputAs DataTables -ErrorAction Stop) | 
+            ConvertTo-Csv -NoTypeInformation | Select-Object -Skip 1 | Set-Content $tempFileFullPath
+        }
+        else 
+        {
+            (Invoke-Sqlcmd -InputFile $sqlMetaDataFileFullPath `
+            -ServerInstance $source_datasource -database $source_database -Username $UserName -Password $Password -Variable $sqlVariable -OutputAs DataTables -ErrorAction Stop) | 
         ConvertTo-Csv -NoTypeInformation | Select-Object -Skip 1 | Set-Content $tempFileFullPath
-    }
-    else 
-    {
-        (Invoke-Sqlcmd -InputFile $sqlMetaDataFileFullPath `
-        -ServerInstance $source_datasource -database $source_database -Username $UserName -Password $Password -Variable $sqlVariable -OutputAs DataTables -ErrorAction Stop) | 
-    ConvertTo-Csv -NoTypeInformation | Select-Object -Skip 1 | Set-Content $tempFileFullPath
-    }       
+        }       
+#>
 
-    $output = Get-Content $tempFileFullPath
+        Try {
+            if ($UseIntegratedSecurity -eq 1){
+            (Invoke-Sqlcmd -InputFile $sqlMetaDataFileFullPath `
+                    -ServerInstance $source_datasource -database $source_database -Variable $sqlVariable -OutputAs DataTables ) | 
+            ConvertTo-Csv -NoTypeInformation | Select-Object -Skip 1 | Set-Content $tempFileFullPath
+             }
+            else 
+            {   
+                (Invoke-Sqlcmd -InputFile $sqlMetaDataFileFullPath `
+                -ServerInstance $source_datasource -database $source_database -Username $UserName -Password $Password -Variable $sqlVariable -OutputAs DataTables ) | 
+            ConvertTo-Csv -NoTypeInformation | Select-Object -Skip 1 | Set-Content $tempFileFullPath
+            }       
 
-    $output | foreach { $_.replace('"|"', '|').TrimStart('"').TrimEnd('"') } | Out-File $tempSQLFullPath 
+            $output = Get-Content $tempFileFullPath
 
-    Get-ASASchema  -ThreePartsName $ThreePartsName `
+            $output | foreach { $_.replace('"|"', '|').TrimStart('"').TrimEnd('"') } | Out-File $tempSQLFullPath 
+
+            Get-ASASchema  -ThreePartsName $ThreePartsName `
                     -AsaDatabaseName $AsaDatabaseName `
                     -TableDistrubution $TableDistrubution `
                     -HashKeys $HashKeys `
@@ -250,9 +288,25 @@ function Get-MetaData {
                     -schemaFilePath $tempSQLFullPath `
                     -OutputFileName $OutputFileName
 
-    }
+        }
+        Catch [System.Data.SqlClient.SqlException] # For SQL exception 
+        { 
+		    $Err = $_ 
+		    Write-Host "System.Data.SqlClient.SqlException in GetMetaData:  $Err"
+		    return $Err
+	    } 
+	    Catch # For other exception 
+	    { 
+		
+		$Err = $_ 
 
-    return $Active
+		Write-Host "Error in GetMetaData:  $Err"
+        return $Err
+		
+	    }  
+        return $Active
+    }
+    return "0" # when will this line be reached? When Active is set to '0' 
 }
 
 function Get-ASASchema {
@@ -377,7 +431,15 @@ $ProgramStartTime = (Get-Date)
 $ScriptPath = Split-Path $MyInvocation.MyCommand.Path -Parent
 Set-Location -Path $ScriptPath   
 $FolderPath = $ScriptPath 
+#############################################
+# Default XLSX configuration File Name
 $XlsxFile = "SourceToTargetTablesConfig.xlsx"
+#$XlsxFile = "SourceToTargetTablesConfig_2019.xlsx"
+#############################################
+# Default JSON configuration File Name
+$defaultJsonCfgFile = "translate_config.json"
+#$defaultJsonCfgFile = "translate_config_2019.json"
+
 $TempWorkFolder= "_Temp"
 $TempWorkFullPath = join-path $FolderPath $TempWorkFolder
 
@@ -402,8 +464,6 @@ if (!(test-path $MetaDataFileFullPath )) {
     }
 
 
-# Get Json File Input 
-$defaultJsonCfgFile = "translate_config.json"
 
 $jconCfgFile = Read-Host -prompt "Enter the Config File Name or press 'Enter' to accept the default [$($defaultJsonCfgFile)]"
 if([string]::IsNullOrWhiteSpace($jconCfgFile)) {
@@ -487,56 +547,54 @@ try {
         $DropFlag = $row.DropFlag
         $OutputFolder = $OutputFilesFolder
 
-        if ($ThreePartsName.ToUpper() -eq "YES")
-        {
-            $OutputFileName =  $AsaDatabaseName + "_" + $AsaSchemaName + "_" + $row.ObjectName + ".sql"
-        }
-        else {
-            $OutputFileName = $AsaSchemaName + "_" + $row.ObjectName + ".sql"
-        }
+        If ($isActive -eq "1") {
+
+            if ($ThreePartsName.ToUpper() -eq "YES")
+            {
+                $OutputFileName =  $AsaDatabaseName + "_" + $AsaSchemaName + "_" + $row.ObjectName + ".sql"
+            }
+            else {
+                $OutputFileName = $AsaSchemaName + "_" + $row.ObjectName + ".sql"
+            }
        
 
-        $StartTime = (Get-Date)
+            $StartTime = (Get-Date)
 
-        $ReturnOutput = Get-MetaData -outFolderName $OutputFolder `
-         -source_datasource $source_datasource `
-         -source_database $source_database `
-         -UseIntegratedSecurity $UseIntegratedSecurity `
-         -UserName $UserName `
-         -Password $Password `
-         -ThreePartsName $ThreePartsName `
-         -AsaDatabaseName $AsaDatabaseName `
-         -AsaSchemaName  $AsaSchemaName `
-         -source_table $source_table `
-         -source_schema $source_schema `
-         -Active $isActive `
-         -OutputFileName $OutputFileName
+            $ReturnOutput = Get-MetaData -outFolderName $OutputFolder `
+            -source_datasource $source_datasource `
+            -source_database $source_database `
+            -UseIntegratedSecurity $UseIntegratedSecurity `
+            -UserName $UserName `
+            -Password $Password `
+            -ThreePartsName $ThreePartsName `
+            -AsaDatabaseName $AsaDatabaseName `
+            -AsaSchemaName  $AsaSchemaName `
+            -source_table $source_table `
+            -source_schema $source_schema `
+            -Active $isActive `
+            -OutputFileName $OutputFileName
 
          
-         $FinishTime = (Get-Date)
-         $runDuration = GetDurations  -StartTime  $StartTime -FinishTime $FinishTime
-         $runDurationText = $runDuration.DurationText
+            $FinishTime = (Get-Date)
+            $runDuration = GetDurations  -StartTime  $StartTime -FinishTime $FinishTime
+            $runDurationText = $runDuration.DurationText
 
-         if ($ReturnOutput -match "error")
-         {
-             $DisplayMessage = "  Error Generating Azure Synapse Create Table SQL File for -----> " + $source_database + "." + $source_schema + '.' + $source_table + ". Error: " + $ReturnOutput 
-             Write-Host $DisplayMessage -ForegroundColor Red -BackgroundColor Black
-         } else {
-     
-             $ReturnOutput | ForEach-Object {
-                 if (($_ -NotMatch "INFO") -and ($_ -notin (0,1))){
-     
-                     Write-Host $_ -ForegroundColor Green -BackgroundColor Black 
-     
-                 }
-             }
-             if ($ReturnOutput -eq 1){
-                 $DisplayMessage = "  Generated Azure Synapse Create Table SQL File for: -----> " + $source_database + "." + $source_schema + '.' + $source_table + " -------- Duration: $runDurationText "
-                 Write-Host $DisplayMessage -ForegroundColor Green -BackgroundColor Black
-             }
-     
-         }
-         
+
+            if ($ReturnOutput -eq "0"){}  # do nothing 
+            elseif ($ReturnOutput -eq "1"){
+                $DisplayMessage = "  Generated Azure Synapse Create Table SQL File for: -----> " + $source_database + "." + $source_schema + '.' + $source_table + " -------- Duration: $runDurationText "
+                Write-Host $DisplayMessage -ForegroundColor Green -BackgroundColor Black
+            }
+            elseif ($ReturnOutput -match "error")
+            {
+                $DisplayMessage = "  Error Generating Azure Synapse Create Table SQL File for -----> " + $source_database + "." + $source_schema + '.' + $source_table + ". Error: " + $ReturnOutput 
+                Write-Host $DisplayMessage -ForegroundColor Red -BackgroundColor Black
+            } else {
+                $ScriptName = $MyInvocation.ScriptName
+                $LineNumber = $MyInvocation.ScriptLineNumber
+                ShowDebugMsg ($ScriptName, $LineNumber, $ReturnOutput)
+            }
+        }
     }
     
     CleanUp -TempWorkPath $TempWorkFullPath
