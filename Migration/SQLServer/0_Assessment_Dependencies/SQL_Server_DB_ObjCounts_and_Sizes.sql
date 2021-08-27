@@ -53,13 +53,13 @@
 If Object_ID('Tempdb..#SQL_Assessment_Info_Temp_DB','U') IS NOT NULL Drop Table #SQL_Assessment_Info_Temp_DB
 
 CREATE TABLE #SQL_Assessment_Info_Temp_DB (
-  [DbName] sysname, 
+  [DatabaseName] sysname, 
   [Tables] int, 
   [TblsTrkdByCDC] int,
   [ExtTbls] int,
   [Columns] int, 
-  [IdentityColms] int,
-  [XmlColms] int,
+  [IdentityColums] int,
+  [XmlColums] int,
   [Procs] int, 
   [Views] int, 
   [Triggers] int,
@@ -69,7 +69,7 @@ CREATE TABLE #SQL_Assessment_Info_Temp_DB (
   [TblValueFcns] int,
   [Synonyms] int,
   [Sequences] int,
-  [ServieQs] int,
+  [ServiceQs] int,
   [DBSizeGB] decimal (8,2),
   [OthersGB] decimal (8,2),
   [DBSizeTB] decimal (8,2),
@@ -96,10 +96,10 @@ Select ' + QUOTENAME(name,'''') + ',
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type = ''SN''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type = ''SO''),
     (select count(*) from ' + QUOTENAME(Name) + '.sys.objects' + ' where type_desc = ''SERVICE_QUEUE''),
-    (select (sum(convert(numeric,size))*8.0)/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS''),
-     (select (sum(convert(numeric,size))*8.0)/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc <> ''ROWS''),
-    (select (sum(convert(numeric,size))*8.8)/1024.0/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc = ''ROWS''),
-     (select (sum(convert(numeric,size))*8.8)/1024.0/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME(Name+'%','''') + ' and type_desc <> ''ROWS'')
+    (select (sum(convert(numeric,size))*8.0)/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME('%'+Name+'%','''') + ' and type_desc = ''ROWS''),
+     (select (sum(convert(numeric,size))*8.0)/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME('%'+Name+'%','''') + ' and type_desc <> ''ROWS''),
+    (select (sum(convert(numeric,size))*8.8)/1024.0/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME('%'+Name+'%','''') + ' and type_desc = ''ROWS''),
+     (select (sum(convert(numeric,size))*8.8)/1024.0/1024.0/1024.0 from sys.database_files where name like ' + QUOTENAME('%'+Name+'%','''') + ' and type_desc <> ''ROWS'')
     '
 FROM sys.databases 
 where name not in ('master','tempdb','msdb','model') and state = 0 
@@ -112,5 +112,4 @@ EXECUTE(@SqlStmt)
 
 Select * from #SQL_Assessment_Info_Temp_DB
 
-If Object_ID('Tempdb..#SQL_Assessment_Info_Temp_DB','U') IS NOT NULL Drop Table #SQL_Assessment_Info_Temp_DB
-
+--If Object_ID('Tempdb..#SQL_Assessment_Info_Temp_DB','U') IS NOT NULL Drop Table #SQL_Assessment_Info_Temp_DB
