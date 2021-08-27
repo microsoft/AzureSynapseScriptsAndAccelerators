@@ -112,4 +112,4 @@ EXECUTE(@SqlStmt)
 
 Select * from #SQL_Assessment_Info_Temp_DB
 
---If Object_ID('Tempdb..#SQL_Assessment_Info_Temp_DB','U') IS NOT NULL Drop Table #SQL_Assessment_Info_Temp_DB
+If Object_ID('Tempdb..#SQL_Assessment_Info_Temp_DB','U') IS NOT NULL Drop Table #SQL_Assessment_Info_Temp_DB
