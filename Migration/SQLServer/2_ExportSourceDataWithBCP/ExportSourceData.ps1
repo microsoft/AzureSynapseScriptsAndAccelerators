@@ -180,8 +180,9 @@ Function ExportBCPData(
 		}
 		Else {
 			# Begin to make a diaplay line that hides the real user name and password
+			$displayArgs = $Arguments + " -U ###YourUsername####  -P ####YourPassword######" 
 			$Arguments = $Arguments + ' -U ' , $UserName, ' -P ', $Password 
-			$displayArgs = $Arguments + " -U YourUsername  -P YourPassword" 
+			
 		} 
 	    
 		# Set the data type in the Arguments list
