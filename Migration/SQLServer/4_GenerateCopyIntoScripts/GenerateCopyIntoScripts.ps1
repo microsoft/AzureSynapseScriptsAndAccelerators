@@ -168,13 +168,14 @@ Function CreateCopyIntoScripts(
 
         if ( ($TruncateTable.ToUpper() -eq "YES") -or ($TruncateTable.ToUpper() -eq "Y") )
         {
-            "TRUNCATE TABLE " + $AsaDatabaseName + "." + $AsaSchema + "."+ $TableName >> $SqlFileFullPath
+            "TRUNCATE TABLE " + "[" + $AsaDatabaseName + "]" + "." + "["+ $AsaSchema + "]" + "."+ "[" + $TableName + "]">> $SqlFileFullPath
             " " >> $SqlFileFullPath
         }
 
         if ($FileType.toUpper() -eq 'CSV')  {
 
-            "COPY INTO " + $AsaDatabaseName + "." + $AsaSchema + "."+ $TableName >> $SqlFileFullPath
+            #"COPY INTO " + $AsaDatabaseName + "." + $AsaSchema + "."+ $TableName >> $SqlFileFullPath
+            "COPY INTO " + "[" + $AsaDatabaseName + "]" + "." + "["+ $AsaSchema + "]" + "."+ "[" + $TableName + "]">> $SqlFileFullPath
             "FROM " + "'" + $Location + "'" >> $SqlFileFullPath
             "WITH (" >> $SqlFileFullPath
             "  FILE_TYPE = " + "'" + $FileType + "'" +"," >> $SqlFileFullPath
@@ -225,7 +226,8 @@ Function CreateCopyIntoScripts(
         } elseif (($FileType.toUpper() -eq 'PARQUET') -or ($FileType.toUpper() -eq 'ORC'))  {
 
 
-            "COPY INTO " + $AsaDatabaseName + $AsaSchema + "."+ $TableName >> $SqlFileFullPath
+            #"COPY INTO " + $AsaDatabaseName + $AsaSchema + "."+ $TableName >> $SqlFileFullPath
+            "COPY INTO " + "[" + $AsaDatabaseName + "]" + "." + "["+ $AsaSchema + "]" + "."+ "[" + $TableName + "]">> $SqlFileFullPath
             "FROM " + "'" + $Location + "'" >> $SqlFileFullPath
             "WITH (" >> $SqlFileFullPath
             "  FILE_TYPE = " + "'" + $FileType + "'" +"," >> $SqlFileFullPath
