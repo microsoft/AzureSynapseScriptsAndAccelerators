@@ -1,30 +1,21 @@
 Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,ScriptName
-1,Teradata,Table,ALL,SCHEMA,1.0.0.0,99.0.0.0,rows_counts,\Teradata\1. Table DDL.sql
-1,Teradata,Table,ALL,SQL,1.0.0.0,99.0.0.0,rows_counts,\Teradata\2. Table Row Counts.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_size,\Teradata\3. Table Size.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,columns,\Teradata\4. Column Detail.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_distributions,\Teradata\5. Table Distribution.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning_1,\Teradata\6. Table Partitioning 1.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning_2,\Teradata\7. Table Partitioning 2.sql
-1,Teradata,View,ALL,SCHEMA,1.0.0.0,99.0.0.0,views_ddl,\Teradata\8. View DDL.sql
-1,Teradata,Procedure,ALL,SCHEMA,1.0.0.0,99.0.0.0,procs_ddl,\Teradata\9. Procedure DDL.sql
-1,Teradata,ExProcedure,ALL,SCHEMA,1.0.0.0,99.0.0.0,prod_ext_ddl,\Teradata\10. Procedure Ext DDL.sql
-1,Teradata,Macro,ALL,SCHEMA,1.0.0.0,99.0.0.0,macro_ddl,\Teradata\11. Macro DDL.sql
-1,Teradata,Function,ALL,SCHEMA,1.0.0.0,99.0.0.0,function_ddl,\Teradata\12. Function DDL.sql
-1,Teradata,ExFunction,ALL,SCHEMA,1.0.0.0,99.0.0.0,function_ext_ddl,\Teradata\13. Function Ext DDL.sql
-1,Teradata,Trigger,ALL,SCHEMA,1.0.0.0,99.0.0.0,trigger_ddl,\Teradata\14. Trigger DDL.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,users,\Teradata\15. Users.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,roles,\Teradata\16. Roles.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,role_members,\Teradata\17. Role Members.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,authorisations,\Teradata\18. Authorizations.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,teradata_version,\Teradata\19. Teradata Version.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,total_size,\Teradata\20. Overall Teradata Size.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,database_sizes,\Teradata\21. Database Sizes.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,objects_counts,\Teradata\22. Object Counts.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,amps_per_node,\Teradata\24. AMPs per Node.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,materialised_views,\Teradata\25. Materialized Views.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,applications,\Teradata\26. Applications.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,expensive_queries,\Teradata\27. Expensive Queries.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,query_log,\Teradata\28. Query Log.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,detail_query_summary,\Teradata\29. Daily Query Summary.sql
-1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,query_history,\Teradata\30. 7 Day Query Summary.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,7dayquerysummarybyapp,\Teradata\7DayQuerySummarybyApp.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,amps_per_node,\Teradata\AMPs_per_Node.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,applications,\Teradata\Applications.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,authorizations,\Teradata\Authorizations.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,columns,\Teradata\Columns.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,daily_query_summary,\Teradata\Daily_Query_Summary.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,database_sizes,\Teradata\Database_Sizes.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,expensive_queries,\Teradata\Expensive_Queries.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,materialized_views,\Teradata\Materialized_Views.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,object_counts,\Teradata\Object_Counts.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,total_size,\Teradata\Total_Size.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,roles,\Teradata\Roles.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,role_members,\Teradata\Role_Members.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,tabledistribution,\Teradata\TableDistribution.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,tablerowcounts,\Teradata\TableRowCounts.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,tablesize,\Teradata\TableSize.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,table_partitoning,\Teradata\Table_Partitoning.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,teradata_version,\Teradata\Teradata_Version.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,users,\Teradata\Users.sql
+1,Teradata,Server,ALL,SQL,1.0.0.0,99.0.0.0,querylog,\Teradata\QueryLog.sql
