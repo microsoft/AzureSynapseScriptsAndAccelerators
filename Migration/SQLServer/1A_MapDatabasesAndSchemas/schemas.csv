@@ -1,0 +1,8 @@
+SourceDatabase,SourceSchema,TargetDatabase,TargetSchema
+EDW,dbo,EDW,dbo_edw_synapse
+EDW,edw_sh1,EDW,edw_sh1_synapse
+EDW,edw_sh2,EDW,edw_sh2_synapse
+EDW,edw_sh3,EDW,edw_sh3_synapse
+EDW,edw_sh4,EDW,edw_sh4_synapse
+ODS,dbo,ODS,dbo_ods_synapse
+STG,dbo,STG,dbo_stg_synapse

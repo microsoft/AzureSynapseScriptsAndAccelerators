@@ -1,0 +1,6 @@
+Active,SourceDatabaseName,SourceDirectory,TargetDirectory,DefaultSchema,ObjectType
+1,EDW,C:\Z_Code\SqlSvrScripts\Test_Code\EDW_Tables,C:\Z_Code\SqlSvrScripts\Test_Code\EDW_Tables_Synapse,dbo,Table
+1,EDW,C:\Z_Code\SqlSvrScripts\Test_Code\EDW_Views,C:\Z_Code\SqlSvrScripts\Test_Code\EDW_Views_Synapse,dbo,View
+1,EDW,C:\Z_Code\SqlSvrScripts\Test_Code\EDW_SPs,C:\Z_Code\SqlSvrScripts\Test_Code\EDW_SPs_Synapse,dbo,SP
+1,ODS,C:\Z_Code\SqlSvrScripts\Test_Code\ODS_Tables,C:\Z_Code\SqlSvrScripts\Test_Code\ODS_Tables_Synapse,dbo,Table
+1,STG,C:\Z_Code\SqlSvrScripts\Test_Code\STG_Tables,C:\Z_Code\SqlSvrScripts\Test_Code\STG_Tables_Synapse,dbo,Table
