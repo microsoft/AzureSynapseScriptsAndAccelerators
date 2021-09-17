@@ -1,19 +1,14 @@
 
-# **2_ConvertDDLScripts:** Translates APS DDL scripts to Azure Synapse DDL scripts.
+# **1A** Map Databases and Schemas 
 
-The program processing logic and information flow is illustrated in the diagram below:
-
-![Convert DDL Scripts Programs](../Images/2_ConvertDDLScripts_v2.PNG)
+**Please note**: Code in this folder is being developed / enhanced. 
 
 ## **What the Script Does** ##
 
-The PowerShell script converts T-SQL scripts for APS schema objects to make it Azure Synapse compatible. This includes:
+The PowerShell script converts T-SQL scripts for SQL schema objects to make it Azure Synapse compatible. This includes:
 
 - Add default schema name if schema name is missing in object references
 - Schema replacement based on schema mapping
-- Fixing #TEMP table options, incl. REPLICATE-->ROUND_ROBIN
-
-
 
 ## **How to Run the Script** ##
 
@@ -22,22 +17,23 @@ Below are the steps to run the PowerShell script:
 **Step 2A:** Prepare configuration files.
 - Schema mapping file [schemas.csv](schemas.csv)
 
-| **Parameter** | **Purpose**                            | **Value (Sample)** |
-| ------------- | -------------------------------------- | ------------------ |
-| ApsDbName     | Name of APS Database                   | AdventureWorksDW   |
-| ApsSchema     | Name of the schema in APS database     | dbo                |
-| SynapseSchema | Name of the schema in Synapse database | aw1                |
+| **Parameter**  | **Purpose**                                   | **Value (Sample)** |
+| -------------- | --------------------------------------------- | ------------------ |
+| SourceDatabase | Name of SQL Server Database                   | AdventureWorksDW   |
+| SourceSchema   | Name of the schema for SourceDatabase         | dbo                |
+| TargetDatabase | Name of the schema in Synapse database        | mySqlPoolDB        |
+| TargetSchema   | Name of the schema in Synapse database schema | edw                |
 
 - Create input and output directory configuration CSV file [cs_dirs.csv](cs_dirs.csv)
 
-| **Parameter**    | **Purpose**                                                  | **Value  (Sample)**                                          |
-| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Active           | 1 – Run  line, 0 – Skip line                                 | 0 or 1                                                       |
-| ApsDatabasesName | The  name of APS database                                    | AdventureWorksDW                                             |
-| SourceDirectory  | Directory  where the input source files that has APS schema names. This is the output  files from previous step. | C:\AzureSynapseScriptsAndAccelerators\Migration\APS\Output\1_CreateMPPScripts\AdventureWorksDW1\Tables |
-| TargetDirectory  | Output  directory of this step, where the scripts with new Synapse schemas will  reside | C:\AzureSynapseScriptsAndAccelerators\Migration\APS\Output\2_ConvertDDLScripts\AdventureWorksDW1\Tables |
-| DefaultSchema    | The  name of default schema for this database                | dbo                                                          |
-| ObjectType       | Type of  the object                                          | Table,  View, SP, Index, Statistic, Function, Role, User     |
+| **Parameter**    | **Purpose**                                                  | **Value  (Sample)**             |
+| ---------------- | ------------------------------------------------------------ | ------------------------------- |
+| Active           | 1 – Run  line, 0 – Skip line                                 | 0 or 1                          |
+| ApsDatabasesName | The  name of SQL Server database                             | AdventureWorksDW                |
+| SourceDirectory  | Directory  where the input source files that has SQL Server Code (Stored Procedures, Views, Functions) | C:\AdventureWorksDW\StoredProcs |
+| TargetDirectory  | Output  directory of this step, where the scripts with new Synapse schemas will  reside | C:\SynapseCode\StoredProcs      |
+| DefaultSchema    | if schema is missing from source code, specify the default schema name for the target database | dbo                             |
+| ObjectType       | Type of the SQL Objects in the .sql files                    | Table, View, SP                 |
 
-**Step 2B:** Run PowerShell script **ConvertDDLScriptsDriver.ps1** with the prompted information.
+**Step 2B:** Run PowerShell script **MapDatabasesAndSchemas.ps1** with the prompted information.
 
