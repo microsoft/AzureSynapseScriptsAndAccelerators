@@ -107,7 +107,7 @@ function CleanUp {
 
 }
 
-function Get-ConfigData{
+function Get-ConfigDataXlsx{
     Param(
         [Parameter()]
         [string]$FolderPath = "",
@@ -158,6 +158,28 @@ function Get-ConfigData{
         $AsaTableType = $WorkSheet.Cells.Item($StartRow, 9).Value();
         $TableDistrubution = $WorkSheet.Cells.Item($StartRow, 10).Value();
         $HashKeys = $WorkSheet.Cells.Item($StartRow, 11).Value();
+
+        if($HashKeys -like '*|*')
+        {
+            $splitvars = $HashKeys.Split("|")
+            [int] $len = [int] $splitvars.count 
+            [int] $i = [int] 0 
+            $hasyKeysCombined = ''
+            ForEach ($var in $splitvars) {
+                $i = $i + 1 
+                If ($i -lt $len) {
+                    $hasyKeysCombined = "[" + $var + "]" + "," 
+                }
+                else {
+                    $hasyKeysCombined = $hasyKeysCombined + "[" + $var + "]" 
+                }
+            }
+            $HashKeys = $hasyKeysCombined 
+        }
+        else {
+            $HashKeys = "[" + $HashKeys + "]"
+        }
+        
 
         #$OutputFileName = $AsaDatabaseName + "_" + $AsaSchemaName + "_" + $ObjectName + ".sql"
 
@@ -212,13 +234,9 @@ function Get-MetaData {
         $sqlMetaDataFilePath = $MetaDataFilePath
         $sqlMetaDataFileFullPath = join-path $sqlMetaDataFilePath $sqlMetaDataFileName
         
-       # Why creating this folder since it was passed in? 
-
        if (!(Test-Path $outFolderName)) {
             New-Item -ItemType Directory -Force -Path $outFolderName | Out-Null   
         }
-
-       #New-Item -ItemType Directory -Force -Path $outFolderName | Out-Null   
 
         if ($ThreePartsName.ToUpper() -eq "NO")
         {
@@ -243,22 +261,6 @@ function Get-MetaData {
 
 
         $tempFileFullPath = join-path $TempWorkFullPath $tempFileName
-
-        
-<#
-    # Below code will stop processing once error occurs because of the setting of "-ErrorAction Stop"
-        if ($UseIntegratedSecurity -eq 1){
-            (Invoke-Sqlcmd -InputFile $sqlMetaDataFileFullPath `
-                    -ServerInstance $source_datasource -database $source_database -Variable $sqlVariable -OutputAs DataTables -ErrorAction Stop) | 
-            ConvertTo-Csv -NoTypeInformation | Select-Object -Skip 1 | Set-Content $tempFileFullPath
-        }
-        else 
-        {
-            (Invoke-Sqlcmd -InputFile $sqlMetaDataFileFullPath `
-            -ServerInstance $source_datasource -database $source_database -Username $UserName -Password $Password -Variable $sqlVariable -OutputAs DataTables -ErrorAction Stop) | 
-        ConvertTo-Csv -NoTypeInformation | Select-Object -Skip 1 | Set-Content $tempFileFullPath
-        }       
-#>
 
         Try {
             if ($UseIntegratedSecurity -eq 1){
@@ -529,7 +531,7 @@ try {
         New-Item -ItemType Directory -Force -Path $TempWorkFullPath | Out-Null
     }
 
-    $configTable = Get-ConfigData -FolderPath $FolderPath -XlsxFile $MetaDataFile -SqlServerName $SqlServerName -OutputFilesFullPath $OutputFilesFolder
+    $configTable = Get-ConfigDataXlsx -FolderPath $FolderPath -XlsxFile $MetaDataFile -SqlServerName $SqlServerName -OutputFilesFullPath $OutputFilesFolder
 
     #Write-Output -NoEnumerate $ds -- checking the datatable content
     foreach ($row in $configTable) { 
