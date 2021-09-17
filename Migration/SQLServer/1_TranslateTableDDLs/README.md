@@ -10,7 +10,7 @@ You need to run **TranslateTables.ps1** which will prompt you for the names of t
 
 (1)  translate_config.json: This file specifies the SQL Server Name, Security setting, and Output files folder. 
 
-(2)  SourceToTargetTablesConfig.xlsx. This file has a list of items that specify the SQL Server Database, Schema Name, Table Name, desired Synapse table Schema name, and table distribution. You can use/modify the **GenerateSourceToTargetConfig.sql** inside Utilities folder to generate a starter SourceToTargetTablesConfig.xlsx.
+(2)  SourceToTargetTablesConfig.xlsx. (or SourceToTargetTablesConfig.csv): This file (.xslx or .csv) has a list of items that specify the SQL Server Database, Schema Name, Table Name, desired Synapse table Schema name, and table distribution. You can use/modify the **GenerateSourceToTargetConfig.sql** inside Utilities folder to generate a starter SourceToTargetTablesConfig.xlsx or SourceToTargetTablesConfig.csv. 
 
 The definition and sample values for each row in **translate_config.json** file is described in below table:
 
