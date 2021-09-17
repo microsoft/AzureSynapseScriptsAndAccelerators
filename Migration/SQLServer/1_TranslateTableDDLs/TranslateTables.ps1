@@ -292,6 +292,7 @@ function Get-MetaData {
         [string] $source_table = '',
         [string] $source_schema = '',
         [string] $Active = '',
+        [string] $MetaDataFilePath = '',
         [string] $OutputFileName = ''
     )
         
@@ -499,42 +500,42 @@ function Get-ASASchema {
 $ProgramStartTime = (Get-Date)
 
 $ScriptPath = Split-Path $MyInvocation.MyCommand.Path -Parent
+$MetaDataFilePath = $ScriptPath 
 Set-Location -Path $ScriptPath   
-$FolderPath = $ScriptPath 
+
 #############################################
-# Default XLSX configuration File Name
-$XlsxFile = "SourceToTargetTablesConfig.xlsx"
-#$XlsxFile = "SourceToTargetTablesConfig_2019.xlsx"
+# Default configuration File Name
+$CsvFileDefault = "SourceToTargetTablesConfig.csv"
 #############################################
 # Default JSON configuration File Name
 $defaultJsonCfgFile = "translate_config.json"
-#$defaultJsonCfgFile = "translate_config_2019.json"
+
 
 $TempWorkFolder= "_Temp"
-$TempWorkFullPath = join-path $FolderPath $TempWorkFolder
+$TempWorkFullPath = join-path $ScriptPath $TempWorkFolder
 
 
-$MetaDataFilePath = Read-Host -prompt "Enter the Translate MetaData Config File Path or press 'Enter' to accept the default [$($FolderPath)]"
-if ([string]::IsNullOrWhiteSpace($MetaDataFilePath)) {
-        $MetaDataFilePath = $FolderPath
+$ConfigFilePath = Read-Host -prompt "Enter Config File Path or press 'Enter' to accept the default [$($ScriptPath)]"
+if ([string]::IsNullOrWhiteSpace($ConfigFilePath)) {
+        $ConfigFilePath = $ScriptPath
     }
     
-$MetaDataFile = Read-Host -prompt "Enter the Translate MetaData Config File Name (with .xlsx or .csv) or press 'Enter' to accept the default [$($XlsxFile)]"
-if ([string]::IsNullOrWhiteSpace($MetaDataFile)) {
-        $MetaDataFile = $XlsxFile
-        $FileExtention ='.xlsx'
+$TableListCfgFile = Read-Host -prompt "Enter the Translate MetaData Config File Name (.csv or .xlsx) or press 'Enter' to accept the default [$($CsvFileDefault)]"
+if ([string]::IsNullOrWhiteSpace($TableListCfgFile)) {
+        $FileExtention ='.csv'
+        $TableListCfgFileCsv = $CsvFileDefault
     }
 else {
-    $FileExtention = [System.IO.Path]::GetExtension($MetaDataFile)
+    $FileExtention = [System.IO.Path]::GetExtension($TableListCfgFile)
     $FileExtention =   $FileExtention.ToLower() 
     if ( $FileExtention -eq '.xlsx')
     {
-       # do nothing 
+        $TableListCfgFileXlsx = $TableListCfgFile
     }
     elseif  ($FileExtention -eq '.csv')
     {
 
-        $MetaDataFileCsv = $MetaDataFile
+        $TableListCfgFileCsv = $TableListCfgFile
     }
     else{ 
 
@@ -545,22 +546,22 @@ else {
 
 if ($FileExtention -eq '.xlsx')
 {
-    $MetaDataFileFullPath = join-path $MetaDataFilePath $MetaDataFile
-    if (!(test-path $MetaDataFileFullPath )) {
-        Write-Host "Could not find MetaData Config File: $MetaDataFileFullPath " -ForegroundColor Red
+    $TableListCfgFileXlsxFullPath = join-path $TableListCfgFilePath $TableListCfgFileXlsx
+    if (!(test-path $TableListCfgFileXlsxFullPath )) {
+        Write-Host "Could not find MetaData Config File: $TableListCfgFileXlsxFullPath " -ForegroundColor Red
         break 
     }
 }
 else {
-    $MetaDataFileCsvFullPath = join-path $MetaDataFilePath $MetaDataFileCsv
-    if (!(test-path $MetaDataFileCsvFullPath )) {
-        Write-Host "Could not find MetaData Config File: $MetaDataFileCsvFullPath " -ForegroundColor Red
+    $TableListCfgFileCsvFullPath = join-path $TableListCfgFilePath $TableListCfgFileCsv
+    if (!(test-path $TableListCfgFileCsvFullPath )) {
+        Write-Host "Could not find MetaData Config File: $TableListCfgFileCsvFullPath " -ForegroundColor Red
         break 
     }
 }
 
 
-$jconCfgFile = Read-Host -prompt "Enter the Config File Name or press 'Enter' to accept the default [$($defaultJsonCfgFile)]"
+$jconCfgFile = Read-Host -prompt "Enter the Server Config File Name or press 'Enter' to accept the default [$($defaultJsonCfgFile)]"
 if([string]::IsNullOrWhiteSpace($jconCfgFile)) {
         $jconCfgFile = $defaultJsonCfgFile
     }
@@ -582,7 +583,6 @@ if (Test-Path $OutputFilesFolder)
 {
     Write-Host "Previous Contents in this folder will be removed: $OutputFilesFolder" -ForegroundColor Red
 	Remove-Item -Force -Recurse -Path $OutputFilesFolder 
-    #New-Item -Path $OutputFilesFolder -ItemType Directory -Force 
 }
 
 if ( ($ThreePartsName.ToUpper() -eq "YES") -or  ($ThreePartsName.ToUpper() -eq "Y") ) {
@@ -627,13 +627,12 @@ try {
 
     if ( $FileExtention -eq '.xlsx')
     {
-       #$configTable = Get-ConfigDataXlsx -FolderPath $FolderPath -XlsxFile $MetaDataFile -SqlServerName $SqlServerName -OutputFilesFullPath $OutputFilesFolder
-       $configTable = Get-ConfigDataXlsx -XlsxFileFullPath  $MetaDataFileFullPath 
+       $configTable = Get-ConfigDataXlsx -XlsxFileFullPath  $TableListCfgFileXlsxFullPath 
     }
     elseif  ($FileExtention -eq '.csv')
     {
 
-        $configTable = Get-ConfigDataCsv -CsvFileFullPath $MetaDataFileCsvFullPath 
+        $configTable = Get-ConfigDataCsv -CsvFileFullPath $TableListCfgFileCsvFullPath 
     }
     else{ 
 
@@ -641,10 +640,6 @@ try {
         break 
     }
 
-
-   
-
-    #Write-Output -NoEnumerate $ds -- checking the datatable content
     foreach ($row in $configTable) { 
         $isActive = $row.Active
         $source_datasource = $SqlServerName
@@ -685,6 +680,7 @@ try {
             -source_table $source_table `
             -source_schema $source_schema `
             -Active $isActive `
+            -MetaDataFilePath $MetaDataFilePath `
             -OutputFileName $OutputFileName
 
          
