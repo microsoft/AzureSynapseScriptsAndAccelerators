@@ -228,6 +228,7 @@ function Get-ConfigDataCsv{
         $DatabaseName = $CsvItem.DatabaseName
         $SchemaName = $CsvItem.SchemaName
         $AsaDatabaseName = $CsvItem.AsaDatabaseName
+        $AsaSchemaName = $CsvItem.AsaSchemaName
         $ObjectName = $CsvItem.ObjectName
         $ObjectType = $CsvItem.ObjectType
         $AsaTableType = $CsvItem.AsaTableType
@@ -546,14 +547,14 @@ else {
 
 if ($FileExtention -eq '.xlsx')
 {
-    $TableListCfgFileXlsxFullPath = join-path $TableListCfgFilePath $TableListCfgFileXlsx
+    $TableListCfgFileXlsxFullPath = join-path $ConfigFilePath $TableListCfgFileXlsx
     if (!(test-path $TableListCfgFileXlsxFullPath )) {
         Write-Host "Could not find MetaData Config File: $TableListCfgFileXlsxFullPath " -ForegroundColor Red
         break 
     }
 }
 else {
-    $TableListCfgFileCsvFullPath = join-path $TableListCfgFilePath $TableListCfgFileCsv
+    $TableListCfgFileCsvFullPath = join-path $ConfigFilePath $TableListCfgFileCsv
     if (!(test-path $TableListCfgFileCsvFullPath )) {
         Write-Host "Could not find MetaData Config File: $TableListCfgFileCsvFullPath " -ForegroundColor Red
         break 
