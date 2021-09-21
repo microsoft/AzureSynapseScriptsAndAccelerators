@@ -228,6 +228,7 @@ function Get-ConfigDataCsv{
         $DatabaseName = $CsvItem.DatabaseName
         $SchemaName = $CsvItem.SchemaName
         $AsaDatabaseName = $CsvItem.AsaDatabaseName
+        $AsaSchemaName = $CsvItem.AsaSchemaName
         $ObjectName = $CsvItem.ObjectName
         $ObjectType = $CsvItem.ObjectType
         $AsaTableType = $CsvItem.AsaTableType
