@@ -130,8 +130,8 @@ function Get-ConfigDataXlsx{
     $null = $DataTable.Columns.Add('AsaDatabaseName', 'System.String');
     $null = $DataTable.Columns.Add('AsaSchemaName', 'System.String');
     $null = $DataTable.Columns.Add('ObjectName', 'System.String');
-    $null = $DataTable.Columns.Add('DropFlag', 'System.String');
     $null = $DataTable.Columns.Add('ObjectType', 'System.String');
+    $null = $DataTable.Columns.Add('DropFlag', 'System.String');
     $null = $DataTable.Columns.Add('AsaTableType', 'System.String');
     $null = $DataTable.Columns.Add('TableDistrubution', 'System.String');
     $null = $DataTable.Columns.Add('HashKeys', 'System.String');
@@ -181,10 +181,10 @@ function Get-ConfigDataXlsx{
         $Row.ObjectName = $ObjectName;
         $Row.AsaTableType = $AsaTableType;
         $Row.ObjectType = $ObjectType;
+        $Row.DropFlag = $DropFlag;
         $Row.TableDistrubution = $TableDistrubution;
         $Row.HashKeys = $HashKeys;
-        $Row.DropFlag = $DropFlag;
-
+       
         $DataTable.Rows.Add($Row);
         $StartRow++;    
 
@@ -216,8 +216,8 @@ function Get-ConfigDataCsv{
     $null = $DataTable.Columns.Add('AsaDatabaseName', 'System.String');
     $null = $DataTable.Columns.Add('AsaSchemaName', 'System.String');
     $null = $DataTable.Columns.Add('ObjectName', 'System.String');
-    $null = $DataTable.Columns.Add('DropFlag', 'System.String');
     $null = $DataTable.Columns.Add('ObjectType', 'System.String');
+    $null = $DataTable.Columns.Add('DropFlag', 'System.String');
     $null = $DataTable.Columns.Add('AsaTableType', 'System.String');
     $null = $DataTable.Columns.Add('TableDistrubution', 'System.String');
     $null = $DataTable.Columns.Add('HashKeys', 'System.String');
@@ -231,6 +231,7 @@ function Get-ConfigDataCsv{
         $AsaSchemaName = $CsvItem.AsaSchemaName
         $ObjectName = $CsvItem.ObjectName
         $ObjectType = $CsvItem.ObjectType
+        $DropFlag = $CsvItem.DropFlag
         $AsaTableType = $CsvItem.AsaTableType
         $TableDistrubution = $CsvItem.TableDistrubution
         $HashKeys = $CsvItem.HashKeys
@@ -266,9 +267,9 @@ function Get-ConfigDataCsv{
         $Row.ObjectName = $ObjectName;
         $Row.AsaTableType = $AsaTableType;
         $Row.ObjectType = $ObjectType;
+        $Row.DropFlag = $DropFlag;
         $Row.TableDistrubution = $TableDistrubution;
         $Row.HashKeys = $HashKeys;
-        $Row.DropFlag = $DropFlag;
 
         $DataTable.Rows.Add($Row);
 
