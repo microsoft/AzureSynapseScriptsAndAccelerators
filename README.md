@@ -1,16 +1,23 @@
-# Project
+# Projects
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This repository contains accelerators that help you to accelerate your journey to implement workloads with Microsoft Azure Synapse Analytics, particularly to aid you to perform below tasks: 
 
-As the maintainer of this project, please make a few updates:
-
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+- Assess your current analytics workload hosted in on-premises or in-cloud data warehouses. For example:
+  - Teradata
+  - Netezza
+  - Exadata
+  - APS (PDW)
+  - SQL Server
+  - Redshift
+  - Snowflake
+  - Google Big Query
+- Migrate data warehouses hosted in below platforms into Azure Synapse Analytics: 
+  - On-Premises or in-Cloud SQL Server Databases 
+  - On-Premises Microsoft APS (Analytics Platform System), formerly known as PDW 
 
 ## Contributing
+
+If you have feedbacks or ideas to improve the repository, please email to us at AMAArchitects@service.microsoft.com.
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
