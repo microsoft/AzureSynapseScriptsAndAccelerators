@@ -1,20 +1,32 @@
+#======================================================================================================================#
+#                                                                                                                      #
+#  AzureSynapseScriptsAndAccelerators - PowerShell and T-SQL Utilities                                                 #
+#                                                                                                                      #
+#  This utility was developed to aid SMP/MPP migrations to Azure Synapse Migration Practitioners.                      #
+#  It is not an officially supported Microsoft application or tool.                                                    #
+#                                                                                                                      #
+#  The utility and any script outputs are provided on "AS IS" basis and                                                #
+#  there are no warranties, express or implied, including, but not limited to implied warranties of merchantability    #
+#  or fitness for a particular purpose.                                                                                #
+#                                                                                                                      #                    
+#  The utility is therefore not guaranteed to generate perfect code or output. The output needs carefully reviewed.    #
+#                                                                                                                      #
+#                                       USE AT YOUR OWN RISK.                                                          #
+#                                                                                                                      #
+#======================================================================================================================#
 #
-# RunSQLScriptFile.ps1
-#
-# FileName: RunSQLScriptFile.ps1
-# =================================================================================================================================================
-# Scriptname: RunSQLScriptFile.ps1
-# 
-# Change log:
-# Created: May, 2021
-# Author: Andrey Mirskiy
-# Company: 
-# 
 # =================================================================================================================================================
 # Description:
-#       Runs a .sql script against a SQL/Synapse/APS Server
-#
+#       Runs a single .sql script against a SQL Server/Synapse/APS
+#        
 # =================================================================================================================================================
+# 
+# Authors: Andrey Mirskiy
+# Tested with APS (Analytics Platform System)
+# 
+# Use this to set Powershell permissions (examples)
+# Set-ExecutionPolicy Unrestricted -Scope CurrentUser 
+# Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse\RunSQLScriptFile.ps1
 
 
 function RunSQLScriptFile 

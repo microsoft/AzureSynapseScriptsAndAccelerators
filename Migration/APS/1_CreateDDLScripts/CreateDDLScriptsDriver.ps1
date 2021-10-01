@@ -1,15 +1,34 @@
-# =================================================================================================================================================
-# Scriptname: CreateDDLSScriptsDriver.ps1
-# 
-# Created: December, 2020
-# Authors: Andy Isley, Gaiye "Gail" Zhou, Andrey Mirskiy
-# Company: Microsoft 
-# 
+#======================================================================================================================#
+#                                                                                                                      #
+#  AzureSynapseScriptsAndAccelerators - PowerShell and T-SQL Utilities                                                 #
+#                                                                                                                      #
+#  This utility was developed to aid SMP/MPP migrations to Azure Synapse Migration Practitioners.                      #
+#  It is not an officially supported Microsoft application or tool.                                                    #
+#                                                                                                                      #
+#  The utility and any script outputs are provided on "AS IS" basis and                                                #
+#  there are no warranties, express or implied, including, but not limited to implied warranties of merchantability    #
+#  or fitness for a particular purpose.                                                                                #
+#                                                                                                                      #                    
+#  The utility is therefore not guaranteed to generate perfect code or output. The output needs carefully reviewed.    #
+#                                                                                                                      #
+#                                       USE AT YOUR OWN RISK.                                                          #
+#                                                                                                                      #
+#======================================================================================================================#
+#
 # =================================================================================================================================================
 # Description:
-#       Driver to script out MPP objects to .dsql using PDWScripter
-#
-# ===============================================================================================================================================
+#       Use this to extract DDL scripts from APS (Analytics Platform System).
+#       Parameters driven configuration files are the input of this PowerShell scripts 
+# =================================================================================================================================================
+# =================================================================================================================================================
+# 
+# Authors: Andrey Mirskiy, Gaiye "Gail" Zhou, Andy Isley
+# Tested with Azure Synaspe Analytics and APS (Analytics Platform System)
+# 
+# Use this to set Powershell permissions (examples)
+# Set-ExecutionPolicy Unrestricted -Scope CurrentUser 
+# Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\1_CreateDDLScripts\1_CreateDDLScripts.ps1
+
 
 function Display-ErrorMsg($ImportError, $ErrorMsg)
 {

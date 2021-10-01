@@ -1,49 +1,32 @@
+#======================================================================================================================#
+#                                                                                                                      #
+#  AzureSynapseScriptsAndAccelerators - PowerShell and T-SQL Utilities                                                 #
+#                                                                                                                      #
+#  This utility was developed to aid SMP/MPP migrations to Azure Synapse Migration Practitioners.                      #
+#  It is not an officially supported Microsoft application or tool.                                                    #
+#                                                                                                                      #
+#  The utility and any script outputs are provided on "AS IS" basis and                                                #
+#  there are no warranties, express or implied, including, but not limited to implied warranties of merchantability    #
+#  or fitness for a particular purpose.                                                                                #
+#                                                                                                                      #                    
+#  The utility is therefore not guaranteed to generate perfect code or output. The output needs carefully reviewed.    #
+#                                                                                                                      #
+#                                       USE AT YOUR OWN RISK.                                                          #
+#                                                                                                                      #
+#======================================================================================================================#
 #
-# ScriptCreateExportImportStatementsDriver.ps1
-#
-# FileName: ScriptCreateExportImportStatementsDriver.ps1
-# =================================================================================================================================================
-# Scriptname: ScriptCreateExportImportStatementsDriver.ps1
-# 
-# Change log:
-# Created: July, 2018
-# Updated: May, 2021
-# Author: Andy Isley, Andrey Mirskiy
-# Company: Microsoft
-# 
 # =================================================================================================================================================
 # Description:
-#       Driver to create Export/Import scripts
-#
+#       Driver script to create Export/Import scripts
+#        
 # =================================================================================================================================================
-
-
-# =================================================================================================================================================
-# REVISION HISTORY
-# =================================================================================================================================================
-# Date: 
-# Issue:  Initial Version
-# Solution: 
 # 
-# =================================================================================================================================================
-
-# =================================================================================================================================================
-# FUNCTION LISTING
-# =================================================================================================================================================
-# Function:
-# Created:
-# Author:
-# Arguments:
-# =================================================================================================================================================
-# Purpose:
-#
-# =================================================================================================================================================
-#
-# Notes: 
-#
-# =================================================================================================================================================
-# SCRIPT BODY
-# =================================================================================================================================================
+# Authors: Andrey Mirskiy, Andy Isley
+# Tested with APS (Analytics Platform System)
+# 
+# Use this to set Powershell permissions (examples)
+# Set-ExecutionPolicy Unrestricted -Scope CurrentUser 
+# Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\3_CreateAPSExportScriptSynapseImportScript\ScriptCreateExportImportStatementsDriver.ps1
 
 
 function ScriptCreateExportObjects($DatabaseName
