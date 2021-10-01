@@ -290,7 +290,7 @@ function FixTempTables($query)
 #
 ########################################################################################
 
-$ProgramStartTime = (Get-Date)
+$ProgramStartTime = Get-Date
 
 $ScriptPath = $PSScriptRoot
 
@@ -325,7 +325,6 @@ if ( ($addMissingSchemasPrompt.ToUpper() -eq "YES") -or ($addMissingSchemasPromp
 } else {
     $addMissingSchemas = $false
 }
-
 
 
 $configFilePath = Join-Path -Path $ScriptPath -ChildPath $configFileName
@@ -383,9 +382,8 @@ foreach ($configRow in $configCsvFile)
 }
 
 
-$ProgramFinishTime = (Get-Date)
+$ProgramFinishTime = Get-Date
 
-$progDuration = GetDurations  -StartTime  $ProgramStartTime -FinishTime $ProgramFinishTime
-$progDurationText = $progDuration.DurationText
-
-Write-Host "Total time mapping schemas in DDL scripts: $progDurationText " -ForegroundColor Magenta -BackgroundColor Black
+Write-Host "Program Start Time:   ", $ProgramStartTime -ForegroundColor Magenta
+Write-Host "Program Finish Time:  ", $ProgramFinishTime -ForegroundColor Magenta
+Write-Host "Program Elapsed Time: ", ($ProgramFinishTime-$ProgramStartTime) -ForegroundColor Magenta

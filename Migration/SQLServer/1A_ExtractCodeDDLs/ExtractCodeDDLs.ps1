@@ -39,52 +39,6 @@ Function ShowDebugMsg()
     Write-Host "Need to debug script: $ScriptName line number $ScriptLine. Check Value: $Value " -ForegroundColor Red
 }
 
-Function GetDurations() {
-    [CmdletBinding()] 
-    param( 
-        [Parameter(Position = 1, Mandatory = $true)] [datetime]$StartTime, 
-        [Parameter(Position = 1, Mandatory = $true)] [datetime]$FinishTime
-    ) 
-
-    $ReturnValues = @{ }
-    $Timespan = (New-TimeSpan -Start $StartTime -End $FinishTime)
-
-    $Days = [math]::floor($Timespan.Days)
-    $Hrs = [math]::floor($Timespan.Hours) 
-    $Mins = [math]::floor($Timespan.Minutes)
-    $Secs = [math]::floor($Timespan.Seconds)
-    $MSecs = [math]::floor($Timespan.Milliseconds)
-
-    if ($Days -ne 0) {
-
-        $Hrs = $Days * 24 + $Hrs 
-    }
-
-   
-    $durationText = '' # initialize it! 
-
-    if (($Hrs -eq 0) -and ($Mins -eq 0) -and ($Secs -eq 0)) {
-        $durationText = "$MSecs milliseconds." 
-    }
-    elseif (($Hrs -eq 0) -and ($Mins -eq 0)) {
-        $durationText = "$Secs seconds $MSecs milliseconds." 
-    }
-    elseif ( ($Hrs -eq 0) -and ($Mins -ne 0)) {
-        $durationText = "$Mins minutes $Secs seconds $MSecs milliseconds." 
-    }
-    else {
-        $durationText = "$Hrs hours $Mins minutes $Secs seconds $MSecs milliseconds."
-    }
-
-    $ReturnValues.add("DurationText",  $durationText)
-
-    $ReturnValues.add("Hours", $Hrs)
-    $ReturnValues.add("Minutes", $Mins)
-    $ReturnValues.add("Seconds", $Secs)
-    $ReturnValues.add("Milliseconds", $MSecs)
-
-    return $ReturnValues
-}
 
 Function GetPassword([SecureString] $securePassword) {
 	$securePassword = Read-Host "Password" -AsSecureString
@@ -123,7 +77,7 @@ Function ExportObjectDDLs() {
 #
 ########################################################################################
 
-$ProgramStartTime = (Get-Date)
+$ProgramStartTime = Get-Date
 
 $ScriptPath = $PSScriptRoot 
 
@@ -228,11 +182,8 @@ catch [Exception] {
 }
 
 
-$ProgramFinishTime = (Get-Date)
+$ProgramFinishTime = Get-Date
 
-$progDuration = GetDurations  -StartTime  $ProgramStartTime -FinishTime $ProgramFinishTime
-$progDurationText = $progDuration.DurationText
-
-Write-Host "  Total time extracting DDL scripts: $progDurationText " -ForegroundColor Magenta -BackgroundColor Black
-
-Set-Location -Path $ScriptPath
+Write-Host "Program Start Time:   ", $ProgramStartTime -ForegroundColor Magenta
+Write-Host "Program Finish Time:  ", $ProgramFinishTime -ForegroundColor Magenta
+Write-Host "Program Elapsed Time: ", ($ProgramFinishTime-$ProgramStartTime) -ForegroundColor Magenta
