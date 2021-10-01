@@ -6,3 +6,5 @@
 /.vs/slnx.sqlite
 /.vs/ProjectSettings.json
 /.vs/AzureSynapseScriptsAndAccelerators/v16/.suo
+/Migration/SQLServer/1A_ExtractCodeDDLs/.vs/ProjectSettings.json
+/Migration/SQLServer/1A_ExtractCodeDDLs/.vs/slnx.sqlite
