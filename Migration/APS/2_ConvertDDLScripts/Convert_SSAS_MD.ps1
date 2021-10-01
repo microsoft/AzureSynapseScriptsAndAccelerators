@@ -1,19 +1,33 @@
-﻿#
-# FixSSAS_MD.ps1
+﻿#======================================================================================================================#
+#                                                                                                                      #
+#  AzureSynapseScriptsAndAccelerators - PowerShell and T-SQL Utilities                                                 #
+#                                                                                                                      #
+#  This utility was developed to aid SMP/MPP migrations to Azure Synapse Migration Practitioners.                      #
+#  It is not an officially supported Microsoft application or tool.                                                    #
+#                                                                                                                      #
+#  The utility and any script outputs are provided on "AS IS" basis and                                                #
+#  there are no warranties, express or implied, including, but not limited to implied warranties of merchantability    #
+#  or fitness for a particular purpose.                                                                                #
+#                                                                                                                      #                    
+#  The utility is therefore not guaranteed to generate perfect code or output. The output needs carefully reviewed.    #
+#                                                                                                                      #
+#                                       USE AT YOUR OWN RISK.                                                          #
+#                                                                                                                      #
+#======================================================================================================================#
 #
-# FileName: FixSSAS_MD.ps1
-# =================================================================================================================================================
-# 
-# Change log:
-# Created:    Nov 30, 2020
-# Author:     Andrey Mirskiy
-# Company:    Microsoft
-# 
 # =================================================================================================================================================
 # Description:
-#       Updates object names in SSAS MD project according to schema mappings (APS-->SQLDW)
-#
+#       Updates object names in SSAS MultiDimensional project according to schema mappings (APS-->Synapse)
+#        
 # =================================================================================================================================================
+# 
+# Authors: Andrey Mirskiy
+# Tested with APS (Analytics Platform System)
+# 
+# Use this to set Powershell permissions (examples)
+# Set-ExecutionPolicy Unrestricted -Scope CurrentUser 
+# Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\2_ConvertDDLScripts\Convert_SSAS_MD.ps1
+
 
 param(
     [Parameter(Mandatory=$false, HelpMessage="Path to SSAS MD project folder.")]
