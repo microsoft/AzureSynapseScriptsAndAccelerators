@@ -1,26 +1,37 @@
-﻿#
-# ConvertDDLScriptsDriver.ps1
+﻿#======================================================================================================================#
+#                                                                                                                      #
+#  AzureSynapseScriptsAndAccelerators - PowerShell and T-SQL Utilities                                                 #
+#                                                                                                                      #
+#  This utility was developed to aid SMP/MPP migrations to Azure Synapse Migration Practitioners.                      #
+#  It is not an officially supported Microsoft application or tool.                                                    #
+#                                                                                                                      #
+#  The utility and any script outputs are provided on "AS IS" basis and                                                #
+#  there are no warranties, express or implied, including, but not limited to implied warranties of merchantability    #
+#  or fitness for a particular purpose.                                                                                #
+#                                                                                                                      #                    
+#  The utility is therefore not guaranteed to generate perfect code or output. The output needs carefully reviewed.    #
+#                                                                                                                      #
+#                                       USE AT YOUR OWN RISK.                                                          #
+#                                                                                                                      #
+#======================================================================================================================#
 #
-# FileName: ConvertDDLScriptsDriver.ps1
-# =================================================================================================================================================
-# 
-# Change log:
-# Created:    Nov 30, 2020
-# Author:     Andrey Mirskiy
-# Company:    Microsoft
-# 
 # =================================================================================================================================================
 # Description:
-#       Fixes SQL code (stored procedures, functions, views)
+#       This script fixes SQL code (stored procedures, functions, views)
 #        1. Adds schema name if schema name is omitted
 #        2. Replaces schema names according to schema mappings (APS-->Synapse)
 #        3. Adjust #TEMP tables distribution (REPLICATE-->ROUND_ROBIN)
-#
-# =================================================================================================================================================
-#
+#        
 # WARNING:
 #       Adding missing schema names does not work properly for CTE aliases. Use flag to control the behavior of the script.
 # =================================================================================================================================================
+# 
+# Authors: Andrey Mirskiy
+# Tested with APS (Analytics Platform System)
+# 
+# Use this to set Powershell permissions (examples)
+# Set-ExecutionPolicy Unrestricted -Scope CurrentUser 
+# Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\2_ConvertDDLScripts\ConvertDDLScriptsDriver.ps1
 
 
 Import-Module $PSScriptRoot\FixSchemas.ps1 -Force

@@ -1,49 +1,33 @@
+#======================================================================================================================#
+#                                                                                                                      #
+#  AzureSynapseScriptsAndAccelerators - PowerShell and T-SQL Utilities                                                 #
+#                                                                                                                      #
+#  This utility was developed to aid SMP/MPP migrations to Azure Synapse Migration Practitioners.                      #
+#  It is not an officially supported Microsoft application or tool.                                                    #
+#                                                                                                                      #
+#  The utility and any script outputs are provided on "AS IS" basis and                                                #
+#  there are no warranties, express or implied, including, but not limited to implied warranties of merchantability    #
+#  or fitness for a particular purpose.                                                                                #
+#                                                                                                                      #                    
+#  The utility is therefore not guaranteed to generate perfect code or output. The output needs carefully reviewed.    #
+#                                                                                                                      #
+#                                       USE AT YOUR OWN RISK.                                                          #
+#                                                                                                                      #
+#======================================================================================================================#
 #
-# RunDSQLScriptsDriver.ps1
-#
-# FileName: RunDSQLScriptsDriver.ps1
-# =================================================================================================================================================
-# Scriptname: RunDSQLScriptsDriver.ps1
-# 
-# Change log:
-# Created: Jan 24, 2017
-# Updated: May, 2021
-# Author: Andy Isley, Andrey Mirskiy
-# Company: 
-# 
 # =================================================================================================================================================
 # Description:
-#       Driver run a .sql or .dsql script against a SQL/Synapse/APS Server
-#
+#       Driver to run multiple .sql or .dsql scripts against a SQL Server/Synapse/APS
+#        
 # =================================================================================================================================================
-
-
-# =================================================================================================================================================
-# REVISION HISTORY
-# =================================================================================================================================================
-# Date: 
-# Issue:  Initial Version
-# Solution: 
 # 
-# =================================================================================================================================================
+# Authors: Andy Isley, Andrey Mirskiy
+# Tested with APS (Analytics Platform System)
+# 
+# Use this to set Powershell permissions (examples)
+# Set-ExecutionPolicy Unrestricted -Scope CurrentUser 
+# Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse\ScriptCreateExternalTableDriver.ps1
 
-# =================================================================================================================================================
-# FUNCTION LISTING
-# =================================================================================================================================================
-# Function:
-# Created:
-# Author:
-# Arguments:
-# =================================================================================================================================================
-# Purpose:
-#
-# =================================================================================================================================================
-#
-# Notes: 
-#
-# =================================================================================================================================================
-# SCRIPT BODY
-# =================================================================================================================================================
 
 function Display-ErrorMsg($ImportError, $ErrorMsg)
 {
