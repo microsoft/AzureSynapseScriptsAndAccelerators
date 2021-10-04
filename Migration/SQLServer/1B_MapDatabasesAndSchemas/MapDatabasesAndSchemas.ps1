@@ -1,24 +1,34 @@
-﻿#
-# FixSchemas.ps1
+﻿#======================================================================================================================#
+#                                                                                                                      #
+#  AzureSynapseScriptsAndAccelerators - PowerShell and T-SQL Utilities                                                 #
+#                                                                                                                      #
+#  This utility was developed to aid SMP/MPP migrations to Azure Synapse Migration Practitioners.                      #
+#  It is not an officially supported Microsoft application or tool.                                                    #
+#                                                                                                                      #
+#  The utility and any script outputs are provided on "AS IS" basis and                                                #
+#  there are no warranties, express or implied, including, but not limited to implied warranties of merchantability    #
+#  or fitness for a particular purpose.                                                                                #
+#                                                                                                                      #                    
+#  The utility is therefore not guaranteed to generate perfect code or output. The output needs carefully reviewed.    #
+#                                                                                                                      #
+#                                       USE AT YOUR OWN RISK.                                                          #
+#                                                                                                                      #
+#======================================================================================================================#
 #
-# FileName: FixSchemas.ps1
-# =================================================================================================================================================
-# 
-# Change log:
-# Created:    Nov 30, 2020
-# Author:     Andrey Mirskiy
-# Company:    Microsoft
-# 
 # =================================================================================================================================================
 # Description:
-#       Updates object names in SQL queries according to schema mappings (APS-->SQLDW)
-#
+#       Use this to map databases/schemas in DDL scripts extracted from SQL Server. 
+#       Parameters driven configuration files are the input of this powershell scripts 
 # =================================================================================================================================================
-# TODO:
-#    1. CTE expression aliases are processed incorrectly
-#
-#
 # =================================================================================================================================================
+# 
+# Authors: Andrey Mirskiy
+# Tested with Azure Synaspe Analytics and SQL Server 2017 
+# 
+# Use this to set Powershell permissions (examples)
+# Set-ExecutionPolicy Unrestricted -Scope CurrentUser 
+# Unblock-File -Path C:\migratemaster\modules\1B_MapDatabasesAndSchemas\MapDatabasesAndSchemas.ps1
+
 
 ##########################################################################################################
 
@@ -272,40 +282,108 @@ function FixTempTables($query)
 ##########################################################################################################
 
 
-#AddMissingSchemas -query "    FROM DimAccount AS r  " -defaultSchema "dbo" | Write-Output
-#AddMissingSchemas -query "    FROM DimAccount" -defaultSchema "dbo" | Write-Output
-#AddMissingSchemas -query "    FROM [DimAccount-123] AS r  " -defaultSchema "dbo" | Write-Output
 
-#AddMissingSchemas -query "CREATE VIEW [v_l_cube] AS select" -defaultSchema "dbo" | Write-Output
 
-#$query = "        --at least one table must be present for join
-#        stg.WHERE COALESCE([glo].[PRODUCT_INITIAL_KEY], [def].[PRODUCT_INITIAL_KEY], [oth].[PRODUCT_INITIAL_KEY], [ex].[PRODUCT_INITIAL_KEY]) IS NOT NULL"
-#$query = "select c1 from Table"
+########################################################################################
+#
+# Main Program Starts here
+#
+########################################################################################
 
-$query = "	option(label='DW.Price.Ssis.InternalFacts.DimMaster(SI_F_INTERNALPRICE_TempTable_Prepare_Temp)');
+$ProgramStartTime = Get-Date
+
+$ScriptPath = $PSScriptRoot
+
+$defaultConfigFileName = "cs_dirs.csv"
+$configFileName = Read-Host -prompt "Enter the name of the Config file name file. Press [Enter] if it is [$($defaultConfigFileName)]"
+if($configFileName -eq "" -or $configFileName -eq $null)
+	{$configFileName = $defaultconfigFileName}
+
+$defaultSchemasFileName = "schemas.csv"
+$schemasFileName = Read-Host -prompt "Please enter the name of your Schema Mapping file. Press [Enter] if it is [$($defaultSchemasFileName)]"
+if($schemasFileName -eq "" -or $schemasFileName -eq $null)
+	{$schemasFileName = $defaultSchemasFileName}
+
+$defaultUseThreePartNames = "Yes"
+$useThreePartNamesPrompt = Read-Host -prompt "Do you want to use 3-part names - Yes or No? Press [Enter] if it is [$($defaultUseThreePartNames)]"
+if($useThreePartNamesPrompt -eq "" -or $useThreePartNamesPrompt -eq $null) {
+    $useThreePartNamesPrompt = $defaultUseThreePartNames 
+} 
+if ( ($useThreePartNamesPrompt.ToUpper() -eq "YES") -or ($useThreePartNamesPrompt.ToUpper() -eq "Y") ) {
+	$useThreePartNames = $true
+} else {
+    $useThreePartNames = $false
+}
+
+$defaultAddMissingSchemas = "Yes"
+$addMissingSchemasPrompt = Read-Host -prompt "Do you want to add missing schemas - Yes or No? Press [Enter] if it is [$($defaultAddMissingSchemas)]"
+if($addMissingSchemasPrompt -eq "" -or $addMissingSchemasPrompt -eq $null) {
+    $addMissingSchemasPrompt = $defaultAddMissingSchemas 
+} 
+if ( ($addMissingSchemasPrompt.ToUpper() -eq "YES") -or ($addMissingSchemasPrompt.ToUpper() -eq "Y") ) {
+	$addMissingSchemas = $true
+} else {
+    $addMissingSchemas = $false
+}
+
+
+$configFilePath = Join-Path -Path $ScriptPath -ChildPath $configFileName
+if (!(Test-Path $configFilePath )) {
+    Write-Host "Could not find Config file: $configFilePath " -ForegroundColor Red
+    break 
+}
+
+$schemasFilePath = Join-Path -Path $ScriptPath -ChildPath $schemasFileName
+if (!(Test-Path $schemasFilePath )) {
+    Write-Host "Could not find Schemas Mapping file: $schemasFilePath " -ForegroundColor Red
+    break 
+}
+
+$configCsvFile = Import-Csv $configFilePath 
+$schemaCsvFile = Import-Csv $schemasFilePath
  
-DECLARE @ChangeDate date
 
-SET @ChangeDate = (select distinct upsert_date from SI_F_HOTEL_CONTRACT_COST_AND_ALLOTMENT_Mart_Prepare
-	                            WHERE CONTRACTID = @CONTRACTID)
---Create the SI_F_HOTEL_CONTRACT_COST_AND_ALLOTMENT_TempTable  table
-	if exists( select name from sys.tables where name = 'SI_F_HOTEL_CONTRACT_COST_AND_ALLOTMENT_Mart_TempTable')
-		drop Table SI_F_HOTEL_CONTRACT_COST_AND_ALLOTMENT_Mart_TempTable; 
+foreach ($configRow in $configCsvFile) 
+{
+    if ($configRow.Active -eq '1') 
+	{
+        $databaseName = $configRow.SourceDatabaseName  
+        $sourceDir = $configRow.SourceDirectory
+        $targetDir = $configRow.TargetDirectory
+        $defaultSchema = $configRow.DefaultSchema
+        
+        if (!(Test-Path -Path $sourceDir)) {
+            continue
+        }
 
-	CREATE TABLE SI_F_HOTEL_CONTRACT_COST_AND_ALLOTMENT_Mart_TempTable 
-	WITH (DISTRIBUTION = REPLICATE) AS
-	SELECT    @ChangeDate as Changedate, -- (förändrings datum)
-			  1 AS ActStatus,
-			  CONTRACTID,
-STAYDATE, 
+        foreach ($file in Get-ChildItem -Path $sourceDir -Filter *.sql)
+        {
+            $sourceFilePath = $file.FullName
+            $targetFilePath = Join-Path -Path $targetDir -ChildPath $file.Name
+            (Get-Date -Format HH:mm:ss.fff)+" - "+$targetFilePath | Write-Host -ForegroundColor Yellow
+            $content = Get-Content -Path $SourceFilePath -Raw
 
-"
-$query = "
-CREATE TABLE F_BOOKING_MESSAGE_TEMP
-WITH (CLUSTERED COLUMNSTORE INDEX, DISTRIBUTION = HASH([BOOKSEQNO]))
-AS SELECT * FROM F_BOOKING_MESSAGE
-WHERE BOOKSEQNO IN (SELECT DISTINCT BOOKSEQNO FROM SI_F_BOOKING_MESSAGE_LINK)
-OPTION(label='_DW.CustomerService.Ssis.PCM2DW.FactMaster(F_BOOKING_MESSAGE_LINK_ST)');
-"
+            $newContent = $content
+            $newContent = FixTempTables -Query $newContent
+            if ($addMissingSchemas) {
+                $newContent = AddMissingSchemas -Query $newContent -defaultSchema $defaultSchema
+            }
+            $newContent = ChangeSchemas -DatabaseName $databaseName -SchemaMappings $schemaCsvFile -query $newContent -defaultSchema $defaultSchema -useThreePartNames $useThreePartNames
 
-#AddMissingSchemas -query $query -defaultSchema "dbo" | Write-Output
+            $targetFolder = [IO.Path]::GetDirectoryName($targetFilePath)
+            if (!(Test-Path $targetFolder))
+            {
+	            New-item -Path $targetFolder -ItemType Dir | Out-Null
+            }
+
+            $newContent | Out-File $targetFilePath
+        }
+	}
+}
+
+
+$ProgramFinishTime = Get-Date
+
+Write-Host "Program Start Time:   ", $ProgramStartTime -ForegroundColor Magenta
+Write-Host "Program Finish Time:  ", $ProgramFinishTime -ForegroundColor Magenta
+Write-Host "Program Elapsed Time: ", ($ProgramFinishTime-$ProgramStartTime) -ForegroundColor Magenta
