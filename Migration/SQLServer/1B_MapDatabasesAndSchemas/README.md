@@ -6,7 +6,33 @@ Use module **1B_MapDatabasesAndSchemas** to replace schema names in DDL scripts 
 The PowerShell script makes the following changes in DDL scripts:
 
 - Adds default schema name if schema name is missing in object references
-- Replaces schema names according to schema mapping.
+- Replaces schema names according to schema mapping
+- Identifies if unsupported data types are used and adds a summary in case of any unsupported data types found.
+
+> ##### Disclaimer
+>
+> This script does not produce the code which is 100% syntactically correct and ready for deployment in Azure Synapse Dedicated SQL Pool. The script only aids mentioned above activities and provides information about the usage of unsupported data types.
+
+
+
+##### Attention
+
+The script does not convert the following features which are not supported in Azure Synapse. The code which uses these features should be converted manually.
+
+- Default parameter values in stored procedures
+- Common Table Expressions (CTE)
+- Cursors
+- Triggers
+- Change Data Capture (CDC)
+- Change Tracking (CT)
+- MSDB objects (jobs, operators, schedules, etc.)
+- User Defined Data Types
+- Table data type in Table Valued Functions
+- FILESTREAM
+- GETDATE() function which returns date and time in UTC time zone in Azure 
+- ...
+
+
 
 You need to run **MapDatabasesAndSchemas.ps1** script which will prompt you for the following configuration information:
 
@@ -45,6 +71,23 @@ Extracted DDL scripts will be stored under Output folder and structured by respe
 
 ![](..\images\M1B_SampleFolder.JPG)
 
+When found any unsupported data types, PowerShell script adds summary comment at the beginning of converted DDL scripts.
+
+```sql
+/*
+	Total # of occurences of unsupported data types found - 5
+	geometry        - 0
+	geography       - 0
+	hierarchyid     - 1 (lines - 4)
+	image           - 0
+	ntext           - 0
+	text            - 0
+	sql_variant     - 0
+	timestamp       - 1 (lines - 122)
+	xml             - 3 (lines - 10, 21, 22)
+*/
+```
+
 
 
 #### **Important notes**
@@ -52,5 +95,5 @@ Extracted DDL scripts will be stored under Output folder and structured by respe
 - Configuration files are expected in the same folder where the script is located.
 - As DDL scripts are processed using regular expressions it may take considerable time to process large scripts.
 - If output folder is not empty existing files will be overwritten in case of file name match.
-
+- DDL scripts are analyzed as text, i.e. actual code and comments are not separated. Hence, comments may be changed.
 
