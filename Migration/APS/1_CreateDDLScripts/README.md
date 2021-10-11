@@ -16,7 +16,7 @@ The PowerShell script generates T-SQL scripts for APS schema objects. This inclu
 - Indexes
 - Roles
 - Users
-- Statistics (user defined) 
+- Statistics (user defined only) 
 
 
 
@@ -34,7 +34,7 @@ o  **Step 1A**: Prepare Configuration CSV Files to run migration tools step 1, c
 | OutputFolderPath | Relative path where the .sql file should be saved. Must have “\” on end. |
 | FileName         | Name of the file to store the script in. This should match the object name if  possible |
 | ObjectName       | Name of  the object to script. This must include the schema. |
-| ObjectToScript   | Used in logging only                                         |
+| ObjectToScript   | Used in logging only (TABLE, INDEX, STAT, FUNCTION, VIEW, SP, ROLE, USER) |
 
 > The repository contains sample files which you can use as a reference.
 >

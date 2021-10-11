@@ -13,7 +13,7 @@ After the data has been exported from APS, the data now needs to be inserted int
 Sample generated T-SQL scripts for External Table creation in Azure Synapse:  
 
 ```sql
-CREATE EXTERNAL TABLE [ext_adw_dbo].[ext_FactFinance]
+CREATE EXTERNAL TABLE [ext_aw].[ext_FactFinance]
 (
 	[FinanceKey]	int	NOT NULL 
 	,[DateKey]	int	NOT NULL 
@@ -24,9 +24,9 @@ CREATE EXTERNAL TABLE [ext_adw_dbo].[ext_FactFinance]
 	,[Amount]	float	(53)	NOT NULL 
 )
 WITH (  
-	LOCATION='/prod/adventure_works/dbo_FactFinance',  
-	DATA_SOURCE = AzureBlobDS,  
-	FILE_FORMAT = DelimitedNoDateZIP
+	LOCATION='/AdventureWorksDW/dbo_FactFinance',  
+	DATA_SOURCE = AZURE_STAGING_STORAGE,  
+	FILE_FORMAT = DelimitedFileFormat
 )
 ```
 
@@ -44,18 +44,18 @@ There is also a Job-Aid PowerShell script called **Generate_Step4_ConfigFiles.ps
 Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmatically-generate-config-files)*** after the steps for more details.
 
 
-| **Parameter**    | **Purpose**                                                  | **Value (Sample)**                                           |
-| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Active           | 1 – Run line, 0 – Skip line                                  | 0 or 1                                                       |
-| OutputFolderPath | Name of the path where output  files will be stored          | C:\AzureSynapseScriptsAndAccelerators\Migration\APS\Output\4_CreateExternalTablesSynapse\AdventureWorksDW1\ |
-| FileName         | Name of the output file                                      | DimAccount                                                   |
-| InputFolderPath  | Path to the create Table output  from step 2                 | C:\AzureSynapseScriptsAndAccelerators\Migration\APS\Output\2_ConvertDDLScripts\AdventureWorksDW1\Tables\ |
-| InputFileName    | Name of the Create Table script                              | DimAccount.dsql                                              |
-| SchemaName       | Name of the schema to create the  external table in          | dbo                                                          |
-| ObjectName       | Name of the external table to  create                        | ext_DimAccount                                               |
-| DateSource       | Name of the data source to use  for the external table       | AZURE_BLOB_STORAGE                                           |
-| FileFormat       | Name of the File Format to use  when exporting the data. Must already be created. | DelimitedNoDateZip                                           |
-| FileLocation     | Folder path in the staging  container. Each Table should have its  own file location. | /AdventureWorksDW1/dbo_DimAccount                            |
+| **Parameter**    | **Purpose**                                                  | **Value (Sample)**                                       |
+| ---------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
+| Active           | 1 – Run line, 0 – Skip line                                  | 0 or 1                                                   |
+| OutputFolderPath | Name of the path where output  files will be stored.<br />*Both absolute and relative paths are supported.* | ..\Output\4_CreateExternalTablesSynapse\AdventureWorksDW |
+| FileName         | Name of the output file                                      | DimAccount                                               |
+| InputFolderPath  | Path to the create Table output  from step 2.<br />*Both absolute and relative paths are supported.* | ..\Output\2_ConvertDDLScripts\AdventureWorksDW\Tables    |
+| InputFileName    | Name of the Create Table script                              | DimAccount.dsql                                          |
+| SchemaName       | Name of the schema to create the  external table in          | dbo                                                      |
+| ObjectName       | Name of the external table to  create                        | ext_DimAccount                                           |
+| DateSource       | Name of the data source to use  for the external table       | AZURE_STAGING_STORAGE                                    |
+| FileFormat       | Name of the File Format to use  when exporting the data. Must already be created. | DelimitedFileFormat                                      |
+| FileLocation     | Folder path in the staging  container. Each Table should have its  own file location. | /AdventureWorksDW/dbo_DimAccount                         |
 
 
 If the FileLocation has the “{@Var}”, the PowerShell scripts will generate create external table having a configurable location. See sample T-SQL Statement generated below. 
@@ -68,10 +68,10 @@ This configurable variable {@Var} can be replaced with a value such as:
 
 **prod** – to import data to a location to hold prod data. 
 
-Sample Generated File: ext_adw_dbo_DimAccount_DDL.dsql 
+Sample Generated File: ext_aw_dbo_DimAccount.sql 
 
 ```sql
-CREATE EXTERNAL TABLE [ext_adw_dbo].[ext_DimAccount]
+CREATE EXTERNAL TABLE [ext_aw].[ext_DimAccount]
 (
 	[AccountKey]	int	NOT NULL 
 	,[ParentAccountKey]	int	NULL 
@@ -85,9 +85,9 @@ CREATE EXTERNAL TABLE [ext_adw_dbo].[ext_DimAccount]
 	,[CustomMemberOptions]	nvarchar	(200)	
 )
 WITH (  
-	LOCATION='/{@Var}/adw/dbo_DimAccount',  
-	DATA_SOURCE = AzureBlobDS,  
-	FILE_FORMAT = DelimitedNoDateZIP
+	LOCATION='/AdventureWorksDW/dbo_DimAccount',  
+	DATA_SOURCE = AZURE_STAGING_STORAGE,  
+	FILE_FORMAT = DelimitedFileFormat
 )
 ```
 

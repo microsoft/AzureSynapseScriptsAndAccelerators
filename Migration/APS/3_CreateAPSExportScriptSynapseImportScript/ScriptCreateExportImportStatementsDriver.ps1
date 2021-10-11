@@ -29,6 +29,21 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\3_CreateAPSExportScriptSynapseImportScript\ScriptCreateExportImportStatementsDriver.ps1
 
 
+Function Get-AbsolutePath
+{
+    [CmdletBinding()] 
+    param( 
+        [Parameter(Position=0, Mandatory=$true)] [string]$Path
+    ) 
+
+    if ([System.IO.Path]::IsPathRooted($Path) -eq $false) {
+        return [IO.Path]::GetFullPath( (Join-Path -Path $PSScriptRoot -ChildPath $Path) )
+    } else {
+        return $Path
+    }
+}
+
+
 function ScriptCreateExportObjects($DatabaseName
 					,$OutputFolderPath 
 					,$FileName
@@ -40,18 +55,21 @@ function ScriptCreateExportObjects($DatabaseName
 					,$FileFormat 
 					,$ExportLocation)
 {
+    $OutputFolderPath = Get-AbsolutePath $OutputFolderPath
 
 	if (!(Test-Path $OutputFolderPath))
 	{
 		New-item "$OutputFolderPath" -ItemType Dir | Out-Null
 	}
-	$OutpputFolderPathFileName = $OutputFolderPath + $FileName + '.dsql'
 
-	$cmd = "CREATE EXTERNAL TABLE [" + $DatabaseName + "].[" + $DestSchemaName + "].[" + $DestObjectaName + "]" +
-				"`r`nWITH (`r`n`tLOCATION='" + $ExportLocation + "',`r`n`tDATA_SOURCE = " + $DataSource + ",`r`n`tFILE_FORMAT = " + $FileFormat + "`r`n`t)`r`nAS `r`nSELECT * FROM [" + $DatabaseName + "].[" + $SourceSchemaName +  "].[" + $SourceObjectName + "]" +
-			"`r`nOPTION (LABEL = 'Export_Table_" + $DatabaseName + "." + $SourceSchemaName +  "." + $SourceObjectName + "')"
+	$OutpputFolderPathFileName = Join-Path -Path $OutputFolderPath -ChildPath "$FileName.sql"
+
+	#$cmd = "IF NOT EXISTS (SELECT * FROM sys.schemas WHERE [name]='" + $DestSchemaName + "') EXEC('CREATE SCHEMA [" + $DestSchemaName +"]')`r`nGO`r`n`r`n" +
+    $cmd = "CREATE EXTERNAL TABLE [" + $DatabaseName + "].[" + $DestSchemaName + "].[" + $DestObjectaName + "]" +
+			"`r`nWITH (`r`n`tLOCATION='" + $ExportLocation + "',`r`n`tDATA_SOURCE = " + $DataSource + ",`r`n`tFILE_FORMAT = " + $FileFormat + "`r`n`t)`r`nAS `r`nSELECT * FROM [" + $DatabaseName + "].[" + $SourceSchemaName +  "].[" + $SourceObjectName + "]" +
+			"`r`nOPTION (LABEL = 'Export_Table_" + $DatabaseName + "." + $SourceSchemaName +  "." + $SourceObjectName + "')`r`n"
+    #$cmd += "GO`r`n"
 		
-	#$cmd >> $OutpputFolderPathFileName 
     $cmd | Out-File -FilePath $OutpputFolderPathFileName 
 }
 
@@ -64,17 +82,19 @@ function ScriptCreateImportObjects(
 					,$DestObjectName 
 					)
 {
+    $InsertFilePath = Get-AbsolutePath $InsertFilePath
+
 	if (!(Test-Path $InsertFilePath))
 	{
 		New-item "$InsertFilePath" -ItemType Dir | Out-Null
 	}
-	$InsertFilePathFull = $InsertFilePath + $FileName + '.dsql'
+
+	$InsertFilePathFull = Join-Path -Path $InsertFilePath -ChildPath "$FileName.sql"
 
 	$cmd = "INSERT INTO [" + $ImportSchema + "].[" + $SourceObjectName + "]" +
 		"`r`nSELECT * FROM [" + $DestSchemaName +  "].[" + $DestObjectName + "]" +
 		"`r`n`OPTION (LABEL = 'Import_Table_" + $ImportSchema + "." + $SourceObjectName + "')"
 		
-	#$cmd >> $InsertFilePathFull
     $cmd | Out-File -FilePath $InsertFilePathFull
 }
 
@@ -90,11 +110,14 @@ function ScriptCopyQueries(
                     ,$ImportLocation
 					)
 {
+    $CopyFilePath = Get-AbsolutePath $CopyFilePath
+
 	if (!(Test-Path $CopyFilePath))
 	{
 		New-item "$CopyFilePath" -ItemType Dir | Out-Null
 	}
-	$CopyFilePathFull = $CopyFilePath + $FileName + '.dsql'
+
+	$CopyFilePathFull = Join-Path -Path $CopyFilePath -ChildPath "$FileName.sql"
 
 	$cmd = "COPY INTO [" + $ImportSchema + "].[" + $SourceObjectName + "]`r`n" +
 		"FROM 'https://" + $StorageAccountName + ".blob.core.windows.net/" + $ContainerName + $ImportLocation +"/*.txt'`r`n" +
@@ -112,17 +135,13 @@ function ScriptCopyQueries(
         ") `r`n" +
 		"OPTION (LABEL = 'Import_Table_" + $ImportSchema + "." + $SourceObjectName + "')"
 		
-	#$cmd >> $InsertFilePathFull
     $cmd | Out-File -FilePath $CopyFilePathFull
 }
 
 
-function Display-ErrorMsg($ImportError, $ErrorMsg)
-{
-	#Write-Host $ImportError
-	Write-Host $ImportError
-}
-
+###############################################################################################
+# User Input Here
+###############################################################################################
 
 $defaultScriptsDriverFile = "$PSScriptRoot\One_ExpImptStmtDriver_Generated.csv"
 
@@ -131,11 +150,15 @@ $ScriptsDriverFile = Read-Host -prompt "Enter the name of the csv Driver File or
 	{$ScriptsDriverFile = $defaultScriptsDriverFile}
 
 
+###############################################################################################
+# Main logic Here
+###############################################################################################
+
 $startTime = Get-Date
 
-$csvFile = Import-Csv $ScriptsDriverFile #-ErrorVariable $ImportError -ErrorAction SilentlyContinue -
+$csvFile = Import-Csv $ScriptsDriverFile
 
-ForEach ($ObjectToScript in $csvFile ) 
+foreach ($ObjectToScript in $csvFile) 
 {
 	$Active = $ObjectToScript.Active
     if($Active -eq '1') 
@@ -157,11 +180,9 @@ ForEach ($ObjectToScript in $csvFile )
         $StorageAccountName = $ObjectToScript.StorageAccountName
         $ContainerName = $ObjectToScript.ContainerName
 				      
-        Write-Host 'Processing Export Script for : '$SourceSchemaName'.'$SourceObjectName
+        Write-Host "Processing Export Script for: $DatabaseName.$SourceSchemaName.$SourceObjectName"
         ScriptCreateExportObjects $DatabaseName $OutputFolderPath $FileName $SourceSchemaName $SourceObjectName $DestSchemaName $DestObjectaName $DataSource $FileFormat $ExportLocation
-		
         ScriptCreateImportObjects $InsertFilePath $ImportSchema $SourceObjectName $DestSchemaName $DestObjectaName
-
         ScriptCopyQueries $CopyFilePath $ImportSchema $SourceObjectName $DestSchemaName $DestObjectaName $StorageAccountName $ContainerName $ImportLocation
 	}
 }

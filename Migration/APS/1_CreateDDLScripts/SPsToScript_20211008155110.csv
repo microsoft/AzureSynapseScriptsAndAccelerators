@@ -1,0 +1,2 @@
+﻿"Database","Active","DatabaseName","SchemaName","OutputFolderPath","FileName","ObjectName","ObjectsToScript"
+"AdventureWorksDW","1","AdventureWorksDW","dbo","\AdventureWorksDW\SPs\","dbo_uspProspectiveBuyersInMinnesota","dbo.uspProspectiveBuyersInMinnesota","SP"

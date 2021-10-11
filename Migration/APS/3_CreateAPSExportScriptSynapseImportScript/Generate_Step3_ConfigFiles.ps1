@@ -30,12 +30,35 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\3_CreateAPSExportScriptSynapseImportScript\Generate_Step3_ConfigFiles.ps1
 
 
+Function Get-AbsolutePath
+{
+    [CmdletBinding()] 
+    param( 
+        [Parameter(Position=0, Mandatory=$true)] [string]$Path
+    ) 
+
+    if ([System.IO.Path]::IsPathRooted($Path) -eq $false) {
+        return [IO.Path]::GetFullPath( (Join-Path -Path $PSScriptRoot -ChildPath $Path) )
+    } else {
+        return $Path
+    }
+}
+
+
+###############################################################################################
+# User Input Here
+###############################################################################################
+
 # Get config file driver file name 
 $defaultDriverFileName = "$PSScriptRoot\ConfigFileDriver_Step3.csv"
 $configFileDriverFileName = Read-Host -prompt "Enter the name of the config file driver file or press the 'Enter' key to accept the default [$($defaultDriverFileName)]"
 if($configFileDriverFileName -eq "" -or $configFileDriverFileName -eq $null)
 {$configFileDriverFileName = $defaultDriverFileName}
 
+
+###############################################################################################
+# Main logic Here
+###############################################################################################
 
 # Import CSV to get contents 
 $configFileDriverFile = Import-Csv $configFileDriverFileName 
@@ -47,74 +70,53 @@ ForEach ($csvItem in $configFileDriverFile )
 
 	if ($name -eq 'OneConfigFile') { $OneConfigFile = $value.ToUpper() } # YES or No 
 	elseif ($name -eq 'OneConfigFileName') { $OneConfigFileName = $value } 
-	elseif ($name -eq 'GeneratedConfigFileFolder') { $GeneratedConfigFileFolder = $value }
 	elseif ($name -eq 'ExtTableShemaPrefix') { $ExtTableShemaPrefix = $value }
 	elseif ($name -eq 'ExtTablePrefix') { $ExtTablePrefix = $value }
 	elseif ($name -eq 'InputObjectsFolder')
 	{
-		$InputObjectsFolder = $value
+		$InputObjectsFolder = Get-AbsolutePath $value
+
 		if (!(Test-Path -Path $InputObjectsFolder))
 		{	
-			Write-Output "Input File Folder " $InputObjectsFolder " does not exits."
+			Write-Host "Input File Folder " + $InputObjectsFolder + " does not exist." -ForegroundColor Red
 			exit (0)
 		}
 	}
 	elseif ($name -eq 'SchemaMappingFileFullPath')
 	{
-		$SchemaMappingFileFullPath = $value
+		$SchemaMappingFileFullPath = Get-AbsolutePath $value
+
 		if (![System.IO.File]::Exists($SchemaMappingFileFullPath)) 
 		{	
-			Write-Output "Schema Mapping File " $SchemaMappingFileFullPath " does not exits."
+			Write-Host "Schema Mapping File " + $SchemaMappingFileFullPath + " does not exist." -ForegroundColor Red
 			exit (0)
 		}
 	}
-	elseif ($name -eq 'ApsExportScriptsFolder') { $ApsExportScriptsFolder = $value } 
-	elseif ($name -eq 'SynapseImportScriptsFolder') { $SynapseImportScriptsFolder = $value }
-	elseif ($name -eq 'SynapseCopyScriptsFolder') { $SynapseCopyScriptsFolder = $value }
+	elseif ($name -eq 'ApsExportScriptsFolder') 
+    { 
+        $ApsExportScriptsFolder = $value 
+    } 
+	elseif ($name -eq 'SynapseImportScriptsFolder') 
+    { 
+        $SynapseImportScriptsFolder = $value 
+    }
+	elseif ($name -eq 'SynapseCopyScriptsFolder') 
+    { 
+        $SynapseCopyScriptsFolder = $value 
+    }
 	elseif ($name -eq 'ExternalDataSourceName') { $ExternalDataSourceName = $value }
 	elseif ($name -eq 'FileFormat') { $FileFormat = $value }
 	elseif ($name -eq 'ExportLocation') { $ExportLocation = $value }
 	elseif ($name -eq 'StorageAccountName') { $StorageAccountName = $value }
 	elseif ($name -eq 'ContainerName') { $ContainerName = $value }
 	else {
-		Write-Output "Encountered unknown configuration item: " + $name + " with Value: " + $value
+		Write-Host "Encountered unknown configuration item: " + $name + " with Value: " + $value -ForegroundColor Red
 	}
 
 }
 
-# Get Schema Mapping File into hashtable - same matrix in python file (step 3)
-$smHT = @{}
+# Get Schema Mapping File content
 $schemaMappingFile = Import-Csv $SchemaMappingFileFullPath
-$htCounter = 0 
-foreach ($item in $schemaMappingFile)
-{
-	$htCounter++
-	$smHT.add($htCounter,  @($item.ApsDbName, $item.ApsSchema, $item.SynapseSchema))
-}
-# Get SQLDW Schema based on the schema mapping matrix 
-function Get-TargetSchema($dbName, $apsSchema, $hT)
-{
-	foreach ($key in $hT.keys)
-	{	
-		$myValues = $hT[$key]
-		if (($myValues[0] -eq $dbName) -and $myValues[1] -eq $apsSchema) 
-		{
-			return $myValues[2] 
-		}
-	}
-}
-
-function Get-ApsSchema($dbName, $synapseSchema, $hT)
-{
-	foreach ($key in $hT.keys)
-	{	
-		$myValues = $hT[$key]
-		if (($myValues[0] -eq $dbName) -and $myValues[2] -eq $synapseSchema) 
-		{
-			return $myValues[1] 
-		}
-	}
-}
 
 
 Function GetObjectNames ($query, $type)
@@ -122,13 +124,6 @@ Function GetObjectNames ($query, $type)
     $parts = @{}
     $parts.Clear()
     
-#    if ($type -in ("CREATE STATISTICS", "CREATE NONCLUSTERED INDEX")) {
-#        $pattern = "^" + $type + "[\s]+(?<objectname>[\[]*[^\.]+[\]]*)[\s]+ON[\s]+(?<parentobjectname>[\[]*[^\.]+[\]]*\.[\[]*[^\.]+[\]]*)[\s]+"
-#    } elseif ($type -in ("CREATE USER", "CREATE ROLE")) {
-#        $pattern = "^" + $type + "[\s]+(?<objectname>[\[]*[^\.]+[\]]*)"
-#    } else {    
-#        $pattern = "^" + $type + "[\s]+(?<objectname>[\[]*[^\.]+[\]]*\.[\[]*[^\.]+[\]]*)"
-#    }
     if ($type -in ("CREATE STATISTICS", "CREATE NONCLUSTERED INDEX")) {
         $pattern = "^" + $type + "[\s]+(?<objectname>\[?[^\.\]]+\]?)[\s]+ON[\s]+(?<parentobjectname>\[?[^\.\]]+\]?\.\[?[^\.\]]+\]?)[\s]+"
     } elseif ($type -in ("CREATE USER", "CREATE ROLE")) {
@@ -180,13 +175,7 @@ Function GetObjectNames ($query, $type)
 }
 
 
-
-#Write-Output "InputObjectsFolder: " $InputObjectsFolder
-# Get all the database names from directory names 
-#$inputObjectsFolderPath = Get-ChildItem -Path $InputObjectsFolder -Exclude *.dsql -Depth 1
-
 $inputObjectsFolderPath = Get-ChildItem -Path $InputObjectsFolder 
-#Write-Output " inputObjectsFolderPath" $inputObjectsFolderPath
 
 $allDirNames = Split-Path -Path $inputObjectsFolderPath -Leaf
 $dbNames = New-Object 'System.Collections.Generic.List[System.Object]'
@@ -195,9 +184,9 @@ foreach ($nm in $allDirNames)
 {
 	if ( (($nm.toUpper() -ne "Tables") -and ($nm.toUpper() -ne "Views") -and  ($nm.toUpper() -ne "SPs") )) { $dbNames.add($nm)} 
 }
-Write-Output " ---------------------------------------------- "
-Write-Output "database names: " $dbNames 
-Write-Output " ---------------------------------------------- "
+Write-Output "---------------------------------------------- "
+Write-Output "Database names: " $dbNames 
+Write-Output "---------------------------------------------- "
 
 ################################################################################
 #
@@ -207,7 +196,7 @@ Write-Output " ---------------------------------------------- "
 
 if ($OneConfigFile -eq "YES")
 {
-	$combinedOutputFile = $GeneratedConfigFileFolder + $OneConfigFileName 
+    $combinedOutputFile = Join-Path -Path $PSScriptRoot -ChildPath $OneConfigFileName 
 	if (Test-Path $combinedOutputFile)
 	{
 		Remove-Item $combinedOutputFile -Force
@@ -229,7 +218,7 @@ foreach ($dbName in $dbNames)
  
 	# only need this folder to generate Export and Import Scripts 
 	$inFilePaths.add("Tables",$dbFilePath + "Tables\")
-	$outFilePaths.add("Tables",$GeneratedConfigFileFolder + "$dbName" + "_ExpImptStmtDriver_Generated.csv" )
+    $outFilePaths.add("Tables", (Join-Path -Path $PSScriptRoot -ChildPath ("$dbName" + "_ExpImptStmtDriver_Generated.csv")) )
 	
 	foreach ($key in $inFilePaths.Keys)
 	{
@@ -250,15 +239,9 @@ foreach ($dbName in $dbNames)
             continue
         }
 
-		foreach ($f in Get-ChildItem -path $inFileFolder  -Filter *dsql)
+		foreach ($f in Get-ChildItem -path $inFileFolder  -Filter *.sql)
 		{
-            # exclude IDXS_ and STATS_ 
-		 	#if (($f.Name.ToString() -Match "IDXS_") -or ($f.Name.ToString() -Match "STATS_"))
-		 	#{
-			#	 continue 
-			#}		
-
-            (Get-Date -Format HH:mm:ss.fff)+" - "+$f | Write-Host -ForegroundColor Yellow	 
+            (Get-Date -Format HH:mm:ss.fff)+" - "+$dbName+" "+$f | Write-Host -ForegroundColor Yellow	 
 			 
 			$parts = @{}
 			$parts.Clear()
@@ -310,7 +293,7 @@ foreach ($dbName in $dbNames)
 		 	$objectName = $parts.Object
  
  
-		 	$apsSchema = Get-ApsSchema $dbName $synapseSchema $smHT
+            $apsSchema = $schemaMappingFile | Where-Object {$_.ApsDbName -eq $dbName -and $_.SynapseSchema -eq $synapseSchema} | Select-Object -Property ApsSchema -ExpandProperty ApsSchema
 
 			$destSchema = -join($ExtTableShemaPrefix,$synapseSchema) 
 			$destObject = -join($ExtTablePrefix,$objectName)
@@ -318,11 +301,11 @@ foreach ($dbName in $dbNames)
             $exportObjLocation = -join($ExportLocation,$dbName,"/",$apsSchema,"_",$objectName) # seperate scehame name and object name 
 			$exportObjectFileName = -join($apsSchema,"_",$objectName) # seperate scehame name and object name 
 
-			$apsExportScriptsFolderPerDb = -join($ApsExportScriptsFolder,$dbName,"\")
+			$apsExportScriptsFolderPerDb = Join-Path -Path $ApsExportScriptsFolder -ChildPath $dbName
 
-			$synapseImportScriptsFolderPerDb = -join($SynapseImportScriptsFolder,$dbName,"\")
+			$synapseImportScriptsFolderPerDb = Join-Path -Path $SynapseImportScriptsFolder -ChildPath $dbName
 			
-			$synapseCopyScriptsFolderPerDb = -join($SynapseCopyScriptsFolder,$dbName,"\")
+			$synapseCopyScriptsFolderPerDb = Join-Path -Path $SynapseCopyScriptsFolder -ChildPath $dbName
 
 		 	$row = New-Object PSObject 		 
 			$row | Add-Member -MemberType NoteProperty -Name "Active" -Value "1" -force

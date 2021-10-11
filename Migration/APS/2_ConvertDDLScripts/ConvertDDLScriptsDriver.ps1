@@ -34,10 +34,29 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\2_ConvertDDLScripts\ConvertDDLScriptsDriver.ps1
 
 
+Function Get-AbsolutePath
+{
+    [CmdletBinding()] 
+    param( 
+        [Parameter(Position=0, Mandatory=$true)] [string]$Path
+    ) 
+
+    if ([System.IO.Path]::IsPathRooted($Path) -eq $false) {
+        return [IO.Path]::GetFullPath( (Join-Path -Path $PSScriptRoot -ChildPath $Path) )
+    } else {
+        return $Path
+    }
+}
+
+
 Import-Module $PSScriptRoot\FixSchemas.ps1 -Force
 
-
 $addMissingSchemas = $true
+
+
+###############################################################################################
+# User Input Here
+###############################################################################################
 
 
 $defaultConfigDir = "$PSScriptRoot"
@@ -56,6 +75,9 @@ if($schemasFile -eq "" -or $schemasFile -eq $null)
 	{$schemasFile = $defaultSchemasFile}
 
 
+###############################################################################################
+# Main logic here
+###############################################################################################
 
 $startTime = Get-Date
 
@@ -71,15 +93,15 @@ ForEach ($configRow in $configCsvFile)
     if ($configRow.Active -eq '1') 
 	{
         $databaseName = $configRow.ApsDatabaseName
-        $sourceDir = $configRow.SourceDirectory
-        $targetDir = $configRow.TargetDirectory
+        $sourceDir = Get-AbsolutePath $configRow.SourceDirectory
+        $targetDir = Get-AbsolutePath $configRow.TargetDirectory
         $defaultSchema = $configRow.DefaultSchema
-        
+
         if (!(Test-Path -Path $sourceDir)) {
             continue
         }
 
-        foreach ($file in Get-ChildItem -Path $sourceDir -Filter *.dsql)
+        foreach ($file in Get-ChildItem -Path $sourceDir -Filter *.sql)
         {
             $sourceFilePath = $file.FullName
             $targetFilePath = Join-Path -Path $targetDir -ChildPath $file.Name

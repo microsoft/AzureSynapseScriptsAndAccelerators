@@ -1,0 +1,2 @@
+﻿"Database","Active","DatabaseName","SchemaName","OutputFolderPath","FileName","ObjectName","ObjectsToScript"
+"AdventureWorksDW","1","AdventureWorksDW","dbo","\AdventureWorksDW\Functions\","dbo_ConvertInput","dbo.ConvertInput","FUNCTION"

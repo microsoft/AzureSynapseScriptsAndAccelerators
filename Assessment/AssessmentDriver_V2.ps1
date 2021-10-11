@@ -259,6 +259,7 @@ Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $DSNName, $
             }
 
             if ($rows -eq 0) {
+                # Add header line in case of empty table
                 $headerLine = ""
 
                 if ($AddDatabaseName -eq $true) {
@@ -269,7 +270,10 @@ Function WriteQueryToCSV($FileName, $Query, $Variables, $ServerName, $DSNName, $
                 $columnNamesLine = '"' + ($columnNames -join '","') + '"'
                 $headerLine += $columnNamesLine
 
-                $headerLine | Out-File -FilePath $FileName -Encoding utf8 -Append
+                # Do not add header line to existing file (it already contains header line)
+                if ((Test-Path -Path $FileName) -eq $false) {
+                    $headerLine | Out-File -FilePath $FileName -Encoding utf8 -Append
+                }
             }
             else {
                 $record | Export-Csv "$FileName" -NoTypeInformation -Append -Encoding UTF8 -Delimiter ',' -Force
@@ -402,9 +406,9 @@ function ContinueProcess {
 		else
 		{
 			#Add Variable Statement
-		#$Variables = "@DBName:$DBName"
-		$Variables = "@DBName:$DBName|@SQLServerName:$ServerName"
-		WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
+            #$Variables = "@DBName:$DBName"
+            $Variables = "@DBName:$DBName|@SQLServerName:$ServerName"
+            WriteQueryToCSV $FileName $SQLStatement $Variables $ServerName $DSNName $DBName $Username $Password $ConnectionType $QueryTimeout $ConnectionTimeout $SourceSystem $Port
 		}
 	}
 	else 
@@ -1012,7 +1016,6 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 									}
 									else 
 									{
-
 										Display-LogMsg "Looping through objects"
 										$Variables = "@DBName:$DBName|@ObjectName"
 										#$Query = $ObjectListQuery #[4].ToString() # This one works if the location in Json file does not change. 

@@ -1,0 +1,4 @@
+﻿"Database","Active","DatabaseName","SchemaName","OutputFolderPath","FileName","ObjectName","ObjectsToScript"
+"AdventureWorksDW","1","AdventureWorksDW","dbo","\AdventureWorksDW\Indexes\","dbo_DimAccount_IX_DimAccount","dbo.DimAccount.IX_DimAccount","INDEX"
+"ContosoDW","1","ContosoDW","dbo","\ContosoDW\Indexes\","dbo_DimAccount_IX_DimAccount","dbo.DimAccount.IX_DimAccount","INDEX"
+"ContosoDW","1","ContosoDW","dbo","\ContosoDW\Indexes\","dbo_DimProduct_IX_DimProduct","dbo.DimProduct.IX_DimProduct","INDEX"

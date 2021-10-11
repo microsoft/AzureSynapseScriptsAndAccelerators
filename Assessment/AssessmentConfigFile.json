@@ -1,9 +1,9 @@
 {
     "PreAssessmentOutputPath":  "Results",
-    "ServerName":  "yoursynapseworkspacename.sql.azuresynapse.net",
+    "ServerName":  "apspod0.centralus.cloudapp.azure.com",
     "DSNName":  "YourDSNName",
-    "DBFilter":  "%",
-    "SourceSystem":  "SYNAPSE",
+    "DBFilter":  "AdventureWorksDW,ContosoDW",
+    "SourceSystem":  "APS",
     "ConnectionType":  "sqlauth",
     "StoreOutputInSeperateFolders":  "False"
 }

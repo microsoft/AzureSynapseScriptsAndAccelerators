@@ -1,0 +1,3 @@
+"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
+"1","synapseserver.database.windows.net","synapse","..\Output\2_ConvertDDLScripts\AdventureWorksDW\Roles","1","Role","dbo","","Marketing","","DROP","","Marketing.sql"
+"1","synapseserver.database.windows.net","synapse","..\Output\2_ConvertDDLScripts\AdventureWorksDW\Roles","1","Role","dbo","","Sales","","DROP","","Sales.sql"
