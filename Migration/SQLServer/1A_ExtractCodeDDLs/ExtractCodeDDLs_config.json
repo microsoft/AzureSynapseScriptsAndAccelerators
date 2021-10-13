@@ -1,5 +1,5 @@
 {
-	"ServerName":"sqlserverdemovm.westeurope.cloudapp.azure.com",
+	"ServerName":"(local)",
 	"IntegratedSecurity":"No",
-	"OutputFolder":"C:\\temp\\1A_ExtractCodeDDLs"
+	"OutputFolder":"..\\Output\\1A_ExtractCodeDDLs"
 }
