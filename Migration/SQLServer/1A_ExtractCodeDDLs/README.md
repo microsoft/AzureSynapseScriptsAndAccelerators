@@ -29,13 +29,13 @@ The definition and sample values for each column in **DatabasesList.csv** are de
 
 Sample script output is depicted below.
 
-![](..\\images\M1A_ScriptOutput.JPG)
+![](..//images/M1A_ScriptOutput.JPG)
 
 Extracted DDL scripts will be stored under Output folder and structured by respective database name and object type (View, Functions, Stored Procedures, Triggers).
 
-![](..\\images\M1A_OutputFolder.JPG)
+![](..//images/M1A_OutputFolder.JPG)
 
-![](..\\images\M1A_SampleFolder.JPG)
+![](..//images/M1A_SampleFolder.JPG)
 
 
 

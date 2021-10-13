@@ -67,13 +67,13 @@ The definition and sample values for each column in **schemas.csv** is described
 
 Sample script output is depicted below.
 
-![](..\\images\M1B_ScriptOutput.JPG)
+![](..//images/M1B_ScriptOutput.JPG)
 
 Extracted DDL scripts will be stored under Output folder and structured by respective database name and object type (View, Functions, Stored Procedures, Triggers).
 
-![](..\\images\M1B_OutputFolder.JPG)
+![](..//images/M1B_OutputFolder.JPG)
 
-![](..\\images\M1B_SampleFolder.JPG)
+![](..//images/M1B_SampleFolder.JPG)
 
 When found any unsupported data types, PowerShell script adds summary comment at the beginning of converted DDL scripts.
 
