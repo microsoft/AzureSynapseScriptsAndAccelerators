@@ -27,8 +27,28 @@
 # 
 # Use this to set Powershell permissions (examples)
 # Set-ExecutionPolicy Unrestricted -Scope CurrentUser 
-# Unblock-File -Path C:\migratemaster\modules\1B_MapDatabasesAndSchemas\MapDatabasesAndSchemas.ps1
+# Unblock-File -Path .\MapDatabasesAndSchemas.ps1
 
+
+#Requires -Version 5.1
+#Requires -Modules SqlServer
+
+
+##########################################################################################################
+
+Function Get-AbsolutePath
+{
+    [CmdletBinding()] 
+    param( 
+        [Parameter(Position=0, Mandatory=$true)] [string]$Path
+    ) 
+
+    if ([System.IO.Path]::IsPathRooted($Path) -eq $false) {
+        return [IO.Path]::GetFullPath( (Join-Path -Path $PSScriptRoot -ChildPath $Path) )
+    } else {
+        return $Path
+    }
+}
 
 ##########################################################################################################
 
@@ -409,8 +429,8 @@ foreach ($configRow in $configCsvFile)
     if ($configRow.Active -eq '1') 
 	{
         $databaseName = $configRow.SourceDatabaseName  
-        $sourceDir = $configRow.SourceDirectory
-        $targetDir = $configRow.TargetDirectory
+        $sourceDir = Get-AbsolutePath $configRow.SourceDirectory
+        $targetDir = Get-AbsolutePath $configRow.TargetDirectory
         $defaultSchema = $configRow.DefaultSchema
         
         if (!(Test-Path -Path $sourceDir)) {
@@ -459,8 +479,8 @@ foreach ($configRow in $configCsvFile)
 
 
 $totalOccurencesUnsupportedDataTypes = ($unsupportedDataTypesTotal | Measure-Object -Property count -Sum).Sum
-if ($totalUnsupportedDataTypes -eq $null) {
-    $totalUnsupportedDataTypes = 0
+if ($totalOccurencesUnsupportedDataTypes -eq $null) {
+    $totalOccurencesUnsupportedDataTypes = 0
 }
 
 $ProgramFinishTime = Get-Date

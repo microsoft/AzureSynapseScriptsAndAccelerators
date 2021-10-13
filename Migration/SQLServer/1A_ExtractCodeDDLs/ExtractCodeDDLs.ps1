@@ -27,17 +27,11 @@
 # 
 # Use this to set Powershell permissions (examples)
 # Set-ExecutionPolicy Unrestricted -Scope CurrentUser 
-# Unblock-File -Path C:\migratemaster\modules\1A_ExtractCodeDDLs\ExtractCodeDDLs.ps1
+# Unblock-File -Path .\ExtractCodeDDLs.ps1
 
-Function ShowDebugMsg()
-{
-    param( 
-        [Parameter(Position = 1, Mandatory = $true)] [String]$ScriptName, 
-        [Parameter(Position = 2, Mandatory = $true)] [String]$ScriptLine, 
-        [Parameter(Position = 3, Mandatory = $false)] [String]$Value
-    ) 
-    Write-Host "Need to debug script: $ScriptName line number $ScriptLine. Check Value: $Value " -ForegroundColor Red
-}
+
+#Requires -Version 5.1
+#Requires -Modules SqlServer
 
 
 Function GetPassword([SecureString] $securePassword) {
@@ -70,12 +64,29 @@ Function ExportObjectDDLs() {
 }
 
 
+Function Get-AbsolutePath
+{
+    [CmdletBinding()] 
+    param( 
+        [Parameter(Position=0, Mandatory=$true)] [string]$Path
+    ) 
+
+    if ([System.IO.Path]::IsPathRooted($Path) -eq $false) {
+        return [IO.Path]::GetFullPath( (Join-Path -Path $PSScriptRoot -ChildPath $Path) )
+    } else {
+        return $Path
+    }
+}
+
+
 
 ########################################################################################
 #
 # Main Program Starts here
 #
 ########################################################################################
+
+Import-Module -Name SqlServer
 
 $ProgramStartTime = Get-Date
 
@@ -116,13 +127,7 @@ $JsonConfig = Get-Content -Path $JsonConfigFileFullPath | ConvertFrom-Json
     
 $SqlServerName = $JsonConfig.ServerName
 $UseIntegrated =  $JsonConfig.IntegratedSecurity
-$OutputBaseFolder = $JsonConfig.OutputFolder
-
-#if (Test-Path $OutputBaseFolder)
-#{
-#    Write-Host "Previous Contents in this folder will be removed: $OutputBaseFolder" -ForegroundColor Red
-#	Remove-Item -Force -Recurse -Path $OutputBaseFolder 
-#}
+$OutputBaseFolder = Get-AbsolutePath $JsonConfig.OutputFolder
 
 
 if ( ($UseIntegrated.ToUpper() -eq "YES") -or ($UseIntegrated.ToUpper() -eq "Y") )  
