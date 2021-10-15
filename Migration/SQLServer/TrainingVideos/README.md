@@ -13,7 +13,7 @@ Please watch training videos with demonstration of each migration step and end t
 
 [Migrate SQL Server to Azure Synapse Analytics - YouTube](https://www.youtube.com/playlist?list=PLTPqkIPx9Hx8QJnYh45aewA_60Kw3x1Ia)
 
-**Video Index**: 0, 1, 2, 2A, 3, 4 (total seven videos).
+**Video Index**: 0, 1, 1AB, 2, 2A, 3, 4 (total seven videos).
 
 Overview of SQL Server to Synapse Migration: **Watch Video 0**. 
 
