@@ -2,12 +2,12 @@
 
 **Training Videos are recorded by**
 
-- **Dr. Gail Zhou, Data and AI Architect at Microsoft, **LinkedIn profile: [www.linkedin.com/in/gailzhou](http://www.linkedin.com/in/gailzhou)
+- **Dr. Gail Zhou,** **Data and AI Architect at Microsoft,** LinkedIn profile: [www.linkedin.com/in/gailzhou](http://www.linkedin.com/in/gailzhou)
 - **Andrey Mirskiy,** **Data and AI Architect at Microsoft,** LinkedIn profile: [www.linkedin.com/in/andreymirskiy](http://www.linkedin.com/in/andreymirskiy)
 
 
 
-## **Video Guide:** 
+## **Video Guide**
 
 Please watch training videos with demonstration of each migration step and end to end migration process in this YouTube Channel: 
 
@@ -22,6 +22,8 @@ End to End Migration using BCP Export Option: **Watch Videos 1, 2, and 3**
 End to End Migration using Polybase Export Option: **Watch Videos 1, 2A, and 3** 
 
 Advanced Practitioners to Learn the entire Process, Best Practices, and Tips: **Watch Video 4** 
+
+
 
 ## **Viewer's Guide for Training Videos**
 
