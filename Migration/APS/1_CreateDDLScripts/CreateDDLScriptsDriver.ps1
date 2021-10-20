@@ -30,10 +30,7 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\1_CreateDDLScripts\1_CreateDDLScripts.ps1
 
 
-function Display-ErrorMsg($ImportError, $ErrorMsg)
-{
-	Write-Host $ImportError
-}
+Import-Module "$PSScriptRoot\PDWScripter.ps1"  
 
 Function GetPassword($securePassword)
 {
@@ -42,10 +39,10 @@ Function GetPassword($securePassword)
        return $P
 }
 
+
 ###############################################################################################
 # User Input Here
 ###############################################################################################
-
 
 
 #$defaultConfigFilePath = "C:\APS2SQLDW\1_CreateDDLScripts"
@@ -89,8 +86,9 @@ if($UseIntegrated.ToUpper() -ne "YES")
 }
 
 
-
-Import-Module "$PSScriptRoot\PDWScripter.ps1"  
+###############################################################################################
+# Main logic here
+###############################################################################################
 
 $startTime = Get-Date
 
@@ -118,8 +116,8 @@ try
 			    $ServerName = $ObjectToScript.ServerName 
 			    $DatabaseName = $ObjectToScript.DatabaseName
 			    $WorkMode = $ObjectToScript.WorkMode
-			    $OutputFolderPath = $OutputBasePath + $ObjectToScript.OutputFolderPath
-			    $FileName = $ObjectToScript.FileName + ".dsql"
+			    $OutputFolderPath = Join-Path -Path $OutputBasePath -ChildPath $ObjectToScript.OutputFolderPath
+			    $FileName = $ObjectToScript.FileName + ".sql"
 			    $Mode= $ObjectToScript.Mode
 			    $ObjectName = $ObjectToScript.ObjectName
 			    $ObjectType = $ObjectToScript.ObjectsToScript

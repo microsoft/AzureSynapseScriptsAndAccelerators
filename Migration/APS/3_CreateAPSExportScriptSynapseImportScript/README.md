@@ -17,10 +17,10 @@ Below are example of the T-SQL scripts for one single table.
 Sample generated T-SQL scripts to export APS table data into Azure Blob Storage:    
 
 ```sql
-INTO adw_dbo.FactFinance
-SELECT * FROM ext_adw_dbo.ext_FactFinance
-OPTION (LABEL = 'Import_Table_adw_dbo.FactFinance')
-CREATE EXTERNAL TABLE AdventureWorksDW.ext_adw_dbo.ext_FactFinance
+INTO aw.FactFinance
+SELECT * FROM ext_aw.ext_FactFinance
+OPTION (LABEL = 'Import_Table_aw.FactFinance')
+CREATE EXTERNAL TABLE AdventureWorksDW.ext_aw.ext_FactFinance
 WITH (
 	LOCATION='/prod/AdventureWorksDW/dbo_FactFinance',
 	DATA_SOURCE = AzureBlobDS,
@@ -35,12 +35,12 @@ Sample generated T-SQL scripts to import data into Azure Blob Storage:
 
 ```sql
 INTO adw_dbo.FactFinance
-SELECT * FROM ext_adw_dbo.ext_FactFinance
-OPTION (LABEL = 'Import_Table_adw_dbo.FactFinance')
+SELECT * FROM ext_aw.ext_FactFinance
+OPTION (LABEL = 'Import_Table_aw.FactFinance')
 ```
 
 
-  
+
 
 ## **How to Run the Script** ##
 
@@ -57,24 +57,34 @@ Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmati
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Active             | 1 – Run line, 0 – Skip line                                  | 0 or 1                                                       |
 | DatabaseName       | Name of the database in APS                                  | AdventureWorksDW                                             |
-| OutputFolderPath   | Name of the path to output the  resulte to                   | C:\\...\Migration\APS\Output\3_CreateAPSExportScriptSynapseImportScript\ExportAPS\AdventureWorksDW1 |
+| OutputFolderPath   | Name of the path to output the  resulte to                   | ..\Output\3_CreateAPSExportScriptSynapseImportScript\<br />\ExportAPS\AdventureWorksDW |
 | FileName           | Name of the output file                                      | DimAccount                                                   |
 | SourceSchemaName   | Name of the APS/Source Schema                                | Dbo                                                          |
 | SourceObjectName   | Name of the source object to work  with                      | DimAccount                                                   |
 | DestSchemaName     | Name of the destination schema in  Synapse                   | dbo                                                          |
 | DestObjectName     | Name of the destination object                               | DimAccount                                                   |
-| DataSource         | Name of the data source to  use. This must already be created. | AZURE_BLOB_STORAGE                                           |
-| FileFormat         | Name of the File Format to use  when exporting the data. This must already be created. | DelimitedNoDateZip                                           |
-| ExportLocation     | Folder path in the staging  container. Each Table should have its  own file location | /AdventureWorksDW1/dbo_DimAccount                            |
-| InsertFilePath     | Path to write the import  statements                         | C:\\...\Migration\APS\Output\3_CreateAPSExportScriptSynapseImportScript\ImportSynapse\AdventureWorksDW1\ |
-| CopyFilePath       | Path to write the COPY statements                            | C:\\...\Migration\APS\Output\3_CreateAPSExportScriptSynapseImportScript\CopySynapse\AdventureWorksDW1\ |
-| ImportSchema       | Name of the new schema in Synapse                            | aw1                                                          |
-| StorageAccountName | Name of the staging storage  account                         | apsmigrationstaging                                          |
-| ContainerName      | Name of the container in staging  storage account            | aps-Polybase                                                 |
+| DataSource         | Name of the External Data Source to use. This must already be created. | AZURE_STAGING_STORAGE                                        |
+| FileFormat         | Name of the External File Format to use  when exporting the data. This must already be created. | DelimitedFileFormat                                          |
+| ExportLocation     | Folder path in the staging  container. Each Table should have its own file location. | /AdventureWorksDW/dbo_DimAccount                             |
+| InsertFilePath     | Path to write the import  statements.<br />*Both absolute and relative paths are supported.* | ..\Output\3_CreateAPSExportScriptSynapseImportScript<br />\ImportSynapse\AdventureWorksDW\ |
+| CopyFilePath       | Path to write the COPY statements.<br />*Both absolute and relative paths are supported.* | ..\Output\3_CreateAPSExportScriptSynapseImportScript<br />\CopySynapse\AdventureWorksDW\ |
+| ImportSchema       | Name of the new schema in Synapse                            | aw                                                           |
+| StorageAccountName | The name of Azure staging storage  account                   | apsmigrationstaging                                          |
+| ContainerName      | The name of the container in Azure staging storage account   | aps-Polybase                                                 |
 
 **Step 3B:** 
 Run PowerShell script **ScriptCreateExportImportStatementsDriver.ps1**. 
 Provide the prompted information: The path and name of the Configuration Driver CSV File. The script does not connect to APS or Synapse.  The only input for this script is the [Config file](ConfigFileDriver_Step3.csv). 
+
+> ###### Note 1
+>
+> Later before actually exporting data from APS you will need to have External Data Source and External File Format created in APS. You can use sample script [CreateExternalObjects.sql](CreateExternalObjects.sql) as a template. 
+
+> ###### Note 2
+>
+> When exporting data from APS to Azure Blob Storage make sure that you Azure storage account is configured for **Minimum TLS Version 1.0**. Otherwise you may encounter an error when creating external tables.
+>
+> `CREATE EXTERNAL TABLE AS SELECT statement failed as the path name 'wasbs://container@storageaccount.blob.core.windows.net/DatabaseName/TableName' could not be used for export. Please ensure that the specified path is a directory which exists or can be created, and that files can be created in that directory.` 
 
 
 

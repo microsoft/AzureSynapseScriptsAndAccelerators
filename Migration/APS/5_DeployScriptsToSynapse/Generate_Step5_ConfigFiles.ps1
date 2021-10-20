@@ -30,115 +30,36 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse\\Generate_Step5_ConfigFiles.ps1
 
 
+###############################################################################################
+# User Input Here
+###############################################################################################
+
 # Get config file driver file name 
 $defaultDriverFileName = "$PSScriptRoot\ConfigFileDriver_Step5.csv"
 $ConfigFileDriverFileName = Read-Host -prompt "Enter the name of the config file driver file or press the 'Enter' key to accept the default [$($defaultDriverFileName)]"
-if($ConfigFileDriverFileName -eq "" -or $ConfigFileDriverFileName -eq $null)
-{$ConfigFileDriverFileName = $defaultDriverFileName}
-
-
-Write-Output (" Config Driver File: " + $ConfigFileDriverFileName)
-
-# Import CSV to get contents 
-$ConfigFileDriverFile = Import-Csv $ConfigFileDriverFileName 
-# The Config File Driver CSV file contains 'Name-Value' pairs. 
-ForEach ($csvItem in $ConfigFileDriverFile ) 
-{
-	$name = $csvItem.Name.Trim()
-	$value = $csvItem.Value.Trim() 
-
-	if ($name -eq 'OneConfigFile') { $OneConfigFile = $value.ToUpper() } # YES or No 
-	elseif ($name -eq 'GeneratedConfigFileFolder') { $GeneratedConfigFileFolder = $value } 
-	elseif ($name -eq 'OneApsExportConfigFileName') { $OneApsExportConfigFileName = $value } 
-	elseif ($name -eq 'OneSynapseObjectsConfigFileName') { $OneSynapseObjectsConfigFileName = $value }
-	elseif ($name -eq 'OneSynapseImportConfigFileName') { $OneSynapseImportConfigFileName = $value }
-	elseif ($name -eq 'OneSynapseExtTablesConfigFileName') { $OneSynapseExtTablesConfigFileName = $value }
-	elseif ($name -eq 'ActiveFlag') { $ActiveFlag = $value }
-	elseif ($name -eq 'ApsServerName') { $ApsServerName = $value }
-	elseif ($name -eq 'SynapseServerName') { $SynapseServerName = $value }  
-	elseif ($name -eq 'SynapseDatabaseName') { $SynapseDatabaseName = $value }  
-	elseif ($name -eq 'CreateSchemaFlag') { $CreateSchemaFlag = $value }  
-	elseif ($name -eq 'SchemaAuth') { $SchemaAuth = $value }  
-	elseif ($name -eq 'DropTruncateIfExistsFlag') { $DropTruncateIfExistsFlag = $value }  
-	elseif ($name -eq 'Variables') { $Variables = $value }  
-	elseif ($name -eq 'SchemaFileFullPath') { $SchemaFileFullPath = $value }  
-	elseif ($name -eq 'OutputObjectsFolder') { $OutputObjectsFolder = $value }  # there is really no objects to be produced in step 6
-	elseif ($name -eq 'ApsExportScriptsFolder') 
-	{ 
-		$ApsExportScriptsFolder = $value 
-		if (!(Test-Path -Path $ApsExportScriptsFolder))
-		{	
-			Write-Host "Input File Folder " $ApsExportScriptsFolder " does not exits." -ForegroundColor Red
-			#exit (0)
-		}
-	} 
-	elseif ($name -eq 'SynapseImportScriptsFolder') 
-	{ 
-		$SynapseImportScriptsFolder = $value 
-		if (!(Test-Path -Path $SynapseImportScriptsFolder))
-		{	
-			Write-Host "Input File Folder " $SynapseImportScriptsFolder " does not exits." -ForegroundColor Red
-			#exit (0)
-		}
-	}
-	elseif ($name -eq 'SynapseExternalTablesFolder') 
-	{ 
-		$SynapseExternalTablesFolder = $value 
-		if (!(Test-Path -Path $SynapseExternalTablesFolder))
-		{	
-			Write-Host "Input File Folder " $SynapseExternalTablesFolder " does not exits." -ForegroundColor Red
-			#exit (0)
-		}
-	}
-	elseif ($name -eq 'SynapseObjectScriptsFolder') 
-	{ 
-		$SynapseObjectScriptsFolder = $value 
-		if (!(Test-Path -Path $SynapseObjectScriptsFolder))
-		{	
-			Write-Host "Input File Folder " $SynapseObjectScriptsFolder " does not exits." -ForegroundColor Red
-			#exit (0)
-		}
-	}
-	else {
-		Write-Host "Encountered unknown configuration item: " + $name + " with Value: " + $value -ForegroundColor Yellow
-	}
-	Write-Output ("name: " + $name + " value: " + $value) 
+if($ConfigFileDriverFileName -eq "" -or $ConfigFileDriverFileName -eq $null) {
+    $ConfigFileDriverFileName = $defaultDriverFileName
 }
 
 
-# Get Schema Mapping File into hashtable - same matrix in python file (step 3)
-$smHT = @{}
-$schemaMappingFile = Import-Csv $SchemaFileFullPath
-$htCounter = 0 
-foreach ($item in $schemaMappingFile)
+###############################################################################################
+# Main logic Here
+###############################################################################################
+
+Function Get-AbsolutePath
 {
-	$htCounter++
-	$smHT.add($htCounter,  @($item.ApsDbName, $item.ApsSchema, $item.synapseSchema))
-}
-# Get Synapse Schema based on the schema mapping matrix 
-function Get-TargetSchema($dbName, $apsSchema, $hT)
-{
-	foreach ($key in $hT.keys)
-	{	
-		$myValues = $hT[$key]
-		if (($myValues[0] -eq $dbName) -and $myValues[1] -eq $apsSchema) 
-		{
-			return $myValues[2] 
-		}
-	}
+    [CmdletBinding()] 
+    param( 
+        [Parameter(Position=0, Mandatory=$true)] [string]$Path
+    ) 
+
+    if ([System.IO.Path]::IsPathRooted($Path) -eq $false) {
+        return [IO.Path]::GetFullPath( (Join-Path -Path $PSScriptRoot -ChildPath $Path) )
+    } else {
+        return $Path
+    }
 }
 
-function Get-ApsSchema($dbName, $synapseSchema, $hT)
-{
-	foreach ($key in $hT.keys)
-	{	
-		$myValues = $hT[$key]
-		if (($myValues[0] -eq $dbName) -and $myValues[2] -eq $ynapseSchema) 
-		{
-			return $myValues[1] 
-		}
-	}
-}
 
 Function GetObjectNames ($query, $type)
 {
@@ -196,9 +117,89 @@ Function GetObjectNames ($query, $type)
 }
 
 
+Write-Output ("Config Driver File: " + $ConfigFileDriverFileName)
+
+$GeneratedConfigFileFolder = $PSScriptRoot
+
+# Import CSV to get contents 
+$ConfigFileDriverFile = Import-Csv $ConfigFileDriverFileName 
+# The Config File Driver CSV file contains 'Name-Value' pairs. 
+ForEach ($csvItem in $ConfigFileDriverFile ) 
+{
+	$name = $csvItem.Name.Trim()
+	$value = $csvItem.Value.Trim() 
+
+	if ($name -eq 'OneConfigFile') { $OneConfigFile = $value.ToUpper() } # YES or No 
+	elseif ($name -eq 'OneApsExportConfigFileName') { $OneApsExportConfigFileName = $value } 
+	elseif ($name -eq 'OneSynapseObjectsConfigFileName') { $OneSynapseObjectsConfigFileName = $value }
+	elseif ($name -eq 'OneSynapseImportConfigFileName') { $OneSynapseImportConfigFileName = $value }
+	elseif ($name -eq 'OneSynapseExtTablesConfigFileName') { $OneSynapseExtTablesConfigFileName = $value }
+	elseif ($name -eq 'ActiveFlag') { $ActiveFlag = $value }
+	elseif ($name -eq 'ApsServerName') { $ApsServerName = $value }
+	elseif ($name -eq 'SynapseServerName') { $SynapseServerName = $value }  
+	elseif ($name -eq 'SynapseDatabaseName') { $SynapseDatabaseName = $value }  
+	elseif ($name -eq 'CreateSchemaFlag') { $CreateSchemaFlag = $value }  
+	elseif ($name -eq 'SchemaAuth') { $SchemaAuth = $value }  
+	elseif ($name -eq 'DropTruncateIfExistsFlag') { $DropTruncateIfExistsFlag = $value }  
+	elseif ($name -eq 'Variables') { $Variables = $value }  
+	elseif ($name -eq 'SchemaFileFullPath') { 
+        $SchemaFileFullPath = $value 
+        $SchemaFileFullPath = Get-AbsolutePath $SchemaFileFullPath
+    }  
+	elseif ($name -eq 'OutputObjectsFolder') { $OutputObjectsFolder = $value }  # there is really no objects to be produced in step 6
+	elseif ($name -eq 'ApsExportScriptsFolder') 
+	{ 
+		$ApsExportScriptsFolder = $value 
+        $ApsExportScriptsFolderAbsolute = Get-AbsolutePath $value
+		if (!(Test-Path -Path $ApsExportScriptsFolderAbsolute))
+		{	
+			Write-Host "Input File Folder $ApsExportScriptsFolder does not exist." -ForegroundColor Red
+			#exit (0)
+		}
+	} 
+	elseif ($name -eq 'SynapseImportScriptsFolder') 
+	{ 
+		$SynapseImportScriptsFolder = $value 
+        $SynapseImportScriptsFolderAbsolute = Get-AbsolutePath $value
+
+		if (!(Test-Path -Path $SynapseImportScriptsFolderAbsolute))
+		{	
+			Write-Host "Input File Folder $SynapseImportScriptsFolder does not exist." -ForegroundColor Red
+			#exit (0)
+		}
+	}
+	elseif ($name -eq 'SynapseExternalTablesFolder') 
+	{ 
+		$SynapseExternalTablesFolder = $value 
+        $SynapseExternalTablesFolderAbsolute = Get-AbsolutePath $value 
+
+		if (!(Test-Path -Path $SynapseExternalTablesFolderAbsolute))
+		{	
+			Write-Host "Input File Folder $SynapseExternalTablesFolder does not exist." -ForegroundColor Red
+			#exit (0)
+		}
+	}
+	elseif ($name -eq 'SynapseObjectScriptsFolder') 
+	{ 
+		$SynapseObjectScriptsFolder = $value 
+		$SynapseObjectScriptsFolderAbsolute = Get-AbsolutePath $value 
+
+		if (!(Test-Path -Path $SynapseObjectScriptsFolderAbsolute))
+		{	
+			Write-Host "Input File Folder $SynapseObjectScriptsFolder does not exist." -ForegroundColor Red
+			#exit (0)
+		}
+	}
+	else {
+		Write-Host "Encountered unknown configuration item: " + $name + " with Value: " + $value -ForegroundColor Yellow
+	}
+	Write-Output ("name: " + $name + " value: " + $value) 
+}
+
+
 # Get all the database names from directory names 
-#$subFolderPaths = Get-ChildItem -Path $SqldwObjectScriptsFolder -Exclude *.dsql -Depth 1
-$subFolderPaths = Get-ChildItem -Path $SynapseObjectScriptsFolder -Exclude *.dsql
+$SynapseObjectScriptsFolderAbsolute = Get-AbsolutePath $SynapseObjectScriptsFolder
+$subFolderPaths = Get-ChildItem -Path $SynapseObjectScriptsFolderAbsolute -Exclude *.sql
 $allDirNames = Split-Path -Path $subFolderPaths -Leaf
 $dbNames = New-Object 'System.Collections.Generic.List[System.Object]'
 #get only dbNames 
@@ -206,9 +207,9 @@ foreach ($nm in $allDirNames)
 {
 	if ( (($nm.toUpper() -ne "Tables") -and ($nm.toUpper() -ne "Views") -and  ($nm.toUpper() -ne "SPs") )) { $dbNames.add($nm)} 
 }
-Write-Output " ---------------------------------------------- "
+Write-Output "---------------------------------------------- "
 Write-Output "database names: " $dbNames 
-Write-Output " ---------------------------------------------- "
+Write-Output "---------------------------------------------- "
 
 ################################################################################
 #
@@ -219,27 +220,26 @@ Write-Output " ---------------------------------------------- "
 # Set up one APS export config file & Synapse import config file
 if ($OneConfigFile -eq "YES")
 {
-	$oneApsExportConfigFileFullPath = $GeneratedConfigFileFolder + $OneApsExportConfigFileName 
+	$oneApsExportConfigFileFullPath = Joint-Path -Path $GeneratedConfigFileFolder -ChildPath $OneApsExportConfigFileName 
 	if (Test-Path $oneApsExportConfigFileFullPath)
 	{
 		Remove-Item $oneApsExportConfigFileFullPath -Force
 	}
-	$oneSynapseObjectsConfigFileNameFullPath = $GeneratedConfigFileFolder + $OneSynapseObjectsConfigFileName 
+	$oneSynapseObjectsConfigFileNameFullPath = Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneSynapseObjectsConfigFileName 
 	if (Test-Path $oneSynapseObjectsConfigFileNameFullPath)
 	{
 		Remove-Item $oneSynapseObjectsConfigFileNameFullPath -Force
 	}
-	$OneSynapseImportConfigFileNameFullPath = $GeneratedConfigFileFolder + $OneSynapseImportConfigFileName 
+	$OneSynapseImportConfigFileNameFullPath = Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneSynapseImportConfigFileName 
 	if (Test-Path $OneSynapseImportConfigFileNameFullPath)
 	{
 		Remove-Item $OneSynapseImportConfigFileNameFullPath -Force
 	}
-	$OneSynapseExtTablesConfigFileNameFullPath = $GeneratedConfigFileFolder + $OneSynapseExtTablesConfigFileName 
+	$OneSynapseExtTablesConfigFileNameFullPath = Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneSynapseExtTablesConfigFileName 
 	if (Test-Path $OneSynapseExtTablesConfigFileNameFullPath)
 	{
 		Remove-Item $OneSynapseExtTablesConfigFileNameFullPath -Force
 	}
-
 }
 
 # Step 6 To DO List
@@ -253,10 +253,10 @@ $inFilePaths = @{}
 $outFilePaths = @{} 
 $oneConfigFilePaths = @{}
 
-$oneConfigFilePaths.add("OneConfigSynapseObjects",$GeneratedConfigFileFolder + $OneSynapseObjectsConfigFileName)
-$oneConfigFilePaths.add("OneConfigSynapseExtTables",$GeneratedConfigFileFolder + $OneSynapseExtTablesConfigFileName)
-$oneConfigFilePaths.add("OneConfigApsExport",$GeneratedConfigFileFolder + $OneApsExportConfigFileName)
-$oneConfigFilePaths.add("OneConfigSynapseImport",$GeneratedConfigFileFolder + $OneSynapseImportConfigFileName)
+$oneConfigFilePaths.add("OneConfigSynapseObjects", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneSynapseObjectsConfigFileName))
+$oneConfigFilePaths.add("OneConfigSynapseExtTables", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneSynapseExtTablesConfigFileName))
+$oneConfigFilePaths.add("OneConfigApsExport", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneApsExportConfigFileName))
+$oneConfigFilePaths.add("OneConfigSynapseImport", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneSynapseImportConfigFileName))
 
 foreach ($key in $oneConfigFilePaths.Keys)
 {
@@ -271,7 +271,7 @@ foreach ($dbName in $dbNames)
 	$inFilePaths.Clear()
 	$outFilePaths.Clear()
 
-	$dbFilePath = $SynapseObjectScriptsFolder + $dbName + "\"
+	$dbFilePath = Join-Path -Path $SynapseObjectScriptsFolder -ChildPath $dbName
 	
 	##################################################################
 	# Input Files
@@ -279,39 +279,39 @@ foreach ($dbName in $dbNames)
 	
 	
 	# from Step 3
-	$inFilePaths.add("SynapseTables",$dbFilePath + "Tables\")
-	$inFilePaths.add("SynapseViews",$dbFilePath + "Views\" )
-	$inFilePaths.add("SynapseSPs",$dbFilePath + "SPs\" )
-	$inFilePaths.add("SynapseFunctions",$dbFilePath + "Functions\" )
-	$inFilePaths.add("SynapseIndexes",$dbFilePath + "Indexes\" )
-	$inFilePaths.add("SynapseStatistics",$dbFilePath + "Statistics\" )
-	$inFilePaths.add("SynapseRoles",$dbFilePath + "Roles\" )
-	$inFilePaths.add("SynapseUsers",$dbFilePath + "Users\" )
+	$inFilePaths.add("SynapseTables", (Join-Path -Path $dbFilePath -ChildPath "Tables"))
+	$inFilePaths.add("SynapseViews", (Join-Path -Path $dbFilePath -ChildPath "Views" ))
+	$inFilePaths.add("SynapseSPs",  (Join-Path -Path $dbFilePath -ChildPath "SPs" ))
+	$inFilePaths.add("SynapseFunctions", (Join-Path -Path $dbFilePath -ChildPath "Functions" ))
+	$inFilePaths.add("SynapseIndexes", (Join-Path -Path $dbFilePath -ChildPath "Indexes" ))
+	$inFilePaths.add("SynapseStatistics", (Join-Path -Path $dbFilePath -ChildPath "Statistics" ))
+	$inFilePaths.add("SynapseRoles", (Join-Path -Path $dbFilePath -ChildPath "Roles" ))
+	$inFilePaths.add("SynapseUsers", (Join-Path -Path $dbFilePath -ChildPath "Users" ))
 	# from step 5
-	$inFilePaths.add("SynapseExtTables",$SynapseExternalTablesFolder + $dbName + "\")
+	$inFilePaths.add("SynapseExtTables",(Join-Path -Path $SynapseExternalTablesFolder -ChildPath $dbName))
 
 	# from step 4
-	$inFilePaths.add("ApsExport",$ApsExportScriptsFolder + $dbName + "\")
-	$inFilePaths.add("SynapseImport",$SynapseImportScriptsFolder + $dbName + "\")
+	$inFilePaths.add("ApsExport", (Join-Path -Path $ApsExportScriptsFolder -ChildPath $dbName))
+	$inFilePaths.add("SynapseImport", (Join-Path -Path $SynapseImportScriptsFolder -ChildPath $dbName))
 
 
 	##################################################################
 	# output Files
 	#################################################################
 	# For Synapse 
-	$outFilePaths.add("SynapseTables",$GeneratedConfigFileFolder + "$dbName" + "_Synapse_Tables_Generated.csv" )
-	$outFilePaths.add("SynapseViews",$GeneratedConfigFileFolder + "$dbName" + "_Synapse_Views_Generated.csv" )
-	$outFilePaths.add("SynapseSPs",$GeneratedConfigFileFolder + "$dbName" + "_Synapse_SPs_Generated.csv" )
-	$outFilePaths.add("SynapseFunctions",$GeneratedConfigFileFolder + "$dbName" + "_Synapse_Functions_Generated.csv" )
-	$outFilePaths.add("SynapseIndexes",$GeneratedConfigFileFolder + "$dbName" + "_Synapse_Indexes_Generated.csv" )
-	$outFilePaths.add("SynapseStatistics",$GeneratedConfigFileFolder + "$dbName" + "_Synapse_Statistics_Generated.csv" )
-	$outFilePaths.add("SynapseExtTables",$GeneratedConfigFileFolder + "$dbName" + "_Synapse_ExtTables_Generated.csv" )
-	$outFilePaths.add("SynapseRoles",$GeneratedConfigFileFolder + "$dbName" + "_Synapse_Roles_Generated.csv" )
-	$outFilePaths.add("SynapseUsers",$GeneratedConfigFileFolder + "$dbName" + "_Synapse_Users_Generated.csv" )
+	$outFilePaths.add("SynapseTables", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_Tables_Generated.csv" )))
+	$outFilePaths.add("SynapseViews", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_Views_Generated.csv" )))
+	$outFilePaths.add("SynapseSPs", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_SPs_Generated.csv" )))
+	$outFilePaths.add("SynapseFunctions", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_Functions_Generated.csv" )))
+	$outFilePaths.add("SynapseIndexes", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_Indexes_Generated.csv" )))
+	$outFilePaths.add("SynapseStatistics", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_Statistics_Generated.csv" )))
+	$outFilePaths.add("SynapseExtTables", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_ExtTables_Generated.csv" )))
+	$outFilePaths.add("SynapseRoles", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_Roles_Generated.csv" )))
+	$outFilePaths.add("SynapseUsers", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_Users_Generated.csv" )))
 
 	# for APS export and Synapse Import 
-	$outFilePaths.add("ApsExport",$GeneratedConfigFileFolder + "$dbName" + "_Aps_Export_Generated.csv"  )
-	$outFilePaths.add("SynapseImport",$GeneratedConfigFileFolder + "$dbName" + "_Synapse_Import_Generated.csv"  )
+	$outFilePaths.add("ApsExport", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Aps_Export_Generated.csv"  )))
+	$outFilePaths.add("SynapseImport", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_Import_Generated.csv"  )))
 
 	
 	foreach ($key in $inFilePaths.Keys)
@@ -322,8 +322,6 @@ foreach ($dbName in $dbNames)
         {
 	        Remove-Item $outCsvFileName -Force
         }
-		# test line: to remove later 
-		#Write-Output ( " Key: " + $key + "  inFileFolder: " + $inFileFolder  + " outCsvFileName: " + $outCsvFileName )
 
 		# Set Apart the required confi parameters based on key set earlier  
 		if ($key -eq "SynapseTables") 
@@ -390,8 +388,7 @@ foreach ($dbName in $dbNames)
 		# Two lines have internal and external objects/// 
 		elseif ($key -eq "SynapseImport")  
 		{ 
-			$objectType = "EXT"  #???? 
-			#$objectType = ""  #???? 
+			$objectType = "EXT"  
 			$serverName = $SynapseServerName
 			$databaseName = $SynapseDatabaseName
         } 
@@ -400,18 +397,16 @@ foreach ($dbName in $dbNames)
 	        Write-Output ("Unexpected Key for Object Type. Key received: " + $key) 
         }
 
-        if (!(Test-Path $inFileFolder)) {
+        # Get absolute path for infolder
+        $inFileFolderAbsolute = Get-AbsolutePath $inFileFolder
+        # Skip folder if it does not exist
+        if (!(Test-Path $inFileFolderAbsolute)) {
             continue
         }
 
-		foreach ($f in Get-ChildItem -Path $inFileFolder -Filter *.dsql)
+		foreach ($f in Get-ChildItem -Path $inFileFolderAbsolute -Filter *.sql)
 		{
 			$fileName = $f.Name.ToString()
-			# exclude IDXS_ and STATS_ 
-		 	#if (($fileName -Match "IDXS_") -or ($fileName -Match "STATS_"))
-		 	#{
-			#	 continue 
-			#}			 
 			 
 			$parts = @{}
 			$parts.Clear() 
@@ -454,12 +449,6 @@ foreach ($dbName in $dbNames)
 			{
 				$parts = GetObjectNames $query "CREATE ROLE"
 			}
-			<# 
-			# discuss this with Andy 
-			INSERT INTO adw_dbo.DimDate
-  		SELECT * FROM ext_adw_dbo.ext_DimDate
-			Option(Label = 'Import_Table_adw_dbo.DimDate')
-			#>
 			elseif ($query.ToUpper() -match "^INSERT INTO")
 			{
 				$parts = GetObjectNames $query "INSERT INTO"
@@ -474,15 +463,10 @@ foreach ($dbName in $dbNames)
             $parentObjectName = $parts.ParentObject
 
 			$row = New-Object PSObject 		
-			  
-			$filefolderNoSlash = $inFileFolder.Substring(0, $inFileFolder.Length-1) # get rid of '/' at end of the path
-
-			#Write-Output "Value " $filefolderNoSlash
-			
 			$row | Add-Member -MemberType NoteProperty -Name "Active" -Value $ActiveFlag -force
 			$row | Add-Member -MemberType NoteProperty -Name "ServerName" -Value $serverName -force
 			$row | Add-Member -MemberType NoteProperty -Name "DatabaseName" -Value $databaseName  -force
-			$row | Add-Member -MemberType NoteProperty -Name "FilePath" -Value $filefolderNoSlash -force  
+			$row | Add-Member -MemberType NoteProperty -Name "FilePath" -Value $inFileFolder -force  
 			$row | Add-Member -MemberType NoteProperty -Name "CreateSchema" -Value $CreateSchemaFlag -force
 			$row | Add-Member -MemberType NoteProperty -Name "ObjectType" -Value $objectType -force
 			$row | Add-Member -MemberType NoteProperty -Name "SchemaAuth" -Value $SchemaAuth  -force

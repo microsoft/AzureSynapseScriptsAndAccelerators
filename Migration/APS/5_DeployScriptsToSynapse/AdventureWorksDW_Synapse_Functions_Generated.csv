@@ -1,0 +1,2 @@
+"Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
+"1","synapseserver.database.windows.net","synapse","..\Output\2_ConvertDDLScripts\AdventureWorksDW\Functions","1","Function","dbo","aw","ConvertInput","","DROP","","dbo_ConvertInput.sql"

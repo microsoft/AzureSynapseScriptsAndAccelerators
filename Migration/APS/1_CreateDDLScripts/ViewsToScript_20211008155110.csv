@@ -1,0 +1,4 @@
+﻿"Database","Active","DatabaseName","SchemaName","OutputFolderPath","FileName","ObjectName","ObjectsToScript"
+"AdventureWorksDW","1","AdventureWorksDW","dbo","\AdventureWorksDW\Views\","dbo_vProductCategories","dbo.vProductCategories","VIEW"
+"AdventureWorksDW","1","AdventureWorksDW","dbo","\AdventureWorksDW\Views\","dbo_vTop3Quotas","dbo.vTop3Quotas","VIEW"
+"AdventureWorksDW","1","AdventureWorksDW","dbo","\AdventureWorksDW\Views\","dbo_vTotalFinanceRecrords","dbo.vTotalFinanceRecrords","VIEW"

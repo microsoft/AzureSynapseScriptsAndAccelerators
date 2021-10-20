@@ -10,6 +10,10 @@
 /Migration/SQLServer/1A_ExtractCodeDDLs/.vs/ProjectSettings.json
 slnx.sqlite
 ProjectSettings.json
+/Migration/SQLServer/1A_ExtractCodeDDLs/.vs/VSWorkspaceState.json
+/Migration/SQLServer/1A_ExtractCodeDDLs/.vs/1A_ExtractCodeDDLs/v16/.suo
+Migration/APS/5_DeployScriptsToSynapse/*.log
+ProjectSettings.json
 /Migration/SQLServer/1A_ExtractCodeDDLs/.vs/1A_ExtractCodeDDLs/v16/.suo
 /Migration/SQLServer/1A_ExtractCodeDDLs/.vs/VSWorkspaceState.json
 Migration/APS/5_DeployScriptsToSynapse/*.log

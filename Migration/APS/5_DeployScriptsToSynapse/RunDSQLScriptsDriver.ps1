@@ -29,11 +29,6 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse\ScriptCreateExternalTableDriver.ps1
 
 
-function Display-ErrorMsg($ImportError, $ErrorMsg)
-{
-	Write-Host $ImportError
-}
-
 Function GetPassword($securePassword)
 {
        $securePassword = Read-Host "PDW Password" -AsSecureString
@@ -142,15 +137,29 @@ Function GetTruncateStatement
 	return $Query
 }
 
-$ReturnValues = @{}
 
+Function Get-AbsolutePath
+{
+    [CmdletBinding()] 
+    param( 
+        [Parameter(Position=0, Mandatory=$true)] [string]$Path
+    ) 
+
+    if ([System.IO.Path]::IsPathRooted($Path) -eq $false) {
+        return [IO.Path]::GetFullPath( (Join-Path -Path $PSScriptRoot -ChildPath $Path) )
+    } else {
+        return $Path
+    }
+}
+
+
+$ReturnValues = @{}
 
 $error.Clear()
 
 ##############################################################
-# Config File Input 
+# User Input  here
 #############################################################
-
 
 $defaultScriptsToRunDriverFile = $PSScriptRoot+"\SynapseImportData.csv"
 
@@ -159,18 +168,17 @@ $ScriptsToRunDriverFile = Read-Host -prompt "Enter the name of the ScriptToRun c
 	{$ScriptsToRunDriverFile = $defaultScriptsToRunDriverFile}
 
 $ConnectToSynapse = Read-Host -prompt "How do you want to connect to server (ADPass, ADInt, WinInt, SQLAuth)?"
-	#if($ConnectToSynapse.ToUpper() -ne "YES") 
-	#{$UseIntegrated = Read-Host -prompt "Enter Yes to connect with integrated Security."
-	#	if($UseIntegrated.ToUpper() -eq "" -or $UseIntegrated -eq $null) {$UseIntegrated = "YES"}
-	#}
 $ConnectToSynapse = $ConnectToSynapse.ToUpper()
-If($ConnectToSynapse.ToUpper() -eq "SQLAUTH" -or $ConnectToSynapse.ToUpper() -eq "ADPASS")
-{
+if ($ConnectToSynapse.ToUpper() -eq "SQLAUTH" -or $ConnectToSynapse.ToUpper() -eq "ADPASS") {
 	$UserName = Read-Host -prompt "Enter the UserName if not using Integrated"
-		if($UserName -eq "" -or $UserName -eq $null) {$UserName = "sqladmin"}
+    if ($UserName -eq "" -or $UserName -eq $null) {
+        $UserName = "sqladmin"
+    }
 	$Password = GetPassword
-		if($Password -eq "") {Write-Host "A password must be entered"
-							break}
+    if($Password -eq "") {
+        Write-Host "A password must be entered"
+		break
+    }
 }
 $StatusLogPath = Read-Host -prompt "Enter the name of the Output File Directory or Press 'Enter' to accept default [$PSScriptRoot]"
 	if($StatusLogPath -eq "" -or $StatusLogPath -eq $null) {$StatusLogPath =  $PSScriptRoot}
@@ -178,21 +186,19 @@ $StatusLog = Read-Host -prompt "Enter the name of the status file or Press 'Ente
 	if($StatusLog -eq "" -or $StatusLog -eq $null) {$StatusLog = (Get-Date -Format yyyyMMddTHHmmss) + ".log"}
 
 
+###############################################################################################
+# Main logic Here
+###############################################################################################
+
 Import-Module "$PSScriptRoot\RunSQLScriptFile.ps1" -Force
 
-if (!(Test-Path $StatusLogPath))
-	{
-		New-item "$StatusLogPath\" -ItemType Dir | Out-Null
-	}
+if (!(Test-Path $StatusLogPath)) {
+    New-item "$StatusLogPath\" -ItemType Dir | Out-Null
+}
 
 $StatusLogFile = $StatusLogPath + "\" + $StatusLog 
 
-#Try{
 $csvFile = Import-Csv $ScriptsToRunDriverFile
-#}
-#Catch [System.IO.DirectoryNotFoundException]{
-#	Display-ErrorMsg("Unable to import PreAssessment csv File: " + $APSPreAssessmentDriverFile)
-#}
 
 #Get the header Row
 $HeaderRow = "Active","ServerName","DatabaseName","FilePath","CreateSchema","SchemaAuth","ObjectType","ObjectName","FileName","DropTruncateIfExists","SchemaName","Variables","Status","RunDurationSec"
@@ -225,8 +231,8 @@ ForEach ($S in $csvFile )
         }
 		
 		
-		
-		$ScriptToRun = $FilePath + "\" +$FileName
+        $FilePathAbsolute = Get-AbsolutePath $FilePath
+		$ScriptToRun = Join-Path -Path $FilePathAbsolute -ChildPath $FileName
 		
 		if($DropTruncateIfExists -eq 'DROP')
 		{

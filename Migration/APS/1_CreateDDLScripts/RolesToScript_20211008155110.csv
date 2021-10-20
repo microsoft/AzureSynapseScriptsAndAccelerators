@@ -1,0 +1,3 @@
+﻿"Database","Active","DatabaseName","SchemaName","OutputFolderPath","FileName","ObjectName","ObjectsToScript"
+"AdventureWorksDW","1","AdventureWorksDW","","\AdventureWorksDW\Roles\","Sales","Sales","ROLE"
+"AdventureWorksDW","1","AdventureWorksDW","","\AdventureWorksDW\Roles\","Marketing","Marketing","ROLE"
