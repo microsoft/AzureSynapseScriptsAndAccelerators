@@ -18,13 +18,13 @@ Sample generated T-SQL scripts to export APS table data into Azure Blob Storage:
 
 ```sql
 INTO aw.FactFinance
-SELECT * FROM ext_aw.ext_FactFinance
+SELECT * FROM EXT_aw.FactFinance
 OPTION (LABEL = 'Import_Table_aw.FactFinance')
-CREATE EXTERNAL TABLE AdventureWorksDW.ext_aw.ext_FactFinance
+CREATE EXTERNAL TABLE AdventureWorksDW.EXT_aw.FactFinance
 WITH (
-	LOCATION='/prod/AdventureWorksDW/dbo_FactFinance',
-	DATA_SOURCE = AzureBlobDS,
-	FILE_FORMAT = DelimitedNoDateZIP
+	LOCATION='/AdventureWorksDW/dbo_FactFinance',
+	DATA_SOURCE = AZURE_STAGING_STORAGE,
+	FILE_FORMAT = DelimitedFileFormat
 )
 AS 
 SELECT * FROM AdventureWorksDW.dbo.FactFinance
@@ -34,8 +34,8 @@ OPTION (LABEL= 'Export_Table_AdventureWorksDW.dbo.FactFinance')
 Sample generated T-SQL scripts to import data into Azure Blob Storage:
 
 ```sql
-INTO adw_dbo.FactFinance
-SELECT * FROM ext_aw.ext_FactFinance
+INTO aw.FactFinance
+SELECT * FROM EXT_aw.FactFinance
 OPTION (LABEL = 'Import_Table_aw.FactFinance')
 ```
 
@@ -57,11 +57,11 @@ Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmati
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Active             | 1 – Run line, 0 – Skip line                                  | 0 or 1                                                       |
 | DatabaseName       | Name of the database in APS                                  | AdventureWorksDW                                             |
-| OutputFolderPath   | Name of the path to output the  resulte to                   | ..\Output\3_CreateAPSExportScriptSynapseImportScript\<br />\ExportAPS\AdventureWorksDW |
+| OutputFolderPath   | Name of the path to output the  resulte to                   | ..\Output\3_CreateAPSExportScriptSynapseImportScript<br />\ExportAPS\AdventureWorksDW |
 | FileName           | Name of the output file                                      | DimAccount                                                   |
-| SourceSchemaName   | Name of the APS/Source Schema                                | Dbo                                                          |
+| SourceSchemaName   | Name of the APS/Source Schema                                | dbo                                                          |
 | SourceObjectName   | Name of the source object to work  with                      | DimAccount                                                   |
-| DestSchemaName     | Name of the destination schema in  Synapse                   | dbo                                                          |
+| DestSchemaName     | Name of the destination schema in  Synapse for external tables | EXT_aw                                                       |
 | DestObjectName     | Name of the destination object                               | DimAccount                                                   |
 | DataSource         | Name of the External Data Source to use. This must already be created. | AZURE_STAGING_STORAGE                                        |
 | FileFormat         | Name of the External File Format to use  when exporting the data. This must already be created. | DelimitedFileFormat                                          |
@@ -70,7 +70,7 @@ Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmati
 | CopyFilePath       | Path to write the COPY statements.<br />*Both absolute and relative paths are supported.* | ..\Output\3_CreateAPSExportScriptSynapseImportScript<br />\CopySynapse\AdventureWorksDW\ |
 | ImportSchema       | Name of the new schema in Synapse                            | aw                                                           |
 | StorageAccountName | The name of Azure staging storage  account                   | apsmigrationstaging                                          |
-| ContainerName      | The name of the container in Azure staging storage account   | aps-Polybase                                                 |
+| ContainerName      | The name of the container in Azure staging storage account   | aps-export                                                   |
 
 **Step 3B:** 
 Run PowerShell script **ScriptCreateExportImportStatementsDriver.ps1**. 
