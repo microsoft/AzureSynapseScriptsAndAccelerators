@@ -49,7 +49,7 @@ Five modules are summarized below.
 - [**2_ConvertDDLScripts:**](2_ConvertDDLScripts) Translates/generates the Synapse objects creation scripts from the objects listed from the step 1
 
 - [**3_CreateAPSExportScriptSynapseImportScript:**](3_CreateAPSExportScriptSynapseImportScript) 
-    
+  
     - Generates APS external table scripts to write data to Azure blob storage
     - Generates COPY INTO scripts to load data into Azure Synapse tables 
     - Generates import scripts to load data from Azure external tables into Azure Synapse tables.
@@ -58,12 +58,14 @@ Five modules are summarized below.
 
 - [**5_DeployScriptsToSynapse:**](5_DeployScriptsToSynapse) 
     This module can be used to execute/deploy any scripts to the Synapse environment.
-    
     - To create Synapse schema objects (tables, views, stored procedures, indexes, roles, users, statistics)
     - To create Synapse external tables
     - To import data from Azure external tables into Azure Synapse user tables.
     
-    
+
+> Under [**Extras**](Extras) folder you can find scripts to re-create sample databases AdventureWorksDW and ContosoDW which you can use for learning, demos, and experimenting with migration tools.
+
+
 
 ## Contact Information
 
