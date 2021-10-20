@@ -13,7 +13,7 @@ After the data has been exported from APS, the data now needs to be inserted int
 Sample generated T-SQL scripts for External Table creation in Azure Synapse:  
 
 ```sql
-CREATE EXTERNAL TABLE [ext_aw].[ext_FactFinance]
+CREATE EXTERNAL TABLE [EXT_aw].[FactFinance]
 (
 	[FinanceKey]	int	NOT NULL 
 	,[DateKey]	int	NOT NULL 
@@ -50,9 +50,9 @@ Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmati
 | OutputFolderPath | Name of the path where output  files will be stored.<br />*Both absolute and relative paths are supported.* | ..\Output\4_CreateExternalTablesSynapse\AdventureWorksDW |
 | FileName         | Name of the output file                                      | DimAccount                                               |
 | InputFolderPath  | Path to the create Table output  from step 2.<br />*Both absolute and relative paths are supported.* | ..\Output\2_ConvertDDLScripts\AdventureWorksDW\Tables    |
-| InputFileName    | Name of the Create Table script                              | DimAccount.dsql                                          |
-| SchemaName       | Name of the schema to create the  external table in          | dbo                                                      |
-| ObjectName       | Name of the external table to  create                        | ext_DimAccount                                           |
+| InputFileName    | Name of the Create Table script                              | DimAccount.sql                                           |
+| SchemaName       | Name of the schema to create the  external table in          | EXT_aw                                                   |
+| ObjectName       | Name of the external table to  create                        | DimAccount                                               |
 | DateSource       | Name of the data source to use  for the external table       | AZURE_STAGING_STORAGE                                    |
 | FileFormat       | Name of the File Format to use  when exporting the data. Must already be created. | DelimitedFileFormat                                      |
 | FileLocation     | Folder path in the staging  container. Each Table should have its  own file location. | /AdventureWorksDW/dbo_DimAccount                         |
@@ -71,7 +71,7 @@ This configurable variable {@Var} can be replaced with a value such as:
 Sample Generated File: ext_aw_dbo_DimAccount.sql 
 
 ```sql
-CREATE EXTERNAL TABLE [ext_aw].[ext_DimAccount]
+CREATE EXTERNAL TABLE [EXT_aw].[DimAccount]
 (
 	[AccountKey]	int	NOT NULL 
 	,[ParentAccountKey]	int	NULL 
@@ -100,5 +100,18 @@ WITH (
 There is a job-aid PowerShell script named **Generate_Step4_ConfigFiles.ps1** to help you to produce configuration file(s) programmatically. It uses output produced by previous steps (for example: T-SQL script files from step 2, schema mapping file from step 2, and Export & Import T-SQL scripts generated from Step 3). 
 
 It uses parameters set inside the file named **ConfigFileDriver_Step4.csv**. The CSV file contains fields as value-named pairs with instructions for each field. You can set the value for each named field based on your own setup and output files. 
+
+| **Parameter**             | **Purpose**                                                  | **Value (Sample)**                      |
+| ------------------------- | ------------------------------------------------------------ | --------------------------------------- |
+| OneConfigFile             | Yes - a single configuration file will be created for all databases.<br />No - separate configuration files will be created for each database. | Yes or No                               |
+| OneConfigFileName         | The name of configuration file in case of single configuration file. | One_ExternalTablesDriver_Generated.csv  |
+| ExtTableShemaPrefix       | Schema name prefix for external tables (can be empty)        | EXT_                                    |
+| ExtTablePrefix            | Name prefix for external tables (can be empty)               | -                                       |
+| InputObjectsFolder        | The path to a folder where converted table DDL scripts are stored.<br />*Both absolute and relative paths are supported.* | ..\Output\2_ConvertDDLScripts           |
+| OutputObjectsFolder       | The path to output folder where Synapse CREATE EXTERNAL TABLE scripts will be created.<br />*Both absolute and relative paths are supported.* | ..\Output\4_CreateExternalTablesSynapse |
+| SchemaMappingFileFullPath | The path to schema mapping file (the file from previous module can be used).<br />*Both absolute and relative paths are supported.* | ..\2_ConvertDDLScripts\schemas.csv      |
+| ExternalDataSourceName    | The name of external data source used by Polybase to export/import data | AZURE_STAGING_STORAGE                   |
+| FileFormat                | The name of external file format used by Polybase to export/import data | DelimitedFileFormat                     |
+| ExportLocation            | Root folder in storage account container where data will be exported/imported. | /                                       |
 
 After running the **Generate_Step4_ConfigFiles.ps1**, you can then review and edit the programmatically generated configuration files based on your own needs and environment. The generated config file(s) can then be used as input to the step 4 main script (PowerShell: **ScriptCreateExternalTableDriver.ps1**).

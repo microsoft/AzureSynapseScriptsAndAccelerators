@@ -91,9 +91,26 @@ Provide the prompted information: The path and name of the Configuration Driver 
 
 ## Job Aid: Programmatically Generate Config Files
 
-There is a job-aid PowerShell script named **Generate_Step3_ConfigFiles.ps1** to help you to produce configuration file(s) programmatically. It uses output produced by previous steps (for example: T-SQL script files from step 3, and schema mapping file from step 3). 
+There is a job-aid PowerShell script named **Generate_Step3_ConfigFiles.ps1** to help you to produce configuration file(s) programmatically. It uses output produced by previous steps (for example: T-SQL script files from step 2, and schema mapping file from step 2). 
 
 It uses parameters set inside the file named **ConfigFileDriver_Step3.csv**. The CSV file contains fields as value-named pairs with instructions for each field. You can set the value for each named field based on your own setup and output files. 
+
+| **Name**                   | Description                                                  | **Value (Sample)**                                           |
+| -------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| OneConfigFile              | Yes - a single configuration file will be created for all databases.<br />No - separate configuration files will be created for each database. | Yes or No                                                    |
+| OneConfigFileName          | The name of configuration file in case of single configuration file. | One_ExpImptStmtDriver_Generated.csv                          |
+| ExtTableShemaPrefix        | Schema name prefix for external tables (can be empty)        | EXT_                                                         |
+| ExtTablePrefix             | Name prefix for external tables (can be empty)               | -                                                            |
+| InputObjectsFolder         | The path to a folder where converted table DDL scripts are stored | ..\Output\2_ConvertDDLScripts                                |
+| SchemaMappingFileFullPath  | The path to schema mapping file (the file from previous module can be used).<br />*Both absolute and relative paths are supported.* | ..\2_ConvertDDLScripts\schemas.csv                           |
+| ApsExportScriptsFolder     | The path to a folder where APS CETAS scripts will be created.<br />*Both absolute and relative paths are supported.* | ..\Output<br />\3_CreateAPSExportScriptSynapseImportScript<br />\ExportAPS |
+| SynapseImportScriptsFolder | The path to a folder where Synapse INSERT INTO scripts will be created.<br />*Both absolute and relative paths are supported.* | ..\Output<br />\3_CreateAPSExportScriptSynapseImportScript<br />\ImportSynapse |
+| SynapseCopyScriptsFolder   | The path to a folder where Synapse COPY INTO scripts will be created.<br />*Both absolute and relative paths are supported.* | ..\Output<br />\3_CreateAPSExportScriptSynapseImportScript<br />\CopySynapse |
+| ExternalDataSourceName     | The name of external data source used by Polybase to export/import data | AZURE_STAGING_STORAGE                                        |
+| FileFormat                 | The name of external file format used by Polybase to export/import data | DelimitedFileFormat                                          |
+| ExportLocation             | Root folder in storage account container where data will be exported/imported. | /                                                            |
+| StorageAccountName         | The name of Azure storage account which will be used to export/import data | apsmigrationstaging                                          |
+| ContainerName              | The name of a container in Azure storage account which will be used to export/import data | aps-export                                                   |
 
 After running the **Generate_Step3_ConfigFiles.ps1**, you can then review and edit the programmatically generated configuration files based on your own needs and environment. The generated config file(s) can then be used as input to the step 3 main script **ScriptCreateExportImportStatementsDriver.ps1**.
 
