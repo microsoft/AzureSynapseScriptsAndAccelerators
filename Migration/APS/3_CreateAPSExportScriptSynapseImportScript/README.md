@@ -28,11 +28,29 @@ SELECT * FROM AdventureWorksDW.dbo.FactFinance
 OPTION (LABEL= 'Export_Table_AdventureWorksDW.dbo.FactFinance')
 ```
 
-Sample generated T-SQL scripts to import data into Azure Blob Storage:
+Sample generated T-SQL scripts to import data into Azure Synapse using External Table (Polybase):
 
 ```sql
 INSERT INTO aw.FactFinance
 SELECT * FROM EXT_aw.FactFinance
+OPTION (LABEL = 'Import_Table_aw.FactFinance')
+```
+
+Sample generated T-SQL scripts to import data into Azure Synapse using COPY INTO command:
+
+```sql
+COPY INTO [aw].[FactFinance]
+FROM 'https://apsmigrationstaging.blob.core.windows.net/aps-export/AdventureWorksDW/dbo_FactFinance/*.txt'
+WITH ( 
+	FILE_TYPE = 'CSV', 
+	CREDENTIAL = (IDENTITY = 'Managed Identity'), 
+	FIELDQUOTE = '"', 
+	FIELDTERMINATOR='|', 
+	ROWTERMINATOR = '0x0A', 
+	FIRSTROW = 1, 
+	--[DATEFORMAT = 'date_format'], 
+	ENCODING = 'UTF8' 
+) 
 OPTION (LABEL = 'Import_Table_aw.FactFinance')
 ```
 
