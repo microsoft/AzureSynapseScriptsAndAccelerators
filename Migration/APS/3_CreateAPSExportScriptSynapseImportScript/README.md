@@ -17,9 +17,6 @@ Below are example of the T-SQL scripts for one single table.
 Sample generated T-SQL scripts to export APS table data into Azure Blob Storage:    
 
 ```sql
-INTO aw.FactFinance
-SELECT * FROM EXT_aw.FactFinance
-OPTION (LABEL = 'Import_Table_aw.FactFinance')
 CREATE EXTERNAL TABLE AdventureWorksDW.EXT_aw.FactFinance
 WITH (
 	LOCATION='/AdventureWorksDW/dbo_FactFinance',
@@ -34,7 +31,7 @@ OPTION (LABEL= 'Export_Table_AdventureWorksDW.dbo.FactFinance')
 Sample generated T-SQL scripts to import data into Azure Blob Storage:
 
 ```sql
-INTO aw.FactFinance
+INSERT INTO aw.FactFinance
 SELECT * FROM EXT_aw.FactFinance
 OPTION (LABEL = 'Import_Table_aw.FactFinance')
 ```
@@ -101,7 +98,7 @@ It uses parameters set inside the file named **ConfigFileDriver_Step3.csv**. The
 | OneConfigFileName          | The name of configuration file in case of single configuration file. | One_ExpImptStmtDriver_Generated.csv                          |
 | ExtTableShemaPrefix        | Schema name prefix for external tables (can be empty)        | EXT_                                                         |
 | ExtTablePrefix             | Name prefix for external tables (can be empty)               | -                                                            |
-| InputObjectsFolder         | The path to a folder where converted table DDL scripts are stored | ..\Output\2_ConvertDDLScripts                                |
+| InputObjectsFolder         | The path to a folder where converted table DDL scripts are stored.<br />*Both absolute and relative paths are supported.* | ..\Output\2_ConvertDDLScripts                                |
 | SchemaMappingFileFullPath  | The path to schema mapping file (the file from previous module can be used).<br />*Both absolute and relative paths are supported.* | ..\2_ConvertDDLScripts\schemas.csv                           |
 | ApsExportScriptsFolder     | The path to a folder where APS CETAS scripts will be created.<br />*Both absolute and relative paths are supported.* | ..\Output<br />\3_CreateAPSExportScriptSynapseImportScript<br />\ExportAPS |
 | SynapseImportScriptsFolder | The path to a folder where Synapse INSERT INTO scripts will be created.<br />*Both absolute and relative paths are supported.* | ..\Output<br />\3_CreateAPSExportScriptSynapseImportScript<br />\ImportSynapse |
