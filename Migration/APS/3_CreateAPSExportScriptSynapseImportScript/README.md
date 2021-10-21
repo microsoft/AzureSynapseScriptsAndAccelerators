@@ -71,19 +71,19 @@ Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmati
 | **Parameter**      | **Purpose**                                                  | **Value (Sample)**                                           |
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Active             | 1 – Run line, 0 – Skip line                                  | 0 or 1                                                       |
-| DatabaseName       | Name of the database in APS                                  | AdventureWorksDW                                             |
-| OutputFolderPath   | Name of the path to output the  resulte to                   | ..\Output\3_CreateAPSExportScriptSynapseImportScript<br />\ExportAPS\AdventureWorksDW |
-| FileName           | Name of the output file                                      | DimAccount                                                   |
-| SourceSchemaName   | Name of the APS/Source Schema                                | dbo                                                          |
-| SourceObjectName   | Name of the source object to work  with                      | DimAccount                                                   |
-| DestSchemaName     | Name of the destination schema in  Synapse for external tables | EXT_aw                                                       |
-| DestObjectName     | Name of the destination object                               | DimAccount                                                   |
-| DataSource         | Name of the External Data Source to use. This must already be created. | AZURE_STAGING_STORAGE                                        |
-| FileFormat         | Name of the External File Format to use  when exporting the data. This must already be created. | DelimitedFileFormat                                          |
+| DatabaseName       | The name of the database in APS                              | AdventureWorksDW                                             |
+| OutputFolderPath   | The path to output folder where generated scripts will be stored.<br />*Both absolute and relative paths are supported.* | ..\Output\3_CreateAPSExportScriptSynapseImportScript<br />\ExportAPS\AdventureWorksDW |
+| FileName           | The name of the output file                                  | DimAccount.sql                                               |
+| SourceSchemaName   | The name of the source Schema                                | dbo                                                          |
+| SourceObjectName   | The name of the source table                                 | DimAccount                                                   |
+| DestSchemaName     | The name of the destination schema in  Synapse for external tables | EXT_aw                                                       |
+| DestObjectName     | The name of the destination table                            | DimAccount                                                   |
+| DataSource         | The name of the External Data Source to use for the external table | AZURE_STAGING_STORAGE                                        |
+| FileFormat         | The name of the External File Format to use  when exporting the data | DelimitedFileFormat                                          |
 | ExportLocation     | Folder path in the staging  container. Each Table should have its own file location. | /AdventureWorksDW/dbo_DimAccount                             |
-| InsertFilePath     | Path to write the import  statements.<br />*Both absolute and relative paths are supported.* | ..\Output\3_CreateAPSExportScriptSynapseImportScript<br />\ImportSynapse\AdventureWorksDW\ |
-| CopyFilePath       | Path to write the COPY statements.<br />*Both absolute and relative paths are supported.* | ..\Output\3_CreateAPSExportScriptSynapseImportScript<br />\CopySynapse\AdventureWorksDW\ |
-| ImportSchema       | Name of the new schema in Synapse                            | aw                                                           |
+| InsertFilePath     | The path to folder where INSERT INTO scripts will be created.<br />*Both absolute and relative paths are supported.* | ..\Output\3_CreateAPSExportScriptSynapseImportScript<br />\ImportSynapse\AdventureWorksDW\ |
+| CopyFilePath       | The path to folder where COPY INTO scripts will be created.<br />*Both absolute and relative paths are supported.* | ..\Output\3_CreateAPSExportScriptSynapseImportScript<br />\CopySynapse\AdventureWorksDW\ |
+| ImportSchema       | The name of the target schema in Synapse                     | aw                                                           |
 | StorageAccountName | The name of Azure staging storage  account                   | apsmigrationstaging                                          |
 | ContainerName      | The name of the container in Azure staging storage account   | aps-export                                                   |
 
