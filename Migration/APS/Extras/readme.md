@@ -1,6 +1,6 @@
 
 # **Extras**
-This folder contains extra files which might be used complimentary to main content.
+This folder contains extra files which might be used for learning the process.
 
 - [**AdventureWorksDW.sql**](AdventureWorksDW.sql) - this is SQL-script to create sample AdventureWorksDW database in APS/PDW appliance.
 
@@ -16,13 +16,11 @@ This folder contains extra files which might be used complimentary to main conte
     - DATABASE SCOPED CREDENTIAL
     - EXTERNAL DATA SOURCE
     - EXTERNAL FILE FORMAT
-    - SCHEMA (to be used by external tables).
-
-    > Before running the script, replace the following snippets by actual values in your environment:
+    
+> Before running the script, replace the following snippets by actual values in your environment:
     >
     > - <EnterStrongPasswordHere>  - the password to secure MASTER KEY.
-    > - <storageaccountname> - the name of storage account to be used for importing or exporting data.
-    > - <storageaccountkey> - the key to access specified storage account
-    > - <containername> - the name of a container in specified storage account
-
+    > - <storageaccountname> - the name of Azure Storage Account to be used for importing or exporting data.
+    > - <storageaccountkey> - the key to access Azure Storage Account
+    > - <containername> - the name of a container in Azure Storage Account
     

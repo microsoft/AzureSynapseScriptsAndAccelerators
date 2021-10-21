@@ -30,6 +30,10 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse\\Generate_Step5_ConfigFiles.ps1
 
 
+#Requires -Version 5.1
+#Requires -Modules SqlServer
+
+
 ###############################################################################################
 # User Input Here
 ###############################################################################################
@@ -133,6 +137,7 @@ ForEach ($csvItem in $ConfigFileDriverFile )
 	elseif ($name -eq 'OneApsExportConfigFileName') { $OneApsExportConfigFileName = $value } 
 	elseif ($name -eq 'OneSynapseObjectsConfigFileName') { $OneSynapseObjectsConfigFileName = $value }
 	elseif ($name -eq 'OneSynapseImportConfigFileName') { $OneSynapseImportConfigFileName = $value }
+	elseif ($name -eq 'OneSynapseCopyConfigFileName') { $OneSynapseCopyConfigFileName = $value }
 	elseif ($name -eq 'OneSynapseExtTablesConfigFileName') { $OneSynapseExtTablesConfigFileName = $value }
 	elseif ($name -eq 'ActiveFlag') { $ActiveFlag = $value }
 	elseif ($name -eq 'ApsServerName') { $ApsServerName = $value }
@@ -165,6 +170,17 @@ ForEach ($csvItem in $ConfigFileDriverFile )
 		if (!(Test-Path -Path $SynapseImportScriptsFolderAbsolute))
 		{	
 			Write-Host "Input File Folder $SynapseImportScriptsFolder does not exist." -ForegroundColor Red
+			#exit (0)
+		}
+	}
+	elseif ($name -eq 'SynapseCopyScriptsFolder') 
+	{ 
+		$SynapseCopyScriptsFolder = $value 
+        $SynapseCopyScriptsFolderAbsolute = Get-AbsolutePath $value
+
+		if (!(Test-Path -Path $SynapseCopyScriptsFolderAbsolute))
+		{	
+			Write-Host "Input File Folder $SynapseCopyScriptsFolder does not exist." -ForegroundColor Red
 			#exit (0)
 		}
 	}
@@ -211,6 +227,7 @@ Write-Output "---------------------------------------------- "
 Write-Output "database names: " $dbNames 
 Write-Output "---------------------------------------------- "
 
+
 ################################################################################
 #
 # Key Section where each input folder and files are examined
@@ -235,6 +252,11 @@ if ($OneConfigFile -eq "YES")
 	{
 		Remove-Item $OneSynapseImportConfigFileNameFullPath -Force
 	}
+	$OneSynapseCopyConfigFileNameFullPath = Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneSynapseCopyConfigFileName 
+	if (Test-Path $OneSynapseCopyConfigFileNameFullPath)
+	{
+		Remove-Item $OneSynapseCopyConfigFileNameFullPath -Force
+	}
 	$OneSynapseExtTablesConfigFileNameFullPath = Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneSynapseExtTablesConfigFileName 
 	if (Test-Path $OneSynapseExtTablesConfigFileNameFullPath)
 	{
@@ -257,6 +279,7 @@ $oneConfigFilePaths.add("OneConfigSynapseObjects", (Join-Path -Path $GeneratedCo
 $oneConfigFilePaths.add("OneConfigSynapseExtTables", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneSynapseExtTablesConfigFileName))
 $oneConfigFilePaths.add("OneConfigApsExport", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneApsExportConfigFileName))
 $oneConfigFilePaths.add("OneConfigSynapseImport", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneSynapseImportConfigFileName))
+$oneConfigFilePaths.add("OneConfigSynapseCopy", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath $OneSynapseCopyConfigFileName))
 
 foreach ($key in $oneConfigFilePaths.Keys)
 {
@@ -293,6 +316,7 @@ foreach ($dbName in $dbNames)
 	# from step 4
 	$inFilePaths.add("ApsExport", (Join-Path -Path $ApsExportScriptsFolder -ChildPath $dbName))
 	$inFilePaths.add("SynapseImport", (Join-Path -Path $SynapseImportScriptsFolder -ChildPath $dbName))
+    $inFilePaths.add("SynapseCopy", (Join-Path -Path $SynapseCopyScriptsFolder -ChildPath $dbName))
 
 
 	##################################################################
@@ -312,6 +336,7 @@ foreach ($dbName in $dbNames)
 	# for APS export and Synapse Import 
 	$outFilePaths.add("ApsExport", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Aps_Export_Generated.csv"  )))
 	$outFilePaths.add("SynapseImport", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_Import_Generated.csv"  )))
+	$outFilePaths.add("SynapseCopy", (Join-Path -Path $GeneratedConfigFileFolder -ChildPath ($dbName+"_Synapse_Copy_Generated.csv"  )))
 
 	
 	foreach ($key in $inFilePaths.Keys)
@@ -384,11 +409,15 @@ foreach ($dbName in $dbNames)
 			$serverName = $ApsServerName
 			$databaseName = $dbName
 		} 
-		# this is for Insert Into but we are not creating anything... need to check with Andy 
-		# Two lines have internal and external objects/// 
 		elseif ($key -eq "SynapseImport")  
 		{ 
-			$objectType = "EXT"  
+			$objectType = "IMP"  
+			$serverName = $SynapseServerName
+			$databaseName = $SynapseDatabaseName
+        } 
+		elseif ($key -eq "SynapseCopy")  
+		{ 
+			$objectType = "COPY"  
 			$serverName = $SynapseServerName
 			$databaseName = $SynapseDatabaseName
         } 
@@ -413,13 +442,13 @@ foreach ($dbName in $dbNames)
 
 			$query = Get-Content -path $f.FullName -First 2
 			
-			if($query.ToUpper() -match "^CREATE TABLE")
-			{
-			    $parts = GetObjectNames $query "CREATE TABLE"
-			}
-			elseif ($query.ToUpper() -match "^CREATE PROC")
+			if ($query.ToUpper() -match "^CREATE PROC")
 			{
 				$parts = GetObjectNames $query "CREATE PROC"
+			}
+			elseif($query.ToUpper() -match "^CREATE TABLE")
+			{
+			    $parts = GetObjectNames $query "CREATE TABLE"
 			}
 			elseif ($query.ToUpper() -match "^CREATE VIEW")
 			{
@@ -452,6 +481,10 @@ foreach ($dbName in $dbNames)
 			elseif ($query.ToUpper() -match "^INSERT INTO")
 			{
 				$parts = GetObjectNames $query "INSERT INTO"
+			}
+			elseif ($query.ToUpper() -match "^COPY INTO")
+			{
+				$parts = GetObjectNames $query "COPY INTO"
 			}
 			else 
 			{
@@ -498,6 +531,10 @@ foreach ($dbName in $dbNames)
 				elseif ( ($key -eq "SynapseImport"))
 				{
 					Export-Csv -InputObject $row -Path  $oneConfigFilePaths.OneConfigSynapseImport -NoTypeInformation -Append -Force 
+				}
+				elseif ( ($key -eq "SynapseCopy"))
+				{
+					Export-Csv -InputObject $row -Path  $oneConfigFilePaths.OneConfigSynapseCopy -NoTypeInformation -Append -Force 
 				}
 				else 
 				{

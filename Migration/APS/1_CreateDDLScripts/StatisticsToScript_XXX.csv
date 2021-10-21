@@ -1,0 +1,8 @@
+﻿"Database","Active","DatabaseName","SchemaName","OutputFolderPath","FileName","ObjectName","ObjectsToScript"
+"ContosoDW","1","ContosoDW","dbo","\ContosoDW\Statistics\","dbo_FactStrategyPlan_stat_cso_FactStrategyPlan_AccountKey","dbo.FactStrategyPlan.stat_cso_FactStrategyPlan_AccountKey","STAT"
+"ContosoDW","1","ContosoDW","dbo","\ContosoDW\Statistics\","dbo_FactStrategyPlan_stat_cso_FactStrategyPlan_CurrencyKey","dbo.FactStrategyPlan.stat_cso_FactStrategyPlan_CurrencyKey","STAT"
+"ContosoDW","1","ContosoDW","dbo","\ContosoDW\Statistics\","dbo_FactStrategyPlan_stat_cso_FactStrategyPlan_Datekey","dbo.FactStrategyPlan.stat_cso_FactStrategyPlan_Datekey","STAT"
+"ContosoDW","1","ContosoDW","dbo","\ContosoDW\Statistics\","dbo_FactStrategyPlan_stat_cso_FactStrategyPlan_EntityKey","dbo.FactStrategyPlan.stat_cso_FactStrategyPlan_EntityKey","STAT"
+"ContosoDW","1","ContosoDW","dbo","\ContosoDW\Statistics\","dbo_FactStrategyPlan_stat_cso_FactStrategyPlan_ProductCategoryKey","dbo.FactStrategyPlan.stat_cso_FactStrategyPlan_ProductCategoryKey","STAT"
+"ContosoDW","1","ContosoDW","dbo","\ContosoDW\Statistics\","dbo_FactStrategyPlan_stat_cso_FactStrategyPlan_ScenarioKey","dbo.FactStrategyPlan.stat_cso_FactStrategyPlan_ScenarioKey","STAT"
+"ContosoDW","1","ContosoDW","dbo","\ContosoDW\Statistics\","dbo_FactStrategyPlan_stat_cso_FactStrategyPlan_StrategyPlanKey","dbo.FactStrategyPlan.stat_cso_FactStrategyPlan_StrategyPlanKey","STAT"

@@ -26,6 +26,6 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,IndexesToScript,\APS\IndexesToScript_V1.sql
 1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,StatisticsToScript,\APS\StatisticsToScript_V1.sql
 1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,RolesToScript,\APS\RolesToScript_V1.sql
-1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,UsersToScript,\APS\UsersToScript_V1.sql
+1,APS,DB,ALL,SQL,1.0.0.0,99.0.0.0,UsersToScript,\APS\UsersToScript_V2.sql
 1,APS,Table,ALL,DBCC,1.0.0.0,99.0.0.0,ShowSpaceUsed,\APS\ShowSpaceUsed_V1.sql
 0,APS,TABLE,ALL,SQL,1.0.0.0,99.0.0.0,Exec_SpaceUsedTable,\APS\Exec_SpaceUsedTable_V1.sql

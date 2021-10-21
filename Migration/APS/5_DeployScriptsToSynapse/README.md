@@ -47,8 +47,8 @@ Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmati
 | FilePath         | Path to the script that needs to be executed.<br />*Both absolute and relative paths are supported.* | ..\Output\2_ConvertDDLScripts\AdventureWorksDW\Tables        |
 | CreateSchema     | 1 – Create Schema, 0 – Don’t  create Schema                  | 0 or 1                                                       |
 | ObjectType       | Type of object to Create. Used to create the drop statement. Valid Values: “”, TABLE, VIEW, SP, (SCHEMA,  STAT – Not implemented yet) | TABLE, VIEW, SP, SCHEMA, EXT                                 |
-| SchemaAuth       | Should a Schema Authorization be needed when  creating the schema, enter the name of the Authorization to use. If left  empty, no authorization is created. | Login to Create Schema                                       |
-| SchemaName       | Schema Name for the object to be  created.                   | aw                                                           |
+| SchemaAuth       | Specifies schema authorization (owner) when creating target schema | dbo                                                          |
+| SchemaName       | Schema name for the object to be  created.                   | aw                                                           |
 | ObjectName       | Name of the object that is being  created. Used in creating the drop statement and logging. | Name of the object                                           |
 | ParentObjectName | Name of the parent object. Valid  for statistics and indexes. | DimAccount                                                   |
 | DropIfExists     | DROP – Drop object if already exists,  TRUNCATE - Truncate Table if exists, NO – Do not drop or Truncate if exist. | DROP                                                         |

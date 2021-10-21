@@ -66,7 +66,7 @@ Function Write-Log-File($logMsg)
 
 Function GetPassword($securePassword)
 {
-       $securePassword = Read-Host "Password:" -AsSecureString
+       $securePassword = Read-Host "Password" -AsSecureString
        $P = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePassword))
        return $P
 }

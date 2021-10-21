@@ -29,11 +29,29 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse\ScriptCreateExternalTableDriver.ps1
 
 
+#Requires -Version 5.1
+#Requires -Modules SqlServer
+
+
 Function GetPassword($securePassword)
 {
-       $securePassword = Read-Host "PDW Password" -AsSecureString
+       $securePassword = Read-Host "Please enter the Password" -AsSecureString
        $P = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePassword))
        return $P
+}
+
+Function Get-AbsolutePath
+{
+    [CmdletBinding()] 
+    param( 
+        [Parameter(Position=0, Mandatory=$true)] [string]$Path
+    ) 
+
+    if ([System.IO.Path]::IsPathRooted($Path) -eq $false) {
+        return [IO.Path]::GetFullPath( (Join-Path -Path $PSScriptRoot -ChildPath $Path) )
+    } else {
+        return $Path
+    }
 }
 
 Function GetDropStatement
@@ -84,6 +102,16 @@ Function GetDropStatement
 	elseif($ObjectType.TOUpper() -eq "STATISTIC")
 	{
 		$Query = "IF EXISTS (SELECT 1 FROM sys.stats t WHERE t.name = '" + $ObjectName + "' and object_id('" + $ParentObjectName + "')=t.object_id) DROP STATISTICS " + $ParentObjectName + ".[" + $ObjectName + "]"
+	}
+	elseif($ObjectType.TOUpper() -eq "IMP")
+	{
+        # This is Synapse import data (INSERT INTO). Hence, no need to drop target object.
+		$Query = ""
+	}
+	elseif($ObjectType.TOUpper() -eq "COPY")
+	{
+        # This is Synapse import data (COPY INTO). Hence, no need to drop target object.
+		$Query = ""
 	}
 	else 
     {
@@ -161,11 +189,12 @@ $error.Clear()
 # User Input  here
 #############################################################
 
-$defaultScriptsToRunDriverFile = $PSScriptRoot+"\SynapseImportData.csv"
+$defaultScriptsToRunDriverFile = Join-Path -Path $PSScriptRoot -ChildPath "SynapseImportData.csv"
 
 $ScriptsToRunDriverFile = Read-Host -prompt "Enter the name of the ScriptToRun csv File or Press 'Enter' to accept default [$defaultScriptsToRunDriverFile]"
 	if($ScriptsToRunDriverFile -eq "" -or $ScriptsToRunDriverFile -eq $null)
 	{$ScriptsToRunDriverFile = $defaultScriptsToRunDriverFile}
+$ScriptsToRunDriverFile = Get-AbsolutePath -Path $ScriptsToRunDriverFile
 
 $ConnectToSynapse = Read-Host -prompt "How do you want to connect to server (ADPass, ADInt, WinInt, SQLAuth)?"
 $ConnectToSynapse = $ConnectToSynapse.ToUpper()
@@ -190,13 +219,13 @@ $StatusLog = Read-Host -prompt "Enter the name of the status file or Press 'Ente
 # Main logic Here
 ###############################################################################################
 
-Import-Module "$PSScriptRoot\RunSQLScriptFile.ps1" -Force
+Import-Module "$PSScriptRoot\RunSQLScriptFile.ps1" -Force -Scope Global
 
 if (!(Test-Path $StatusLogPath)) {
-    New-item "$StatusLogPath\" -ItemType Dir | Out-Null
+    New-item $StatusLogPath -ItemType Dir | Out-Null
 }
 
-$StatusLogFile = $StatusLogPath + "\" + $StatusLog 
+$StatusLogFile = Join-Path -Path $StatusLogPath -ChildPath $StatusLog 
 
 $csvFile = Import-Csv $ScriptsToRunDriverFile
 
@@ -262,7 +291,6 @@ ForEach ($S in $csvFile )
             if ($CreateSchema -eq 1 -and $SchemaName -ne "") 
             {
 				$Query = GetSchemaStatement -SchemaName $SchemaName -SchemaAuth $SchemaAuth
-				             
                 $ReturnValues = RunSQLScriptFile -ServerName $ServerName -Username $UserName -Password $Password -SynapseADIntegrated $ConnectToSynapse -Database $DatabaseName -Query $Query -Variables $Variables #-SchemaName $SchemaName -TableName $TableName -DropIfExists $DropIfExists -StatusLogFile $StatusLogFile
             }
 		    if ($ReturnValues.Count -eq 0 -or $ReturnValues.Get_Item("Status") -eq 'Success')

@@ -1,4 +1,4 @@
 "Active","ServerName","DatabaseName","FilePath","CreateSchema","ObjectType","SchemaAuth","SchemaName","ObjectName","ParentObjectName","DropTruncateIfExists","Variables","FileName"
-"1","synapseserver.database.windows.net","synapse","..\Output\2_ConvertDDLScripts\AdventureWorksDW\Views","1","View","dbo","aw","vProductCategories","","DROP","","dbo_vProductCategories.sql"
-"1","synapseserver.database.windows.net","synapse","..\Output\2_ConvertDDLScripts\AdventureWorksDW\Views","1","View","dbo","aw","vTop3Quotas","","DROP","","dbo_vTop3Quotas.sql"
-"1","synapseserver.database.windows.net","synapse","..\Output\2_ConvertDDLScripts\AdventureWorksDW\Views","1","View","dbo","aw","vTotalFinanceRecrords","","DROP","","dbo_vTotalFinanceRecrords.sql"
+"1","demoapsmigration.sql.azuresynapse.net","EDW","..\Output\2_ConvertDDLScripts\AdventureWorksDW\Views","1","View","dbo","aw","vProductCategories","","DROP","","dbo_vProductCategories.sql"
+"1","demoapsmigration.sql.azuresynapse.net","EDW","..\Output\2_ConvertDDLScripts\AdventureWorksDW\Views","1","View","dbo","aw","vTop3Quotas","","DROP","","dbo_vTop3Quotas.sql"
+"1","demoapsmigration.sql.azuresynapse.net","EDW","..\Output\2_ConvertDDLScripts\AdventureWorksDW\Views","1","View","dbo","aw","vTotalFinanceRecrords","","DROP","","dbo_vTotalFinanceRecrords.sql"

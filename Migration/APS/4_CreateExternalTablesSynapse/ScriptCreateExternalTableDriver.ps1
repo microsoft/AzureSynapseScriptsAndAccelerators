@@ -29,6 +29,10 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\4_CreateExternalTablesSynapse\ScriptCreateExternalTableDriver.ps1
 
 
+#Requires -Version 5.1
+#Requires -Modules SqlServer
+
+
 ###############################################################################################
 # User Input Here
 ###############################################################################################

@@ -30,6 +30,10 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\4_CreateExternalTablesSynapse\Generate_Step4_ConfigFiles.ps1
 
 
+#Requires -Version 5.1
+#Requires -Modules SqlServer
+
+
 Function Get-AbsolutePath
 {
     [CmdletBinding()] 
@@ -100,7 +104,6 @@ ForEach ($csvItem in $configFileDriverFile )
 	else {
 		Write-Host "Encountered unknown configuration item: " + $name + " with Value: " + $value  -ForegroundColor Red
 	}
-
 }
 
 

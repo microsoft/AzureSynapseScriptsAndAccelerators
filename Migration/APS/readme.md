@@ -63,7 +63,10 @@ Five modules are summarized below.
     - To import data from Azure external tables into Azure Synapse user tables.
     
 
-> Under [**Extras**](Extras) folder you can find scripts to re-create sample databases AdventureWorksDW and ContosoDW which you can use for learning, demos, and experimenting with migration tools.
+There are also supplementary folders:
+
+- [**Extras**](Extras) folder contains scripts to re-create sample databases **AdventureWorksDW** and **ContosoDW** which you can use for learning, demos, and experimenting with migration tools.
+- [**Output**](Output) folder contains sample generated files generated based on sample **AdventureWorksDW** and **ContosoDW** databases.
 
 
 
