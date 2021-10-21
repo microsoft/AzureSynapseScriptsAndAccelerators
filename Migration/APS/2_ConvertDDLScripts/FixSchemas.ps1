@@ -221,16 +221,27 @@ function ChangeSchemas($DatabaseName, $SchemaMappings, $DefaultSchema, $query)
 function FixTempTables($query)
 {
     $patterns = @()
-    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)(?<location>[\s]*?,[\s]*?LOCATION[\s]*?=[\s]*?USER_DB)[\s]*?\)"
-    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)[\s]*?\)"
-    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?HEAP[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)(?<location>[\s]*?,[\s]*?LOCATION[\s]*?=[\s]*?USER_DB)[\s]*?\)"
-    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?HEAP[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)[\s]*?\)"
-    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?CLUSTERED[\s]+COLUMNSTORE[\s]+INDEX[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)(?<location>[\s]*?,[\s]*?LOCATION[\s]*?=[\s]*?USER_DB)[\s]*?\)"
-    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?CLUSTERED[\s]+COLUMNSTORE[\s]+INDEX[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)[\s]*?\)"
+    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#([\s\S]*(?=WITH))WITH[\s]?\([\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)[\s]*?\)"
 
-    $patterns += "[\s]*CREATE[\s]+TABLE[\s]+#[\S]+[\s]+WITH[\s]*\([\s]*CLUSTERED[\s]+COLUMNSTORE[\s]+INDEX[\s]*(?<location>[\s]*,[\s]*?LOCATION[\s]*=[\s]*USER_DB)[\s]*,[\s]*?DISTRIBUTION[\s]*=[\s]*(?<replicate>REPLICATE)[\s]*\)"
-    $patterns += "[\s]*CREATE[\s]+TABLE[\s]+#[\S]+[\s]+WITH[\s]*\([\s]*HEAP[\s]*(?<location>[\s]*,[\s]*?LOCATION[\s]*=[\s]*USER_DB)[\s]*,[\s]*?DISTRIBUTION[\s]*=[\s]*(?<replicate>REPLICATE)[\s]*\)"
+    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#([\s\S]*(?=WITH))WITH[\s]?\([\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)(?<location>[\s]*?,[\s]*?LOCATION[\s]*?=[\s]*?USER_DB)[\s]*?\)"
+    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#([\s\S]*(?=WITH))WITH[\s]?\([\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)[\s]*?\)"
+    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#([\s\S]*(?=WITH))WITH[\s]?\([\s]*?HEAP[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)(?<location>[\s]*?,[\s]*?LOCATION[\s]*?=[\s]*?USER_DB)[\s]*?\)"
+    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#([\s\S]*(?=WITH))WITH[\s]?\([\s]*?HEAP[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)[\s]*?\)"
+    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#([\s\S]*(?=WITH))WITH[\s]?\([\s]*?CLUSTERED[\s]+COLUMNSTORE[\s]+INDEX[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)(?<location>[\s]*?,[\s]*?LOCATION[\s]*?=[\s]*?USER_DB)[\s]*?\)"
+    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#([\s\S]*(?=WITH))WITH[\s]?\([\s]*?CLUSTERED[\s]+COLUMNSTORE[\s]+INDEX[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)[\s]*?\)"
 
+    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#([\s\S]*(?=WITH))WITH[\s]*\([\s]*CLUSTERED[\s]+COLUMNSTORE[\s]+INDEX[\s]*(?<location>[\s]*,[\s]*?LOCATION[\s]*=[\s]*USER_DB)[\s]*,[\s]*?DISTRIBUTION[\s]*=[\s]*(?<replicate>REPLICATE)[\s]*\)"
+    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#([\s\S]*(?=WITH))WITH[\s]*\([\s]*HEAP[\s]*(?<location>[\s]*,[\s]*?LOCATION[\s]*=[\s]*USER_DB)[\s]*,[\s]*?DISTRIBUTION[\s]*=[\s]*(?<replicate>REPLICATE)[\s]*\)"
+
+#    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)(?<location>[\s]*?,[\s]*?LOCATION[\s]*?=[\s]*?USER_DB)[\s]*?\)"
+#    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)[\s]*?\)"
+#    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?HEAP[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)(?<location>[\s]*?,[\s]*?LOCATION[\s]*?=[\s]*?USER_DB)[\s]*?\)"
+#    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?HEAP[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)[\s]*?\)"
+#    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?CLUSTERED[\s]+COLUMNSTORE[\s]+INDEX[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)(?<location>[\s]*?,[\s]*?LOCATION[\s]*?=[\s]*?USER_DB)[\s]*?\)"
+#    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+?WITH[\s]?\([\s]*?CLUSTERED[\s]+COLUMNSTORE[\s]+INDEX[\s]*?,[\s]*?DISTRIBUTION[\s]*?=[\s]*(?<replicate>REPLICATE)[\s]*?\)"
+
+#    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+WITH[\s]*\([\s]*CLUSTERED[\s]+COLUMNSTORE[\s]+INDEX[\s]*(?<location>[\s]*,[\s]*?LOCATION[\s]*=[\s]*USER_DB)[\s]*,[\s]*?DISTRIBUTION[\s]*=[\s]*(?<replicate>REPLICATE)[\s]*\)"
+#    $patterns += "[\s]*CREATE[\s]+?TABLE[\s]+?#[\S]+?[\s]+WITH[\s]*\([\s]*HEAP[\s]*(?<location>[\s]*,[\s]*?LOCATION[\s]*=[\s]*USER_DB)[\s]*,[\s]*?DISTRIBUTION[\s]*=[\s]*(?<replicate>REPLICATE)[\s]*\)"
 
     $regexOptions = [Text.RegularExpressions.RegexOptions]'IgnoreCase, CultureInvariant'
 
@@ -274,6 +285,10 @@ function FixTempTables($query)
 ##########################################################################################################
 
 
+##########################################################################################################
+#  Some test cases
+##########################################################################################################
+
 #AddMissingSchemas -query "    FROM DimAccount AS r  " -defaultSchema "dbo" | Write-Output
 #AddMissingSchemas -query "    FROM DimAccount" -defaultSchema "dbo" | Write-Output
 #AddMissingSchemas -query "    FROM [DimAccount-123] AS r  " -defaultSchema "dbo" | Write-Output
@@ -283,6 +298,17 @@ function FixTempTables($query)
 #$query = "        --at least one table must be present for join
 #        stg.WHERE COALESCE([glo].[PRODUCT_INITIAL_KEY], [def].[PRODUCT_INITIAL_KEY], [oth].[PRODUCT_INITIAL_KEY], [ex].[PRODUCT_INITIAL_KEY]) IS NOT NULL"
 #$query = "select c1 from Table"
+
+$query="CREATE PROC aw.[uspTempTableDemo] AS 
+create table #T12 (
+	c1 int,
+	c2 varchar(100)
+)
+with (HEAP, distribution=replicate, location=user_db)
+"
+
+#FixTempTables -query $query
+
 
 $query = "	option(label='DW.Price.Ssis.InternalFacts.DimMaster(SI_F_INTERNALPRICE_TempTable_Prepare_Temp)');
  

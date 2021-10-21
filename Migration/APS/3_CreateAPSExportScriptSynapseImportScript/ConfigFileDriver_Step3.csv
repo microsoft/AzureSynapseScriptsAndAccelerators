@@ -3,13 +3,13 @@ OneConfigFile,Yes,"Yes/No. If ""Yes"", program will generate one combined config
 OneConfigFileName,One_ExpImptStmtDriver_Generated.csv,Specify file name for the one combined config file.  
 ExtTableShemaPrefix,EXT_,"Prefix to internal schema name that can be used for external schema name for data migration purpose. If internal schema is named ABC, the new schema will become EXTM_ABC that will hold all external tables. "
 ExtTablePrefix,,"If you want to prefix each table. Empty is recommended if you have ""ExtTableShemaPrefix"" already defined (not empty)."
-InputObjectsFolder,..\Output\2_ConvertDDLScripts\,This is where output of step 3 is stored
+InputObjectsFolder,..\Output\2_ConvertDDLScripts\,This is where output of step 2 is stored
 SchemaMappingFileFullPath,..\2_ConvertDDLScripts\schemas.csv,This is the same schema mapping file that step 2 used. 
 ApsExportScriptsFolder,..\Output\3_CreateAPSExportScriptSynapseImportScript\ExportAPS\,This is where APS Export T-SQL Scripts will reside.
 SynapseImportScriptsFolder,..\Output\3_CreateAPSExportScriptSynapseImportScript\ImportSynapse\,This is where Synapse Import T-SQL Scripts will reside.
 SynapseCopyScriptsFolder,..\Output\3_CreateAPSExportScriptSynapseImportScript\CopySynapse\,This is where Synapse COPY INTO T-SQL Scripts will reside.
 ExternalDataSourceName,AZURE_STAGING_STORAGE,"Name of the external data source. Default Value to start with. However, this can be updated for some individual tables once the config file is generated."
 FileFormat,DelimitedFileFormat,"Name of the external file format. Default Value to start with. However, this can be updated for some individual tables once the config file is generated."
-ExportLocation,/,"Example of the final location for one table inside the DB ""AdventureWorksDW"": ""/migration/testrun/AdventureWorksDW/dbo_DimCustomer"" "
+ExportLocation,/,"Root folder in storage account container where data will be exported."
 StorageAccountName,apsmigrationstaging
-ContainerName,aps-polybase
+ContainerName,aps-export

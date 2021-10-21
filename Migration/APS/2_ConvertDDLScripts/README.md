@@ -33,16 +33,16 @@ Below are the steps to run the PowerShell script:
   - source folders where APS DDL scripts are located 
   - target folders where converted scripts will be created. 
 
-| **Parameter**    | **Purpose**                                                  | **Value  (Sample)**                                      |
-| ---------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
-| Active           | 1 – Run  line, 0 – Skip line                                 | 0 or 1                                                   |
-| ApsDatabasesName | The  name of APS database                                    | AdventureWorksDW                                         |
-| SourceDirectory  | Directory  where the input source files that has APS schema names. This is the output  files from previous step. <br />*Both absolute and relative paths are supported.* | ..\Output\1_CreateDDLScripts\AdventureWorksDW\Tables     |
-| TargetDirectory  | Output  directory of this step, where the scripts with new Synapse schemas will reside.<br />*Both absolute and relative paths are supported.* | ..\Output\2_ConvertDDLScripts\AdventureWorksDW\Tables    |
-| DefaultSchema    | The  name of default schema for this database. <br />If schema name is missing in an object reference this default schema will be assumed. | dbo                                                      |
-| ObjectType       | Type of  the object                                          | Table,  View, SP, Index, Statistic, Function, Role, User |
+| **Parameter**    | **Purpose**                                                  | **Value  (Sample)**                                         |
+| ---------------- | ------------------------------------------------------------ | ----------------------------------------------------------- |
+| Active           | 1 – Run  line, 0 – Skip line                                 | 0 or 1                                                      |
+| ApsDatabasesName | The  name of APS database                                    | AdventureWorksDW                                            |
+| SourceDirectory  | Directory  where the input source files that has APS schema names. This is the output  files from previous step. <br />*Both absolute and relative paths are supported.* | ..\Output<br />\1_CreateDDLScripts\AdventureWorksDW\Tables  |
+| TargetDirectory  | Output  directory of this step, where the scripts with new Synapse schemas will reside.<br />*Both absolute and relative paths are supported.* | ..\Output<br />\2_ConvertDDLScripts\AdventureWorksDW\Tables |
+| DefaultSchema    | The  name of default schema for this database. <br />If schema name is missing in an object reference this default schema will be assumed. | dbo                                                         |
+| ObjectType       | Type of  the object                                          | Table,  View, SP, Index, Statistic, Function, Role, User    |
 
-2. **Step 2B:** Run PowerShell script **ConvertDDLScriptsDriver.ps1** and enter prompted information or accept default values:
+2. **Step 2B:** Run PowerShell script [**ConvertDDLScriptsDriver.ps1**](ConvertDDLScriptsDriver.ps1) and enter prompted information or accept default values:
    - The path to configuration files
    - The name directories configuration file (default is cs_dirs.csv)
    - The name of schema mapping file (default is schemas.csv)

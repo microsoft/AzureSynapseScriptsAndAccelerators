@@ -39,7 +39,7 @@ Below are the steps to run the PowerShell script:
 **Step 4A:** Create the configuration driver CSV file for the PowerShell script. 
 Create the configuration driver CSV file based on the definition below. Sample CSV configuration file is provided to aid this preparation task. 
 
-There is also a Job-Aid PowerShell script called **Generate_Step4_ConfigFiles.ps1** which can help you to generate an initial configuration file for this step. This Generate_Step5_ConfigFiles.ps1 uses a driver configuration CSV file named **ConfigFileDriver.csv** which has instructions inside for each parameter to be set. 
+There is also a Job-Aid PowerShell script called [**Generate_Step4_ConfigFiles.ps1**](Generate_Step4_ConfigFiles.ps1) which can help you to generate an initial configuration file for this step. This Generate_Step5_ConfigFiles.ps1 uses a driver configuration CSV file named [**ConfigFileDriver.csv**](ConfigFileDriver.csv) which has instructions inside for each parameter to be set. 
 
 Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmatically-generate-config-files)*** after the steps for more details.
 
@@ -91,15 +91,15 @@ WITH (
 )
 ```
 
-**Step 4B:** Run the script **ScriptCreateExternalTableDriver.ps1**. Provide the prompted information: The path and name of the configuration driver CSV file. The script does not connect to the APS or Synapse. The only input for this script is the config.csv file. 
+**Step 4B:** Run the script [**ScriptCreateExternalTableDriver.ps1**](ScriptCreateExternalTableDriver.ps1). Provide the prompted information: The path and name of the configuration driver CSV file. The script does not connect to the APS or Synapse. The only input for this script is the config.csv file. 
 
 
 
 ## Job Aid: Programmatically Generate Config Files
 
-There is a job-aid PowerShell script named **Generate_Step4_ConfigFiles.ps1** to help you to produce configuration file(s) programmatically. It uses output produced by previous steps (for example: T-SQL script files from step 2, schema mapping file from step 2, and Export & Import T-SQL scripts generated from Step 3). 
+There is a job-aid PowerShell script named [**Generate_Step4_ConfigFiles.ps1**](Generate_Step4_ConfigFiles.ps1) to help you to produce configuration file(s) programmatically. It uses output produced by previous steps (for example: T-SQL script files from step 2, schema mapping file from step 2, and Export & Import T-SQL scripts generated from Step 3). 
 
-It uses parameters set inside the file named **ConfigFileDriver_Step4.csv**. The CSV file contains fields as value-named pairs with instructions for each field. You can set the value for each named field based on your own setup and output files. 
+It uses parameters set inside the file named [**ConfigFileDriver_Step4.csv**](ConfigFileDriver_Step4.csv). The CSV file contains fields as value-named pairs with instructions for each field. You can set the value for each named field based on your own setup and output files. 
 
 | **Parameter**             | **Purpose**                                                  | **Value (Sample)**                      |
 | ------------------------- | ------------------------------------------------------------ | --------------------------------------- |
@@ -114,4 +114,4 @@ It uses parameters set inside the file named **ConfigFileDriver_Step4.csv**. The
 | FileFormat                | The name of EXTERNAL FILE FORMAT used by Polybase to export/import data | DelimitedFileFormat                     |
 | ExportLocation            | Root folder in storage account container where data will be exported/imported. | /                                       |
 
-After running the **Generate_Step4_ConfigFiles.ps1**, you can then review and edit the programmatically generated configuration files based on your own needs and environment. The generated config file(s) can then be used as input to the step 4 main script (PowerShell: **ScriptCreateExternalTableDriver.ps1**).
+After running the [**Generate_Step4_ConfigFiles.ps1**](Generate_Step4_ConfigFiles.ps1), you can then review and edit the programmatically generated configuration files based on your own needs and environment. The generated config file(s) can then be used as input to the step 4 main script (PowerShell: [**ScriptCreateExternalTableDriver.ps1**](ScriptCreateExternalTableDriver.ps1)).

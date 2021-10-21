@@ -34,6 +34,15 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\2_ConvertDDLScripts\ConvertDDLScriptsDriver.ps1
 
 
+#Requires -Version 5.1
+#Requires -Modules SqlServer
+
+
+Import-Module $PSScriptRoot\FixSchemas.ps1 -Force -Scope Global
+
+$addMissingSchemas = $true
+
+
 Function Get-AbsolutePath
 {
     [CmdletBinding()] 
@@ -49,28 +58,23 @@ Function Get-AbsolutePath
 }
 
 
-Import-Module $PSScriptRoot\FixSchemas.ps1 -Force
-
-$addMissingSchemas = $true
-
-
 ###############################################################################################
 # User Input Here
 ###############################################################################################
 
 
 $defaultConfigDir = "$PSScriptRoot"
-$configFileDir = Read-Host -prompt "Please enter the path of your configuration files. Or press 'Enter' to accept the default [$($defaultConfigDir)]"
+$configFileDir = Read-Host -prompt "Please enter the path to your configuration files. Or press 'Enter' to accept the default [$($defaultConfigDir)]"
 if($configFileDir -eq "" -or $configFileDir -eq $null)
 	{$configFileDir = $defaultConfigDir}
 
 $defaultConfigFile = "cs_dirs.csv"
-$configFile = Read-Host -prompt "Please enter the name of your code migration config file. Press [Enter] if it is [$($defaultConfigFile)]"
+$configFile = Read-Host -prompt "Please enter the name of directories config file. Press [Enter] if it is [$($defaultConfigFile)]"
 if($configFile -eq "" -or $configFile -eq $null)
 	{$configFile = $defaultconfigFile}
 
 $defaultSchemasFile = "schemas.csv"
-$schemasFile = Read-Host -prompt "Please enter the name of your schema mapping file. Press [Enter] if it is [$($defaultSchemasFile)]"
+$schemasFile = Read-Host -prompt "Please enter the name of schema mapping file. Press [Enter] if it is [$($defaultSchemasFile)]"
 if($schemasFile -eq "" -or $schemasFile -eq $null)
 	{$schemasFile = $defaultSchemasFile}
 

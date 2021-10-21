@@ -29,6 +29,10 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\3_CreateAPSExportScriptSynapseImportScript\ScriptCreateExportImportStatementsDriver.ps1
 
 
+#Requires -Version 5.1
+#Requires -Modules SqlServer
+
+
 Function Get-AbsolutePath
 {
     [CmdletBinding()] 
@@ -125,7 +129,7 @@ function ScriptCopyQueries(
         "`tFILE_TYPE = 'CSV', `r`n" +
         "`tCREDENTIAL = (IDENTITY = 'Managed Identity'), `r`n" +
 	    "`t--[COMPRESSION = { 'Gzip' | 'DefaultCodec'| 'Snappy'}], `r`n" +
-        "`tFIELDQUOTE = '""', `r`n" +
+        "`tFIELDQUOTE = '', `r`n" +
         "`tFIELDTERMINATOR='0x01', `r`n" +
 	    "`tROWTERMINATOR = '0x0A', `r`n" +
 	    "`tFIRSTROW = 1, `r`n" +

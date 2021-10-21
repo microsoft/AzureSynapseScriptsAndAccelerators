@@ -30,11 +30,16 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\1_CreateDDLScripts\1_CreateDDLScripts.ps1
 
 
-Import-Module "$PSScriptRoot\PDWScripter.ps1"  
+#Requires -Version 5.1
+#Requires -Modules SqlServer
+
+
+Import-Module $PSScriptRoot\PDWScripter.ps1 -Force -Scope Global
+
 
 Function GetPassword($securePassword)
 {
-       $securePassword = Read-Host "PDW Password" -AsSecureString
+       $securePassword = Read-Host "APS Password" -AsSecureString
        $P = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePassword))
        return $P
 }
@@ -45,7 +50,6 @@ Function GetPassword($securePassword)
 ###############################################################################################
 
 
-#$defaultConfigFilePath = "C:\APS2SQLDW\1_CreateDDLScripts"
 $defaultConfigFilePath = "$PSScriptRoot"
 $ConfigFilePath = Read-Host -prompt "Enter the directory where the Configuration CSV File resides or Press 'Enter' to accept the default [$($defaultConfigFilePath)]"
 if($ConfigFilePath -eq "" -or $ConfigFilePath -eq $null)
@@ -67,7 +71,7 @@ if($UseIntegrated -eq "" -or $UseIntegrated -eq $null) {
 
 if($UseIntegrated.ToUpper() -ne "YES")
 {
-	$UserName = Read-Host -prompt "Enter the UserName to connect to the MPP System."
+	$UserName = Read-Host -prompt "Enter the UserName to connect to APS."
 	if($UserName -eq "" -or $UserName -eq $null)
 	{
 		Write-Host "A password must be entered"

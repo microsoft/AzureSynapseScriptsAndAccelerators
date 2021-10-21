@@ -4,13 +4,14 @@ OneApsExportConfigFileName,One_ApsExportConfigFile_Generated.csv,One file for th
 OneSynapseObjectsConfigFileName,One_SynapseObjectsConfigFile_Generated.csv,One file for this type for ALL DBs.
 OneSynapseImportConfigFileName,One_SynapseImportConfigFile_Generated.csv,One file for this type for ALL DBs.
 OneSynapseExtTablesConfigFileName,One_SynapseExtTablesConfigFile_Generated.csv,One file for this type for ALL DBs.
+OneSynapseCopyConfigFileName,One_SynapseCopyConfigFile_Generated.csv,One file for this type for ALL DBs.
 ActiveFlag,1,
-_ApsServerName,"10.209.220.153,17001",Your APS server name and IP address
-ApsServerName,"apspod0.centralus.cloudapp.azure.com,17001",Your APS server name and IP address
-SynapseServerName,synapseserver.database.windows.net,Your Azure Synapse Server name
-SynapseDatabaseName,synapse,Your Azure Synapse Database name
+ApsServerName,"demoaps,17001",Your APS server name and IP address
+SynapseServerName,demoapsmigration.sql.azuresynapse.net,Your Azure Synapse Server name
+SynapseDatabaseName,EDW,Your Azure Synapse Database name
 ApsExportScriptsFolder,..\Output\3_CreateAPSExportScriptSynapseImportScript\ExportAPS,"Where the export scripts reside, and to be used for deployment."
 SynapseImportScriptsFolder,..\Output\3_CreateAPSExportScriptSynapseImportScript\ImportSynapse,"Where the import scripts reside, and to be used for deployment."
+SynapseCopyScriptsFolder,..\Output\3_CreateAPSExportScriptSynapseImportScript\CopySynapse,"Where the import scripts reside, and to be used for deployment."
 SynapseObjectScriptsFolder,..\Output\2_ConvertDDLScripts,"Where the Azure Synapse meta data SQL files reside (Tables, Views, and Stored Procedures, each type is under its own subdirectory"
 SchemaFileFullPath,..\2_ConvertDDLScripts\schemas.csv,Need this schema mapping file as well for information
 SynapseExternalTablesFolder,..\Output\4_CreateExternalTablesSynapse,Where the T-SQL Scripts reside for creating external tables inside Azure Synapse

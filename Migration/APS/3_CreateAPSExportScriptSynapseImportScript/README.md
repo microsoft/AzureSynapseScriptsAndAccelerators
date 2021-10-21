@@ -64,7 +64,7 @@ Below are the steps to run the PowerShell script:
 **Step 3A:** Prepare the configuration CSV file for PowerShell script. 
 Create the configuration driver CSV File based on the definition below. Sample CSV configuration file is provided to aid this preparation task. 
 
-There is also a job-aid PowerShell script called **Generate_Step3_ConfigFiles.ps1** which can help you to generate an initial configuration file for this step. This Generate_Step3_ConfigFiles.ps1 uses a driver configuration CSV file named **ConfigFileDriver_Step3.csv** which has instructions inside for each parameter to be set. 
+There is also a job-aid PowerShell script called [**Generate_Step3_ConfigFiles.ps1**](Generate_Step3_ConfigFiles.ps1) which can help you to generate an initial configuration file for this step. This Generate_Step3_ConfigFiles.ps1 uses a driver configuration CSV file named [**ConfigFileDriver_Step3.csv**](ConfigFileDriver_Step3.csv) which has instructions inside for each parameter to be set. 
 
 Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmatically-generate-config-files)*** after the steps for more details.
 
@@ -88,8 +88,8 @@ Refer ***[Job Aid: Programmatically Generate Config Files](#job-aid:-programmati
 | ContainerName      | The name of the container in Azure staging storage account   | aps-export                                                   |
 
 **Step 3B:** 
-Run PowerShell script **ScriptCreateExportImportStatementsDriver.ps1**. 
-Provide the prompted information: The path and name of the Configuration Driver CSV File. The script does not connect to APS or Synapse.  The only input for this script is the [Config file](ConfigFileDriver_Step3.csv). 
+Run PowerShell script [**ScriptCreateExportImportStatementsDriver.ps1**](ScriptCreateExportImportStatementsDriver.ps1). 
+Provide the prompted information: The path and name of the Configuration Driver CSV File. The script does not connect to APS or Synapse.  The only input for this script is the [**ConfigFileDriver_Step3.csv**](ConfigFileDriver_Step3.csv). 
 
 > ###### Note 1
 >
@@ -106,9 +106,9 @@ Provide the prompted information: The path and name of the Configuration Driver 
 
 ## Job Aid: Programmatically Generate Config Files
 
-There is a job-aid PowerShell script named **Generate_Step3_ConfigFiles.ps1** to help you to produce configuration file(s) programmatically. It uses output produced by previous steps (for example: T-SQL script files from step 2, and schema mapping file from step 2). 
+There is a job-aid PowerShell script named [**Generate_Step3_ConfigFiles.ps1**](Generate_Step3_ConfigFiles.ps1) to help you to produce configuration file(s) programmatically. It uses output produced by previous steps (for example: T-SQL script files from step 2, and schema mapping file from step 2). 
 
-It uses parameters set inside the file named **ConfigFileDriver_Step3.csv**. The CSV file contains fields as value-named pairs with instructions for each field. You can set the value for each named field based on your own setup and output files. 
+It uses parameters set inside the file named [**ConfigFileDriver_Step3.csv**](ConfigFileDriver_Step3.csv). The CSV file contains fields as value-named pairs with instructions for each field. You can set the value for each named field based on your own setup and output files. 
 
 | **Name**                   | Description                                                  | **Value (Sample)**                                           |
 | -------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -127,7 +127,7 @@ It uses parameters set inside the file named **ConfigFileDriver_Step3.csv**. The
 | StorageAccountName         | The name of Azure storage account which will be used to export/import data | apsmigrationstaging                                          |
 | ContainerName              | The name of a container in Azure storage account which will be used to export/import data | aps-export                                                   |
 
-After running the **Generate_Step3_ConfigFiles.ps1**, you can then review and edit the programmatically generated configuration files based on your own needs and environment. The generated config file(s) can then be used as input to the step 3 main script **ScriptCreateExportImportStatementsDriver.ps1**.
+After running the [**Generate_Step3_ConfigFiles.ps1**](Generate_Step3_ConfigFiles.ps1), you can then review and edit the programmatically generated configuration files based on your own needs and environment. The generated config file(s) can then be used as input to the step 3 main script [**ScriptCreateExportImportStatementsDriver.ps1**](ScriptCreateExportImportStatementsDriver.ps1).
 
 
 ​    

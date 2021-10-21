@@ -29,6 +29,10 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\5_DeployScriptsToSynapse\RunSQLScriptFile.ps1
 
 
+#Requires -Version 5.1
+#Requires -Modules SqlServer
+
+
 function RunSQLScriptFile 
 { 
     [CmdletBinding()] 
@@ -82,26 +86,19 @@ function RunSQLScriptFile
 		     }		 		 
 	    }
  
-        #Initial Catalog=lasr-sqldwdb-dev1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication="Active Directory Integrated";
-	
-        #if ($Username) 
-        #{ ADPass, ADInt, WinInt, SQLAuth
-		    if($SynapseADIntegrated -eq 'ADINT')
-		    {
-			    #$ConnectionString = "Server={0};Database={1};User ID={2};Password={3};Trusted_Connection=False;Connect Timeout={4};Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Integrated" -f $ServerName,$Database,$Username,$Password,$ConnectionTimeout
-			    $ConnectionString = "Server={0};Database={1};Trusted_Connection=False;Connect Timeout={2};Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Integrated" -f $ServerName,$Database,$ConnectionTimeout
-		    }
-		    elseif($SynapseADIntegrated -eq 'ADPASS')
-		    {
-			    $ConnectionString = "Server={0};Database={1};User ID={2};Password={3};Trusted_Connection=False;Connect Timeout={4};Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Password" -f $ServerName,$Database,$Username,$Password,$ConnectionTimeout
-		    }
-		    elseif($SynapseADIntegrated -eq 'SQLAUTH')
-		    {
-			    $ConnectionString = "Server={0};Database={1};User ID={2};Password={3};Trusted_Connection=False;Connect Timeout={4}" -f $ServerName,$Database,$Username,$Password,$ConnectionTimeout 
-		    } 
-	    #}	
-		    else 
-		    { $ConnectionString = "Server={0};Database={1};Integrated Security=True;Connect Timeout={2}" -f $ServerName,$Database,$ConnectionTimeout } 
+
+		if($SynapseADIntegrated -eq 'ADINT') {
+			$ConnectionString = "Server={0};Database={1};Trusted_Connection=False;Connect Timeout={2};Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Integrated" -f $ServerName,$Database,$ConnectionTimeout
+		}
+		elseif($SynapseADIntegrated -eq 'ADPASS') {
+			$ConnectionString = "Server={0};Database={1};User ID={2};Password={3};Trusted_Connection=False;Connect Timeout={4};Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication=Active Directory Password" -f $ServerName,$Database,$Username,$Password,$ConnectionTimeout
+		}
+		elseif($SynapseADIntegrated -eq 'SQLAUTH') {
+			$ConnectionString = "Server={0};Database={1};User ID={2};Password={3};Trusted_Connection=False;Connect Timeout={4}" -f $ServerName,$Database,$Username,$Password,$ConnectionTimeout 
+		} 
+		else { 
+            $ConnectionString = "Server={0};Database={1};Integrated Security=True;Connect Timeout={2}" -f $ServerName,$Database,$ConnectionTimeout 
+        } 
  
 	    $conn=new-object System.Data.SqlClient.SQLConnection
         $conn.ConnectionString=$ConnectionString 
@@ -121,7 +118,6 @@ function RunSQLScriptFile
         $ds=New-Object system.Data.DataSet 
         $da=New-Object system.Data.SqlClient.SqlDataAdapter($cmd) 
 
-	
 		[void]$da.fill($ds) 
 
 		$ReturnValues.add('Status',"Success")
@@ -135,57 +131,29 @@ function RunSQLScriptFile
 		$ReturnValues.add('Msg', $Err)
 		
 		Write-Verbose "Capture SQL Error" 
-		if ($PSBoundParameters.Verbose) {Write-Verbose "SQL Error:  $Err"}  
-
-		#switch ($ErrorActionPreference.tostring()) 
-		#{ 
-		#	{'SilentlyContinue','Ignore' -contains $_} {} 
-		#		'Stop' {     Throw $Err } 
-		#        'Continue' { Throw $Err} 
-		#        Default {    Throw $Err} 
-		#} 
+		if ($PSBoundParameters.Verbose) {
+            Write-Verbose "SQL Error:  $Err"
+        } 
 	} 
 	Catch # For other exception 
 	{
-	#	Write-Verbose "Capture Other Error"   
-
 		$Err = $_ 
 
 		$ReturnValues.add('Status',"Error")
 		$ReturnValues.add('Msg', $Err)
-		
-
-	#	if ($PSBoundParameters.Verbose) {Write-Verbose "Other Error:  $Err"}  
-
-	#	switch ($ErrorActionPreference.tostring()) 
-	#	{'SilentlyContinue','Ignore' -contains $_} {} 
-	#				'Stop' {     Throw $Err} 
-	#				'Continue' { Throw $Err} 
-	#				Default {    Throw $Err} 
 	}  
 	Finally 
 	{ 
-		#Close the connection 
-		#if(-not $PSBoundParameters.ContainsKey('SQLConnection')) 
-		#	{ 
-			if($ConnOpen -eq 'YES') 
-			{
-                $ConnOpen = 'NO'
-				$conn.Close()
-				$cmd.Dispose()
-				$ds.Dispose()
-				$da.Dispose()
-			}
-				
-			#}  
+		if($ConnOpen -eq 'YES') 
+		{
+            $ConnOpen = 'NO'
+			$conn.Close()
+			$cmd.Dispose()
+			$ds.Dispose()
+			$da.Dispose()
+		}
 	}
-    #switch ($As) 
-    #{ 
-    #    'DataSet'   { Write-Output ($ds) } 
-    #    'DataTable' { Write-Output ($ds.Tables) } 
-    #    'DataRow'   { Write-Output ($ds.Tables[0]) } 
-    #} 
-	#Write-Host $da
+
 	if($ConnOpen -eq 'YES') 
     {
         $ConnOpen = 'NO'

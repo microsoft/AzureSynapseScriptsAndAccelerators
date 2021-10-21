@@ -30,6 +30,10 @@
 # Unblock-File -Path C:\AzureSynapseScriptsAndAccelerators\Migration\APS\3_CreateAPSExportScriptSynapseImportScript\Generate_Step3_ConfigFiles.ps1
 
 
+#Requires -Version 5.1
+#Requires -Modules SqlServer
+
+
 Function Get-AbsolutePath
 {
     [CmdletBinding()] 
