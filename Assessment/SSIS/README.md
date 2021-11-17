@@ -53,6 +53,7 @@ The script expects 2 parameters:
 - **OutputFolder** - the path to a folder where the script will create inventory files.
 
 ![Script Parameters](images/ScriptParameters.PNG)
+<img src="images/ScriptParameters.png" alt="Script Parameters" width=50% height=50% />
 
 The script seeks for all SSIS project files (*.dtproj) under specified **RootFolder**, programmatically opens all packages in the found projects, and retrieves information about tasks, event handlers, connection managers, data flows, and data flow transformations. 
 
