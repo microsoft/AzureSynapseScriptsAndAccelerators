@@ -27,7 +27,7 @@ Getting insights on these questions would help to define proper migration/modern
 The toolkit comprises of 2 pieces:
 
 1) [Get-SsisPackagesInventory.ps1](Get-SsisPackagesInventory.ps1) - the script which collects SSIS packages inventory.
-2) [SSIS Assessment.pbit](SSIS Assessment.pbit) - Power BI report template used for data visualization and further analysis.
+2) [SSIS Assessment.pbit](SSIS%20Assessment.pbit) - Power BI report template used for data visualization and further analysis.
 
 > **Note**
 >
