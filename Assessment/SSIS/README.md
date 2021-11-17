@@ -124,7 +124,7 @@ Package Connection Managers page provides information about ***package***-level 
 
 ![Package Connection Managers](images/PBI-Report-PackageConnectionManagers.PNG)
 
-###### **Project Connection Managers**
+##### **Project Connection Managers**
 
 Project Connection Managers page provides information about ***project***-level connection managers and split by connection type and providers.
 
