@@ -84,7 +84,7 @@ When SSIS packages inventory is collected, it can be further analyzed using any 
 
 To generate a new report, open a template in Power BI Desktop or simply double-click report template file name in Windows Explorer. Power BI Desktop will prompt for the path to inventory files. ***Do not change other parameters.***
 
-<img src="images/PBI-parameters.png" alt="Power BI report parameters" style="zoom:50%;" />
+![Power BI report parameters](images/PBI-parameters.PNG)
 
 
 
@@ -98,37 +98,37 @@ Overview page provides the summary of all found projects and packages, incl. tar
 
 Parameters page provides information about all found project parameters, including data type, Required, Sensitive, and Value.
 
-<img src="images/PBI-Report-Parameters.png" alt="Parameters" style="zoom:50%;" />
+![Parameters](images/PBI-Report-Parameters.PNG)
 
 ###### **Executables**
 
 Executables page provides information about control flow tasks and their types with drill-down capability.
 
-<img src="images/PBI-Report-Executables.png" alt="Executables" style="zoom:50%;" />
+![Executables](images/PBI-Report-Executables.PNG)
 
 ###### **Data Flows**
 
 Data Flows page provides information about data flow transformations  and their types with drill-down capability.
 
-<img src="images/PBI-Report-DataFlows.png" alt="Data Flows" style="zoom:50%;" />
+![Data Flows](images/PBI-Report-DataFlows.PNG)
 
 ###### **Event Handlers**
 
 Event Handlers  page provides information about event handlers with split by event type.
 
-<img src="images/PBI-Report-EventHandlers.png" alt="Event Handlers" style="zoom:50%;" />
+![Event Handlers](images/PBI-Report-EventHandlers.PNG)
 
 ###### **Package Connection Managers**
 
 Package Connection Managers page provides information about ***package***-level connection managers and split by connection type and providers.
 
-<img src="images/PBI-Report-PackageConnectionManagers.png" alt="Package Connection Managers" style="zoom:50%;" />
+![Package Connection Managers](images/PBI-Report-PackageConnectionManagers.PNG)
 
 ###### **Project Connection Managers**
 
 Project Connection Managers page provides information about ***project***-level connection managers and split by connection type and providers.
 
-<img src="images/PBI-Report-ProjectConnectionManagers.png" alt="Project Connection Managers" style="zoom:50%;" />
+![Project Connection Managers](images/PBI-Report-ProjectConnectionManagers.PNG)
 
 
 
