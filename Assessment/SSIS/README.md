@@ -3,8 +3,8 @@
 ## Contents
 
 - [Introduction](#Introduction) 
-- [Collecting SSIS packages inventory](#Collecting SSIS packages inventory)
-- [Analyzing SSIS packages](#Analyzing SSIS packages)
+- [Collecting SSIS packages inventory](#Collecting%20SSIS%20packages%20inventory)
+- [Analyzing SSIS packages](#Analyzing%20SSIS%20packages)
 - [Conclusion](#Conclusion)
 
 
