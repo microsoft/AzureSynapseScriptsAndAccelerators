@@ -3,8 +3,8 @@
 ## Contents
 
 - [Introduction](#Introduction) 
-- [Collecting SSIS packages inventory](#Collecting SSIS packages inventory)
-- [Analyzing SSIS packages](#Analyzing SSIS packages)
+- [Collecting SSIS packages inventory](#Collecting%20SSIS%20packages%20inventory)
+- [Analyzing SSIS packages](#Analyzing%20SSIS%20packages)
 - [Conclusion](#Conclusion)
 
 
@@ -27,7 +27,7 @@ Getting insights on these questions would help to define proper migration/modern
 The toolkit comprises of 2 pieces:
 
 1) [Get-SsisPackagesInventory.ps1](Get-SsisPackagesInventory.ps1) - the script which collects SSIS packages inventory.
-2) [SSIS Assessment.pbit](SSIS Assessment.pbit) - Power BI report template used for data visualization and further analysis.
+2) [SSIS Assessment.pbit](SSIS%20Assessment.pbit) - Power BI report template used for data visualization and further analysis.
 
 > **Note**
 >
@@ -52,7 +52,7 @@ The script expects 2 parameters:
 - **RootFolder** - the path to a folder where SSIS packages source code is located. This can be either a single project or the whole solution.
 - **OutputFolder** - the path to a folder where the script will create inventory files.
 
-<img src="images/ScriptParameters.png" alt="Script Parameters" style="zoom:67%;" />
+![Script Parameters](images/ScriptParameters.PNG)
 
 The script seeks for all SSIS project files (*.dtproj) under specified **RootFolder**, programmatically opens all packages in the found projects, and retrieves information about tasks, event handlers, connection managers, data flows, and data flow transformations. 
 
@@ -62,15 +62,15 @@ The script seeks for all SSIS project files (*.dtproj) under specified **RootFol
 >
 > Standalone packages (not linked to any project) are not analyzed.
 
-<img src="images/ScriptOutput.png" alt="Script Output" style="zoom:67%;" />
+![Script Output](images/ScriptOutput.PNG)
 
-<img src="images/ScriptOutput2.png" alt="Script Output" style="zoom:67%;" />
+![Script Output](images/ScriptOutput2.PNG)
 
 Script execution time varies and depends on the total number of packages and packages complexity. Typically it is in the range of minutes.
 
 The script saves inventory information in CSV-files under **OutputFolder**. File names are self-explanatory.
 
-<img src=".\images\InventoryFiles.png" alt="Inventory Files" style="zoom: 67%;" />
+![Inventory Files](images/InventoryFiles.PNG)
 
 
 
@@ -84,51 +84,51 @@ When SSIS packages inventory is collected, it can be further analyzed using any 
 
 To generate a new report, open a template in Power BI Desktop or simply double-click report template file name in Windows Explorer. Power BI Desktop will prompt for the path to inventory files. ***Do not change other parameters.***
 
-<img src="images/PBI-parameters.png" alt="Power BI report parameters" style="zoom:50%;" />
+![Power BI report parameters](images/PBI-parameters.PNG)
 
 
 
-###### **Overview page**
+#### **Overview page**
 
 Overview page provides the summary of all found projects and packages, incl. target SQL Server version, deployment model, protection level, number of tasks by type, and number of data flow transformations by type.
 
-<img src="images/PBI-Report-Overview.png" alt="Report Overview" style="zoom: 50%;" />
+![Overview](images/PBI-Report-Overview.PNG)
 
-###### **Parameters**
+#### **Parameters**
 
 Parameters page provides information about all found project parameters, including data type, Required, Sensitive, and Value.
 
-<img src="images/PBI-Report-Parameters.png" alt="Parameters" style="zoom:50%;" />
+![Parameters](images/PBI-Report-Parameters.PNG)
 
-###### **Executables**
+#### **Executables**
 
 Executables page provides information about control flow tasks and their types with drill-down capability.
 
-<img src="images/PBI-Report-Executables.png" alt="Executables" style="zoom:50%;" />
+![Executables](images/PBI-Report-Executables.PNG)
 
-###### **Data Flows**
+#### **Data Flows**
 
 Data Flows page provides information about data flow transformations  and their types with drill-down capability.
 
-<img src="images/PBI-Report-DataFlows.png" alt="Data Flows" style="zoom:50%;" />
+![Data Flows](images/PBI-Report-DataFlows.PNG)
 
-###### **Event Handlers**
+#### **Event Handlers**
 
 Event Handlers  page provides information about event handlers with split by event type.
 
-<img src="images/PBI-Report-EventHandlers.png" alt="Event Handlers" style="zoom:50%;" />
+![Event Handlers](images/PBI-Report-EventHandlers.PNG)
 
-###### **Package Connection Managers**
+#### **Package Connection Managers**
 
 Package Connection Managers page provides information about ***package***-level connection managers and split by connection type and providers.
 
-<img src="images/PBI-Report-PackageConnectionManagers.png" alt="Package Connection Managers" style="zoom:50%;" />
+![Package Connection Managers](images/PBI-Report-PackageConnectionManagers.PNG)
 
-###### **Project Connection Managers**
+#### **Project Connection Managers**
 
 Project Connection Managers page provides information about ***project***-level connection managers and split by connection type and providers.
 
-<img src="images/PBI-Report-ProjectConnectionManagers.png" alt="Project Connection Managers" style="zoom:50%;" />
+![Project Connection Managers](images/PBI-Report-ProjectConnectionManagers.PNG)
 
 
 
