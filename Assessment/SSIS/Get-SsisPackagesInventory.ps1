@@ -116,11 +116,13 @@ function GetContainerExecutables($ProjectUID, $PackageUID, $Package, $Container)
             foreach ($component in $dataFlowTask.ComponentMetadataCollection) {     
                 # Identify component type either by ComponentClassID (built-in components) or Description (.NET components)
                 $componentType = $app.PipelineComponentInfos `
-                        | Where { $_.ID -eq $component.ComponentClassID -or ($_.Description -eq $component.Description -and $_.Description -ne "") } `
-                        | Select -Property Name -ExpandProperty Name
+                        | Where-Object { $_.ID -eq $component.ComponentClassID -or ($_.Description -eq $component.Description -and $_.Description -ne "") } `
+                        | Select-Object -Property Name -ExpandProperty Name
                 if ($componentType -eq $null) {
                     # Identify 3rd party component type by UserComponentTypeName (e.g. PDW Destination Adapter)
-                    $componentType = $app.PipelineComponentInfos | Where { $_.ID -like $component.CustomPropertyCollection["UserComponentTypeName"].Value } | Select -Property Name -ExpandProperty Name
+                    $componentType = $app.PipelineComponentInfos `
+                        | Where-Object { $_.ID -like $component.CustomPropertyCollection["UserComponentTypeName"].Value } `
+                        | Select-Object -Property Name -ExpandProperty Name
                 }
                 $dataFlowComponent = [PSCustomObject]@{
                     ProjectUID=$ProjectUID;
@@ -155,7 +157,7 @@ function GetContainerExecutables($ProjectUID, $PackageUID, $Package, $Container)
                 HasExpressions=$executable.HasExpressions; 
                 NestedExecutables=$executable.Executables.Count;
                 EventHandlers=$executable.EventHandlers.Count;
-                Variables= $executable.Variables | Where-Object { $_.Namespace -eq 'User' -and $_.Parent.ID -eq $executable.ID } | measure | % {$_.Count};
+                Variables= $executable.Variables | Where-Object { $_.Namespace -eq 'User' -and $_.Parent.ID -eq $executable.ID } | Measure-Object | % {$_.Count};
                 ParentID=$executable.Parent.ID;
                 PackagePath=$executable.GetPackagePath();
                 SqlStatementSourceType=$executable.InnerObject.SqlStatementSourceType;
@@ -284,10 +286,7 @@ function GetPackageInfo($ProjectUID, $PackageUID, $PackageFilePath)
 }
 
 
-$childFolders = Get-ChildItem -Path $RootFolder -Recurse -Directory
-
 $projectFiles = Get-ChildItem -Path $RootFolder -Recurse -Filter *.dtproj
-$connFiles = Get-ChildItem -Path $RootFolder -Recurse -Filter *.conmgr
 
 $totalProjects = $projectFiles.Count
 $totalPackages = 0
@@ -301,8 +300,6 @@ $packageExecutablesInfo = @()
 $packageDataFlowsInfo = @()
 $packageDataFlowComponentsInfo = @()
 $eventHandlersInfo = @()
-
-$pipelineComponentInfos = $app.PipelineComponentInfos
 
 foreach ($projectFile in $projectFiles) {
     Write-Host "Processing project file: ", ($projectFile.FullName) -ForegroundColor Cyan
