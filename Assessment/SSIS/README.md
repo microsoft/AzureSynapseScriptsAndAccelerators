@@ -52,7 +52,7 @@ The script expects 2 parameters:
 - **RootFolder** - the path to a folder where SSIS packages source code is located. This can be either a single project or the whole solution.
 - **OutputFolder** - the path to a folder where the script will create inventory files.
 
-!["Script Parameters](images/ScriptParameters.PNG)
+![Script Parameters](images/ScriptParameters.PNG)
 
 The script seeks for all SSIS project files (*.dtproj) under specified **RootFolder**, programmatically opens all packages in the found projects, and retrieves information about tasks, event handlers, connection managers, data flows, and data flow transformations. 
 
@@ -62,15 +62,15 @@ The script seeks for all SSIS project files (*.dtproj) under specified **RootFol
 >
 > Standalone packages (not linked to any project) are not analyzed.
 
-<img src="images/ScriptOutput.png" alt="Script Output" style="zoom:67%;" />
+![Script Output](images/ScriptOutput.PNG)
 
-<img src="images/ScriptOutput2.png" alt="Script Output" style="zoom:67%;" />
+![Script Output](images/ScriptOutput2.PNG)
 
 Script execution time varies and depends on the total number of packages and packages complexity. Typically it is in the range of minutes.
 
 The script saves inventory information in CSV-files under **OutputFolder**. File names are self-explanatory.
 
-<img src=".\images\InventoryFiles.png" alt="Inventory Files" style="zoom: 67%;" />
+![Inventory Files](images/InventoryFiles.PNG)
 
 
 
@@ -92,7 +92,7 @@ To generate a new report, open a template in Power BI Desktop or simply double-c
 
 Overview page provides the summary of all found projects and packages, incl. target SQL Server version, deployment model, protection level, number of tasks by type, and number of data flow transformations by type.
 
-<img src="images/PBI-Report-Overview.png" alt="Report Overview" style="zoom: 50%;" />
+![Overview](images/PBI-Report-Overview.PNG)
 
 ###### **Parameters**
 
