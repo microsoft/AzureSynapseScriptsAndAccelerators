@@ -52,7 +52,7 @@ The script expects 2 parameters:
 - **RootFolder** - the path to a folder where SSIS packages source code is located. This can be either a single project or the whole solution.
 - **OutputFolder** - the path to a folder where the script will create inventory files.
 
-![Script Parameters](images/ScriptParameters.PNG)
+![Script Parameters](images/ScriptParameters.png)
 
 The script seeks for all SSIS project files (*.dtproj) under specified **RootFolder**, programmatically opens all packages in the found projects, and retrieves information about tasks, event handlers, connection managers, data flows, and data flow transformations. 
 
@@ -62,15 +62,15 @@ The script seeks for all SSIS project files (*.dtproj) under specified **RootFol
 >
 > Standalone packages (not linked to any project) are not analyzed.
 
-![Script Output](images/ScriptOutput.PNG)
+![Script Output](images/ScriptOutput.png)
 
-![Script Output](images/ScriptOutput2.PNG)
+![Script Output](images/ScriptOutput2.png)
 
 Script execution time varies and depends on the total number of packages and packages complexity. Typically it is in the range of minutes.
 
 The script saves inventory information in CSV-files under **OutputFolder**. File names are self-explanatory.
 
-![Inventory Files](images/InventoryFiles.PNG)
+![Inventory Files](images/InventoryFiles.png)
 
 
 
@@ -84,7 +84,7 @@ When SSIS packages inventory is collected, it can be further analyzed using any 
 
 To generate a new report, open a template in Power BI Desktop or simply double-click report template file name in Windows Explorer. Power BI Desktop will prompt for the path to inventory files. ***Do not change other parameters.***
 
-![Power BI report parameters](images/PBI-parameters.PNG)
+![Power BI report parameters](images/PBI-parameters.png)
 
 
 
@@ -92,43 +92,43 @@ To generate a new report, open a template in Power BI Desktop or simply double-c
 
 Overview page provides the summary of all found projects and packages, incl. target SQL Server version, deployment model, protection level, number of tasks by type, and number of data flow transformations by type.
 
-![Overview](images/PBI-Report-Overview.PNG)
+![Overview](images/PBI-Report-Overview.png)
 
 #### **Parameters**
 
 Parameters page provides information about all found project parameters, including data type, Required, Sensitive, and Value.
 
-![Parameters](images/PBI-Report-Parameters.PNG)
+![Parameters](images/PBI-Report-Parameters.png)
 
 #### **Executables**
 
 Executables page provides information about control flow tasks and their types with drill-down capability.
 
-![Executables](images/PBI-Report-Executables.PNG)
+![Executables](images/PBI-Report-Executables.png)
 
 #### **Data Flows**
 
 Data Flows page provides information about data flow transformations  and their types with drill-down capability.
 
-![Data Flows](images/PBI-Report-DataFlows.PNG)
+![Data Flows](images/PBI-Report-DataFlows.png)
 
 #### **Event Handlers**
 
 Event Handlers  page provides information about event handlers with split by event type.
 
-![Event Handlers](images/PBI-Report-EventHandlers.PNG)
+![Event Handlers](images/PBI-Report-EventHandlers.png)
 
 #### **Package Connection Managers**
 
 Package Connection Managers page provides information about ***package***-level connection managers and split by connection type and providers.
 
-![Package Connection Managers](images/PBI-Report-PackageConnectionManagers.PNG)
+![Package Connection Managers](images/PBI-Report-PackageConnectionManagers.png)
 
 #### **Project Connection Managers**
 
 Project Connection Managers page provides information about ***project***-level connection managers and split by connection type and providers.
 
-![Project Connection Managers](images/PBI-Report-ProjectConnectionManagers.PNG)
+![Project Connection Managers](images/PBI-Report-ProjectConnectionManagers.png)
 
 
 
