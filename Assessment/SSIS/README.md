@@ -88,37 +88,37 @@ To generate a new report, open a template in Power BI Desktop or simply double-c
 
 
 
-###### **Overview page**
+#### **Overview page**
 
 Overview page provides the summary of all found projects and packages, incl. target SQL Server version, deployment model, protection level, number of tasks by type, and number of data flow transformations by type.
 
 ![Overview](images/PBI-Report-Overview.PNG)
 
-###### **Parameters**
+#### **Parameters**
 
 Parameters page provides information about all found project parameters, including data type, Required, Sensitive, and Value.
 
 ![Parameters](images/PBI-Report-Parameters.PNG)
 
-###### **Executables**
+#### **Executables**
 
 Executables page provides information about control flow tasks and their types with drill-down capability.
 
 ![Executables](images/PBI-Report-Executables.PNG)
 
-###### **Data Flows**
+#### **Data Flows**
 
 Data Flows page provides information about data flow transformations  and their types with drill-down capability.
 
 ![Data Flows](images/PBI-Report-DataFlows.PNG)
 
-###### **Event Handlers**
+#### **Event Handlers**
 
 Event Handlers  page provides information about event handlers with split by event type.
 
 ![Event Handlers](images/PBI-Report-EventHandlers.PNG)
 
-###### **Package Connection Managers**
+#### **Package Connection Managers**
 
 Package Connection Managers page provides information about ***package***-level connection managers and split by connection type and providers.
 
