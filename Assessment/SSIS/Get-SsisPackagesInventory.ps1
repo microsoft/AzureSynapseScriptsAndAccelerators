@@ -29,13 +29,23 @@
 
 
 param(
-    [Parameter(Mandatory=$false, HelpMessage="Path to SSIS root folder")]
-    [string]
-    $RootFolder = "C:\temp",
+    [Parameter(Mandatory=$true, HelpMessage="Path to SSIS root folder")]
+    [ValidateScript({
+        if( -Not ($_ | Test-Path -PathType Container) ){
+            throw "Folder $_ does not exist"
+        }
+        return $true
+    })]
+    [string] $InputFolder,
 
-    [Parameter(Mandatory=$false, HelpMessage="Path to output folder")]
-    [string]
-    $OutputFolder = "C:\temp"
+    [Parameter(Mandatory=$true, HelpMessage="Path to output folder")]
+    [ValidateScript({
+        if( -Not ($_ | Test-Path -PathType Container) ){
+            throw "Folder $_ does not exist"
+        }
+        return $true
+    })]
+    [string] $OutputFolder
 )
 
 
@@ -286,7 +296,7 @@ function GetPackageInfo($ProjectUID, $PackageUID, $PackageFilePath)
 }
 
 
-$projectFiles = Get-ChildItem -Path $RootFolder -Recurse -Filter *.dtproj
+$projectFiles = Get-ChildItem -Path $InputFolder -Recurse -Filter *.dtproj
 
 $totalProjects = $projectFiles.Count
 $totalPackages = 0

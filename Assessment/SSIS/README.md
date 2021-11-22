@@ -49,12 +49,12 @@ If any of these prerequisites is not met the script will fail reporting correspo
 
 The script expects 2 parameters:
 
-- **RootFolder** - the path to a folder where SSIS packages source code is located. This can be either a single project or the whole solution.
+- **InputFolder** - the path to a folder where SSIS packages source code is located. This can be either a single project or the whole solution.
 - **OutputFolder** - the path to a folder where the script will create inventory files.
 
 ![Script Parameters](images/ScriptParameters.png)
 
-The script seeks for all SSIS project files (*.dtproj) under specified **RootFolder**, programmatically opens all packages in the found projects, and retrieves information about tasks, event handlers, connection managers, data flows, and data flow transformations. 
+The script seeks for all SSIS project files (*.dtproj) under specified **InputFolder**, programmatically opens all packages in the found projects, and retrieves information about tasks, event handlers, connection managers, data flows, and data flow transformations. 
 
 > ###### Note
 >
