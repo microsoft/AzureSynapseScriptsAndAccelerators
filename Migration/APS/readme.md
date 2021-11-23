@@ -8,7 +8,7 @@
 
 
 
-## Overview
+# Overview
 
 This directory contains APS to Azure Synapse migration toolkit. It includes the process flow, PowerShell script modules and configuration required in each module.
 
@@ -18,14 +18,20 @@ Below documents provide detailed information to help you get started.
 - [**Migration/APS/APS_Migration_Considerations_Github.pptx**](APS_Migration_Considerations_Github.pptx) 
 - [**APS-to-Azure-Synapse-Analytics-Migration-Guide.docx**](APS-to-Azure-Synapse-Analytics-Migration-Guide.docx) 
 
+Also, there is video playlist at YouTube channel which contains training videos demonstrating the whole process step-by-step.
+
+- [**Migrate APS/PDW to Azure Synapse Analytics playlist**](https://youtube.com/playlist?list=PLTPqkIPx9Hx8-dxWWv9Wyup2RQMMa6lHx) 
 
 
 
-## Migration Tools Process Flow
+
+# Migration Tools Process Flow
 
 ![Tool Processflow](Images/ProcessFlow_v2.PNG)
 
-## What do the Migration Tools do?
+
+
+# What do the Migration Tools do?
 
 The set of PowerShell Scripts performs below functions:
 
@@ -38,7 +44,7 @@ The set of PowerShell Scripts performs below functions:
 
 
 
-## What is in the Migration Tools?
+# What is in the Migration Tools?
 
 There are 5 modules that contain PowerShell scripts and T-SQL scripts designed to accomplish key tasks that are relevant to APS to Azure Synapse migration.
 
@@ -49,8 +55,7 @@ Five modules are summarized below.
 - [**2_ConvertDDLScripts:**](2_ConvertDDLScripts) Translates/generates the Synapse objects creation scripts from the objects listed from the step 1
 
 - [**3_CreateAPSExportScriptSynapseImportScript:**](3_CreateAPSExportScriptSynapseImportScript) 
-  
-    - Generates APS external table scripts to write data to Azure blob storage
+  - Generates APS external table scripts to write data to Azure blob storage
     - Generates COPY INTO scripts to load data into Azure Synapse tables 
     - Generates import scripts to load data from Azure external tables into Azure Synapse tables.
     
@@ -67,9 +72,10 @@ There are also supplementary folders:
 
 - [**Extras**](Extras) folder contains scripts to re-create sample databases **AdventureWorksDW** and **ContosoDW** which you can use for learning, demos, and experimenting with migration tools.
 - [**Output**](Output) folder contains sample generated files generated based on sample **AdventureWorksDW** and **ContosoDW** databases.
+- [**Training Videos**](Training%20Videos) folder contains the description and links to training videos demonstrating the whole process step-by-step.
 
 
 
-## Contact Information
+# Contact Information
 
 Please send an email to AMA architects at <AMAArchitects@service.microsoft.com> for any issues regarding this tool.
