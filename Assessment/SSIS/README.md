@@ -1,15 +1,6 @@
-# SSIS Assessment
+[TOC]
 
-## Contents
-
-- [Introduction](#Introduction) 
-- [Collecting SSIS packages inventory](#Collecting%20SSIS%20packages%20inventory)
-- [Analyzing SSIS packages](#Analyzing%20SSIS%20packages)
-- [Conclusion](#Conclusion)
-
-
-
-## Introduction
+# Introduction
 
 SSIS (SQL Server Integration Services) is ETL tool which is widely used with data warehouses based on Microsoft SQL Server or Microsoft Analytics Platform System (APS, MPP appliance). When migrating/modernizing these data warehouses in Azure cloud, ETL migration/modernization is frequently the hottest topic.
 
@@ -35,7 +26,7 @@ The toolkit comprises of 2 pieces:
 
 
 
-## Collecting SSIS packages inventory
+# Collecting SSIS packages inventory
 
 Collecting SSIS packages inventory is implemented using a PowerShell script.
 
@@ -56,7 +47,7 @@ The script expects 2 parameters:
 
 The script seeks for all SSIS project files (*.dtproj) under specified **InputFolder**, programmatically opens all packages in the found projects, and retrieves information about tasks, event handlers, connection managers, data flows, and data flow transformations. 
 
-> ###### Note
+> **Note**
 >
 > The script analyzes source code files only and does not connect to actual SSIS environment (msdb, SSISDB, Package store).
 >
@@ -74,11 +65,11 @@ The script saves inventory information in CSV-files under **OutputFolder**. File
 
 
 
-## **Analyzing SSIS packages** ##
+# Analyzing SSIS packages
 
 When SSIS packages inventory is collected, it can be further analyzed using any analytics tool, such as Power BI, Excel, SQL, and others. Here, in the repository you can find a pre-configured template for Power BI report [SSIS Assessment.pbit](SSIS Assessment.pbit).
 
-> ###### Note
+> **Note**
 >
 > To use the template you will need to have Power BI Desktop on your machine. The latest version can be download from [Microsoft Downloads](https://aka.ms/pbiSingleInstaller) or [Microsoft Store](https://aka.ms/pbidesktopstore). 
 
@@ -88,51 +79,51 @@ To generate a new report, open a template in Power BI Desktop or simply double-c
 
 
 
-#### **Overview page**
+## Overview page
 
-Overview page provides the summary of all found projects and packages, incl. target SQL Server version, deployment model, protection level, number of tasks by type, and number of data flow transformations by type.
+***Overview*** page provides the summary of all found projects and packages, incl. target SQL Server version, deployment model, protection level, number of tasks by type, and number of data flow transformations by type.
 
 ![Overview](images/PBI-Report-Overview.png)
 
-#### **Parameters**
+## Parameters
 
-Parameters page provides information about all found project parameters, including data type, Required, Sensitive, and Value.
+***Parameters*** page provides information about all found project parameters, including data type, Required, Sensitive, and Value.
 
 ![Parameters](images/PBI-Report-Parameters.png)
 
-#### **Executables**
+## Executables
 
-Executables page provides information about control flow tasks and their types with drill-down capability.
+***Executables*** page provides information about control flow tasks and their types with drill-down capability.
 
 ![Executables](images/PBI-Report-Executables.png)
 
-#### **Data Flows**
+## Data Flows
 
-Data Flows page provides information about data flow transformations  and their types with drill-down capability.
+***Data Flows*** page provides information about data flow transformations  and their types with drill-down capability.
 
 ![Data Flows](images/PBI-Report-DataFlows.png)
 
-#### **Event Handlers**
+## Event Handlers
 
-Event Handlers  page provides information about event handlers with split by event type.
+***Event Handlers*** page provides information about event handlers with split by event type.
 
 ![Event Handlers](images/PBI-Report-EventHandlers.png)
 
-#### **Package Connection Managers**
+## Package Connection Managers
 
-Package Connection Managers page provides information about ***package***-level connection managers and split by connection type and providers.
+***Package Connection Managers*** page provides information about ***package***-level connection managers and split by connection type and providers.
 
 ![Package Connection Managers](images/PBI-Report-PackageConnectionManagers.png)
 
-#### **Project Connection Managers**
+## Project Connection Managers
 
-Project Connection Managers page provides information about ***project***-level connection managers and split by connection type and providers.
+***Project Connection Managers*** page provides information about ***project***-level connection managers and split by connection type and providers.
 
 ![Project Connection Managers](images/PBI-Report-ProjectConnectionManagers.png)
 
 
 
-## Conclusion ##
+# Conclusion #
 
 This toolkit enables data warehouse migration practitioners to perform SSIS packages analysis within literally minutes. This would help to shape migration strategy, including:
 
