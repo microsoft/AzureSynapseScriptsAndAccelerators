@@ -45,7 +45,7 @@ The script expects 2 parameters:
 
 The script seeks for all SSRS project files (*.rptproj) under specified **InputFolder**, programmatically opens all project files and retrieves information about shared data sources, shared datasets, reports, reports content.  Standalone packages (not linked to any project) are not analyzed. In case of missing files the script reports an error and continues execution.
 
-> ###### Note
+> **Note**
 >
 > The script analyzes source code files only and does not connect to actual SSRS servers (ReportServer database). The following SSRS server contents is worth further analysis:
 >
@@ -81,7 +81,7 @@ Files include:
 
 When SSRS reports inventory is collected, it can be further analyzed using any analytics tool, such as Power BI, Excel, SQL, and others. Here, in the repository you can find a pre-configured Power BI report template [SSRS Assessment.pbit](SSRS Assessment.pbit).
 
-> ###### Note
+> **Note**
 >
 > To use the template you will need to have Power BI Desktop on your machine. The latest version can be downloaded from [Microsoft Downloads](https://aka.ms/pbiSingleInstaller) or [Microsoft Store](https://aka.ms/pbidesktopstore). 
 
@@ -101,7 +101,7 @@ The report loads all files by masks mentioned in the previous section. If there 
 
 **Summary** page provides the summary of all found projects and reports, incl. target SQL Server version, connection types in shared and embedded data sources, command types in shared and embedded datasets, number of used visuals by type, number of various features in use, incl. external assemblies (code modules), embedded code (code lines), Subreports, Embedded images, Document Map labels, Bookmarks, Actions (Boormark/Drillthrough/Hyperlink), ExecutionTime and UserId variables.
 
-> ###### Note
+> **Note**
 >
 > The following features are not supported in Power BI Paginated Reports:
 >
