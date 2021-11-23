@@ -1,4 +1,6 @@
-[[_TOC_]]
+
+
+[TOC]
 
 # Introduction
 
@@ -158,7 +160,7 @@ The report loads all files by masks mentioned in the previous section. If there 
 
 # Conclusion #
 
-This toolkit enables data warehouse migration practitioners to perform SSRS reports analysis within literally minutes. This would help to shape migration strategy, including:
+This toolkit enables data warehouse migration practitioners to analyze SSRS reports estate within literally minutes. This would help to shape migration strategy, including:
 
 - Target platform definition, e.g. SSRS on VM, Power BI Paginated Reports, or another reporting tool.
 - Possible blockers and/or items for further analysis and considerations.
