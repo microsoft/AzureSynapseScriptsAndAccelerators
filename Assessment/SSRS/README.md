@@ -128,7 +128,7 @@ The report loads all files by masks mentioned in the previous section. If there 
 
 ## **Connection Types**
 
-***Connection Type*** Package page provides summary information about various types of connections found across all projects, both in Shared and Embedded Data Sources.
+***Connection Types*** page provides summary information about various types of connections found across all projects, both in Shared and Embedded Data Sources.
 
 - Yellow background highlights connection types which are not supported in Power BI Paginated Reports. These include Microsoft SQL Server Analytics Platform System, Report Server Model, SharePoint list, Oracle Essbase, SAP BW, XML, OLEDB.
 - Orange foreground highlights connection types which require Power BI enterprise gateway configuration. These include Microsoft SQL Server, Microsoft SQL Server Analysis Services, Oracle database, Teradata, ODBC.
