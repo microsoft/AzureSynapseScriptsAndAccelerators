@@ -77,7 +77,7 @@ Files include:
 
   
 
-# **Analyzing SSRS reports** #
+# Analyzing SSRS reports
 
 When SSRS reports inventory is collected, it can be further analyzed using any analytics tool, such as Power BI, Excel, SQL, and others. Here, in the repository you can find a pre-configured Power BI report template [SSRS Assessment.pbit](SSRS Assessment.pbit).
 
@@ -87,7 +87,7 @@ When SSRS reports inventory is collected, it can be further analyzed using any a
 
 
 
-## **Loading data into report**
+## Loading data into report
 
 To generate a new report, open a template in Power BI Desktop or simply double-click report template file name in Windows Explorer. Power BI Desktop will prompt for the path to inventory files. ***Do not change other parameters.***
 
@@ -97,7 +97,7 @@ The report loads all files by masks mentioned in the previous section. If there 
 
 
 
-## **Summary**
+## Summary
 
 **Summary** page provides the summary of all found projects and reports, incl. target SQL Server version, connection types in shared and embedded data sources, command types in shared and embedded datasets, number of used visuals by type, number of various features in use, incl. external assemblies (code modules), embedded code (code lines), Subreports, Embedded images, Document Map labels, Bookmarks, Actions (Boormark/Drillthrough/Hyperlink), ExecutionTime and UserId variables.
 
@@ -114,19 +114,19 @@ The report loads all files by masks mentioned in the previous section. If there 
 
 ![Summary](images/PBI-Report-Summary.png)
 
-## **Shared Data Sources**
+## Shared Data Sources
 
 ***Shared Data Sources*** page provides information about all found Shared Data Sources, including project, shared data source, and connection type (SQL Server, Azure SQL Data Warehouse, etc.).
 
 ![Shared Data Sources](images/PBI-Report-SharedDataSources.png)
 
-## **Embedded Data Sources**
+## Embedded Data Sources
 
 ***Embedded Data Sources*** page provides information about all found Data Sources which are embedded into reports, including project, report, data source name, and connection type.
 
 ![Embedded Data Sources](images/PBI-Report-EmbeddedDataSources.png)
 
-## **Connection Types**
+## Connection Types
 
 ***Connection Types*** page provides summary information about various types of connections found across all projects, both in Shared and Embedded Data Sources.
 
@@ -136,13 +136,13 @@ The report loads all files by masks mentioned in the previous section. If there 
 
 ![Connection Types](images/PBI-Report-ConnectionTypes.png)
 
-## **Shared Datasets**
+## Shared Datasets
 
 ***Shared Datasets*** page provides information about all found Shared Datasets, including project, dataset, command type, number of parameters / fields / calculated fields / data fields / filters.
 
 ![Project Connection Managers](images/PBI-Report-SharedDatasets.png)
 
-## **Embedded Datasets**
+## Embedded Datasets
 
 ***Embedded Datasets*** page provides information about all found Datasets embedded into reports, including project, report, dataset, command type, number of parameters / fields / calculated fields / data fields / filters.
 
