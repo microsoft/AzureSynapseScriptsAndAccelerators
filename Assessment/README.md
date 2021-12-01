@@ -5,6 +5,7 @@
  - [Preparation Tasks](#prepartion-tasks)
  - [How to run the Assessment Tool](#how-to-run-the-assessment-tool)
  - [PowerBI Report Generation](#powerbi-report-generation)
+ - [How-To Videos](#howto-videos)
  - [Appendix](#appendix)
  - [Contact Information](#contact-information)
 
@@ -23,8 +24,8 @@ There are new bash shell scripts avaialble to run on Linux/Unix environments
 
 Scripts will iterate through the Assessments scripts, if Windows and PowerShell are not available. You can jump to:
 
-- [Preparation Tasks for Oracle on Linux/Unix](#preparation-tasks-for-oracle-on-linux/unix) section.
-- [Preparation Tasks for Netezza on Linux/Unix](#preparation-tasks-for-netezza-on-linux/unix) section.
+- [Preparation Tasks for Oracle on Linux/Unix](#preparation-tasks-for-oracle-on-linuxunix) section.
+- [Preparation Tasks for Netezza on Linux/Unix](#preparation-tasks-for-netezza-on-linuxunix) section.
 
 | **Supported Source Systems**    | **Benefits**                  | **Tool details**  | **Capturing Information** |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |------------------------------------------------------------ |------------------------------------------------------------ |
@@ -242,6 +243,13 @@ Click on the "Transform Data" icon, locate the file/feed on the left pane (e.g..
 **APS PowerBI report sample**
 
 ![APS PowerBI sample report](..//Images/0B_Sample_APS_powerBI_report.PNG)
+
+## Howto Videos
+
+* [Video Channel with Step by Step Assessment & Migration Steps](https://www.youtube.com/channel/UC1p4FI5CLXlI-Z4v8rJPvYA)
+* [Assessment & PowerBI Dahsboard Generation](https://www.youtube.com/watch?v=VXLMgAH1_XM)
+* [Playlist - Migrate SQL Server to Azure Synapse Analytics](https://www.youtube.com/watch?v=VEuwoxmzciM&list=PLTPqkIPx9Hx8QJnYh45aewA_60Kw3x1Ia)
+* [Playlist - Migrate APS/PDW to Azure Synapse Analytics](https://www.youtube.com/watch?v=DFP5wxjMueE&list=PLTPqkIPx9Hx8-dxWWv9Wyup2RQMMa6lHx)
 
 
 ## Appendix
