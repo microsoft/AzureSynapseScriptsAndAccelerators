@@ -1,4 +1,4 @@
-# **Guide to Training Videos** 
+# Guide to Training Videos 
 
 **Training videos are recorded by**
 
@@ -6,7 +6,11 @@
 
 
 
-## **Video Index**
+# Video Index
+
+YouTube playlist contains training videos demonstrating the whole process step-by-step:
+
+- [**Migrate APS/PDW to Azure Synapse Analytics playlist**](https://youtube.com/playlist?list=PLTPqkIPx9Hx8-dxWWv9Wyup2RQMMa6lHx) 
 
 | **Index** | **Length** | **Overview**                                                 | **YouTube Link**                                             |
 | --------- | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ |

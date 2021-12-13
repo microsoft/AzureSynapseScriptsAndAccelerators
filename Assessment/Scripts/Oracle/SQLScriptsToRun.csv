@@ -15,8 +15,8 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Packages,\Oracle\Packages.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Roles,\Oracle\Roles.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Tables,\Oracle\Tables.sql
-1,ORACLE,Server,ALL,SQL,10.0.0.0,11.9.0.0,Users,\Oracle\Users_v1.sql
-1,ORACLE,Server,ALL,SQL,12.0.0.0,19.0.0.0,Users,\Oracle\Users_v2.sql
+1,ORACLE,Server,ALL,SQL,10.0.0.0,12.1.99.99,Users,\Oracle\Users_v1.sql
+1,ORACLE,Server,ALL,SQL,12.2.0.0,19.0.0.0,Users,\Oracle\Users_v2.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Views,\Oracle\Views.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Audit,\Oracle\Audit.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,BitmapIndexes,\Oracle\BitmapIndexes.sql
@@ -25,8 +25,8 @@ Active,SourceSystem,RunFor,DB,CommandType,VersionFrom,VersionTo,ExportFileName,S
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,MaterializedViews,\Oracle\MaterializedViews.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Triggers,\Oracle\Triggers.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,ObjectCounts,\Oracle\ObjectCounts.sql
-1,ORACLE,Server,ALL,SQL,10.0.0.0,11.9.0.0,ColumnMetadata,\Oracle\ColumnMetadata_v1.sql
-1,ORACLE,Server,ALL,SQL,12.0.0.0,19.0.0.0,ColumnMetadata,\Oracle\ColumnMetadata_v2.sql
+1,ORACLE,Server,ALL,SQL,10.0.0.0,12.1.99.99,ColumnMetadata,\Oracle\ColumnMetadata_v1.sql
+1,ORACLE,Server,ALL,SQL,12.2.0.0,19.0.0.0,ColumnMetadata,\Oracle\ColumnMetadata_v2.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,ObjectLineCounts,\Oracle\ObjectLineCount.sql
 1,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,TablePKs,\Oracle\TablePKs.sql
 0,ORACLE,Server,ALL,SQL,10.0.0.0,19.0.0.0,Functions,\Oracle\Functions.sql
