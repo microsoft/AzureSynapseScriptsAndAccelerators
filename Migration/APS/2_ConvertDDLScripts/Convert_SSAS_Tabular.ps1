@@ -36,7 +36,7 @@ param(
 
     [Parameter(Mandatory=$false, HelpMessage="Path to schema mapping file.")]
     [string] 
-    $SchemasFilePath = "C:\temp\schemas.csv",
+    $SchemasFilePath = "C:\AzureSynapseScriptsAndAccelerators\Migration\APS\3_ConvertDDLScripts\schemas.csv",
 
     [Parameter(Mandatory=$false, HelpMessage="Default schema which will be used if schema name is omitted.")] 
     [string]
@@ -48,11 +48,11 @@ param(
 
     [Parameter(Mandatory=$false)] 
     [string]
-    $AzureSqlServerName = "sqldwsqlserver.database.windows.net",
+    $AzureSqlServerName = "servername.sql.azuresynapse.net",
     
     [Parameter(Mandatory=$false)] 
     [string]
-    $SynapseName = "BLINK",
+    $SynapseName = "EDW",
 
     [Parameter(Mandatory=$false, HelpMessage="Save changes to SSAS Tabular source code.")] 
     [bool]

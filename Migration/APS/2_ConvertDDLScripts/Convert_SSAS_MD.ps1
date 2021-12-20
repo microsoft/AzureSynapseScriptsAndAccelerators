@@ -32,7 +32,7 @@
 param(
     [Parameter(Mandatory=$false, HelpMessage="Path to SSAS MD project folder.")]
     [string]
-    $ProjectFolder = "C:\Users\",
+    $ProjectFolder = "C:\temp\SSAS_MD",
 
     [Parameter(Mandatory=$false, HelpMessage="Path to schema mapping file.")]
     [string] 
@@ -52,7 +52,7 @@ param(
     
     [Parameter(Mandatory=$false)] 
     [string]
-    $SynapseName = "dwoty",
+    $SynapseName = "EDW",
 
     [Parameter(Mandatory=$false, HelpMessage="Save changes to SSAS MD source code.")] 
     [bool]
@@ -93,7 +93,7 @@ foreach ($dsFile in $dsFiles)
 
     if ($UpdateDataSources -eq $true)
     {
-        $newConnectionString = "Provider=MSOLEDBSQL.1;Data Source=$AzureSqlServerName;Persist Security Info=True;Password=;User ID=$userId;Initial Catalog=$SynapseName"        
+        $newConnectionString = "Provider=SQLNCLI11.1;Data Source=$AzureSqlServerName;Persist Security Info=True;Password=;User ID=$userId;Initial Catalog=$SynapseName"        
         $content.DataSource.ConnectionString = $newConnectionString
         $content.Save($dsFile)
 
