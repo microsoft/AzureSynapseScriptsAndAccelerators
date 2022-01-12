@@ -124,6 +124,13 @@ function RunSQLStatement
 			$conn=new-object system.data.odbc.odbcconnection
 			$cmd = new-object System.Data.Odbc.OdbcCommand
 		}
+		elseif ($SourceSystemType -eq "DB2") 
+		{
+			#https://www.ibm.com/support/pages/node/398303
+			$ConnectionString = "dsn={0};UID={1};pwd={2};" -f $DSNName,$Username,$Password 
+			$conn=new-object system.data.odbc.odbcconnection
+			$cmd = new-object System.Data.Odbc.OdbcCommand
+		}
 		#Display-LogMsg "ConnectionString: $ConnectionString "
 		#$conn=new-object System.Data.SqlClient.SQLConnection
 		$conn.ConnectionString=$ConnectionString 
