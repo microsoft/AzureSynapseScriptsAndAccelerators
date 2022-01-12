@@ -2,13 +2,12 @@
 # **Table Of Contents**
  - [Assessment Tool Summary](#assessment-tool-summary) 
  - [Assessment Tool Dataflow](#assessment-tool-dataflow)
- - [Preparation Tasks](#prepartion-tasks)
+ - [Preparation Tasks](#preparation-tasks)
  - [How to run the Assessment Tool](#how-to-run-the-assessment-tool)
  - [PowerBI Report Generation](#powerbi-report-generation)
  - [How-To Videos](#howto-videos)
  - [Appendix](#appendix)
  - [Contact Information](#contact-information)
-
 
 ## Assessment Tool Summary
 Assessment tool is used to gather information on the Source System Databases better enable an accurate estimate for the migration.
@@ -29,7 +28,7 @@ Scripts will iterate through the Assessments scripts, if Windows and PowerShell 
 
 | **Supported Source Systems**    | **Benefits**                  | **Tool details**  | **Capturing Information** |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |------------------------------------------------------------ |------------------------------------------------------------ |
-|<ul><li>APS</li><li>SYNAPSE</li><li>Teradata</li><li>SQLServer</li><li>SNOWFLAKE</li><li>SNOWFLAKE</li><li>NETEZZA</li><li>ORACLE/Exadata</li></ul> |<li>Source System inventory to migrate​</li><li>Scoping the migration effort with consolidated reports​</li><li>Generation of Power BI report​</li><li>Ability to add additional inventory queries​</li><li>Supports data gathering at different levels(ex: Server, DB level and table level)​</li><li>Supports different authentication types (ex: ADPass, AzureADInt, WinInt, SQLAuth)</li> |<li>Easy to configure and run​</li><li>Built on Powershell scripts​</li><li>Supports multiple iterations to run​</li><li>**Steps to execute:** ​</li><li>**Step 1** – Assessment driver execution​</li><li>**Step 2** -  PowerBI report generation​</li><li>**Input:** ​</li><li>Source System details​</li><li>Ex: DB server,port,username & password​</li><li>**Output:** ​</li><li>CSV files with the source system inventory details</li>|<li>DB Version​</li><li>Object Count​</li><li>Object Metadata(Size, partitions count, distribution type, distribution column, etc.)​</li><li>Size of the System​</li><li>Users & schema information</li> |
+|<ul><li>APS (PDW)</li><li>DB2</li><li>Netezza</li><li>Oracle / Exadata</li><li>Snowflake</li><li>Teradata</li><li>SQL Server</li></ul> |<li>Source System inventory to migrate​</li><li>Scoping the migration effort with consolidated reports​</li><li>Generation of Power BI report​</li><li>Ability to add additional inventory queries​</li><li>Supports data gathering at different levels(ex: Server, DB level and table level)​</li><li>Supports different authentication types (ex: ADPass, AzureADInt, WinInt, SQLAuth)</li> |<li>Easy to configure and run​</li><li>Built on Powershell scripts​</li><li>Supports multiple iterations to run​</li><li>**Steps to execute:** ​</li><li>**Step 1** – Assessment driver execution​</li><li>**Step 2** -  PowerBI report generation​</li><li>**Input:** ​</li><li>Source System details​</li><li>Ex: DB server,port,username & password​</li><li>**Output:** ​</li><li>CSV files with the source system inventory details</li>|<li>DB Version​</li><li>Object Count​</li><li>Object Metadata(Size, partitions count, distribution type, distribution column, etc.)​</li><li>Size of the System​</li><li>Users & schema information</li> |
 
 ## Assessment Tool Dataflow
 
