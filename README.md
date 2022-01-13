@@ -1,6 +1,6 @@
 # Projects
 
-This repository contains accelerators that help you to accelerate your journey to implement workloads with Microsoft Azure Synapse Analytics, particularly to aid you to perform below tasks: 
+This repository contains scripts that help you to accelerate your journey to implement workloads with Microsoft Azure Synapse Analytics, particularly to aid you to perform below tasks: 
 
 __Download__ the contents of this repository and unzip.
 
@@ -8,16 +8,22 @@ __Download__ the contents of this repository and unzip.
 
 ## Assessment
 
-Assess your current analytics workload hosted in on-premises or in-cloud data warehouses. For example:
+Assess your current analytics workload hosted in on-premises or in-cloud data warehouses. 
 
-  * Teradata
+Supported Platforms:
+
+  * APS (PDW)
+  * DB2
   * Netezza
   * Oracle / Exadata
-  * APS (PDW)
-  * SQL Server
-  * Redshift
   * Snowflake
+  * Teradata
+  * SQL Server
+  
+Platforms in Development:
+ 
   * Google Big Query
+  * Redshift
   
 For information on how to assess, navigate to the Assessment folder.
 

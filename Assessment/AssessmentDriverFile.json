@@ -9,7 +9,7 @@
 			"QueryTimeout":"0",
 			"ConnectionTimeout":"60",
 			"VerboseLogging":"False",
-			"ValidSourceSystems":"SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE, ORACLE"
+			"ValidSourceSystems":"SQLServer, APS, SYNAPSE, TERADATA, NETEZZA, SNOWFLAKE, ORACLE, DB2"
 			}
 		],
 	"APS":
@@ -54,10 +54,16 @@
 			 "ConnectionMethod":"SQLAuth"}
 		],
 	"SQLSERVER":
-			[
-				{"Database":"master",
-					"ConnectionMethod":"ADPass, AzureADInt, WinInt, SQLAuth"}
-			],
+		[
+			{"Database":"master",
+				"ConnectionMethod":"ADPass, AzureADInt, WinInt, SQLAuth"}
+		],
+	"DB2":
+		[
+			{"Database":"syscat",
+			 "Port":"50000",
+			 "ConnectionMethod":"SQLAuth"}
+		],
 	"VersionQuery":
 		[
 			{
@@ -87,6 +93,10 @@
 			{
 				"System":"ORACLE",
 				"Query":"SELECT VERSION as VERSION FROM SYS.PRODUCT_COMPONENT_VERSION;"
+			},
+			{
+				"System":"DB2",
+				"Query":"SELECT service_level FROM TABLE (sysproc.env_get_inst_info()) as INSTANCEINFO;"
 			}
 		],
 	"DBListingQuery":
@@ -135,6 +145,12 @@
 				"VersionFrom":"1.0.2000.8",
 				"VersionTo": "99.0.2000.8",
 				"Query":"select name from sys.databases where name not in ('master','tempdb','stagedb', 'msdb', 'model', 'ReportServer$%') and user_access_desc = 'multi_user' and state_desc='online'"
+			},
+			{
+				"System":"DB2",
+				"VersionFrom":"1.0.0.0",
+				"VersionTo": "99.0.0.0",
+				"Query":""
 			}
 		],
 	"TableListingQuery":
@@ -185,6 +201,12 @@
 				"VersionFrom":"2.0.2000.8",
 				"VersionTo": "99.0.2000.8",
 				"Query":"select t.name as name, s.name as SchemaName, t.is_external from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id order by t.name;"
+			},
+			{
+				"System":"DB2",
+				"VersionFrom":"1.0.0.0",
+				"VersionTo": "99.0.0.0",
+				"Query":""
 			}
 		],
 	"ViewListingQuery":
@@ -230,6 +252,12 @@
 				"VersionFrom":"2.0.2000.8",
 				"VersionTo": "99.0.2000.8",
 				"Query":"select t.name as name, s.name as SchemaName, t.is_external from sys.tables t join sys.schemas as s on t.schema_id = s.schema_id order by t.name;"
+			},
+			{
+				"System":"DB2",
+				"VersionFrom":"1.0.0.0",
+				"VersionTo": "99.0.0.0",
+				"Query":""
 			}
 		],
 	"ProcedureListingQuery":
@@ -274,6 +302,12 @@
 				"System":"SQLSERVER",
 				"VersionFrom":"2.0.2000.8",
 				"VersionTo": "99.0.2000.8",
+				"Query":""
+			},
+			{
+				"System":"DB2",
+				"VersionFrom":"1.0.0.0",
+				"VersionTo": "99.0.0.0",
 				"Query":""
 			}
 		],
@@ -320,7 +354,13 @@
 					"VersionFrom":"2.0.2000.8",
 					"VersionTo": "99.0.2000.8",
 					"Query":""
-				}
+			},
+			{
+				"System":"DB2",
+				"VersionFrom":"1.0.0.0",
+				"VersionTo": "99.0.0.0",
+				"Query":""
+			}
 			],
 	"MacroListingQuery":
 		[
@@ -364,6 +404,12 @@
 				"System":"SQLSERVER",
 				"VersionFrom":"2.0.2000.8",
 				"VersionTo": "99.0.2000.8",
+				"Query":""
+			},
+			{
+				"System":"DB2",
+				"VersionFrom":"1.0.0.0",
+				"VersionTo": "99.0.0.0",
 				"Query":""
 			}
 		],
@@ -410,6 +456,12 @@
 				"VersionFrom":"2.0.2000.8",
 				"VersionTo": "99.0.2000.8",
 				"Query":""
+			},
+			{
+				"System":"DB2",
+				"VersionFrom":"1.0.0.0",
+				"VersionTo": "99.0.0.0",
+				"Query":""
 			}
 		],
 	"FunctionExtListingQuery":
@@ -455,6 +507,12 @@
 				"VersionFrom":"2.0.2000.8",
 				"VersionTo": "99.0.2000.8",
 				"Query":""
+			},
+			{
+				"System":"DB2",
+				"VersionFrom":"1.0.0.0",
+				"VersionTo": "99.0.0.0",
+				"Query":""
 			}
 		],
 	"TriggerListingQuery":
@@ -499,6 +557,12 @@
 				"System":"SQLSERVER",
 				"VersionFrom":"2.0.2000.8",
 				"VersionTo": "99.0.2000.8",
+				"Query":""
+			},
+			{
+				"System":"DB2",
+				"VersionFrom":"1.0.0.0",
+				"VersionTo": "99.0.0.0",
 				"Query":""
 			}
 		]
