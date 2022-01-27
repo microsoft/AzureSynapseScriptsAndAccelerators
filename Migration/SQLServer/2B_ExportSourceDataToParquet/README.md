@@ -17,16 +17,6 @@ Sample scenarios where this tool might be useful include:
   - network bandwidth available for data extraction is limited
   - using cloud services for data extraction is undesirable due to costs, infrastructure complexity, or other concerns. 
 
-> Note that currently only **SQL Server family** source databases are supported. These include:
->
-> - SQL Server 2005 or higher
-> - Parallel Data Warehouse (PDW)
-> - Analytics Platform System (APS)
-> - Azure SQL Database
-> - Azure SQL Managed Instance
->
-> Only **SQL authentication** (user name / password) is currently supported.
-
 
 
 ## Syntax
@@ -74,7 +64,7 @@ In short the logic of the script can be described as below:
 
    
 
-> Note that currently there are limitations which include:
+> Note that there are current limitations which include:
 >
 > - **SQL Authentication** (user name / password) only
 >
