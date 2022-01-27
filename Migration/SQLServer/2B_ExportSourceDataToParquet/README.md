@@ -57,15 +57,50 @@ The script [Export-ToParquet.ps1](Export-ToParquet.ps1) implements a parallel da
 In short the logic of the script can be described as below:
 
 1. Download and unpack either [Parquet.Net](https://www.nuget.org/packages/Parquet.Net/) or[ParquetSharp](https://www.nuget.org/packages/ParquetSharp/) NuGet-package.
+
 2. Read configuration file.
+
 3. Loop through the list of records found in the configuration file.
+
 4. For every active (Enabled=1) record start a new background job which executes either Export-Table.ps1 or Export-Table_v2.ps1 script with corresponding parameter values.
+
 5. Every background job
    - opens a connection to source database
    - executes SELECT-statement 
    - reads data in streaming mode
    - stores data in Parquet-file
+   
 6. Wait until all jobs are completed.
+
+   
+
+> Note that currently there are limitations which include:
+>
+> - **SQL Authentication** (user name / password) only
+>
+> - **SQL Server family** database only. These include:
+>
+>   - SQL Server 2005 or higher
+>
+>   - Parallel Data Warehouse (PDW)
+>
+>   - Analytics Platform System (APS)
+>
+>   - Azure SQL Database
+>
+>   - Azure SQL Managed Instance
+>
+> - **Supported data types** include:
+>
+>   - int, tinyint, smallint, bigint
+>   - bit
+>   - char, nchar, varchar, nvarchar
+>   - real, float
+>   - decimal, numeric, money, smallmoney
+>   - date, time, datetime, datetime2, smalldatetime, datetimeoffset
+>   - binary, varbinary
+
+
 
 The toolkit includes:
 
