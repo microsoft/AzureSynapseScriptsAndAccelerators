@@ -84,19 +84,19 @@ Sample command:
 .\Export-ToParquet.ps1 -ConfigFile .\ConfigFile.csv -ServerName "synapse-demo.sql.azuresynapse.net" -UserName sqladminuser -MaxJobsCount 5
 ```
 
-![Script Parameters](images/ScriptParameters.png)
+![Script Parameters](../images/M2B_ScriptParameters.png)
 
 Once all required parameters are provided, the script starts execution and reports progress for every background job.
 
-![Script Progress](images/ScriptProgress.png)
+![Script Progress](../images/M2B_ScriptProgress.png)
 
 Once completed the script reports the status of all jobs and total execution time.
 
-![Script Output](images/ScriptOutput2.png)
+![Script Output](../images/M2B_ScriptOutput2.png)
 
 The output folder contains extracted data stored in Parquet-files.
 
-![Output Folder](images/OutputFolder.png)
+![Output Folder](../images/M2B_OutputFolder.png)
 
 ## Parameters
 
