@@ -671,7 +671,7 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 	}
 	
 
-	If($SourceSystem -eq 'TERADATA' -or $SourceSystem -eq 'SNOWFLAKE' -or $SourceSystem -eq 'ORACLE')
+	If($SourceSystem -eq 'TERADATA' -or $SourceSystem -eq 'SNOWFLAKE' -or $SourceSystem -eq 'ORACLE' -or $SourceSystem -eq 'DB2')
 	{
 		$DSNName = Read-Host -prompt "Enter the ODBC DSN Name to connect with(Note: Maybe Case Sens). Default on Enter: [$DSNNameDefault]"
 		if($DSNName -ceq "" -or $DSNName -ceq $null)
@@ -770,6 +770,18 @@ Function GetDBVersion($VersionQueries, $ServerName, $DSNName, $Port, $Database, 
 	{
 		$OracleConfig = ($BaseJSON | Select-Object Oracle).Oracle
 		foreach($v in $OracleConfig)
+		{
+			$DB_Default = ($v | Select-Object Database).Database
+			$Port = ($v | Select-Object Port).Port
+			$ConnectionMethodSupported = ($v | Select-Object ConnectionMethod).ConnectionMethod
+		}
+	}
+
+	# Code to handle DB2 
+	if ($SourceSystem -eq "DB2")
+	{
+		$DB2Config = ($BaseJSON | Select-Object DB2).DB2
+		foreach($v in $DB2Config)
 		{
 			$DB_Default = ($v | Select-Object Database).Database
 			$Port = ($v | Select-Object Port).Port
