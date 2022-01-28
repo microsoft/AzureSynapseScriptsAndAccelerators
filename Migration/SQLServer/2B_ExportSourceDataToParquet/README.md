@@ -52,7 +52,7 @@ In short the logic of the script can be described as below:
 
 3. Loop through the list of records found in the configuration file.
 
-4. For every active (Enabled=1) record start a new background job which executes either Export-Table.ps1 or Export-Table_v2.ps1 script with corresponding parameter values.
+4. For every active (Enabled=1) record start a new background job which executes either Export-ParquetNet.ps1 or Export-ParquetSharp.ps1 script with corresponding parameter values.
 
 5. Every background job
    - opens a connection to source database
@@ -243,18 +243,18 @@ Default value: None
 | ---------- | ------------------------------------------------------------ |
 | Enabled    | 1 - use current line for extracting data; 0 - skip current line. |
 | Database   | The name of source database.                                 |
-| Table      | The name of source table.                                    |
+| JobName    | The name of a job which will be used when initiating a background job. |
 | Query      | SELECT statement to retrieve source data.                    |
 | FilePath   | The path to Parquet-file where extracted data will be stored. Both relative and absolute paths are supported. |
 
 ```
-Enabled,Database,Table,Query,FilePath
-1,"TPCH","dbo.LINEITEM","select * from LINEITEM where L_ORDERKEY between 1 and 10000000",".\Output\LINEITEM_01.snappy.parquet"
-1,"TPCH","dbo.LINEITEM","select * from LINEITEM where L_ORDERKEY between 10000001 and 20000000",".\Output\LINEITEM_02.snappy.parquet"
-1,"TPCH","dbo.LINEITEM","select * from LINEITEM where L_ORDERKEY between 20000001 and 30000000",".\Output\LINEITEM_03.snappy.parquet"
-1,"TPCH","dbo.LINEITEM","select * from LINEITEM where L_ORDERKEY between 30000001 and 40000000",".\Output\LINEITEM_04.snappy.parquet"
-1,"TPCH","dbo.LINEITEM","select * from LINEITEM where L_ORDERKEY between 40000001 and 50000000",".\Output\LINEITEM_05.snappy.parquet"
-1,"TPCH","dbo.LINEITEM","select * from LINEITEM where L_ORDERKEY between 50000001 and 60000000",".\Output\LINEITEM_06.snappy.parquet"
+Enabled,Database,JobName,Query,FilePath
+1,"TPCH","dbo_LINEITEM_1","select * from LINEITEM where L_ORDERKEY between 1 and 10000000",".\Output\LINEITEM_01.snappy.parquet"
+1,"TPCH","dbo_LINEITEM_2","select * from LINEITEM where L_ORDERKEY between 10000001 and 20000000",".\Output\LINEITEM_02.snappy.parquet"
+1,"TPCH","dbo_LINEITEM_3","select * from LINEITEM where L_ORDERKEY between 20000001 and 30000000",".\Output\LINEITEM_03.snappy.parquet"
+1,"TPCH","dbo_LINEITEM_4","select * from LINEITEM where L_ORDERKEY between 30000001 and 40000000",".\Output\LINEITEM_04.snappy.parquet"
+1,"TPCH","dbo_LINEITEM_5","select * from LINEITEM where L_ORDERKEY between 40000001 and 50000000",".\Output\LINEITEM_05.snappy.parquet"
+1,"TPCH","dbo_LINEITEM_6","select * from LINEITEM where L_ORDERKEY between 50000001 and 60000000",".\Output\LINEITEM_06.snappy.parquet"
 ```
 
 
