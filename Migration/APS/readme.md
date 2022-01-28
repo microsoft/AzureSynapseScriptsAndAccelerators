@@ -58,7 +58,7 @@ Five modules are summarized below.
   - Generates APS external table scripts to write data to Azure blob storage
     - Generates COPY INTO scripts to load data into Azure Synapse tables 
     - Generates import scripts to load data from Azure external tables into Azure Synapse tables.
-    
+  
 - [**4_CreateExternalTablesSynapse:**](4_CreateExternalTablesSynapse) Generates scripts to create Azure Synapse external tables
 
 - [**5_DeployScriptsToSynapse:**](5_DeployScriptsToSynapse) 
@@ -67,6 +67,8 @@ Five modules are summarized below.
     - To create Synapse external tables
     - To import data from Azure external tables into Azure Synapse user tables.
     
+
+> Note that you can also use PowerShell-script to extract source data to Parquet-files. The script is available under [/Migration/SQLServer/2B_ExportSourceDataToParquet](../SQLServer/2B_ExportSourceDataToParquet) folder (it is applicable to APS/PDW too). It allows to offload data to Parquet-files on a local storage, network storage, or Azure Data Box appliance without configuring Polybase.
 
 There are also supplementary folders:
 

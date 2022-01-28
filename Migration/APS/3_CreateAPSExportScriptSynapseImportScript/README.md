@@ -56,6 +56,10 @@ OPTION (LABEL = 'Import_Table_aw.FactFinance')
 
 
 
+> Note that you can also use PowerShell-script to extract source data to Parquet-files. The script is available under [/Migration/SQLServer/2B_ExportSourceDataToParquet](../../SQLServer/2B_ExportSourceDataToParquet) folder (it is applicable to APS/PDW too). It allows to offload data to Parquet-files on a local storage, network storage, or Azure Data Box appliance without configuring Polybase.
+
+
+
 
 ## **How to Run the Script** ##
 
