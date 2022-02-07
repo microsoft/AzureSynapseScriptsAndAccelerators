@@ -35,11 +35,11 @@
 -- (5) # of Columns in this database (1) 
 -- (6) # of Identity Columns in Tables, Views, and Stored Procedures 
 -- (7) # of XML Columns in Tables, Views, and Stored Procedures 
--- (8) # of Stored Procedrues 
+-- (8) # of Stored Procedures 
 -- (9) # of Views
 -- (10) # of Triggers 
 -- (11) # of Primary Key Constraints 
--- (12) # of Foreighn Key Constraints
+-- (12) # of Foreign Key Constraints
 -- (13) # of Scalar Functions 
 -- (14) # of Table Value Functions 
 -- (15) # of Synonym Object
