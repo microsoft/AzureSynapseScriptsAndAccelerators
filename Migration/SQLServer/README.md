@@ -13,14 +13,15 @@ In addition, within each module (subfolder in this directory), there is a README
 
 The PowerShell Scripts performs below functions: 
 
-1. Translate SQL Server Table DDLs into Azure Synapse DDLs, Extract Code DDLs (Views, Functions, Stored Procedures, and Triggers), Map Databases and Schemas.  **We recommend Azure Synapse Pathway (ASP) for this capability as ASP is the official Code Translation tool which continues to deliver comprehensive capabilities. **
-2. **Execute Translated Table DDLs** in Azure Synapse
-3. Export SQL Server Data Via BCP to local storage <u>(BCP Data Export Option, for all SQL Servers)</u>.
-4. Generate Polybase Export T-SQL Scripts <u>(Polybase Data Export Option, for SQL Server 2016 or later)</u>.
-5. **Execute Generated Polybase Export Scripts** <u>(Data exported to Azure Storage after this task)</u>.
+1. Translate SQL Server Table DDLs into Azure Synapse DDLs using module 1.
+1.  Extract Code DDLs (Views, Functions, Stored Procedures, and Triggers), Map Databases and Schemas, and produce Azure Synapse Code, using module 1A **and** 1B. 
+2. **Execute Translated Translated Code** in Azure Synapse using module 5. 
+3. Export SQL Server Data into .csv or .parquet files using module 2 or module 2B, respectively. 
+4. Generate Polybase Export T-SQL Scripts using module 2A. 
+5. **Execute Generated Polybase Export Scripts** using module 5, this will export SQL tables and store the data in Azure Storage (blob or adls).
 6. Upload Exported Data into Azure Data Lake Store (or Blob Storage) if using BCP Export Option.
-7. Generate T-SQL Copy Import Scripts. 
-8. **Execute T-SQL Copy Import Scripts** to Import Data into Azure Synapse <u>(Data is imported into Azure Synapse Tables from Azure Storage after this step)</u>.
+7. Generate T-SQL Copy Import Scripts for various file formats, including .csv or .parquet. 
+8. **Execute T-SQL Copy Import Scripts** to Import Data into Azure Synapse using module 5. <u>Data is imported into Azure Synapse Tables from Azure Storage after this step</u>.
 
 ### **What are in the Migration Utilities?** 
 
@@ -34,7 +35,9 @@ The modules are summarized as below:
 
 **[1B_MapDatabasesAndSchemas](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/1B_MapDatabasesAndSchemas)**: Map SQL Server Database & Schema into Synapse Database and Schema. In addition, unsupported data types in the code are mostly discovered and counted. 
 
-[**2_ExportSourceDataWithBCP**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/2_ExportSourceDataWithBCP): Export SQL Server Tables into data files stored in delimited text format (.csv or .txt).  
+[**2_ExportSourceDataWithBCP**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/2_ExportSourceDataWithBCP): Export SQL Server Tables into data files in delimited text format (.csv or .txt).  
+
+[**2B_ExportSourceDataToParquet**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/2_ExportSourceDataToParquet): Export SQL Server Tables into data files in parquet format (.parquet).  
 
 **[2A_GeneratePolybaseExportScripts](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/2A_GeneratePolybaseExportScripts)**:  Generate Polybase Export T-SQL Script for each table in the table list (configurable).  Polybase export set up examples are provided in subfolder “Utilities” inside this module. 
 
@@ -44,11 +47,11 @@ The modules are summarized as below:
 
 [**5_RunSqlFilesInFolder**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/5_RunSqlFilesInFolder): Run all T-SQL Scripts defined in .sql files stored in a specified file folder. The T-SQL Scripts can be DDL, DML, Data Movement Scripts (such as Copy Into scripts or Polybase Export Scripts), or any other scripts such as create/update statistics or indexes. In fact, this module is designed to run any SQL scripts in a folder. 
 
-### Migration Option 1: Use BCP to Export SQL Server Data (Works with All Versions of SQL Server) 
+### Migration Option 1: Export Tables into .CSV or .Parquet files (Works with All Versions of SQL Server) 
 
-If using BCP option, you will need to use Modules 1, 1A, 1B, 2, 3, 4, and 5. The overall tasks and flows are illustrated in the figure below. 
+If using this option, you will need to use Modules 1, 1A, 1B, 2 or 2B, 3, 4, and 5. The overall tasks and flows are illustrated in the figure below. 
 
-![BCP Option](images/Overview-all-SQL-Versions-with-1A1B.jpg)
+![BCP Option](images/Overview-all-SQL-Version-with-1A1B2B.jpg)
 
 ### **Migration Option 2: Use Polybase to Export SQL Server Data - Works SQL Server** 2016 or Later Versions
 
