@@ -37,7 +37,7 @@ The modules are summarized as below:
 
 [**2_ExportSourceDataWithBCP**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/2_ExportSourceDataWithBCP): Export SQL Server Tables into data files in delimited text format (.csv or .txt).  
 
-[**2B_ExportSourceDataToParquet**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/2_ExportSourceDataToParquet): Export SQL Server Tables into data files in parquet format (.parquet).  
+[**2B_ExportSourceDataToParquet**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/2B_ExportSourceDataToParquet): Export SQL Server Tables into data files in parquet format (.parquet).  
 
 **[2A_GeneratePolybaseExportScripts](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/tree/main/Migration/SQLServer/2A_GeneratePolybaseExportScripts)**:  Generate Polybase Export T-SQL Script for each table in the table list (configurable).  Polybase export set up examples are provided in subfolder “Utilities” inside this module. 
 
