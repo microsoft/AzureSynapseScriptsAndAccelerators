@@ -51,21 +51,13 @@ The modules are summarized as below:
 
 If using this option, you will need to use **modules 1, 2, 3, 4, 5, for .csv file format**, or **module 1, 2B, 3, 4, 5  for .parquet file format**. The overall tasks and flows are illustrated in the figure below. 
 
-![BCP Option](images/Overview-all-SQL-Version-with-1A1B2B.jpg)
+![BCP Option](images/Overview-All-Version-2022-Feb.jpg)
 
 ### **Migration Option 2: Use Polybase to Export SQL Server Data - Works SQL Server** 2016 or Later Versions
 
 If using Polybase option, you will need to use Modules 1, 2A,  4, and 5. Module 3 is not needed as the Polybase method will load data directly to Azure Storage from SQL Server. The overall tasks and flows are illustrated in the figure below.
 
-![Polybase Option](images/Overview-SQL2016-plus--with-1A1B.jpg)
-
-
-
-### **Complementary to Azure Synapse Pathway and Can Run ASP Output Code ** 
-
-These Scripts are complementary to Azure Synapse Pathway (ASP). ASP does not perform data migration today (as of June 2021). We designed and implemented 6 modules to complete the end-to-end tasks of tables migration and data migration (using BCP or Polybase Export). Please check the latest release of Azure Synapse Pathway for more advanced SQL Server code translation capabilities. 
-
-<u>You can use scripts described in this document (Module 5_RunSqlFilesInFolder) to execute all translated code by ASP or other methods.</u> Please check the newest release of Azure Synapse Pathway so you can use the best available functions. [Release notes - Azure Synapse Pathway | Microsoft Docs](https://docs.microsoft.com/en-us/sql/tools/synapse-pathway/pathway-release-notes?view=azure-sqldw-latest)
+![Polybase Option](images/Overview-Polybase-2022-Feb.jpg)
 
 ### Reusability of  Module 3, 4, and 5 (for Netezza/Teradata/Exadata/etc. to Azure Synapse Migration)
 
