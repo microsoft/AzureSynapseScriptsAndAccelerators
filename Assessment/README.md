@@ -263,7 +263,7 @@ Click on the "Transform Data" icon, locate the file/feed on the left pane (e.g..
   - APS Sample reports
     - [Report](..//Images/0B_Sample_APS_powerBI_report.PNG)
     - [Report1](..//Images/0B_Sample_APS_powerBI_report1.PNG)
-
+- [Synapse migration guides from Teradata, IBM Netezza, Oracle and more](https://docs.microsoft.com/azure/synapse-analytics/migration-guides/)
 
 ## Contact Information
 Please send an email to AMA architects at <AMAArchitects@service.microsoft.com> for any issues regarding this tool.
