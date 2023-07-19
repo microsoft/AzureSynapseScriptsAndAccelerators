@@ -151,7 +151,7 @@ Function Get-Int96Pieces {
             $Month = $Month + 12;
             $Year = $Year - 1;
         }
-        $c = [math]::Floor($Day + (153 * $Month - 457) / 5 + 365 * $Year + ($Year / 4) - ($Year / 100) + ($Year / 400) + 1721119)
+        $c = $Day + [math]::Floor((153 * $Month - 457) / 5) + 365 * $Year + [math]::Floor($Year / 4) - [math]::Floor($Year / 100) + [math]::Floor($Year / 400) + 1721119
     } else {
         $c = 2440589    # 1/2/1970 constant
     }
