@@ -2,7 +2,7 @@
 
 This directory contains SQL server to Azure Synapse Migration Toolkit. It includes the Process, PowerShell Scripts, and useful Utilities within each module.
 
-Below two documents posted in this directory provide additional information besides what is already documented in reame.md files:
+Below two documents posted in this directory provide additional information besides what is already documented in readme.md files:
 
 - [**SqlToSynapseMigrationOverview.pdf**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/SQLServer/SqlToSynapseMigrationOverview.pdf) - Overview of the SQL Server to Synapse Migration Modules. This presentation is intended for communication to key stakeholders. 
 - [**SqlToSynapseMigration_User_Guide.pdf**](https://github.com/microsoft/AzureSynapseScriptsAndAccelerators/blob/main/Migration/SQLServer/SqlToSynapseMigration_User_Guide.pdf) - User Guide that provides additional information. This document may not include information on recently enhancement modules yet. Please refer to the readme page of each module for detailed guide .
