@@ -1,1 +1,1 @@
-select * from admin._v_synonym;
+select * from _v_synonym;

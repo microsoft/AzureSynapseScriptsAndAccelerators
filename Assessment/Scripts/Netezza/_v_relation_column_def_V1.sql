@@ -1,1 +1,1 @@
-select * from admin._v_relation_column_def;
+select * from _v_relation_column_def;

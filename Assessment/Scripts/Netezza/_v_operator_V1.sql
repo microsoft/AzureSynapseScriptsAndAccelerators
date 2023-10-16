@@ -1,1 +1,1 @@
-select * from admin._v_operator;
+select * from _v_operator;

@@ -1,1 +1,1 @@
-select * from admin._v_qryhist;
+select * from _v_qryhist;
