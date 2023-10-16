@@ -1,1 +1,1 @@
-select * from admin._v_datatype;
+select * from _v_datatype;

@@ -1,1 +1,1 @@
-select * from admin._v_objects;
+select * from _v_objects;

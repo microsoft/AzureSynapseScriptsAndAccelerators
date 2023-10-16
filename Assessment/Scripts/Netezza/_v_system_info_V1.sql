@@ -1,1 +1,1 @@
-select * from admin._v_system_info;
+select * from _v_system_info;

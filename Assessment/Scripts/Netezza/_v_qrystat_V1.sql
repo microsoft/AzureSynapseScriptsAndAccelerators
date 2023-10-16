@@ -1,1 +1,1 @@
-select * from admin._v_qrystat;
+select * from _v_qrystat;

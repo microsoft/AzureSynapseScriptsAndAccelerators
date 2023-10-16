@@ -1,1 +1,1 @@
-select * from admin._v_procedure;
+select * from _v_procedure;

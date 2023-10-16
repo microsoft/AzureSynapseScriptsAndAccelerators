@@ -1,1 +1,1 @@
-select * from admin._v_table_organize_column;
+select * from _v_table_organize_column;

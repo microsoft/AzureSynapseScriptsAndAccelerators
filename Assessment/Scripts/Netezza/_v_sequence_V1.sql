@@ -1,1 +1,1 @@
-select * from admin._v_sequence;
+select * from _v_sequence;

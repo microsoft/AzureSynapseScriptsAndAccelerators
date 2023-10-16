@@ -1,1 +1,1 @@
-select * from admin._v_aggregate;
+select * from _v_aggregate;

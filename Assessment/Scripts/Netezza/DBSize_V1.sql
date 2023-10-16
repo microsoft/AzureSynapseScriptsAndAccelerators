@@ -4,8 +4,8 @@ select
 	sum(objsize.used_bytes) / 1024 / 1024 / 1024  as GB,
 	sum(objsize.used_bytes) / 1024 / 1024 as MB
 from
-	admin._v_sys_object_data as objdata,
-	admin._v_sys_object_storage_size as objsize
+	_v_sys_object_data as objdata,
+	_v_sys_object_storage_size as objsize
 where
 	objdata.objid = objsize.tblid
 group by
@@ -19,8 +19,8 @@ select
 	sum(objsize.used_bytes) / 1024 / 1024 / 1024  as GB,
 	sum(objsize.used_bytes) / 1024 / 1024 as MB
 from
-	admin._v_sys_object_data as objdata,
-	admin._v_sys_object_storage_size as objsize
+	_v_sys_object_data as objdata,
+	_v_sys_object_storage_size as objsize
 where
 	objdata.objid = objsize.tblid
 group by

@@ -1,1 +1,1 @@
-select * from admin._v_table_dist_map;
+select * from _v_table_dist_map;
