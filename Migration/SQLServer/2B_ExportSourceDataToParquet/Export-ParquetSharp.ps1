@@ -263,7 +263,7 @@ Function Export-Table
                     $sqlDataTypes += [SqlDataTypes]::bit
                     continue
                 }
-                {$_ -in @("nvarchar", "varchar", "nchar", "char") } { 
+                {$_ -in @("nvarchar", "varchar", "nchar", "char", "ntext", "text") } {
                     $dataType = [string]
                     $column = [ParquetSharp.Column[string]]::new($columnName)
                     $sqlDataTypes += [SqlDataTypes]::string
@@ -330,13 +330,13 @@ Function Export-Table
                     $sqlDataTypes += [SqlDataTypes]::decimal
                     continue
                 }
-                {$_ -in @("binary", "varbinary") } { 
+                {$_ -in @("binary", "varbinary","rowversion","timestamp") } { 
                     $dataType = [byte[]]
                     $column = [ParquetSharp.Column[byte[]]]::new($columnName)
                     $sqlDataTypes += [SqlDataTypes]::binary
                     continue
                 }
-                Default { throw "Not Implemented" }
+                Default { throw "Data Type ""$_"" Not Implemented" }
             }
     
             $columnsArray.Add($column) | Out-Null
@@ -394,7 +394,7 @@ Function Export-Table
                             [DateTimeOffset]$dto = $reader.GetDateTimeOffset($i) 
                             $val = $dto.ToString("yyyy-MM-dd HH:mm:ss.fffffff zzz", [cultureinfo]::InvariantCulture) }
                         }
-                else { throw "Not Implemented" }
+                else { throw "Data Type ""$sqlDataType"" Not Implemented" }
 
                 [void]$data[$columnNames[$i]].Add($val)             
             }    
