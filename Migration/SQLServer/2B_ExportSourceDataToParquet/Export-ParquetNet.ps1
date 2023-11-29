@@ -39,7 +39,7 @@ param(
     [Parameter(Position=2, Mandatory=$true, HelpMessage="User name")]
     [string] $UserName, # = "sqladminuser",
 
-    [Parameter(Position=3, Mandatory=$true, HelpMessage="Password")]
+    [Parameter(Position=3, Mandatory=$false, HelpMessage="Password")]
     [SecureString] $Password, # = $(ConvertTo-SecureString "******" -AsPlainText -Force),
 
     [Parameter(Position=4, Mandatory=$true, HelpMessage="Job name. Used for reference purposed only.")]
@@ -117,6 +117,8 @@ enum SqlDataTypes {
     nchar
     varchar
     nvarchar
+	text
+	ntext
     real
     float
     decimal
@@ -131,6 +133,8 @@ enum SqlDataTypes {
     binary
     varbinary
     string
+    rowversion
+	timestamp
 }
 
 
@@ -146,9 +150,16 @@ Function Export-Table
 
     Write-Output "$(Get-Date -Format hh:mm:ss.fff) - Job $JobName started"
 
-    $conn = New-Object System.Data.SqlClient.SqlConnection 
+    $conn = New-Object System.Data.SqlClient.SqlConnection
+
+    if ($global:Password.Length -eq 0) {
+        $conn.ConnectionString = "Server={0};Database={1};User ID={2};Trusted_Connection=True;Connect Timeout={3}" -f $ServerName,$Database,$Username,$global:ConnectionTimeout
+    }
+    else
+    {
     $password = ConvertFrom-SecureString -SecureString $Password -AsPlainText
     $conn.ConnectionString = "Server={0};Database={1};User ID={2};Password={3};Trusted_Connection=False;Connect Timeout={4}" -f $ServerName,$Database,$Username,$Password,$ConnectionTimeout
+    }
     
     [string[]]$columnNames = @()
     [type[]]$columnTypes = @()
@@ -211,7 +222,7 @@ Function Export-Table
                     $sqlDataTypes += [SqlDataTypes]::bit
                     continue
                 }
-                {$_ -in @("nvarchar", "varchar", "nchar", "char") } { 
+                {$_ -in @("nvarchar", "varchar", "nchar", "char", "ntext", "text") } { 
                     $field = [Parquet.Data.DataField]::new($columnName, [Parquet.Data.DataType]::String, $isNull, $false)
                     $dataType = [string]
                     $sqlDataTypes += [SqlDataTypes]::string
@@ -271,7 +282,7 @@ Function Export-Table
                     $sqlDataTypes += [SqlDataTypes]::decimal
                     continue
                 }
-                {$_ -in @("varbinary", "binary") } { 
+                {$_ -in @("binary", "varbinary", "rowversion", "timestamp") } { 
                     $field = [Parquet.Data.DataField]::new($columnName, [Parquet.Data.DataType]::ByteArray, $isNull, $false)
                     $dataType = if ($isNull) { [byte[]] } else { [byte[]] }
                     $sqlDataTypes += [SqlDataTypes]::binary
@@ -311,6 +322,7 @@ Function Export-Table
 
                 if ($sqlDataType -eq [SqlDataTypes]::int)                { if (!$reader.IsDBNull($i)) { $val = $reader.GetInt32($i) } }
                 elseif ($sqlDataType -eq [SqlDataTypes]::decimal)        { if (!$reader.IsDBNull($i)) { $val = $reader.GetDecimal($i) } }
+                elseif ($sqlDataType -eq [SqlDataTypes]::date)           { if (!$reader.IsDBNull($i)) { $val = [ParquetSharp.Date]::new($reader.GetDateTime($i)) } }
                 elseif ($sqlDataType -eq [SqlDataTypes]::string)         { if (!$reader.IsDBNull($i)) { $val = $reader.GetString($i) } }
                 elseif ($sqlDataType -eq [SqlDataTypes]::smallint)       { if (!$reader.IsDBNull($i)) { $val = $reader.GetInt16($i) } }
                 elseif ($sqlDataType -eq [SqlDataTypes]::tinyint)        { if (!$reader.IsDBNull($i)) { $val = $reader.GetByte($i) }  }
