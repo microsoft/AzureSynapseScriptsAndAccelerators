@@ -25,6 +25,10 @@
 #   ParquetSharp NuGet package - https://www.nuget.org/packages/ParquetSharp
 #   Parquet.Net NuGet package - https://www.nuget.org/packages/Parquet.Net
 #
+# Contributor: Yoni Sade
+# November 2023
+# Description: 	Added support for Windows Authentication / Trusted Connection when user skips "-Password" argument
+#
 ###################################################################################################################################
 
 #Requires -Version 7.0
