@@ -24,6 +24,11 @@
 #   The script requires Parquet.Net library installed and unzipped in the same folder. 
 #   Parquet.Net nuget package - https://www.nuget.org/packages/Parquet.Net
 #
+# Contributor: Yoni Sade
+# November 2023
+# Description: 	Added support for text, ntext, rowversion, timestamp data types
+#		Added support for Windows Authentication / Trusted Connection when user skips "-Password" argument
+#
 ###################################################################################################################################
 
 #Requires -Version 7.0
