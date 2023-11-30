@@ -24,6 +24,11 @@
 #   The script requires ParquetSharp library installed and unzipped in the same folder. 
 #   ParquetSharp nuget package - https://www.nuget.org/packages/ParquetSharp
 #
+# Contributor: Yoni Sade
+# November 2023
+# Description: 	Added support for text, ntext, rowversion, timestamp data types
+#		Added support for Windows Authentication / Trusted Connection when user skips "-Password" argument
+#
 ###################################################################################################################################
 
 #Requires -Version 7.0
