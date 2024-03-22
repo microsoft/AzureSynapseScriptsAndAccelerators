@@ -25,6 +25,10 @@
 #   ParquetSharp NuGet package - https://www.nuget.org/packages/ParquetSharp
 #   Parquet.Net NuGet package - https://www.nuget.org/packages/Parquet.Net
 #
+# Contributor: Yoni Sade
+# November 2023
+# Description: 	Added support for Windows Authentication / Trusted Connection when user skips "-Password" argument
+#
 ###################################################################################################################################
 
 #Requires -Version 7.0
@@ -38,13 +42,13 @@ param(
     [string] $ConfigFile = $("$PSScriptRoot\ConfigFile.csv"),
 
     [Parameter(Mandatory=$true, HelpMessage="The name of SQL Server / APS / PDW instance")]
-    [string] $ServerName, # = "synapse-demo.sql.azuresynapse.net",
+    [string] $ServerName,
 
     [Parameter(Mandatory=$true, HelpMessage="User name")]
-    [string] $UserName, # = "sqladminuser",
+    [string] $UserName,
 
-    [Parameter(Mandatory=$true, HelpMessage="Password")]
-    [SecureString] $Password, # = $(ConvertTo-SecureString "******" -AsPlainText -Force),
+    [Parameter(Mandatory=$false, HelpMessage="Password")]
+    [SecureString] $Password,
 
     [Parameter(Mandatory=$false, HelpMessage="Connection timeout")]
     [int] $ConnectionTimeout = 10,
@@ -128,6 +132,12 @@ function Download-ParquetNet
 # Main logic here
 ###############################################################################################
 
+if (-not $password) {
+    Write-Output "User did not provide password - using Windows based authentication"
+} else {
+    Write-Output "User did provided password - using SQL Server based authentication"
+}
+
 # Download Parquet libraries
 if ($UseParquetNet) {
     Download-ParquetNet
@@ -165,11 +175,12 @@ foreach ($record in ($configData | Where-Object {$_.Enabled -eq 1})) {
                     -File $PSScriptRoot\Export-ParquetNet.ps1 `
                     -WorkingDirectory $PSScriptRoot `
                     -ArgumentList $ServerName,$database,$UserName,$Password,$jobName,$query,$filePath,$ConnectionTimeout,$CommandTimeout,$RowsPerRowGroup
-            } else {
+            } else {				
                 $jobs += Start-Job -Name $jobName `
                     -File $PSScriptRoot\Export-ParquetSharp.ps1 `
                     -WorkingDirectory $PSScriptRoot `
                     -ArgumentList $ServerName,$database,$UserName,$Password,$jobName,$query,$filePath,$ConnectionTimeout,$CommandTimeout,$RowsPerRowGroup
+				
             }
             $jobCreated = $true
         } else {
@@ -178,7 +189,7 @@ foreach ($record in ($configData | Where-Object {$_.Enabled -eq 1})) {
 
         # Print all new output
         Get-Job | Where-Object {$_.HasMoreData} | Receive-Job
-
+$Jobs.ChildJobs.Output | Out-File output.log -Append
         #Get-Job -State Running | Receive-Job
         # Print out all completed jobs
         #Get-Job -State Completed | Receive-Job

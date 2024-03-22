@@ -24,6 +24,11 @@
 #   The script requires ParquetSharp library installed and unzipped in the same folder. 
 #   ParquetSharp nuget package - https://www.nuget.org/packages/ParquetSharp
 #
+# Contributor: Yoni Sade
+# November 2023
+# Description: 	Added support for text, ntext, rowversion, timestamp data types
+#		Added support for Windows Authentication / Trusted Connection when user skips "-Password" argument
+#
 ###################################################################################################################################
 
 #Requires -Version 7.0
@@ -39,7 +44,7 @@ param(
     [Parameter(Position=2, Mandatory=$true, HelpMessage="User name")]
     [string] $UserName, # = "sqladminuser",
 
-    [Parameter(Position=3, Mandatory=$true, HelpMessage="Password")]
+    [Parameter(Position=3, Mandatory=$false, HelpMessage="Password")]
     [SecureString] $Password, # = $(ConvertTo-SecureString "******" -AsPlainText -Force),
 
     [Parameter(Position=4, Mandatory=$true, HelpMessage="Job name. Used for reference purposed only.")]
@@ -169,6 +174,8 @@ enum SqlDataTypes {
     nchar
     varchar
     nvarchar
+	text
+	ntext
     real
     float
     decimal
@@ -183,6 +190,8 @@ enum SqlDataTypes {
     binary
     varbinary
     string
+    rowversion
+	timestamp
 }
 
 
@@ -199,10 +208,15 @@ Function Export-Table
     Write-Output "$(Get-Date -Format hh:mm:ss.fff) - Job $JobName started"
 
     $conn = New-Object System.Data.SqlClient.SqlConnection 
-    $password = ConvertFrom-SecureString -SecureString $global:Password -AsPlainText
-    #$password = Convert-SecureStringToString $Password
-    $conn.ConnectionString = "Server={0};Database={1};User ID={2};Password={3};Trusted_Connection=False;Connect Timeout={4}" -f $ServerName,$Database,$Username,$Password,$global:ConnectionTimeout
-    
+
+    if ($global:Password.Length -eq 0) {
+        $conn.ConnectionString = "Server={0};Database={1};User ID={2};Trusted_Connection=True;Connect Timeout={3}" -f $ServerName,$Database,$Username,$global:ConnectionTimeout
+    }
+    else
+    {
+        $password = ConvertFrom-SecureString -SecureString $global:Password -AsPlainText        
+        $conn.ConnectionString = "Server={0};Database={1};User ID={2};Password={3};Trusted_Connection=False;Connect Timeout={4}" -f $ServerName,$Database,$Username,$Password,$global:ConnectionTimeout
+    }
     [string[]]$columnNames = @()
     [type[]]$columnTypes = @()
     [int[]]$sqlDataTypes = @()
@@ -263,7 +277,7 @@ Function Export-Table
                     $sqlDataTypes += [SqlDataTypes]::bit
                     continue
                 }
-                {$_ -in @("nvarchar", "varchar", "nchar", "char") } { 
+                {$_ -in @("nvarchar", "varchar", "nchar", "char", "ntext", "text") } { 
                     $dataType = [string]
                     $column = [ParquetSharp.Column[string]]::new($columnName)
                     $sqlDataTypes += [SqlDataTypes]::string
@@ -330,13 +344,13 @@ Function Export-Table
                     $sqlDataTypes += [SqlDataTypes]::decimal
                     continue
                 }
-                {$_ -in @("binary", "varbinary") } { 
+                {$_ -in @("binary", "varbinary", "rowversion", "timestamp") } { 
                     $dataType = [byte[]]
                     $column = [ParquetSharp.Column[byte[]]]::new($columnName)
                     $sqlDataTypes += [SqlDataTypes]::binary
                     continue
                 }
-                Default { throw "Not Implemented" }
+                Default { throw "Data type ""$_"" Not Implemented" }
             }
     
             $columnsArray.Add($column) | Out-Null
@@ -381,22 +395,22 @@ Function Export-Table
                 elseif ($sqlDataType -eq [SqlDataTypes]::float)          { if (!$reader.IsDBNull($i)) { $val = $reader.GetDouble($i) } }
                 elseif ($sqlDataType -eq [SqlDataTypes]::binary)         { if (!$reader.IsDBNull($i)) { $val = [byte[]]$reader[$i] } }
                 elseif ($sqlDataType -eq [SqlDataTypes]::time)           { if (!$reader.IsDBNull($i)) { 
-                            [TimeSpan]$ts = $reader.GetTimeSpan($i) 
+                            [TimeSpan]$ts = $reader.GetTimeSpan($i)
                             $a, $b, $c = Get-Int96Pieces $ts
-                            $val = [ParquetSharp.Int96]::new($a,$b,$c) } 
+                            $val = [ParquetSharp.Int96]::new($a,$b,$c) }
                         }
-                elseif ($sqlDataType -eq [SqlDataTypes]::datetime)       { if (!$reader.IsDBNull($i)) { 
-                            [DateTime]$dt = $reader.GetDateTime($i) 
+                elseif ($sqlDataType -eq [SqlDataTypes]::datetime)       { if (!$reader.IsDBNull($i)) {
+                            [DateTime]$dt = $reader.GetDateTime($i)
                             $a, $b, $c = Get-Int96Pieces $dt
-                            $val = [ParquetSharp.Int96]::new($a,$b,$c) } 
+                            $val = [ParquetSharp.Int96]::new($a,$b,$c) }
                         }
-                elseif ($sqlDataType -eq [SqlDataTypes]::datetimeoffset) { if (!$reader.IsDBNull($i)) { 
-                            [DateTimeOffset]$dto = $reader.GetDateTimeOffset($i) 
+                elseif ($sqlDataType -eq [SqlDataTypes]::datetimeoffset) { if (!$reader.IsDBNull($i)) {
+                            [DateTimeOffset]$dto = $reader.GetDateTimeOffset($i)
                             $val = $dto.ToString("yyyy-MM-dd HH:mm:ss.fffffff zzz", [cultureinfo]::InvariantCulture) }
                         }
-                else { throw "Not Implemented" }
+                else { throw "Data type ""$sqlDataType"" Not Implemented" }
 
-                [void]$data[$columnNames[$i]].Add($val)             
+                [void]$data[$columnNames[$i]].Add($val)
             }    
 
             # Report progress
@@ -419,7 +433,18 @@ Function Export-Table
         }
 
         Write-Output "$(Get-Date -Format hh:mm:ss.fff) - Job $JobName completed"
-    } 
+    }
+	catch {
+		$e = $_.Exception
+		#this is wrong
+		$line = $_.Exception.InvocationInfo.ScriptLineNumber
+		$msg = $e.Message 
+
+		Write-Host -ForegroundColor Red "caught exception: $e at $line"
+		Write-Host -ForegroundColor Cyan $_
+		Add-Content -Path Export-table.log -Value "caught exception: $e at $line"
+	 $("[" + (Get-Date) + "] " + $_)
+	}	
     finally {
         if ($conn) { $conn.Close() }
         if ($fileWriter) { $fileWriter.Dispose() }
